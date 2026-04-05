@@ -1,0 +1,36 @@
+/* ============================================
+   Counter - Animated rolling digits
+   Adapted from @react-bits/Counter
+   ============================================ */
+
+.rolling-counter {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1;
+  gap: 1px;
+}
+
+.rolling-digit {
+  position: relative;
+  width: 1ch;
+  height: 1em;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+.rolling-digit-inner {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rolling-digit-inner span {
+  height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rolling-static {
+  display: inline;
+}

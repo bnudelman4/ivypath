@@ -1,0 +1,115 @@
+/* ============================================
+   SVG Stroke Follow Section (Pricing)
+   ============================================ */
+
+.svg-stroke-section {
+  position: relative;
+  min-height: 350vh;
+  overflow: visible;
+  background: #FAFBF9;
+  padding: 0 16px;
+}
+
+.svg-stroke-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15vh 0 5vh;
+  z-index: 2;
+}
+
+.svg-stroke-svg {
+  position: absolute;
+  top: 0;
+  right: -20%;
+  width: 80%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.4;
+  overflow: hidden;
+}
+
+.svg-stroke-path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Sticky package cards inside SVG stroke section */
+.svg-stroke-cards {
+  position: relative;
+  z-index: 3;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20vh 16px 40vh;
+}
+
+.svg-stroke-card {
+  position: sticky;
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(27, 77, 62, 0.08);
+  margin-bottom: 80px;
+}
+
+.svg-stroke-card h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+@media (max-width: 768px) {
+  .svg-stroke-section {
+    min-height: 250vh;
+  }
+
+  .svg-stroke-svg {
+    right: -40%;
+    width: 120%;
+    opacity: 0.25;
+  }
+
+  .svg-stroke-cards {
+    padding: 10vh 8px 20vh;
+  }
+
+  .svg-stroke-card {
+    margin-bottom: 60px;
+  }
+
+  .svg-stroke-card ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================
+   Text Scatter Animation (Results)
+   ============================================ */
+
+.text-scatter-section {
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+.text-scatter-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  perspective: 500px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.scatter-char {
+  display: inline-block;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #C5A55A;
+  will-change: transform, opacity;
+}
+
+.scatter-char.space {
+  width: 0.4em;
+}

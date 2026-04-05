@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IvyPath Academy | Premium SAT, SHSAT, AP Tutoring in NYC</title>
+  <meta name="description" content="Premium SAT, SHSAT, AP tutoring and college admissions consulting from Ivy League student tutors in New York City.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="pill-nav.css?v=13">
+  <link rel="stylesheet" href="geo-hero.css">
+</head>
+<body>
+  <!-- Old navbar (hidden by pill-nav.css) -->
+  <nav class="navbar navbar-hero" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cn.html" class="lang-toggle">中文</a>
+        <a href="book.html" class="nav-cta">Book Consultation</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Pill Nav -->
+  <div class="pill-nav-container">
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-logo" href="index.html" aria-label="Home">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy">
+      </a>
+      <div class="pill-nav-items pill-desktop-only">
+        <ul class="pill-list" role="menubar">
+          <li role="none"><a role="menuitem" href="results.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Results</span><span class="pill-label-hover" aria-hidden="true">Results</span></span></a></li>
+          <li role="none"><a role="menuitem" href="method.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Method</span><span class="pill-label-hover" aria-hidden="true">Method</span></span></a></li>
+          <li role="none"><a role="menuitem" href="about.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About Us</span><span class="pill-label-hover" aria-hidden="true">About Us</span></span></a></li>
+          <li role="none"><a role="menuitem" href="pricing.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Pricing</span><span class="pill-label-hover" aria-hidden="true">Pricing</span></span></a></li>
+          <li role="none"><a role="menuitem" href="faq.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">FAQ</span><span class="pill-label-hover" aria-hidden="true">FAQ</span></span></a></li>
+        </ul>
+      </div>
+      <div class="pill-nav-right pill-desktop-only">
+        <a href="cn.html" class="pill-lang">中文</a>
+        <button class="pill-cart-btn cart-toggle" aria-label="Shopping cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="book.html" class="pill-cta">Book Consultation</a>
+      </div>
+      <button class="pill-cart-btn cart-toggle pill-mobile-only" aria-label="Shopping cart" style="margin-left: auto; margin-right: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="pill-mobile-btn pill-mobile-only" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+    <div class="pill-mobile-menu pill-mobile-only">
+      <ul class="pill-mobile-menu-list">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="cn.html">中文</a></li>
+        <li><a href="book.html">Book Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hero Section - Geometric -->
+  <section class="geo-hero" id="hero">
+    <!-- Campus background -->
+    <div class="geo-hero-bg"></div>
+    <!-- Gradient overlay -->
+    <div class="geo-hero-gradient"></div>
+
+    <!-- Floating geometric shapes -->
+    <div class="geo-shapes">
+      <div class="geo-shape geo-shape-1"></div>
+      <div class="geo-shape geo-shape-2"></div>
+      <div class="geo-shape geo-shape-3"></div>
+      <div class="geo-shape geo-shape-4"></div>
+      <div class="geo-shape geo-shape-5"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="geo-hero-content">
+      <div class="geo-badge">
+        <span class="geo-badge-dot"></span>
+        <span>IvyPath Academy</span>
+      </div>
+      <h1 class="geo-hero-title">
+        <span class="geo-title-line1">The smartest investment</span>
+        <span class="geo-title-line2">in your child's <span class="highlight">future.</span></span>
+      </h1>
+      <p class="geo-hero-subtitle">Expert SAT, SHSAT, and AP tutoring from Ivy League mentors who scored in the 99th percentile. Every dollar you invest today compounds into opportunities that last a lifetime.</p>
+      <div class="geo-hero-ctas">
+        <a href="book.html" class="btn btn-white">Book Free Consultation</a>
+        <a href="#services" class="btn btn-ghost">Explore Services</a>
+      </div>
+    </div>
+
+    <!-- Bottom fade -->
+    <div class="geo-hero-fade"></div>
+  </section>
+
+  <!-- Informative Video -->
+  <section class="page-section" style="text-align: center;">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Watch & Learn</span>
+        <h2 class="section-title">See How IvyPath Works</h2>
+        <p class="section-subtitle">A quick look at how we help students achieve their academic goals.</p>
+      </div>
+      <!-- Video: place your intro video at assets/intro-video.mp4 -->
+      <div class="video-container reveal" style="max-width: 800px; margin: 40px auto 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+        <video controls style="width: 100%; display: block; aspect-ratio: 16/9; background: #000;">
+          <source src="assets/HermesTutoringFinal.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- School Logo Marquee -->
+  <section class="marquee-section">
+    <div class="container">
+      <p class="marquee-label">Our Tutors Attend the Nation's Top Universities</p>
+    </div>
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <div class="marquee-item"><img src="assets/logo-harvard-B7zSCZPf.png" alt="Harvard logo"></div>
+        <div class="marquee-item"><img src="assets/logo-yale-C-5_w9Hu.png" alt="Yale logo"></div>
+        <div class="marquee-item"><img src="assets/logo-princeton-DnGXlD0c.png" alt="Princeton logo"></div>
+        <div class="marquee-item"><img src="assets/logo-columbia-JtNpLpUO.png" alt="Columbia logo"></div>
+        <div class="marquee-item"><img src="assets/logo-penn-Dtq-7oRl.png" alt="Penn logo"></div>
+        <div class="marquee-item"><img src="assets/logo-brown-DKMp3uIq.png" alt="Brown logo"></div>
+        <div class="marquee-item"><img src="assets/logo-dartmouth-C0U4tvKk.png" alt="Dartmouth logo"></div>
+        <div class="marquee-item"><img src="assets/logo-cornell-D0eWQYgG.png" alt="Cornell logo"></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="marquee-item"><img src="assets/logo-harvard-B7zSCZPf.png" alt="Harvard logo"></div>
+        <div class="marquee-item"><img src="assets/logo-yale-C-5_w9Hu.png" alt="Yale logo"></div>
+        <div class="marquee-item"><img src="assets/logo-princeton-DnGXlD0c.png" alt="Princeton logo"></div>
+        <div class="marquee-item"><img src="assets/logo-columbia-JtNpLpUO.png" alt="Columbia logo"></div>
+        <div class="marquee-item"><img src="assets/logo-penn-Dtq-7oRl.png" alt="Penn logo"></div>
+        <div class="marquee-item"><img src="assets/logo-brown-DKMp3uIq.png" alt="Brown logo"></div>
+        <div class="marquee-item"><img src="assets/logo-dartmouth-C0U4tvKk.png" alt="Dartmouth logo"></div>
+        <div class="marquee-item"><img src="assets/logo-cornell-D0eWQYgG.png" alt="Cornell logo"></div>
+      </div>
+    </div>
+    <div class="container">
+      <p class="marquee-disclaimer">University logos are trademarks of their respective institutions. IvyPath Academy is not affiliated with or endorsed by these universities.</p>
+    </div>
+  </section>
+
+  <!-- Packages -->
+  <section class="packages" id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Our Packages</span>
+        <h2 class="section-title">What We Offer</h2>
+      </div>
+      <div class="packages-grid">
+        <div class="package-card reveal">
+          <h3 class="package-name">SAT Group Sessions</h3>
+          <p class="package-desc">Small group SAT prep sessions with Ivy League tutors. Learn alongside peers while receiving expert instruction and strategy.</p>
+          <div class="package-pricing">
+            <span class="package-original">$2,400.00</span>
+            <span class="package-price">$1,800.00</span>
+            <span class="package-rate">$45/hour</span>
+          </div>
+          <ul class="package-features">
+            <li>Tutored by Ivy League students</li>
+            <li>40 hours of group instruction</li>
+            <li>Small group sizes (2-4 students)</li>
+            <li>Score Improvement Guarantee</li>
+            <li>Practice tests included</li>
+            <li>Flexible scheduling</li>
+          </ul>
+          <div class="package-actions">
+            <a href="book.html" class="package-btn package-btn-outline">Learn More</a>
+            <button class="package-btn package-btn-solid add-to-cart-btn" data-name="SAT Group Sessions" data-price="1800">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="package-card package-card-featured reveal">
+          <h3 class="package-name">Elite Package</h3>
+          <p class="package-desc">Granted 50 hours, hours can be used for either academic tutoring or test prep.</p>
+          <div class="package-pricing">
+            <span class="package-original">$3,750.00</span>
+            <span class="package-price">$2,999.99</span>
+            <span class="package-rate">$60/hour</span>
+          </div>
+          <ul class="package-features">
+            <li>Tutored by Ivy League students</li>
+            <li>50 flexible hours</li>
+            <li>Academic tutoring or test prep</li>
+            <li>Score Improvement Guarantee</li>
+            <li>Personalized study plan</li>
+            <li>Flexible scheduling</li>
+          </ul>
+          <div class="package-actions">
+            <a href="book.html" class="package-btn package-btn-outline">Learn More</a>
+            <button class="package-btn package-btn-solid add-to-cart-btn" data-name="Elite Package" data-price="2999.99">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="package-card reveal">
+          <h3 class="package-name">Dream School Package</h3>
+          <p class="package-desc">Comprehensive college admissions consulting. Unlimited writing sessions, interview prep, and full application strategy.</p>
+          <div class="package-pricing">
+            <span class="package-price">$5,000.00</span>
+          </div>
+          <ul class="package-features">
+            <li>Unlimited writing sessions</li>
+            <li>24/7 Tutor Support</li>
+            <li>Early Decision &amp; Regular Decision guidance</li>
+            <li>Complete college portfolio optimization</li>
+            <li>Financial aid maximization</li>
+            <li>College interview preparation</li>
+            <li>Each session: 1 Personal Statement OR 2 Short Supplements</li>
+          </ul>
+          <div class="package-actions">
+            <a href="book.html" class="package-btn package-btn-outline">Learn More</a>
+            <button class="package-btn package-btn-solid add-to-cart-btn" data-name="Dream School Package" data-price="5000">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- See All Pricing -->
+  <section class="pricing-link-section" id="pricing">
+    <div class="container" style="text-align: center; padding: 60px 24px;">
+      <div class="reveal">
+        <h2 class="section-title">Investment in Your Child's <span class="highlight">Future</span></h2>
+        <p style="color: var(--text-light); margin: 12px 0 32px;">View our full pricing breakdown for test prep, academic sessions, and college consulting.</p>
+        <a href="pricing.html" class="btn btn-primary">View All Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <div class="cta-content reveal">
+        <h2>Ready to Start Your Journey?</h2>
+        <p>Book a free consultation and let's build a plan tailored to your student's goals. No commitment required.</p>
+        <div class="cta-buttons">
+          <a href="mailto:ivypathacademy@gmail.com" class="btn btn-white">Book Free Consultation</a>
+          <a href="tel:+19293940349" class="btn btn-ghost">Call Us: (929) 394-0349</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+          </div>
+          <p>Premium tutoring and admissions consulting from Ivy League student tutors in New York City.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="method.html">Method</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:ivypathacademy@gmail.com">ivypathacademy@gmail.com</a></li>
+            <li><a href="tel:+19293940349">(929) 394-0349</a></li>
+            <li><span>New York, NY</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 IvyPath Academy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js?v=3"></script>
+  <script src="smooth-scroll.js"></script>
+  <script src="pill-nav.js?v=11"></script>
+  <script src="geo-hero.js"></script>
+  <script src="cart.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | IvyPath Academy</title>
+  <meta name="description" content="Meet the team behind IvyPath Academy — Ivy League tutors dedicated to helping NYC students reach their full potential.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="pill-nav.css?v=13">
+  <link rel="stylesheet" href="about.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cn-about.html" class="lang-toggle">中文</a>
+        <a href="book.html" class="nav-cta">Book Consultation</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Pill Nav -->
+  <div class="pill-nav-container">
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-logo" href="index.html" aria-label="Home">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy">
+      </a>
+      <div class="pill-nav-items pill-desktop-only">
+        <ul class="pill-list" role="menubar">
+          <li role="none"><a role="menuitem" href="results.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Results</span><span class="pill-label-hover" aria-hidden="true">Results</span></span></a></li>
+          <li role="none"><a role="menuitem" href="method.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Method</span><span class="pill-label-hover" aria-hidden="true">Method</span></span></a></li>
+          <li role="none"><a role="menuitem" href="about.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About Us</span><span class="pill-label-hover" aria-hidden="true">About Us</span></span></a></li>
+          <li role="none"><a role="menuitem" href="pricing.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Pricing</span><span class="pill-label-hover" aria-hidden="true">Pricing</span></span></a></li>
+          <li role="none"><a role="menuitem" href="faq.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">FAQ</span><span class="pill-label-hover" aria-hidden="true">FAQ</span></span></a></li>
+        </ul>
+      </div>
+      <div class="pill-nav-right pill-desktop-only">
+        <a href="cn-about.html" class="pill-lang">中文</a>
+        <button class="pill-cart-btn cart-toggle" aria-label="Shopping cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="book.html" class="pill-cta">Book Consultation</a>
+      </div>
+      <button class="pill-cart-btn cart-toggle pill-mobile-only" aria-label="Shopping cart" style="margin-left: auto; margin-right: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="pill-mobile-btn pill-mobile-only" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+    <div class="pill-mobile-menu pill-mobile-only">
+      <ul class="pill-mobile-menu-list">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="cn-about.html">中文</a></li>
+        <li><a href="book.html">Book Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Minimal Header (no large hero) -->
+  <section class="page-hero" style="padding: 140px 0 60px; min-height: auto;">
+    <div class="container" style="text-align: center;">
+      <span class="page-hero-label">OUR TEAM</span>
+      <h1 class="page-hero-title">Meet the Minds Behind IvyPath</h1>
+      <p class="page-hero-subtitle">Expert educators from the nation's top universities, dedicated to your academic success</p>
+    </div>
+  </section>
+
+  <!-- Lead Tutors -->
+  <section class="about-section">
+    <div class="container">
+      <h2 class="about-heading reveal">Our Lead Tutors</h2>
+      <div class="leads-grid">
+        <div class="lead-card reveal">
+          <div class="lead-avatar">
+            <img src="assets/MAbrarHasnat.jpg" alt="M. Abrar Hasnat" class="lead-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="lead-avatar-placeholder" style="background: linear-gradient(135deg, #1B4D3E, #2D7D5F); display:none;">AH</div>
+          </div>
+          <div class="lead-info">
+            <h3>M. Abrar Hasnat</h3>
+            <a href="mailto:ivypathacademy@gmail.com" class="lead-email">ivypathacademy@gmail.com</a>
+            <p class="lead-role">Founder, Lead Math Tutor, and Lead College Consultant</p>
+            <p>Abrar is a sophomore at Cornell University studying Electrical &amp; Computer Engineering and Physics. With extensive tutoring experience across STEM subjects, he specializes in SAT/ACT preparation, advanced mathematics, and AP Calculus. As the lead college consultant at IvyPath Academy, Abrar has guided numerous students through their essays, applications, and admissions process, helping them gain acceptance to top-tier schools. His teaching approach emphasizes building deep conceptual understanding and confidence, empowering students to excel both academically and in presenting their best selves throughout the college admissions journey.</p>
+          </div>
+        </div>
+        <div class="lead-card reveal">
+          <div class="lead-avatar">
+            <img src="assets/alp.jpg" alt="Alp Vargelci" class="lead-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="lead-avatar-placeholder" style="background: linear-gradient(135deg, #1E3A5F, #3A6B9F); display:none;">AV</div>
+          </div>
+          <div class="lead-info">
+            <h3>Alp Vargelci</h3>
+            <a href="mailto:ivypathacademy@gmail.com" class="lead-email">ivypathacademy@gmail.com</a>
+            <p class="lead-role">Co-Founder, Lead Test Prep Specialist, and Lead CS Tutor</p>
+            <p>Alp is a sophomore at Cornell University studying Computer Science. As the lead standardized testing tutor and a 1570 SAT scorer himself, he has helped many students achieve score improvements of 300&ndash;500 points on the SAT. With deep expertise in test-taking strategy, time management, and content mastery, Alp tailors his instruction to each student's unique strengths and areas for growth. His goal, like that of IvyPath Academy, is to guide students toward confidence and success in standardized testing and the college admissions process.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expert Team -->
+  <section class="about-section about-section-alt">
+    <div class="container">
+      <h2 class="about-heading reveal">Our Expert Team</h2>
+      <div class="team-grid-about">
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/ArielleNudelman.PNG" alt="Arielle Nudelman" onerror="this.parentElement.innerHTML='AN';this.parentElement.style.background='#2D7D5F'"></div>
+            <h4>Arielle Nudelman</h4>
+            <span class="team-card-school">Cornell University</span>
+            <span class="team-card-spec">Approved College Consultant</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Guides students through every stage of the college admissions process &mdash; from school selection and essay development to application strategy and interview preparation.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/TenzinSamchok.jpg" alt="Tenzin Samchok" onerror="this.parentElement.innerHTML='TS';this.parentElement.style.background='#1E3A5F'"></div>
+            <h4>Tenzin Samchok</h4>
+            <span class="team-card-school">New York University</span>
+            <span class="team-card-spec">SAT/ACT, AP Chemistry, Preparatory Tutelage</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Brings a versatile teaching approach across standardized testing and AP sciences. Makes complex chemistry concepts accessible while helping students build strong test-taking strategies.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/GloriaLane.jpg" alt="Gloria Lane" onerror="this.parentElement.innerHTML='GL';this.parentElement.style.background='#C5A55A'"></div>
+            <h4>Gloria Lane</h4>
+            <span class="team-card-school">Cornell University</span>
+            <span class="team-card-spec">Approved College Consultant, AP History + Humanities</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Combines deep humanities expertise with college admissions guidance. Helps students craft compelling narratives for their applications while excelling in AP History and related coursework.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/AndrewRafaelSaid.jpg" alt="Andrew Rafael-Said" onerror="this.parentElement.innerHTML='AR';this.parentElement.style.background='#4A7C6F'"></div>
+            <h4>Andrew Rafael-Said</h4>
+            <span class="team-card-school">Cornell University</span>
+            <span class="team-card-spec">SAT/ACT, AP Chemistry, AP Biology, AP English</span>
+          </div>
+          <div class="team-card-desc">
+            <p>A well-rounded tutor covering standardized testing and multiple AP subjects. Specializes in breaking down complex science and English concepts into clear, actionable frameworks for students.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/CarolineLee.jpeg" alt="Caroline Lee" onerror="this.parentElement.innerHTML='CL';this.parentElement.style.background='#6B4C8A'"></div>
+            <h4>Caroline Lee</h4>
+            <span class="team-card-school">Cornell University</span>
+            <span class="team-card-spec">Approved College Consultant</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Passionate about helping students find their best-fit schools and present their strongest applications. Provides personalized guidance on essays, supplements, and admissions strategy.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/PhillipSolo.jpg" alt="Phillip Solo" onerror="this.parentElement.innerHTML='PS';this.parentElement.style.background='#8B5E3C'"></div>
+            <h4>Phillip Solo</h4>
+            <span class="team-card-school">Macaulay Honors College</span>
+            <span class="team-card-spec">AP Chemistry, AP Physics, AP English, AP History</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Brings exceptional range across sciences and humanities. Helps students master AP Chemistry, Physics, English, and History through structured problem-solving and analytical thinking.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/BisheshShah.png" alt="Bishesh Shah" onerror="this.parentElement.innerHTML='BS';this.parentElement.style.background='#2E5984'"></div>
+            <h4>Bishesh Shah</h4>
+            <span class="team-card-school">Cornell University</span>
+            <span class="team-card-spec">SAT/ACT, Preparatory Tutelage</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Focuses on building strong foundational skills for standardized testing. Tailors preparation strategies to each student's learning style, helping them achieve consistent score improvements.</p>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-card-inner">
+            <div class="team-card-avatar"><img src="assets/ben.JPG" alt="Benjamin Nudelman" onerror="this.parentElement.innerHTML='BN';this.parentElement.style.background='#3D6B4F'"></div>
+            <h4>Benjamin Nudelman</h4>
+            <span class="team-card-school">Cornell University</span>
+            <span class="team-card-spec">SAT/ACT, Computer Science</span>
+          </div>
+          <div class="team-card-desc">
+            <p>Expert in standardized test strategy with a strong computer science background. Applies analytical problem-solving techniques to help students master the SAT and ACT efficiently.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="about-section">
+    <div class="container">
+      <h2 class="about-heading reveal">Our Mission</h2>
+      <div class="mission-content reveal">
+        <p>At IvyPath Academy, we believe that every student has the potential to achieve extraordinary results. Our mission is to bridge the gap between where students are and where they want to be &mdash; by providing personalized, one-on-one instruction from tutors who have firsthand experience with the very exams and applications our students face.</p>
+        <p>We don't believe in one-size-fits-all education. Every student learns differently, and our approach reflects that. From the initial consultation to the final exam, we work closely with families to build customized study plans that address weaknesses, build on strengths, and develop the confidence needed to succeed under pressure.</p>
+        <p>Our tutors aren't just high scorers &mdash; they're mentors who understand the stress and stakes of standardized testing and college admissions. They've been in your student's shoes, and they know exactly what it takes to come out on top.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content reveal">
+        <h2>Ready to Start Your Journey?</h2>
+        <p>Book a free consultation and let's build a plan tailored to your student's goals.</p>
+        <div class="cta-buttons">
+          <a href="mailto:ivypathacademy@gmail.com" class="btn btn-white">Book Free Consultation</a>
+          <a href="tel:+19293940349" class="btn btn-ghost">Call Us: (929) 394-0349</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+          </div>
+          <p>Premium tutoring and admissions consulting from Ivy League student tutors in New York City.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="method.html">Method</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:ivypathacademy@gmail.com">ivypathacademy@gmail.com</a></li>
+            <li><a href="tel:+19293940349">(929) 394-0349</a></li>
+            <li><span>New York, NY</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 IvyPath Academy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js?v=3"></script>
+  <script src="smooth-scroll.js"></script>
+  <script src="pill-nav.js?v=11"></script>
+  <script src="cart.js?v=3"></script>
+</body>
+</html>

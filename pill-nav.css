@@ -1,0 +1,477 @@
+/* ============================================
+   PillNav - Transparent centered nav with pill hover
+   ============================================ */
+
+/* Hide old navbar */
+.navbar {
+  display: none !important;
+}
+
+/* Container - full width, transparent, centered */
+.pill-nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 16px 32px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* Scrolled state - subtle frosted bg */
+.pill-nav-container.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+  padding: 10px 32px;
+}
+
+/* Hidden on scroll down */
+.pill-nav-container.nav-hidden {
+  transform: translateY(-100%);
+}
+
+/* Nav layout - logo left, nav TRULY centered on page, buttons right */
+.pill-nav {
+  --nav-h: 40px;
+  --logo-size: 40px;
+  --pill-pad-x: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Logo - standalone */
+.pill-logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  height: var(--logo-size);
+}
+
+.pill-logo img {
+  height: 36px;
+  width: auto;
+  display: block;
+  /* Default: darken logo for light backgrounds */
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.3s ease;
+}
+
+/* On dark-hero pages at top - keep logo white */
+.pill-nav-container.dark-hero:not(.scrolled) .pill-logo img {
+  filter: none;
+}
+
+/* When scrolled (all pages) - dark logo */
+.pill-nav-container.scrolled .pill-logo img {
+  filter: brightness(0) saturate(100%);
+}
+
+/* ---- Nav items - TRANSPARENT, absolutely centered on page ---- */
+.pill-nav-items {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  height: var(--nav-h);
+  background: none !important;
+}
+
+.pill-list {
+  list-style: none;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.pill-list > li {
+  display: flex;
+  height: 100%;
+}
+
+/* Individual nav link - transparent default */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 var(--pill-pad-x);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+/* Default pill text - dark (safe for light backgrounds) */
+.pill {
+  color: #1B4D3E !important;
+}
+
+/* On dark-hero pages at top (not scrolled) - white text */
+.pill-nav-container.dark-hero:not(.scrolled) .pill {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.pill-nav-container.dark-hero:not(.scrolled) .pill:hover {
+  color: #ffffff !important;
+}
+
+/* Scrolled state (all pages) - dark text */
+.pill-nav-container.scrolled .pill {
+  color: #1B4D3E !important;
+}
+
+/* Hover circle - green pill background appears on hover */
+.pill .hover-circle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-radius: 50%;
+  background: rgba(27, 77, 62, 0.12);
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* On dark-hero pages (not scrolled) - white hover circle */
+.pill-nav-container.dark-hero:not(.scrolled) .pill .hover-circle {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.pill .label-stack {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  z-index: 2;
+}
+
+.pill .pill-label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  line-height: 1;
+  will-change: transform;
+}
+
+.pill .pill-label-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #1B4D3E;
+  z-index: 3;
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* On dark-hero pages, hover text is white */
+.pill-nav-container.dark-hero:not(.scrolled) .pill .pill-label-hover {
+  color: #ffffff;
+}
+
+/* ---- Right side - lang, cart, CTA ---- */
+.pill-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill-nav-right .pill-cta {
+  height: 38px;
+  padding: 0 20px;
+  background: #1B4D3E;
+  color: white;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+
+.pill-nav-right .pill-cta:hover {
+  background: #2D7D5F;
+}
+
+/* Lang toggle - default dark (for light pages) */
+.pill-nav-right .pill-lang {
+  height: 34px;
+  padding: 0 12px;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.pill-nav-right .pill-lang:hover {
+  color: #1B4D3E;
+  border-color: #1B4D3E;
+}
+
+/* Dark-hero pages: white lang */
+.pill-nav-container.dark-hero:not(.scrolled) .pill-nav-right .pill-lang {
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.pill-nav-container.dark-hero:not(.scrolled) .pill-nav-right .pill-lang:hover {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Dark-hero CTA */
+.pill-nav-container.dark-hero:not(.scrolled) .pill-nav-right .pill-cta {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+.pill-nav-container.dark-hero:not(.scrolled) .pill-nav-right .pill-cta:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Cart button - default dark */
+.pill-cart-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #ddd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  color: #666;
+  flex-shrink: 0;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.pill-cart-btn:hover {
+  color: #1B4D3E;
+  border-color: #1B4D3E;
+}
+
+/* Dark-hero cart */
+.pill-nav-container.dark-hero:not(.scrolled) .pill-cart-btn {
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.pill-nav-container.dark-hero:not(.scrolled) .pill-cart-btn:hover {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Scrolled state overrides (all pages) */
+.pill-nav-container.scrolled .pill-cart-btn {
+  color: #666;
+  border-color: #ddd;
+}
+
+.pill-nav-container.scrolled .pill-cart-btn:hover {
+  color: #1B4D3E;
+  border-color: #1B4D3E;
+}
+
+.pill-cart-btn .cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #C5A55A;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ---- Mobile ---- */
+.pill-mobile-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.pill-nav-container.scrolled .pill-mobile-btn {
+  background: rgba(27, 77, 62, 0.08);
+  border-color: var(--border, #ddd);
+}
+
+.pill-mobile-btn .hamburger-line {
+  width: 16px;
+  height: 2px;
+  background: white;
+  border-radius: 1px;
+  transform-origin: center;
+}
+
+.pill-nav-container.scrolled .pill-mobile-btn .hamburger-line {
+  background: #1B4D3E;
+}
+
+.pill-mobile-menu {
+  position: fixed;
+  top: 64px;
+  left: 1rem;
+  right: 1rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.pill-mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pill-mobile-menu-list a {
+  display: block;
+  padding: 14px 18px;
+  color: #1B4D3E;
+  background: transparent;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.pill-mobile-menu-list a:hover {
+  background: rgba(27, 77, 62, 0.06);
+}
+
+/* Desktop / Mobile visibility */
+.pill-desktop-only {
+  display: flex;
+}
+
+.pill-mobile-only {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .pill-desktop-only {
+    display: none !important;
+  }
+
+  .pill-mobile-only {
+    display: flex !important;
+  }
+
+  .pill-nav-container {
+    padding: 12px 16px;
+  }
+
+  .pill-nav-container.scrolled {
+    padding: 8px 16px;
+  }
+
+  .pill-nav {
+    gap: 8px;
+  }
+}
+
+/* ---- Pages without dark hero (about, faq, method, results, pricing) ---- */
+/* These pages start scrolled so text is dark immediately */
+.pill-nav-container.start-scrolled .pill {
+  color: #1B4D3E;
+}
+
+.pill-nav-container.start-scrolled .pill .hover-circle {
+  background: rgba(27, 77, 62, 0.1);
+}
+
+.pill-nav-container.start-scrolled .pill .pill-label-hover {
+  color: #1B4D3E;
+}
+
+.pill-nav-container.start-scrolled .pill-nav-right .pill-lang {
+  color: var(--text-light, #666);
+  border-color: var(--border, #ddd);
+}
+
+.pill-nav-container.start-scrolled .pill-nav-right .pill-lang:hover {
+  color: #1B4D3E;
+  border-color: #1B4D3E;
+}
+
+.pill-nav-container.start-scrolled .pill-cart-btn {
+  color: var(--text-light, #666);
+  border-color: var(--border, #ddd);
+}
+
+.pill-nav-container.start-scrolled .pill-cart-btn:hover {
+  color: #1B4D3E;
+  border-color: #1B4D3E;
+}
+
+.pill-nav-container.start-scrolled .pill-nav-right .pill-cta {
+  background: #1B4D3E;
+  border: none;
+  color: white;
+}
+
+.pill-nav-container.start-scrolled .pill-nav-right .pill-cta:hover {
+  background: #2D7D5F;
+}
+
+.pill-nav-container.start-scrolled .pill-logo img {
+  filter: none;
+}
+
+.pill-nav-container.start-scrolled .pill-mobile-btn {
+  background: rgba(27, 77, 62, 0.08);
+  border-color: var(--border, #ddd);
+}
+
+.pill-nav-container.start-scrolled .pill-mobile-btn .hamburger-line {
+  background: #1B4D3E;
+}

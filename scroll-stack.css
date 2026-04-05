@@ -1,0 +1,165 @@
+/* ============================================
+   Sticky Scroll Cards - Pure CSS approach
+   No JS transforms, no blur, no glitching
+   ============================================ */
+
+.scroll-stack-section {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-stack-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 200px;
+}
+
+.scroll-stack-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  padding: 48px;
+  border-radius: 32px;
+  margin-bottom: 32px;
+  /* The magic — pure CSS stacking */
+  position: sticky;
+  top: 100px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Card color variants */
+.scroll-stack-card:nth-child(1) {
+  background: #F0F7F4;
+}
+
+.scroll-stack-card:nth-child(2) {
+  background: #F5F7F0;
+}
+
+.scroll-stack-card:nth-child(3) {
+  background: #FFF9F0;
+}
+
+.scroll-stack-card:nth-child(4) {
+  background: #F0F5F7;
+}
+
+.scroll-stack-card .step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(27, 77, 62, 0.1);
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.scroll-stack-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.scroll-stack-card p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.scroll-stack-card .card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.scroll-stack-card .card-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-stack-card .step-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scroll-stack-card .step-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.scroll-stack-card .step-features li:last-child {
+  border-bottom: none;
+}
+
+.scroll-stack-card .step-features li::before {
+  content: '\2713';
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Visual placeholder for method illustration */
+.scroll-stack-card .step-visual {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: rgba(27, 77, 62, 0.06);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(27, 77, 62, 0.15);
+}
+
+.scroll-stack-card .step-visual-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.scroll-stack-end {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .scroll-stack-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 24px;
+    border-radius: 24px;
+    top: 80px;
+  }
+
+  .scroll-stack-card h3 {
+    font-size: 1.4rem;
+  }
+
+  .scroll-stack-inner {
+    padding: 20px 16px 120px;
+  }
+
+  .scroll-stack-card .card-visual {
+    order: -1;
+  }
+}

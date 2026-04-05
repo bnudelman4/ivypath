@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IvyPath Academy | Proven Results</title>
+  <meta name="description" content="See the measurable outcomes our students achieve — SAT score improvements, AP results, and college admissions success.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="pill-nav.css?v=13">
+  <link rel="stylesheet" href="testimonials-scroll.css">
+  <link rel="stylesheet" href="scroll-effects.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cn-results.html" class="lang-toggle">中文</a>
+        <a href="book.html" class="nav-cta">Book Consultation</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Pill Nav -->
+  <div class="pill-nav-container">
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-logo" href="index.html" aria-label="Home">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy">
+      </a>
+      <div class="pill-nav-items pill-desktop-only">
+        <ul class="pill-list" role="menubar">
+          <li role="none"><a role="menuitem" href="results.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Results</span><span class="pill-label-hover" aria-hidden="true">Results</span></span></a></li>
+          <li role="none"><a role="menuitem" href="method.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Method</span><span class="pill-label-hover" aria-hidden="true">Method</span></span></a></li>
+          <li role="none"><a role="menuitem" href="about.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About Us</span><span class="pill-label-hover" aria-hidden="true">About Us</span></span></a></li>
+          <li role="none"><a role="menuitem" href="pricing.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Pricing</span><span class="pill-label-hover" aria-hidden="true">Pricing</span></span></a></li>
+          <li role="none"><a role="menuitem" href="faq.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">FAQ</span><span class="pill-label-hover" aria-hidden="true">FAQ</span></span></a></li>
+        </ul>
+      </div>
+      <div class="pill-nav-right pill-desktop-only">
+        <a href="cn-results.html" class="pill-lang">中文</a>
+        <button class="pill-cart-btn cart-toggle" aria-label="Shopping cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="book.html" class="pill-cta">Book Consultation</a>
+      </div>
+      <button class="pill-cart-btn cart-toggle pill-mobile-only" aria-label="Shopping cart" style="margin-left: auto; margin-right: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="pill-mobile-btn pill-mobile-only" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+    <div class="pill-mobile-menu pill-mobile-only">
+      <ul class="pill-mobile-menu-list">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="cn-results.html">中文</a></li>
+        <li><a href="book.html">Book Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 1: Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">PROVEN EXCELLENCE</span>
+      <h1 class="page-hero-title">Results That Speak for Themselves</h1>
+      <p class="page-hero-subtitle">Our data-driven approach delivers measurable, transformative outcomes for every student.</p>
+    </div>
+  </section>
+
+  <!-- Text Scatter Intro -->
+  <section class="text-scatter-section page-section" style="background: #FAFBF9; padding: 120px 0 60px;">
+    <div class="container" style="text-align: center;">
+      <div class="text-scatter-wrapper" id="textScatter"></div>
+      <p style="color: #666; margin-top: 24px; font-size: 1rem;">Hear directly from families whose students transformed their scores</p>
+    </div>
+  </section>
+  <script>
+    // Generate scatter chars for "see what our students achieved"
+    (function() {
+      var text = "see what our students achieved";
+      var el = document.getElementById('textScatter');
+      if (!el) return;
+      text.split('').forEach(function(c) {
+        var span = document.createElement('span');
+        span.className = 'scatter-char' + (c === ' ' ? ' space' : '');
+        span.textContent = c === ' ' ? '' : c;
+        el.appendChild(span);
+      });
+    })();
+  </script>
+
+  <!-- Section 2: Testimonials Feed -->
+  <section class="page-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">STUDENT ACHIEVEMENTS</span>
+        <h2 class="section-title">Real Results, Real Students</h2>
+      </div>
+      <!-- Auto-scrolling Testimonial Columns -->
+      <div class="testimonial-columns">
+        <!-- Column 1 -->
+        <div class="testimonial-col">
+          <div class="testimonial-col-inner">
+            <!-- Original set -->
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"My son's SAT score jumped 250 points after working with IvyPath. His tutor was incredibly patient and knew exactly which strategies would work for him."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #2D7D5F;">S</div>
+                <div><div class="testimonial-card-name">Sarah M.</div><div class="testimonial-card-role">SAT Student Parent</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card testimonial-card-stat">
+              <div class="testimonial-stat-number">+310</div>
+              <div class="testimonial-stat-label">SAT Point Increase</div>
+              <div class="testimonial-stat-detail">1190 &rarr; 1500</div>
+              <div class="testimonial-card-author" style="justify-content: center;">
+                <div class="testimonial-card-avatar" style="background: #A51C30;">D</div>
+                <div><div class="testimonial-card-name">David W.</div><div class="testimonial-card-role">Now at Harvard '29</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"IvyPath's college consulting was a game changer. The essays went from generic to genuinely compelling, and she got into 3 of her top 5 schools."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #C5A55A;">L</div>
+                <div><div class="testimonial-card-name">Linda C.</div><div class="testimonial-card-role">College Admissions Parent</div></div>
+              </div>
+            </div>
+            <!-- Duplicate for infinite loop -->
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"My son's SAT score jumped 250 points after working with IvyPath. His tutor was incredibly patient and knew exactly which strategies would work for him."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #2D7D5F;">S</div>
+                <div><div class="testimonial-card-name">Sarah M.</div><div class="testimonial-card-role">SAT Student Parent</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card testimonial-card-stat">
+              <div class="testimonial-stat-number">+310</div>
+              <div class="testimonial-stat-label">SAT Point Increase</div>
+              <div class="testimonial-stat-detail">1190 &rarr; 1500</div>
+              <div class="testimonial-card-author" style="justify-content: center;">
+                <div class="testimonial-card-avatar" style="background: #A51C30;">D</div>
+                <div><div class="testimonial-card-name">David W.</div><div class="testimonial-card-role">Now at Harvard '29</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"IvyPath's college consulting was a game changer. The essays went from generic to genuinely compelling, and she got into 3 of her top 5 schools."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #C5A55A;">L</div>
+                <div><div class="testimonial-card-name">Linda C.</div><div class="testimonial-card-role">College Admissions Parent</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="testimonial-col testimonial-col-2">
+          <div class="testimonial-col-inner">
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"My counselor at IvyPath guided me through every step of the college application process. The support was incredible. I went from feeling overwhelmed to feeling confident."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #011F5B;">R</div>
+                <div><div class="testimonial-card-name">Ryan P.</div><div class="testimonial-card-role">UPenn '29</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card testimonial-card-stat">
+              <div class="testimonial-stat-number">+280</div>
+              <div class="testimonial-stat-label">SAT Point Increase</div>
+              <div class="testimonial-stat-detail">1220 &rarr; 1500</div>
+              <div class="testimonial-card-author" style="justify-content: center;">
+                <div class="testimonial-card-avatar" style="background: #00356B;">M</div>
+                <div><div class="testimonial-card-name">Michelle T.</div><div class="testimonial-card-role">Now at Yale '28</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"My daughter went from a 3 to a 5 on AP Calculus. Her tutor from Princeton broke down every concept in a way that finally clicked. The tutoring literally paid for itself."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #E77500;">T</div>
+                <div><div class="testimonial-card-name">Tom H.</div><div class="testimonial-card-role">AP Calc Parent</div></div>
+              </div>
+            </div>
+            <!-- Duplicate -->
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"My counselor at IvyPath guided me through every step of the college application process. The support was incredible. I went from feeling overwhelmed to feeling confident."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #011F5B;">R</div>
+                <div><div class="testimonial-card-name">Ryan P.</div><div class="testimonial-card-role">UPenn '29</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card testimonial-card-stat">
+              <div class="testimonial-stat-number">+280</div>
+              <div class="testimonial-stat-label">SAT Point Increase</div>
+              <div class="testimonial-stat-detail">1220 &rarr; 1500</div>
+              <div class="testimonial-card-author" style="justify-content: center;">
+                <div class="testimonial-card-avatar" style="background: #00356B;">M</div>
+                <div><div class="testimonial-card-name">Michelle T.</div><div class="testimonial-card-role">Now at Yale '28</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"My daughter went from a 3 to a 5 on AP Calculus. Her tutor from Princeton broke down every concept in a way that finally clicked. The tutoring literally paid for itself."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #E77500;">T</div>
+                <div><div class="testimonial-card-name">Tom H.</div><div class="testimonial-card-role">AP Calc Parent</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="testimonial-col testimonial-col-3">
+          <div class="testimonial-col-inner">
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"I got into Stuyvesant thanks to my SHSAT tutor from IvyPath. They made the test feel way less scary and helped me build real confidence."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #1E3A5F;">J</div>
+                <div><div class="testimonial-card-name">Jason L.</div><div class="testimonial-card-role">SHSAT Student</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card testimonial-card-stat">
+              <div class="testimonial-stat-number">5/5</div>
+              <div class="testimonial-stat-label">AP Calculus Score</div>
+              <div class="testimonial-stat-detail">Prev: 3 &rarr; 5</div>
+              <div class="testimonial-card-author" style="justify-content: center;">
+                <div class="testimonial-card-avatar" style="background: #4A7C6F;">A</div>
+                <div><div class="testimonial-card-name">Aisha N.</div><div class="testimonial-card-role">AP Student</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"The investment was absolutely worth it. IvyPath doesn't just teach — they mentor. My son gained confidence and strategies that will last beyond any test."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #2D7D5F;">K</div>
+                <div><div class="testimonial-card-name">Karen W.</div><div class="testimonial-card-role">SAT Parent</div></div>
+              </div>
+            </div>
+            <!-- Duplicate -->
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"I got into Stuyvesant thanks to my SHSAT tutor from IvyPath. They made the test feel way less scary and helped me build real confidence."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #1E3A5F;">J</div>
+                <div><div class="testimonial-card-name">Jason L.</div><div class="testimonial-card-role">SHSAT Student</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card testimonial-card-stat">
+              <div class="testimonial-stat-number">5/5</div>
+              <div class="testimonial-stat-label">AP Calculus Score</div>
+              <div class="testimonial-stat-detail">Prev: 3 &rarr; 5</div>
+              <div class="testimonial-card-author" style="justify-content: center;">
+                <div class="testimonial-card-avatar" style="background: #4A7C6F;">A</div>
+                <div><div class="testimonial-card-name">Aisha N.</div><div class="testimonial-card-role">AP Student</div></div>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <p class="testimonial-card-text">"The investment was absolutely worth it. IvyPath doesn't just teach — they mentor. My son gained confidence and strategies that will last beyond any test."</p>
+              <div class="testimonial-card-author">
+                <div class="testimonial-card-avatar" style="background: #2D7D5F;">K</div>
+                <div><div class="testimonial-card-name">Karen W.</div><div class="testimonial-card-role">SAT Parent</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Before & After Score Bars -->
+  <section class="page-section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">BEFORE &amp; AFTER</span>
+        <h2 class="section-title">Average Score Transformation</h2>
+      </div>
+      <div class="score-bars reveal">
+
+        <!-- Reading & Writing -->
+        <div class="score-bar-group">
+          <div class="score-bar-header">
+            <span class="score-bar-label">READING &amp; WRITING</span>
+            <span class="score-bar-delta">+220 PTS</span>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill score-bar-before" style="width: 32.5%"></div>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill" style="width: 46.25%"></div>
+          </div>
+          <div class="score-bar-values">
+            <span>Before: 520</span>
+            <span>After: 740</span>
+          </div>
+        </div>
+
+        <!-- Math -->
+        <div class="score-bar-group">
+          <div class="score-bar-header">
+            <span class="score-bar-label">MATH</span>
+            <span class="score-bar-delta">+250 PTS</span>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill score-bar-before" style="width: 31.875%"></div>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill" style="width: 47.5%"></div>
+          </div>
+          <div class="score-bar-values">
+            <span>Before: 510</span>
+            <span>After: 760</span>
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div class="score-bar-group">
+          <div class="score-bar-header">
+            <span class="score-bar-label">TOTAL</span>
+            <span class="score-bar-delta">+470 PTS</span>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill score-bar-before" style="width: 64.375%"></div>
+          </div>
+          <div class="score-bar-track">
+            <div class="score-bar-fill" style="width: 93.75%"></div>
+          </div>
+          <div class="score-bar-values">
+            <span>Before: 1030</span>
+            <span>After: 1500</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: AP Performance Table -->
+  <section class="page-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">AP PERFORMANCE</span>
+        <h2 class="section-title">Subject-by-Subject Excellence</h2>
+      </div>
+      <div class="ap-table reveal">
+        <table>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Pass Rate</th>
+              <th>Avg Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AP Calculus AB/BC</td>
+              <td>96%</td>
+              <td class="ap-score">4.7</td>
+            </tr>
+            <tr>
+              <td>AP Biology</td>
+              <td>93%</td>
+              <td class="ap-score">4.5</td>
+            </tr>
+            <tr>
+              <td>AP Chemistry</td>
+              <td>91%</td>
+              <td class="ap-score">4.4</td>
+            </tr>
+            <tr>
+              <td>AP Physics C</td>
+              <td>94%</td>
+              <td class="ap-score">4.6</td>
+            </tr>
+            <tr>
+              <td>AP English Literature</td>
+              <td>95%</td>
+              <td class="ap-score">4.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: 24-Week Score Trajectory -->
+  <section class="page-section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">24-WEEK JOURNEY</span>
+        <h2 class="section-title">Typical Student Score Trajectory</h2>
+      </div>
+      <div class="trajectory-chart reveal">
+        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Gridlines -->
+          <line x1="60" y1="50" x2="760" y2="50" stroke="#e8e8e8" stroke-dasharray="4"/>
+          <line x1="60" y1="150" x2="760" y2="150" stroke="#e8e8e8" stroke-dasharray="4"/>
+          <line x1="60" y1="250" x2="760" y2="250" stroke="#e8e8e8" stroke-dasharray="4"/>
+          <line x1="60" y1="350" x2="760" y2="350" stroke="#e8e8e8" stroke-dasharray="4"/>
+          <!-- Y-axis labels -->
+          <text x="50" y="55" text-anchor="end" fill="#95A5A6" font-size="12" font-family="Inter">1600</text>
+          <text x="50" y="155" text-anchor="end" fill="#95A5A6" font-size="12" font-family="Inter">1400</text>
+          <text x="50" y="255" text-anchor="end" fill="#95A5A6" font-size="12" font-family="Inter">1200</text>
+          <text x="50" y="355" text-anchor="end" fill="#95A5A6" font-size="12" font-family="Inter">1000</text>
+          <!-- X-axis labels -->
+          <text x="80" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W0</text>
+          <text x="193" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W4</text>
+          <text x="307" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W8</text>
+          <text x="420" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W12</text>
+          <text x="533" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W16</text>
+          <text x="647" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W20</text>
+          <text x="760" y="385" text-anchor="middle" fill="#95A5A6" font-size="12" font-family="Inter">W24</text>
+          <!-- Score line (smooth bezier) -->
+          <!-- Data: W0=1030(y=345.5), W4=1120(y=318), W8=1250(y=275), W12=1350(y=240), W16=1430(y=207.5), W20=1480(y=190), W24=1500(y=175) -->
+          <!-- Y mapping: y = 350 - ((score-1000)/600)*300 -->
+          <path d="M80,345 C130,330 150,320 193,318 C240,315 260,290 307,275 C350,262 380,248 420,240 C460,232 490,215 533,207 C575,200 610,195 647,190 C685,185 720,180 760,175" fill="none" stroke="#C5A55A" stroke-width="3" stroke-linecap="round"/>
+          <!-- Data points -->
+          <circle cx="80" cy="345" r="5" fill="#C5A55A"/>
+          <circle cx="193" cy="318" r="5" fill="#C5A55A"/>
+          <circle cx="307" cy="275" r="5" fill="#C5A55A"/>
+          <circle cx="420" cy="240" r="5" fill="#C5A55A"/>
+          <circle cx="533" cy="207" r="5" fill="#C5A55A"/>
+          <circle cx="647" cy="190" r="5" fill="#C5A55A"/>
+          <circle cx="760" cy="175" r="5" fill="#C5A55A"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: CTA -->
+  <section class="page-cta">
+    <div class="container">
+      <h2>Your Results Are Next</h2>
+      <p>Join hundreds of students who have transformed their scores and earned admission to their dream schools.</p>
+      <a href="book.html" class="btn btn-primary">Start Your Transformation</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+          </div>
+          <p>Premium tutoring and admissions consulting from Ivy League student tutors in New York City.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="method.html">Method</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:ivypathacademy@gmail.com">ivypathacademy@gmail.com</a></li>
+            <li><a href="tel:+19293940349">(929) 394-0349</a></li>
+            <li><span>New York, NY</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 IvyPath Academy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js?v=3"></script>
+  <script src="smooth-scroll.js"></script>
+  <script src="pill-nav.js?v=11"></script>
+  <script src="results-anim.js"></script>
+  <script src="scroll-effects.js"></script>
+  <script src="cart.js?v=3"></script>
+</body>
+</html>

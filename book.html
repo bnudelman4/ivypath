@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Free Consultation | IvyPath Academy</title>
+  <meta name="description" content="Book a free 15-minute consultation with IvyPath Academy. Discuss your child's academic goals and learn how our Ivy League tutors can help.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="pill-nav.css?v=13">
+  <link rel="stylesheet" href="book.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cn-book.html" class="lang-toggle">中文</a>
+        <a href="book.html" class="nav-cta">Book Consultation</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Pill Nav -->
+  <div class="pill-nav-container">
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-logo" href="index.html" aria-label="Home">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy">
+      </a>
+      <div class="pill-nav-items pill-desktop-only">
+        <ul class="pill-list" role="menubar">
+          <li role="none"><a role="menuitem" href="results.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Results</span><span class="pill-label-hover" aria-hidden="true">Results</span></span></a></li>
+          <li role="none"><a role="menuitem" href="method.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Method</span><span class="pill-label-hover" aria-hidden="true">Method</span></span></a></li>
+          <li role="none"><a role="menuitem" href="about.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About Us</span><span class="pill-label-hover" aria-hidden="true">About Us</span></span></a></li>
+          <li role="none"><a role="menuitem" href="pricing.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Pricing</span><span class="pill-label-hover" aria-hidden="true">Pricing</span></span></a></li>
+          <li role="none"><a role="menuitem" href="faq.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">FAQ</span><span class="pill-label-hover" aria-hidden="true">FAQ</span></span></a></li>
+        </ul>
+      </div>
+      <div class="pill-nav-right pill-desktop-only">
+        <a href="cn-book.html" class="pill-lang">中文</a>
+        <button class="pill-cart-btn cart-toggle" aria-label="Shopping cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="book.html" class="pill-cta">Book Consultation</a>
+      </div>
+      <button class="pill-cart-btn cart-toggle pill-mobile-only" aria-label="Shopping cart" style="margin-left: auto; margin-right: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="pill-mobile-btn pill-mobile-only" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+    <div class="pill-mobile-menu pill-mobile-only">
+      <ul class="pill-mobile-menu-list">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="cn-book.html">中文</a></li>
+        <li><a href="book.html">Book Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="book-hero">
+    <div class="book-hero-overlay"></div>
+    <div class="container book-hero-content">
+      <h1 class="book-hero-title reveal">Book Your Free Consultation</h1>
+      <p class="book-hero-subtitle reveal">A 15-minute, no-pressure call to discuss your child's academic goals and learn how IvyPath can help.</p>
+      <div class="trust-badges reveal">
+        <div class="trust-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>100% Free</span>
+        </div>
+        <div class="trust-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+          <span>No Obligation</span>
+        </div>
+        <div class="trust-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>15 Minutes</span>
+        </div>
+        <div class="trust-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Personalized Guidance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section class="book-section">
+    <div class="container">
+      <div class="book-grid">
+        <!-- Left: Testimonial & Info -->
+        <div class="book-info reveal">
+          <div class="book-testimonial">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-text">"I was skeptical about online tutoring, but the free consultation completely changed my mind. They really understood our situation."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background: #1E3A5F;">M</div>
+              <div>
+                <strong>Michael R.</strong>
+                <span>Parent of SHSAT Student</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-expect">
+            <h3>What to Expect</h3>
+            <div class="expect-list">
+              <div class="expect-item">
+                <div class="expect-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                  <strong>15-Minute Call</strong>
+                  <p>Quick, focused conversation about your child's needs</p>
+                </div>
+              </div>
+              <div class="expect-item">
+                <div class="expect-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <strong>Personalized Advice</strong>
+                  <p>Get recommendations tailored to your specific situation</p>
+                </div>
+              </div>
+              <div class="expect-item">
+                <div class="expect-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div>
+                  <strong>No Pressure</strong>
+                  <p>Learn about our services with zero obligation to purchase</p>
+                </div>
+              </div>
+              <div class="expect-item">
+                <div class="expect-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div>
+                  <strong>Next Steps</strong>
+                  <p>If we're a good fit, we'll outline a plan for success</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Calendar Widget -->
+        <div class="book-form-wrapper reveal">
+          <div class="book-calendar-card">
+            <div class="calendar-header">
+              <div class="calendar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div>
+                <h3>Schedule a Call</h3>
+                <p class="calendar-subtitle">15 min &middot; Free Consultation</p>
+              </div>
+            </div>
+            <div class="calendar-widget" id="calendarWidget">
+              <div class="calendar-nav">
+                <button class="calendar-nav-btn" id="calPrev" aria-label="Previous month">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="calendar-month" id="calMonth"></span>
+                <button class="calendar-nav-btn" id="calNext" aria-label="Next month">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+              <div class="calendar-days-header">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+              <div class="calendar-grid" id="calGrid"></div>
+            </div>
+            <div class="calendar-times" id="calTimes" style="display:none;">
+              <button class="calendar-back" id="calBack">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                <span id="calSelectedDate"></span>
+              </button>
+              <p class="calendar-times-label">Available times</p>
+              <div class="calendar-time-slots" id="calSlots"></div>
+            </div>
+            <div class="calendar-confirm" id="calConfirm" style="display:none;">
+              <div class="confirm-details">
+                <div class="confirm-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h4>Free Consultation</h4>
+                <p class="confirm-datetime" id="confirmDateTime"></p>
+                <p class="confirm-duration">15 min &middot; Zoom</p>
+              </div>
+              <form class="confirm-form" id="confirmForm">
+                <div class="form-group">
+                  <label for="confirmName">Your Name</label>
+                  <input type="text" id="confirmName" placeholder="Full name" required>
+                </div>
+                <div class="form-group">
+                  <label for="confirmEmail">Email</label>
+                  <input type="email" id="confirmEmail" placeholder="your@email.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary book-submit-btn" id="confirmBtn">Confirm Booking</button>
+              </form>
+            </div>
+            <p class="calendar-timezone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Eastern Time (ET)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Mini -->
+  <section class="book-stats">
+    <div class="container">
+      <div class="book-stats-grid">
+        <div class="book-stat reveal">
+          <span class="book-stat-number">500+</span>
+          <span class="book-stat-label">Families Helped</span>
+        </div>
+        <div class="book-stat reveal">
+          <span class="book-stat-number">&lt;24hr</span>
+          <span class="book-stat-label">Response Time</span>
+        </div>
+        <div class="book-stat reveal">
+          <span class="book-stat-number">100%</span>
+          <span class="book-stat-label">Satisfaction</span>
+        </div>
+        <div class="book-stat reveal">
+          <span class="book-stat-number">4.9/5</span>
+          <span class="book-stat-label">Rating</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- After You Book -->
+  <section class="book-steps-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Next Steps</span>
+        <h2 class="section-title">What Happens After You Book</h2>
+      </div>
+      <div class="book-steps-grid">
+        <div class="book-step reveal">
+          <div class="book-step-number">1</div>
+          <h4>Confirmation Email</h4>
+          <p>You'll receive an email confirmation with a Zoom link and calendar invite.</p>
+        </div>
+        <div class="book-step reveal">
+          <div class="book-step-number">2</div>
+          <h4>15-Minute Consultation</h4>
+          <p>We'll discuss your child's academic goals, current challenges, and how IvyPath can help.</p>
+        </div>
+        <div class="book-step reveal">
+          <div class="book-step-number">3</div>
+          <h4>Personalized Plan</h4>
+          <p>If we're a good fit, we'll recommend a tutor and package tailored to your needs. No pressure to decide on the spot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Other Ways -->
+  <section class="book-contact-alt">
+    <div class="container">
+      <div class="book-contact-card reveal">
+        <h3>Other Ways to Reach Us</h3>
+        <div class="contact-methods">
+          <a href="mailto:ivypathacademy@gmail.com" class="contact-method">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <strong>ivypathacademy@gmail.com</strong>
+              <span>We typically respond within 24 hours</span>
+            </div>
+          </a>
+          <a href="tel:+19293940349" class="contact-method">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <strong>(929) 394-0349</strong>
+              <span>Call or text us anytime</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+          </div>
+          <p>Premium tutoring and admissions consulting from Ivy League student tutors in New York City.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="method.html">Method</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:ivypathacademy@gmail.com">ivypathacademy@gmail.com</a></li>
+            <li><a href="tel:+19293940349">(929) 394-0349</a></li>
+            <li><span>New York, NY</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 IvyPath Academy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js?v=3"></script>
+  <script src="smooth-scroll.js"></script>
+  <script src="pill-nav.js?v=11"></script>
+  <script src="cart.js?v=3"></script>
+  <script>
+  (function() {
+    const grid = document.getElementById('calGrid');
+    const monthLabel = document.getElementById('calMonth');
+    const prevBtn = document.getElementById('calPrev');
+    const nextBtn = document.getElementById('calNext');
+    const timesPanel = document.getElementById('calTimes');
+    const calWidget = document.getElementById('calendarWidget');
+    const slotsContainer = document.getElementById('calSlots');
+    const selectedDateLabel = document.getElementById('calSelectedDate');
+    const backBtn = document.getElementById('calBack');
+    const confirmPanel = document.getElementById('calConfirm');
+    const confirmDateTime = document.getElementById('confirmDateTime');
+
+    const today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+
+    function renderCalendar() {
+      monthLabel.textContent = months[currentMonth] + ' ' + currentYear;
+      grid.innerHTML = '';
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('span');
+        empty.className = 'calendar-day empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const btn = document.createElement('button');
+        btn.className = 'calendar-day';
+        btn.textContent = d;
+
+        const date = new Date(currentYear, currentMonth, d);
+        const dayOfWeek = date.getDay();
+        const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        const isToday = d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+
+        if (isPast || isWeekend) {
+          btn.disabled = true;
+          btn.classList.add('disabled');
+        } else {
+          btn.classList.add('available');
+          btn.addEventListener('click', () => showTimes(date, d));
+        }
+        if (isToday) btn.classList.add('today');
+
+        grid.appendChild(btn);
+      }
+    }
+
+    function showTimes(date, day) {
+      const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
+      slotsContainer.innerHTML = '';
+
+      // Show a random subset of available times
+      const available = times.filter(() => Math.random() > 0.25);
+      (available.length ? available : times.slice(0, 5)).forEach(time => {
+        const btn = document.createElement('button');
+        btn.className = 'time-slot';
+        btn.textContent = time;
+        btn.addEventListener('click', () => showConfirm(date, day, time));
+        slotsContainer.appendChild(btn);
+      });
+
+      calWidget.style.display = 'none';
+      timesPanel.style.display = 'block';
+      confirmPanel.style.display = 'none';
+    }
+
+    let selectedDate = null;
+    let selectedTime = null;
+
+    function showConfirm(date, day, time) {
+      const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      confirmDateTime.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day + ' at ' + time;
+      selectedDate = date;
+      selectedTime = time;
+
+      timesPanel.style.display = 'none';
+      confirmPanel.style.display = 'block';
+    }
+
+    // Handle form submission — calls API to create Google Calendar event + Zoom link
+    document.getElementById('confirmForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('confirmName').value.trim();
+      const email = document.getElementById('confirmEmail').value.trim();
+      if (!name || !email) return;
+
+      const submitBtn = document.getElementById('confirmBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Scheduling...';
+
+      // Format date as YYYY-MM-DD for the API
+      const dateStr = selectedDate.getFullYear() + '-' +
+        String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(selectedDate.getDate()).padStart(2, '0');
+
+      try {
+        const response = await fetch('/api/book-consultation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, date: dateStr, time: selectedTime }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Booking failed');
+        }
+
+        // Show success confirmation screen
+        confirmPanel.innerHTML =
+          '<div class="booking-success">' +
+            '<div class="booking-success-icon">' +
+              '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>' +
+            '</div>' +
+            '<h3 class="booking-success-title">You\'re All Set!</h3>' +
+            '<p class="booking-success-subtitle">Your consultation is scheduled for:</p>' +
+            '<div class="booking-success-card">' +
+              '<div class="booking-success-row">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+                '<strong>' + data.date + '</strong>' +
+              '</div>' +
+              '<div class="booking-success-row">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                '<strong>' + data.time + ' EST</strong>' +
+              '</div>' +
+            '</div>' +
+            '<p class="booking-success-email">A confirmation email with Zoom link has been sent to:<br><strong>' + data.email + '</strong></p>' +
+            '<div class="booking-success-next">' +
+              '<h4>What\'s Next?</h4>' +
+              '<ul>' +
+                '<li>Check your email for the calendar invite and Zoom link</li>' +
+                '<li>Prepare any questions about your academic goals</li>' +
+                '<li>Join the Zoom meeting at your scheduled time</li>' +
+              '</ul>' +
+            '</div>' +
+          '</div>';
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm Booking';
+        // Show inline error
+        let errEl = confirmPanel.querySelector('.booking-error');
+        if (!errEl) {
+          errEl = document.createElement('p');
+          errEl.className = 'booking-error';
+          confirmPanel.querySelector('.confirm-form').appendChild(errEl);
+        }
+        errEl.textContent = err.message || 'Something went wrong. Please try again.';
+      }
+    });
+
+    backBtn.addEventListener('click', () => {
+      timesPanel.style.display = 'none';
+      confirmPanel.style.display = 'none';
+      calWidget.style.display = 'block';
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentMonth === today.getMonth() && currentYear === today.getFullYear()) return;
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
+    });
+
+    renderCalendar();
+  })();
+  </script>
+</body>
+</html>

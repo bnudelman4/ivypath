@@ -27,32 +27,47 @@ module.exports = async (req, res) => {
     if (ampm === 'PM' && hours !== 12) hours += 12;
     if (ampm === 'AM' && hours === 12) hours = 0;
 
-    // Build ISO datetime strings in ET
+    // Build start/end datetime strings
     const startDT = `${date}T${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:00`;
-    const endDate = new Date(`${startDT}-05:00`); // approximate ET offset for parsing
-    endDate.setMinutes(endDate.getMinutes() + 15);
-    const endHours = endDate.getHours();
-    const endMins = endDate.getMinutes();
+
+    // Calculate end time (15 minutes later)
+    let endHours = hours;
+    let endMins = mins + 15;
+    if (endMins >= 60) {
+      endMins -= 60;
+      endHours += 1;
+    }
     const endDT = `${date}T${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}:00`;
 
     // --- Create Zoom meeting ---
     let zoomLink = '';
     try {
-      zoomLink = await createZoomMeeting(name, startDT, date);
+      zoomLink = await createZoomMeeting(name, startDT);
     } catch (zoomErr) {
       console.error('Zoom API error:', zoomErr.message);
-      // Continue without Zoom link — still create the calendar event
       zoomLink = 'Zoom link will be sent separately';
     }
 
     // --- Create Google Calendar event ---
-    const serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+      return res.status(500).json({ error: 'Google Calendar not configured. Please contact support.' });
+    }
+
+    let serviceAccountKey;
+    try {
+      serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+    } catch (parseErr) {
+      console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_KEY:', parseErr.message);
+      return res.status(500).json({ error: 'Google Calendar configuration error.' });
+    }
+
     const auth = new google.auth.GoogleAuth({
       credentials: serviceAccountKey,
       scopes: ['https://www.googleapis.com/auth/calendar'],
     });
 
-    const calendar = google.calendar({ version: 'v3', auth });
+    const authClient = await auth.getClient();
+    const calendar = google.calendar({ version: 'v3', auth: authClient });
 
     const event = {
       summary: 'IvyPath Academy - Free Consultation',
@@ -77,19 +92,27 @@ module.exports = async (req, res) => {
           { method: 'popup', minutes: 10 },
         ],
       },
-      conferenceData: zoomLink.startsWith('http') ? undefined : undefined,
     };
 
     const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
 
-    await calendar.events.insert({
-      calendarId,
-      resource: event,
-      sendUpdates: 'all', // sends email invites to attendees
-    });
+    try {
+      await calendar.events.insert({
+        calendarId,
+        resource: event,
+        sendUpdates: 'all',
+      });
+    } catch (calErr) {
+      console.error('Google Calendar insert error:', calErr.message, calErr.response?.data);
+      return res.status(500).json({
+        error: 'Failed to create calendar event. Please ensure the calendar is shared with the service account.',
+        detail: calErr.message,
+      });
+    }
 
     // Format date for response
-    const dateObj = new Date(`${date}T12:00:00`);
+    const [year, month, day] = date.split('-').map(Number);
+    const dateObj = new Date(year, month - 1, day);
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const formattedDate = `${dayNames[dateObj.getDay()]}, ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
@@ -102,13 +125,13 @@ module.exports = async (req, res) => {
       zoomLink: zoomLink,
     });
   } catch (err) {
-    console.error('Booking error:', err.message);
-    res.status(500).json({ error: 'Failed to create booking. Please try again.' });
+    console.error('Booking error:', err.message, err.stack);
+    res.status(500).json({ error: 'Failed to create booking: ' + err.message });
   }
 };
 
 // --- Zoom Server-to-Server OAuth ---
-async function createZoomMeeting(name, startDT, dateStr) {
+async function createZoomMeeting(name, startDT) {
   const accountId = process.env.ZOOM_ACCOUNT_ID;
   const clientId = process.env.ZOOM_CLIENT_ID;
   const clientSecret = process.env.ZOOM_CLIENT_SECRET;
@@ -144,8 +167,8 @@ async function createZoomMeeting(name, startDT, dateStr) {
     },
     body: JSON.stringify({
       topic: `IvyPath Academy - Consultation with ${name}`,
-      type: 2, // scheduled meeting
-      start_time: `${startDT}`,
+      type: 2,
+      start_time: startDT,
       duration: 15,
       timezone: 'America/New_York',
       settings: {

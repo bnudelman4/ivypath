@@ -331,6 +331,7 @@
   justify-content: center;
   gap: 4px;
   cursor: pointer;
+  padding: 0;
 }
 
 .pill-nav-container.scrolled .pill-mobile-btn {
@@ -474,4 +475,141 @@
 
 .pill-nav-container.start-scrolled .pill-mobile-btn .hamburger-line {
   background: #1B4D3E;
+}
+
+/* ---- Additional Mobile Fixes ---- */
+@media (max-width: 900px) {
+  /* Ensure mobile buttons are visible */
+  .pill-mobile-btn {
+    display: flex !important;
+  }
+
+  .pill-mobile-only.pill-cart-btn {
+    display: flex !important;
+  }
+
+  /* Nav items container - hide on mobile */
+  .pill-nav-items.pill-desktop-only {
+    display: none !important;
+  }
+
+  .pill-nav-right.pill-desktop-only {
+    display: none !important;
+  }
+
+  /* Mobile menu full width */
+  .pill-mobile-menu {
+    top: 60px;
+    left: 12px;
+    right: 12px;
+  }
+
+  /* Logo sizing on mobile */
+  .pill-logo img {
+    height: 28px;
+  }
+
+  /* Hero text adjustments */
+  .geo-title-line1,
+  .geo-title-line2 {
+    font-size: clamp(1.8rem, 8vw, 3.5rem) !important;
+  }
+
+  .geo-hero-subtitle {
+    font-size: 0.95rem !important;
+    padding: 0 16px;
+  }
+
+  .geo-hero-ctas {
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 0 24px;
+  }
+
+  /* Page hero mobile */
+  .page-hero-title {
+    font-size: clamp(1.6rem, 6vw, 2.5rem);
+  }
+
+  /* Sticky cards on mobile */
+  .sticky-card {
+    padding: 28px 20px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .sticky-card-title {
+    font-size: 1.3rem !important;
+  }
+
+  .sticky-card-bullets {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Pricing table mobile */
+  .pricing-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Score bars mobile */
+  .score-bar-group {
+    padding: 16px 0;
+  }
+
+  /* Package cards mobile */
+  .packages-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 16px;
+  }
+
+  /* Footer mobile */
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+
+  /* Subjects mobile */
+  .subject-pills {
+    justify-content: center;
+  }
+
+  /* Comparison table mobile */
+  .comparison-table {
+    font-size: 0.85rem;
+  }
+
+  .comparison-table td,
+  .comparison-table th {
+    padding: 12px 8px;
+  }
+
+  /* Team grid mobile */
+  .team-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* FAQ mobile */
+  .faq-item {
+    padding: 16px !important;
+  }
+
+  /* Testimonials mobile - show only 1 column */
+  .testimonial-col-2,
+  .testimonial-col-3 {
+    display: none !important;
+  }
+
+  /* Marquee mobile */
+  .marquee-track {
+    gap: 24px;
+  }
+
+  .marquee-track img {
+    height: 32px !important;
+  }
+
+  /* Video section mobile */
+  .video-container {
+    padding: 0 16px;
+  }
 }

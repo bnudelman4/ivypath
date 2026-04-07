@@ -132,6 +132,9 @@
     // Mark container for CSS theming
     if (hasDarkHero) {
       container.classList.add('dark-hero');
+    } else {
+      // Non-dark-hero pages: start with dark text immediately
+      container.classList.add('start-scrolled');
     }
 
     let lastScrollY = 0;

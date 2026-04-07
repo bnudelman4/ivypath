@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
+  <link rel="stylesheet" href="scroll-stack.css">
 </head>
 <body>
   <!-- Old navbar (hidden by pill-nav.css) -->
@@ -94,68 +95,94 @@
     </div>
   </section>
 
-  <!-- Section 2: Timeline -->
-  <section class="page-section-alt">
-    <div class="container">
-      <div class="timeline">
+  <!-- Section 2: Sticky Scroll Cards -->
+  <section class="scroll-stack-section page-section-alt">
+    <div class="scroll-stack-inner">
 
-        <div class="timeline-step reveal">
-          <div class="timeline-number">01</div>
-          <div class="timeline-card">
-            <h3>诊断评估</h3>
-            <p>我们首先进行全面诊断，全面评估您在每个考试板块的当前能力。这不是一般的分班测试——而是深度分析，用于识别特定知识缺口、时间管理问题和应试策略薄弱点。</p>
-            <ul class="timeline-bullets">
-              <li>全程监考模拟考试</li>
-              <li>逐板块错误分析</li>
-              <li>认知模式评估</li>
-              <li>个性化分数预测模型</li>
-            </ul>
+      <div class="scroll-stack-card">
+        <div class="card-content">
+          <div class="step-number">01</div>
+          <h3>诊断评估</h3>
+          <p>我们首先进行全面诊断，全面评估您在每个考试板块的当前能力。这不是一般的分班测试——而是深度分析，用于识别特定知识缺口、时间管理问题和应试策略薄弱点。</p>
+          <ul class="step-features">
+            <li>全程监督的模拟考试</li>
+            <li>逐模块错误分析</li>
+            <li>认知模式评估</li>
+            <li>个性化分数预测模型</li>
+          </ul>
+        </div>
+        <div class="card-visual">
+          <div class="step-visual">
+            <div class="step-visual-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
           </div>
         </div>
-
-        <div class="timeline-step reveal">
-          <div class="timeline-number">02</div>
-          <div class="timeline-card">
-            <h3>个性化课程设计</h3>
-            <p>根据您的诊断数据，我们为您量身定制课程。每一节课、每一套练习题、每一项策略都根据您的具体需求和目标分数进行校准。</p>
-            <ul class="timeline-bullets">
-              <li>AI辅助差距分析</li>
-              <li>技能优先级排序</li>
-              <li>自适应难度调整</li>
-              <li>每周里程碑规划</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="timeline-step reveal">
-          <div class="timeline-number">03</div>
-          <div class="timeline-card">
-            <h3>精英一对一辅导</h3>
-            <p>与匹配您学习风格的第99百分位导师直接合作。课程融合知识掌握与应试策略，同时培养知识能力与应试信心。</p>
-            <ul class="timeline-bullets">
-              <li>每周2-3次课程</li>
-              <li>实时策略指导</li>
-              <li>作业与专项练习</li>
-              <li>进度追踪仪表板</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="timeline-step reveal">
-          <div class="timeline-number">04</div>
-          <div class="timeline-card">
-            <h3>持续优化</h3>
-            <p>您的课程随您的成长而进化。我们每周监测进度，调整重点领域、策略和节奏，确保您始终走在通往目标分数的最快路径上。</p>
-            <ul class="timeline-bullets">
-              <li>每周进度报告</li>
-              <li>分数轨迹分析</li>
-              <li>策略精细调整</li>
-              <li>家长/学生定期沟通</li>
-            </ul>
-          </div>
-        </div>
-
       </div>
+
+      <div class="scroll-stack-card">
+        <div class="card-content">
+          <div class="step-number">02</div>
+          <h3>个性化课程设计</h3>
+          <p>根据您的诊断数据，我们为您量身定制课程。每一节课、每一套练习题、每一项策略都根据您的具体需求和目标分数进行校准。</p>
+          <ul class="step-features">
+            <li>AI辅助的知识缺口分析</li>
+            <li>逐项技能优先排序</li>
+            <li>自适应难度调整</li>
+            <li>每周学习里程碑规划</li>
+          </ul>
+        </div>
+        <div class="card-visual">
+          <div class="step-visual">
+            <div class="step-visual-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-stack-card">
+        <div class="card-content">
+          <div class="step-number">03</div>
+          <h3>精英一对一辅导</h3>
+          <p>与匹配您学习风格的第99百分位导师直接合作。课程融合知识掌握与应试策略，同时培养知识能力与应试信心。</p>
+          <ul class="step-features">
+            <li>每周2-3次课程</li>
+            <li>实时策略指导</li>
+            <li>作业与专项练习</li>
+            <li>进度跟踪面板</li>
+          </ul>
+        </div>
+        <div class="card-visual">
+          <div class="step-visual">
+            <div class="step-visual-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-stack-card">
+        <div class="card-content">
+          <div class="step-number">04</div>
+          <h3>持续优化</h3>
+          <p>您的课程随您的成长而进化。我们每周监测进度，调整重点领域、策略和节奏，确保您始终走在通往目标分数的最快路径上。</p>
+          <ul class="step-features">
+            <li>每周进度报告</li>
+            <li>成绩轨迹分析</li>
+            <li>策略调整优化</li>
+            <li>家长/学生沟通反馈</li>
+          </ul>
+        </div>
+        <div class="card-visual">
+          <div class="step-visual">
+            <div class="step-visual-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -363,7 +390,6 @@
 
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="script.js?v=3"></script>
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>

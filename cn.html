@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
+  <link rel="stylesheet" href="session-toggle.css">
 </head>
 <body>
   <!-- Old navbar (hidden by pill-nav.css) -->
@@ -171,8 +172,15 @@
         <span class="section-tag">服务套餐</span>
         <h2 class="section-title">我们提供的服务</h2>
       </div>
+      <div class="session-toggle-wrapper">
+        <div class="session-toggle">
+          <button class="session-toggle-btn active" data-mode="online">线上</button>
+          <button class="session-toggle-btn" data-mode="in-person">面授</button>
+        </div>
+        <span class="session-mode-label">在线价格</span>
+      </div>
       <div class="packages-grid">
-        <div class="package-card reveal">
+        <div class="package-card reveal" data-base-rate="45" data-hours="40" data-base-total="1800" data-base-original="2400">
           <h3 class="package-name">SAT小组课程</h3>
           <p class="package-desc">常春藤导师带领的SAT小组备考课程。与同伴一起学习，获得专业指导和策略训练。</p>
           <div class="package-pricing">
@@ -194,7 +202,7 @@
           </div>
         </div>
 
-        <div class="package-card package-card-featured reveal">
+        <div class="package-card package-card-featured reveal" data-base-rate="60" data-hours="50" data-base-total="2999.99" data-base-original="3750">
           <h3 class="package-name">精英套餐</h3>
           <p class="package-desc">50课时灵活使用，可用于学科辅导或考试备考。</p>
           <div class="package-pricing">
@@ -382,6 +390,7 @@
   <script src="script.js?v=3"></script>
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
+  <script src="session-toggle.js"></script>
   <script src="cart.js?v=3"></script>
 </body>
 </html>

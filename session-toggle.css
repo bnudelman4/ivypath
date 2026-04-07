@@ -1,0 +1,59 @@
+/* Session Mode Toggle: Online / In-Person */
+.session-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-alt, #f5f5f0);
+  border: 1px solid var(--border, #e5e5e0);
+  border-radius: 9999px;
+  padding: 3px;
+  gap: 2px;
+  margin: 0 auto 24px;
+}
+
+.session-toggle-btn {
+  padding: 8px 20px;
+  border: none;
+  background: transparent;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light, #666);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.session-toggle-btn.active {
+  background: var(--primary, #1B4D3E);
+  color: white;
+  box-shadow: 0 2px 8px rgba(27, 77, 62, 0.2);
+}
+
+.session-toggle-btn:not(.active):hover {
+  color: var(--primary, #1B4D3E);
+  background: rgba(27, 77, 62, 0.06);
+}
+
+.session-mode-label {
+  display: block;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-lighter, #999);
+  margin-top: -16px;
+  margin-bottom: 16px;
+}
+
+/* Toggle wrapper for centering */
+.session-toggle-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .session-toggle-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+}

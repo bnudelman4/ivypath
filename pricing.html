@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
+  <link rel="stylesheet" href="session-toggle.css">
   <link rel="stylesheet" href="scroll-effects.css">
 </head>
 <body>
@@ -146,6 +147,13 @@
   <!-- Pricing Tabs & Table -->
   <section class="pricing page-section" id="pricing">
     <div class="container">
+      <div class="session-toggle-wrapper">
+        <div class="session-toggle">
+          <button class="session-toggle-btn active" data-mode="online">Online</button>
+          <button class="session-toggle-btn" data-mode="in-person">In-Person</button>
+        </div>
+        <span class="session-mode-label">Online pricing</span>
+      </div>
       <div class="pricing-tabs reveal">
         <button class="pricing-tab active" data-tab="test-prep">Test Prep</button>
         <button class="pricing-tab" data-tab="academic">Academic Sessions</button>
@@ -162,18 +170,18 @@
             </tr>
           </thead>
           <tbody data-tab="test-prep" class="active">
-            <tr><td>10 hours</td><td>$75/hr</td><td class="total">$750</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 10 hours" data-price="750">Add to Cart</button></td></tr>
-            <tr><td>20 hours</td><td>$72/hr</td><td class="total">$1,440</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 20 hours" data-price="1440">Add to Cart</button></td></tr>
-            <tr><td>30 hours</td><td>$68/hr</td><td class="total">$2,040</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 30 hours" data-price="2040">Add to Cart</button></td></tr>
-            <tr><td>40 hours</td><td>$65/hr</td><td class="total">$2,600</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 40 hours" data-price="2600">Add to Cart</button></td></tr>
-            <tr><td>50 hours <span class="best-value">Best Value</span></td><td>$60/hr</td><td class="total">$3,000</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 50 hours" data-price="3000">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="75" data-hours="10"><td>10 hours</td><td class="pricing-rate">$75/hr</td><td class="total pricing-total">$750</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 10 hours" data-price="750">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="72" data-hours="20"><td>20 hours</td><td class="pricing-rate">$72/hr</td><td class="total pricing-total">$1,440</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 20 hours" data-price="1440">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="68" data-hours="30"><td>30 hours</td><td class="pricing-rate">$68/hr</td><td class="total pricing-total">$2,040</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 30 hours" data-price="2040">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="65" data-hours="40"><td>40 hours</td><td class="pricing-rate">$65/hr</td><td class="total pricing-total">$2,600</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 40 hours" data-price="2600">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="60" data-hours="50"><td>50 hours <span class="best-value">Best Value</span></td><td class="pricing-rate">$60/hr</td><td class="total pricing-total">$3,000</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Test Prep - 50 hours" data-price="3000">Add to Cart</button></td></tr>
           </tbody>
           <tbody data-tab="academic">
-            <tr><td>10 hours</td><td>$75/hr</td><td class="total">$750</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 10 hours" data-price="750">Add to Cart</button></td></tr>
-            <tr><td>20 hours</td><td>$72/hr</td><td class="total">$1,440</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 20 hours" data-price="1440">Add to Cart</button></td></tr>
-            <tr><td>30 hours</td><td>$68/hr</td><td class="total">$2,040</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 30 hours" data-price="2040">Add to Cart</button></td></tr>
-            <tr><td>40 hours</td><td>$65/hr</td><td class="total">$2,600</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 40 hours" data-price="2600">Add to Cart</button></td></tr>
-            <tr><td>50 hours <span class="best-value">Best Value</span></td><td>$60/hr</td><td class="total">$3,000</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 50 hours" data-price="3000">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="75" data-hours="10"><td>10 hours</td><td class="pricing-rate">$75/hr</td><td class="total pricing-total">$750</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 10 hours" data-price="750">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="72" data-hours="20"><td>20 hours</td><td class="pricing-rate">$72/hr</td><td class="total pricing-total">$1,440</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 20 hours" data-price="1440">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="68" data-hours="30"><td>30 hours</td><td class="pricing-rate">$68/hr</td><td class="total pricing-total">$2,040</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 30 hours" data-price="2040">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="65" data-hours="40"><td>40 hours</td><td class="pricing-rate">$65/hr</td><td class="total pricing-total">$2,600</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 40 hours" data-price="2600">Add to Cart</button></td></tr>
+            <tr class="pricing-row" data-base-rate="60" data-hours="50"><td>50 hours <span class="best-value">Best Value</span></td><td class="pricing-rate">$60/hr</td><td class="total pricing-total">$3,000</td><td><button class="btn-add-to-cart add-to-cart-btn" data-name="Academic - 50 hours" data-price="3000">Add to Cart</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -281,6 +289,7 @@
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
   <script src="scroll-effects.js"></script>
+  <script src="session-toggle.js"></script>
   <script src="cart.js?v=3"></script>
 </body>
 </html>

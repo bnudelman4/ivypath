@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
+  <link rel="stylesheet" href="session-toggle.css">
   <link rel="stylesheet" href="geo-hero.css">
 </head>
 <body>
@@ -177,8 +178,15 @@
         <span class="section-tag">Our Packages</span>
         <h2 class="section-title">What We Offer</h2>
       </div>
+      <div class="session-toggle-wrapper">
+        <div class="session-toggle">
+          <button class="session-toggle-btn active" data-mode="online">Online</button>
+          <button class="session-toggle-btn" data-mode="in-person">In-Person</button>
+        </div>
+        <span class="session-mode-label">Online pricing</span>
+      </div>
       <div class="packages-grid">
-        <div class="package-card reveal">
+        <div class="package-card reveal" data-base-rate="45" data-hours="40" data-base-total="1800" data-base-original="2400">
           <h3 class="package-name">SAT Group Sessions</h3>
           <p class="package-desc">Small group SAT prep sessions with Ivy League tutors. Learn alongside peers while receiving expert instruction and strategy.</p>
           <div class="package-pricing">
@@ -200,7 +208,7 @@
           </div>
         </div>
 
-        <div class="package-card package-card-featured reveal">
+        <div class="package-card package-card-featured reveal" data-base-rate="60" data-hours="50" data-base-total="2999.99" data-base-original="3750">
           <h3 class="package-name">Elite Package</h3>
           <p class="package-desc">Granted 50 hours, hours can be used for either academic tutoring or test prep.</p>
           <div class="package-pricing">
@@ -324,6 +332,7 @@
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
   <script src="geo-hero.js"></script>
+  <script src="session-toggle.js"></script>
   <script src="cart.js?v=3"></script>
 </body>
 </html>

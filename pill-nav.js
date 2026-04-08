@@ -127,7 +127,7 @@
     if (!container) return;
 
     // Determine if this is a dark hero page (dark bg behind nav)
-    const hasDarkHero = !!document.querySelector('.geo-hero, .hero-campus, .about-hero, .book-hero');
+    const hasDarkHero = !!document.querySelector('.geo-hero, .hero-campus');
 
     // Mark container for CSS theming
     if (hasDarkHero) {

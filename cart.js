@@ -20,6 +20,21 @@
     updateCartBadge();
   });
 
+  // Fix: Reset checkout button when user navigates back (bfcache)
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      const btn = document.getElementById('cartCheckoutBtn');
+      if (btn) {
+        btn.textContent = 'Proceed to Checkout';
+        btn.disabled = false;
+      }
+      // Re-sync cart from localStorage (may have been cleared)
+      cart = JSON.parse(localStorage.getItem('ivypath_cart') || '[]');
+      renderCart();
+      updateCartBadge();
+    }
+  });
+
   // --- Inject Cart Icon + Drawer into DOM ---
   function injectCartUI() {
     // Bind existing cart toggle buttons (pill nav puts them in HTML)

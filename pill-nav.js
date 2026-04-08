@@ -133,8 +133,9 @@
     if (hasDarkHero) {
       container.classList.add('dark-hero');
     } else {
-      // Non-dark-hero pages: start with dark text immediately
+      // Non-dark-hero pages: always show scrolled state (frosted bg + dark text)
       container.classList.add('start-scrolled');
+      container.classList.add('scrolled');
     }
 
     let lastScrollY = 0;
@@ -146,10 +147,13 @@
           const scrollY = window.scrollY;
 
           // Add scrolled class for frosted background after scrolling
-          if (scrollY > 50) {
-            container.classList.add('scrolled');
-          } else {
-            container.classList.remove('scrolled');
+          // On non-dark-hero pages, never remove scrolled (always visible)
+          if (hasDarkHero) {
+            if (scrollY > 50) {
+              container.classList.add('scrolled');
+            } else {
+              container.classList.remove('scrolled');
+            }
           }
 
           // Hide on scroll down, show on scroll up

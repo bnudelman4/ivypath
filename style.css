@@ -1021,12 +1021,13 @@ ul {
 }
 
 .package-surcharge {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-lighter);
   text-align: center;
-  margin-top: 12px;
-  margin-bottom: 0;
+  margin-top: auto;
+  margin-bottom: 16px;
   font-style: italic;
+  padding-top: 12px;
 }
 
 .package-actions {

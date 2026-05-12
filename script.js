@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pricingTabs = document.querySelectorAll('.pricing-tab');
   const pricingBodies = document.querySelectorAll('.pricing-table tbody');
   const tableWrapper = document.querySelector('.pricing-table-wrapper');
-  const consultingCards = document.querySelector('.consulting-cards');
+  const allCardSections = document.querySelectorAll('.consulting-cards');
 
   pricingTabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -177,10 +177,18 @@ document.addEventListener('DOMContentLoaded', () => {
       pricingTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
 
-      const isConsulting = target === 'consulting';
-      tableWrapper.style.display = isConsulting ? 'none' : '';
-      consultingCards.classList.toggle('active', isConsulting);
-      if (!isConsulting) {
+      const isTable = (target === 'test-prep' || target === 'academic');
+
+      // Show/hide table
+      if (tableWrapper) tableWrapper.style.display = isTable ? '' : 'none';
+
+      // Show/hide card sections (group, consulting)
+      allCardSections.forEach(section => {
+        section.classList.toggle('active', section.dataset.tab === target);
+      });
+
+      // Switch table tbody
+      if (isTable) {
         pricingBodies.forEach(body => {
           body.classList.toggle('active', body.dataset.tab === target);
         });

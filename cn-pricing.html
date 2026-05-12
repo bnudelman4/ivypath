@@ -155,11 +155,48 @@
         <span class="session-mode-label">在线价格</span>
       </div>
       <div class="pricing-tabs reveal">
-        <button class="pricing-tab active" data-tab="test-prep">备考辅导</button>
-        <button class="pricing-tab" data-tab="academic">学科辅导</button>
-        <button class="pricing-tab" data-tab="consulting">大学申请咨询</button>
+        <button class="pricing-tab active" data-tab="group">团体备考</button>
+        <button class="pricing-tab" data-tab="test-prep">一对一备考</button>
+        <button class="pricing-tab" data-tab="academic">一对一学科</button>
+        <button class="pricing-tab" data-tab="consulting">升学咨询</button>
       </div>
-      <div class="pricing-table-wrapper reveal" data-tab="test-prep">
+      <!-- Group Test Prep -->
+      <div class="consulting-cards reveal active" data-tab="group">
+        <p style="text-align: center; color: var(--text-lighter); font-size: 0.8rem; margin-bottom: 24px; font-style: italic;">价格为Zelle/ACH支付价。信用卡/借记卡支付加收3%手续费。</p>
+        <div class="consulting-grid">
+          <div class="consulting-card consulting-card-gold">
+            <span class="consulting-badge consulting-badge-gold">SAT &amp; SHSAT</span>
+            <h3 class="consulting-name">线上团体</h3>
+            <span class="consulting-price">$2,250</span>
+            <ul class="consulting-features">
+              <li>50小时团体教学</li>
+              <li>常春藤及Top 20导师</li>
+              <li>SAT团体：3-10人</li>
+              <li>SHSAT团体：3-15人</li>
+              <li>固定每周课表</li>
+              <li>成绩提升保障</li>
+              <li>练习题及材料包含</li>
+            </ul>
+            <button class="consulting-btn consulting-btn-gold add-to-cart-btn" data-name="Group Test Prep - Online (50 hours)" data-price="2250">加入购物车</button>
+          </div>
+          <div class="consulting-card consulting-card-green">
+            <span class="consulting-badge consulting-badge-green">纽约面授</span>
+            <h3 class="consulting-name">面授团体</h3>
+            <span class="consulting-price">$3,250</span>
+            <ul class="consulting-features">
+              <li>50小时团体教学</li>
+              <li>常春藤及Top 20导师</li>
+              <li>SAT及SHSAT：3-5人</li>
+              <li>小班制，深度关注</li>
+              <li>固定每周课表</li>
+              <li>成绩提升保障</li>
+              <li>练习题及材料包含</li>
+            </ul>
+            <button class="consulting-btn consulting-btn-green add-to-cart-btn" data-name="Group Test Prep - In-Person (50 hours)" data-price="3250">加入购物车</button>
+          </div>
+        </div>
+      </div>
+      <div class="pricing-table-wrapper reveal" data-tab="test-prep" style="display: none;">
         <table class="pricing-table" id="pricingTable">
           <thead>
             <tr>

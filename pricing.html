@@ -159,6 +159,7 @@
         <button class="pricing-tab" data-tab="academic">Academic Sessions</button>
         <button class="pricing-tab" data-tab="consulting">College Consultation</button>
       </div>
+      <p style="text-align: center; color: var(--text-lighter); font-size: 0.8rem; margin-bottom: 16px; font-style: italic;">Prices shown for Zelle/ACH. +3% surcharge for credit/debit card payments.</p>
       <div class="pricing-table-wrapper reveal" data-tab="test-prep">
         <table class="pricing-table" id="pricingTable">
           <thead>
@@ -185,35 +186,108 @@
           </tbody>
         </table>
       </div>
-      <div class="consulting-cards reveal" data-tab="consulting">
-        <div class="consulting-grid">
-          <div class="consulting-card consulting-card-gold">
-            <span class="consulting-badge consulting-badge-gold">Most Comprehensive</span>
-            <h3 class="consulting-name">Full Package</h3>
-            <span class="consulting-price">$5,000</span>
+      <div class="consulting-cards reveal" data-tab="consulting" id="consulting">
+        <p style="text-align: center; color: var(--text-lighter); font-size: 0.8rem; margin-bottom: 24px; font-style: italic;">Prices shown for Zelle/ACH. +3% surcharge for credit/debit card payments.</p>
+
+        <!-- Foundation Track -->
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary-dark); margin-bottom: 8px; text-align: center;">Foundation Track <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-light);">(Grades 9 &amp; 10)</span></h3>
+        <p style="text-align: center; color: var(--text-light); font-size: 0.9rem; margin-bottom: 24px;">Yearlong strategic engagement building the resume, experiences, and writing portfolio for competitive applications. Renewable annually.</p>
+        <div class="consulting-grid consulting-grid-3">
+          <div class="consulting-card">
+            <span class="consulting-badge consulting-badge-green">Entry Tier</span>
+            <h3 class="consulting-name">Essential</h3>
+            <span class="consulting-price">$3,500<small>/year</small></span>
             <ul class="consulting-features">
-              <li>Unlimited writing sessions</li>
-              <li>24/7 Tutor Support</li>
-              <li>Early Decision &amp; Regular Decision guidance</li>
-              <li>Complete college portfolio optimization</li>
-              <li>Financial aid maximization</li>
-              <li>College interview preparation</li>
-              <li>Each session includes: 1 Personal Statement OR 2 Short Supplements</li>
+              <li>1 Discovery &amp; Strategy meeting</li>
+              <li>Multi-year roadmap document</li>
+              <li>8 strategy/coaching sessions per year</li>
+              <li>6 writing sessions per year</li>
+              <li>2 mock interview sessions</li>
+              <li>Annual review meeting</li>
+              <li>Email/WeChat response within 48 hours</li>
             </ul>
-            <button class="consulting-btn consulting-btn-gold add-to-cart-btn" data-name="College Consulting - Full Package" data-price="5000">Add to Cart</button>
+            <button class="consulting-btn consulting-btn-green add-to-cart-btn" data-name="Foundation Track - Essential" data-price="3500">Add to Cart</button>
           </div>
-          <div class="consulting-card consulting-card-green">
-            <span class="consulting-badge consulting-badge-green">Best Value</span>
-            <h3 class="consulting-name">Cram Package</h3>
-            <span class="consulting-price">$2,000</span>
+          <div class="consulting-card consulting-card-gold">
+            <span class="consulting-badge consulting-badge-gold">Flagship</span>
+            <h3 class="consulting-name">Comprehensive</h3>
+            <span class="consulting-price">$6,000<small>/year</small></span>
             <ul class="consulting-features">
-              <li>10 writing sessions</li>
-              <li>Early Decision guidance</li>
-              <li>Complete college portfolio optimization</li>
-              <li>Financial aid maximization</li>
-              <li>College interview preparation</li>
+              <li>Everything in Essential, plus:</li>
+              <li>14 strategy/coaching sessions</li>
+              <li>12 writing sessions</li>
+              <li>4 mock interview sessions</li>
+              <li>Personal project guidance</li>
+              <li>Mid-year strategic review</li>
+              <li>Email/WeChat response within 24 hours</li>
             </ul>
-            <button class="consulting-btn consulting-btn-green add-to-cart-btn" data-name="College Consulting - Cram Package" data-price="2000">Add to Cart</button>
+            <button class="consulting-btn consulting-btn-gold add-to-cart-btn" data-name="Foundation Track - Comprehensive" data-price="6000">Add to Cart</button>
+          </div>
+          <div class="consulting-card consulting-card-dark">
+            <span class="consulting-badge" style="background: #1B4D3E; color: white;">Premium</span>
+            <h3 class="consulting-name">Concierge</h3>
+            <span class="consulting-price">$10,500<small>/year</small></span>
+            <ul class="consulting-features">
+              <li>Everything in Comprehensive, plus:</li>
+              <li>Unlimited strategy sessions</li>
+              <li>Unlimited writing sessions</li>
+              <li>Unlimited mock interviews</li>
+              <li>Direct WeChat/text, weekend availability</li>
+              <li>Two consultants assigned</li>
+              <li>Quarterly family advisory meetings</li>
+            </ul>
+            <button class="consulting-btn add-to-cart-btn" style="background: #1B4D3E; color: white; border-color: #1B4D3E;" data-name="Foundation Track - Concierge" data-price="10500">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Application Track -->
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary-dark); margin: 48px 0 8px; text-align: center;">Application Track <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-light);">(Grades 11 &amp; 12)</span></h3>
+        <p style="text-align: center; color: var(--text-light); font-size: 0.9rem; margin-bottom: 24px;">Up to 18 months covering the full application cycle from junior year strategy through senior year decisions.</p>
+        <div class="consulting-grid consulting-grid-3">
+          <div class="consulting-card">
+            <span class="consulting-badge consulting-badge-green">Entry Tier</span>
+            <h3 class="consulting-name">Essential</h3>
+            <span class="consulting-price">$5,500</span>
+            <ul class="consulting-features">
+              <li>College list strategy meeting</li>
+              <li>12 strategy/coaching sessions</li>
+              <li>18 writing sessions</li>
+              <li>3 mock interview sessions</li>
+              <li>Application review &amp; submission management</li>
+              <li>FAFSA/CSS Profile guidance (2 sessions)</li>
+              <li>Email response within 36 hours</li>
+            </ul>
+            <button class="consulting-btn consulting-btn-green add-to-cart-btn" data-name="Application Track - Essential" data-price="5500">Add to Cart</button>
+          </div>
+          <div class="consulting-card consulting-card-gold">
+            <span class="consulting-badge consulting-badge-gold">Flagship</span>
+            <h3 class="consulting-name">Comprehensive</h3>
+            <span class="consulting-price">$8,500</span>
+            <ul class="consulting-features">
+              <li>Everything in Essential, plus:</li>
+              <li>20 strategy/coaching sessions</li>
+              <li>30 writing sessions</li>
+              <li>5 mock interview sessions</li>
+              <li>Recommendation letter strategy</li>
+              <li>Waitlist management &amp; financial aid appeals</li>
+              <li>Email/WeChat response within 24 hours</li>
+            </ul>
+            <button class="consulting-btn consulting-btn-gold add-to-cart-btn" data-name="Application Track - Comprehensive" data-price="8500">Add to Cart</button>
+          </div>
+          <div class="consulting-card consulting-card-dark">
+            <span class="consulting-badge" style="background: #1B4D3E; color: white;">Premium</span>
+            <h3 class="consulting-name">Concierge</h3>
+            <span class="consulting-price">$14,500</span>
+            <ul class="consulting-features">
+              <li>Everything in Comprehensive, plus:</li>
+              <li>Unlimited strategy sessions</li>
+              <li>Unlimited writing sessions</li>
+              <li>Unlimited mock interviews</li>
+              <li>Direct WeChat/text, weekend availability</li>
+              <li>Two consultants assigned</li>
+              <li>Emergency deadline support &amp; decision negotiation</li>
+            </ul>
+            <button class="consulting-btn add-to-cart-btn" style="background: #1B4D3E; color: white; border-color: #1B4D3E;" data-name="Application Track - Concierge" data-price="14500">Add to Cart</button>
           </div>
         </div>
       </div>
@@ -270,7 +344,7 @@
         <div class="footer-links">
           <h4>Contact</h4>
           <ul>
-            <li><a href="mailto:ivypathacademy@gmail.com">ivypathacademy@gmail.com</a></li>
+            <li><a href="mailto:info@ivypathacademy.com">info@ivypathacademy.com</a></li>
             <li><a href="tel:+19293940349">(929) 394-0349</a></li>
             <li><span>New York, NY</span></li>
           </ul>

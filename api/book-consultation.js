@@ -83,7 +83,7 @@ module.exports = async (req, res) => {
       },
       attendees: [
         { email: email },
-        { email: 'ivypathacademy@gmail.com' },
+        { email: 'info@ivypathacademy.com' },
       ],
       reminders: {
         useDefault: false,

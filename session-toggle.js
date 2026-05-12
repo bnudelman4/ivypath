@@ -9,12 +9,8 @@
 
   const IN_PERSON_PREMIUM = 20; // $/hr extra for in-person
 
-  // Fixed in-person prices for consulting packages
-  const CONSULTING_IN_PERSON = {
-    'College Consulting - Full Package': 7500,
-    'College Consulting - Cram Package': 3000,
-    'Dream School Package': 7500,
-  };
+  // Consulting packages are flat-fee (no in-person premium applies)
+  // In-person premium only applies to 1-on-1 hourly tutoring
 
   document.addEventListener('DOMContentLoaded', () => {
     const toggles = document.querySelectorAll('.session-toggle');
@@ -64,26 +60,6 @@
       }
     });
 
-    // --- Consulting cards (fixed in-person prices) ---
-    document.querySelectorAll('.consulting-card').forEach(card => {
-      const priceEl = card.querySelector('.consulting-price');
-      const cartBtn = card.querySelector('.add-to-cart-btn');
-      if (!cartBtn || !priceEl) return;
-
-      const baseName = cartBtn.dataset.baseName || cartBtn.dataset.name;
-      cartBtn.dataset.baseName = baseName;
-
-      const basePrice = parseFloat(card.dataset.basePrice || cartBtn.dataset.price);
-      if (!card.dataset.basePrice) card.dataset.basePrice = basePrice;
-
-      const inPersonPrice = CONSULTING_IN_PERSON[baseName];
-      const price = isInPerson && inPersonPrice ? inPersonPrice : parseFloat(card.dataset.basePrice);
-
-      priceEl.textContent = '$' + price.toLocaleString();
-      cartBtn.dataset.price = price;
-      cartBtn.dataset.name = baseName + (isInPerson ? ' (In-Person)' : ' (Online)');
-    });
-
     // --- Homepage package cards (hourly) ---
     document.querySelectorAll('.package-card[data-base-rate]').forEach(card => {
       const baseRate = parseFloat(card.dataset.baseRate);
@@ -113,26 +89,6 @@
         cartBtn.dataset.baseName = baseName;
         cartBtn.dataset.name = baseName + (isInPerson ? ' (In-Person)' : ' (Online)');
       }
-    });
-
-    // --- Homepage consulting package card (Dream School) ---
-    document.querySelectorAll('.package-card:not([data-base-rate])').forEach(card => {
-      const cartBtn = card.querySelector('.add-to-cart-btn');
-      const priceEl = card.querySelector('.package-price');
-      if (!cartBtn || !priceEl) return;
-
-      const baseName = cartBtn.dataset.baseName || cartBtn.dataset.name;
-      cartBtn.dataset.baseName = baseName;
-
-      const basePrice = parseFloat(card.dataset.baseConsultingPrice || cartBtn.dataset.price);
-      if (!card.dataset.baseConsultingPrice) card.dataset.baseConsultingPrice = basePrice;
-
-      const inPersonPrice = CONSULTING_IN_PERSON[baseName];
-      const price = isInPerson && inPersonPrice ? inPersonPrice : parseFloat(card.dataset.baseConsultingPrice);
-
-      priceEl.textContent = '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      cartBtn.dataset.price = price;
-      cartBtn.dataset.name = baseName + (isInPerson ? ' (In-Person)' : ' (Online)');
     });
 
     // --- Mode label ---

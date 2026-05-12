@@ -1020,6 +1020,15 @@ ul {
   font-size: 0.95rem;
 }
 
+.package-surcharge {
+  font-size: 0.75rem;
+  color: var(--text-lighter);
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
 .package-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2784,6 +2793,10 @@ ul {
 .consulting-btn-gold:hover { background: #b8953e; }
 .consulting-btn-green { background: var(--primary); }
 .consulting-btn-green:hover { background: var(--primary-light); }
+.consulting-grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 1100px; }
+.consulting-card-dark { border-color: #1B4D3E; background: #f8faf9; }
+.consulting-price small { font-size: 0.45em; font-weight: 400; color: var(--text-light); }
+@media (max-width: 900px) { .consulting-grid-3 { grid-template-columns: 1fr; max-width: 440px; } }
 @media (max-width: 768px) { .consulting-grid { grid-template-columns: 1fr; max-width: 440px; } .consulting-card { padding: 40px 28px 32px; } }
 
 /* ===== Inner Page Styles ===== */

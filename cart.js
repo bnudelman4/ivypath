@@ -318,7 +318,7 @@
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      alert('There was a problem starting checkout. Please try again or contact us at ivypathacademy@gmail.com');
+      alert('There was a problem starting checkout. Please try again or contact us at info@ivypathacademy.com');
       btn.textContent = 'Proceed to Checkout';
       btn.disabled = false;
     }

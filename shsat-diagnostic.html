@@ -79,20 +79,22 @@
     .hero-video-wrap {
       max-width: 720px;
       margin: 0 auto 40px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
 
     .hero-video-wrap video {
       width: 100%;
-      border: 1px solid rgba(197, 165, 114, 0.25);
-      border-radius: 0;
       display: block;
       background: var(--ink);
+      aspect-ratio: 16/9;
+      object-fit: cover;
     }
 
     .hero-video-fallback {
       display: none;
       width: 100%;
-      border: 1px solid rgba(197, 165, 114, 0.25);
       position: relative;
     }
 

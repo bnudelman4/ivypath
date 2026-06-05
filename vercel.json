@@ -8,12 +8,5 @@
       "maxDuration": 10
     }
   },
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.ivypathacademy.com" }],
-      "destination": "https://ivypathacademy.com/$1",
-      "permanent": true
-    }
-  ]
+  "redirects": []
 }

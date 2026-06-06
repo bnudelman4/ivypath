@@ -1,7 +1,9 @@
 .vercel
 .env.local
 .env
-.claude/ 
+.claude/
+node_modules/
+.DS_Store
 assets/HermesTutoringFinal.mp4
 assets/ivypath-sat-vsl.mov
 assets/ivypath-shsat-vsl.mov

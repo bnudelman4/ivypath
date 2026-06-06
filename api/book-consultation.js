@@ -1,4 +1,5 @@
 const { google } = require('googleapis');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = async (req, res) => {
   // CORS
@@ -17,7 +18,6 @@ module.exports = async (req, res) => {
     }
 
     // --- Parse date and time ---
-    // date = "2026-04-14", time = "5:30 PM"
     const timeParts = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
     if (!timeParts) return res.status(400).json({ error: 'Invalid time format' });
 
@@ -27,10 +27,8 @@ module.exports = async (req, res) => {
     if (ampm === 'PM' && hours !== 12) hours += 12;
     if (ampm === 'AM' && hours === 12) hours = 0;
 
-    // Build start/end datetime strings
     const startDT = `${date}T${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:00`;
 
-    // Calculate end time (15 minutes later)
     let endHours = hours;
     let endMins = mins + 15;
     if (endMins >= 60) {
@@ -39,16 +37,7 @@ module.exports = async (req, res) => {
     }
     const endDT = `${date}T${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}:00`;
 
-    // --- Create Zoom meeting ---
-    let zoomLink = '';
-    try {
-      zoomLink = await createZoomMeeting(name, startDT);
-    } catch (zoomErr) {
-      console.error('Zoom API error:', zoomErr.message);
-      zoomLink = 'Zoom link will be sent separately';
-    }
-
-    // --- Create Google Calendar event ---
+    // --- Google Calendar with domain-wide delegation ---
     if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
       return res.status(500).json({ error: 'Google Calendar not configured. Please contact support.' });
     }
@@ -61,18 +50,23 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'Google Calendar configuration error.' });
     }
 
-    const auth = new google.auth.GoogleAuth({
-      credentials: serviceAccountKey,
-      scopes: ['https://www.googleapis.com/auth/calendar'],
+    // Impersonate info@ivypathacademy.com via domain-wide delegation
+    const subject = process.env.GOOGLE_CALENDAR_SUBJECT || 'info@ivypathacademy.com';
+    const auth = new google.auth.JWT({
+      email: serviceAccountKey.client_email,
+      key: serviceAccountKey.private_key,
+      scopes: [
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/calendar.events',
+      ],
+      subject: subject,
     });
 
-    const authClient = await auth.getClient();
-    const calendar = google.calendar({ version: 'v3', auth: authClient });
+    const calendar = google.calendar({ version: 'v3', auth });
 
     const event = {
-      summary: 'IvyPath Academy - Free Consultation',
-      description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\n\nZoom Link: ${zoomLink}`,
-      location: zoomLink,
+      summary: `IvyPath Academy - Free Consultation`,
+      description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}`,
       start: {
         dateTime: startDT,
         timeZone: 'America/New_York',
@@ -83,8 +77,13 @@ module.exports = async (req, res) => {
       },
       attendees: [
         { email: email },
-        { email: 'info@ivypathacademy.com' },
       ],
+      conferenceData: {
+        createRequest: {
+          requestId: uuidv4(),
+          conferenceSolutionKey: { type: 'hangoutsMeet' },
+        },
+      },
       reminders: {
         useDefault: false,
         overrides: [
@@ -94,21 +93,24 @@ module.exports = async (req, res) => {
       },
     };
 
-    const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
-
+    let createdEvent;
     try {
-      await calendar.events.insert({
-        calendarId,
+      const result = await calendar.events.insert({
+        calendarId: 'primary',
         resource: event,
+        conferenceDataVersion: 1,
         sendUpdates: 'all',
       });
+      createdEvent = result.data;
     } catch (calErr) {
       console.error('Google Calendar insert error:', calErr.message, calErr.response?.data);
       return res.status(500).json({
-        error: 'Failed to create calendar event. Please ensure the calendar is shared with the service account.',
+        error: 'Failed to create calendar event.',
         detail: calErr.message,
       });
     }
+
+    const meetLink = createdEvent.hangoutLink || '';
 
     // Format date for response
     const [year, month, day] = date.split('-').map(Number);
@@ -122,68 +124,11 @@ module.exports = async (req, res) => {
       date: formattedDate,
       time: time,
       email: email,
-      zoomLink: zoomLink,
+      meetLink: meetLink,
+      eventLink: createdEvent.htmlLink || '',
     });
   } catch (err) {
     console.error('Booking error:', err.message, err.stack);
     res.status(500).json({ error: 'Failed to create booking: ' + err.message });
   }
 };
-
-// --- Zoom Server-to-Server OAuth ---
-async function createZoomMeeting(name, startDT) {
-  const accountId = process.env.ZOOM_ACCOUNT_ID;
-  const clientId = process.env.ZOOM_CLIENT_ID;
-  const clientSecret = process.env.ZOOM_CLIENT_SECRET;
-
-  if (!accountId || !clientId || !clientSecret) {
-    throw new Error('Zoom credentials not configured');
-  }
-
-  // Get access token
-  const tokenRes = await fetch('https://zoom.us/oauth/token', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `grant_type=account_credentials&account_id=${accountId}`,
-  });
-
-  if (!tokenRes.ok) {
-    const errText = await tokenRes.text();
-    throw new Error(`Zoom token error: ${errText}`);
-  }
-
-  const tokenData = await tokenRes.json();
-  const accessToken = tokenData.access_token;
-
-  // Create meeting
-  const meetingRes = await fetch('https://api.zoom.us/v2/users/me/meetings', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      topic: `IvyPath Academy - Consultation with ${name}`,
-      type: 2,
-      start_time: startDT,
-      duration: 15,
-      timezone: 'America/New_York',
-      settings: {
-        join_before_host: true,
-        waiting_room: false,
-        auto_recording: 'none',
-      },
-    }),
-  });
-
-  if (!meetingRes.ok) {
-    const errText = await meetingRes.text();
-    throw new Error(`Zoom meeting error: ${errText}`);
-  }
-
-  const meetingData = await meetingRes.json();
-  return meetingData.join_url;
-}

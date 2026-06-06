@@ -1,0 +1,28 @@
+{
+  "name": "ivypath",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cart.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bnudelman4/ivypath.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bnudelman4/ivypath/issues"
+  },
+  "homepage": "https://github.com/bnudelman4/ivypath#readme",
+  "dependencies": {
+    "googleapis": "^173.0.0",
+    "uuid": "^14.0.0"
+  }
+}

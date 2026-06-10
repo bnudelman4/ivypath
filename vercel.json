@@ -11,6 +11,7 @@
   "redirects": [],
   "rewrites": [
     { "source": "/sat", "destination": "/sat-diagnostic.html" },
-    { "source": "/shsat", "destination": "/shsat-diagnostic.html" }
+    { "source": "/shsat", "destination": "/shsat-diagnostic.html" },
+    { "source": "/thank-you", "destination": "/thank-you.html" }
   ]
 }

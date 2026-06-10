@@ -492,34 +492,13 @@
           throw new Error(data.error || 'Booking failed');
         }
 
-        // Show success confirmation screen
-        confirmPanel.innerHTML =
-          '<div class="booking-success">' +
-            '<div class="booking-success-icon">' +
-              '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>' +
-            '</div>' +
-            '<h3 class="booking-success-title">You\'re All Set!</h3>' +
-            '<p class="booking-success-subtitle">Your consultation is scheduled for:</p>' +
-            '<div class="booking-success-card">' +
-              '<div class="booking-success-row">' +
-                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-                '<strong>' + data.date + '</strong>' +
-              '</div>' +
-              '<div class="booking-success-row">' +
-                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-                '<strong>' + data.time + ' EST</strong>' +
-              '</div>' +
-            '</div>' +
-            '<p class="booking-success-email">A confirmation email with Zoom link has been sent to:<br><strong>' + data.email + '</strong></p>' +
-            '<div class="booking-success-next">' +
-              '<h4>What\'s Next?</h4>' +
-              '<ul>' +
-                '<li>Check your email for the calendar invite and Zoom link</li>' +
-                '<li>Prepare any questions about your academic goals</li>' +
-                '<li>Join the Zoom meeting at your scheduled time</li>' +
-              '</ul>' +
-            '</div>' +
-          '</div>';
+        // Redirect to thank-you page with booking details
+        var tyParams = new URLSearchParams({
+          date: data.date || '',
+          time: data.time || '',
+          email: data.email || ''
+        });
+        window.location.href = 'thank-you.html?' + tyParams.toString();
       } catch (err) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Confirm Booking';

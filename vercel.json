@@ -8,5 +8,9 @@
       "maxDuration": 10
     }
   },
-  "redirects": []
+  "redirects": [],
+  "rewrites": [
+    { "source": "/sat", "destination": "/sat-diagnostic.html" },
+    { "source": "/shsat", "destination": "/shsat-diagnostic.html" }
+  ]
 }

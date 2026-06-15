@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IvyPath Academy | Premium SAT, SHSAT, AP Tutoring in NYC</title>
   <meta name="description" content="Premium SAT, SHSAT, AP tutoring and college admissions consulting from Ivy League student tutors in New York City.">
+
+  <!-- Open Graph / social share -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IvyPath Academy">
+  <meta property="og:title" content="NYC SAT &amp; SHSAT Prep That Actually Raises Scores | IvyPath Academy">
+  <meta property="og:description" content="One-on-one SAT &amp; SHSAT prep in NYC from 99th-percentile Ivy League tutors. +320-point average SAT increase, 500+ families, 4.9/5 rating.">
+  <meta property="og:url" content="https://ivypathacademy.com/">
+  <meta property="og:image" content="https://ivypathacademy.com/assets/hero-campus.jpg">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NYC SAT &amp; SHSAT Prep That Actually Raises Scores | IvyPath Academy">
+  <meta name="twitter:description" content="One-on-one SAT &amp; SHSAT prep in NYC from 99th-percentile Ivy League tutors. +320-point average SAT increase, 500+ families, 4.9/5 rating.">
+  <meta name="twitter:image" content="https://ivypathacademy.com/assets/hero-campus.jpg">
   <link rel="canonical" href="https://ivypathacademy.com/">
   <script type="application/ld+json">
 {
@@ -52,6 +65,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- IvyPath tracking + sticky CTA -->
+<script src="tracking.js" defer></script>
+<script src="sticky-cta.js" defer></script>
 </head>
 <body>
   <!-- Old navbar (hidden by pill-nav.css) -->
@@ -141,14 +157,29 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <span>IvyPath Academy</span>
       </div>
       <h1 class="geo-hero-title">
-        <span class="geo-title-line1">The smartest investment</span>
-        <span class="geo-title-line2">in your child's <span class="highlight">future.</span></span>
+        <span class="geo-title-line1">NYC SAT &amp; SHSAT prep</span>
+        <span class="geo-title-line2">that actually <span class="highlight">raises scores.</span></span>
       </h1>
-      <p class="geo-hero-subtitle">Expert SAT, SHSAT, and AP tutoring from Ivy League mentors who scored in the 99th percentile. Every dollar you invest today compounds into opportunities that last a lifetime.</p>
+      <p class="geo-hero-subtitle">One-on-one and small-group SAT &amp; SHSAT tutoring from Ivy League mentors who scored in the 99th percentile. A clear plan, a real score guarantee, and measurable gains.</p>
       <div class="geo-hero-ctas">
-        <a href="book.html" class="btn btn-white">Book Free Consultation</a>
-        <a href="#services" class="btn btn-ghost">Explore Services</a>
+        <a href="book.html" class="btn btn-green">Book Free Consultation</a>
+        <a href="sat-diagnostic.html" class="btn btn-ghost">Take the Free SAT/SHSAT Diagnostic</a>
       </div>
+      <!-- Above-the-fold proof strip (figures sourced from results/method/book pages) -->
+      <ul class="geo-hero-proof" aria-label="Results at a glance">
+        <li class="geo-proof-item">
+          <span class="geo-proof-num">+320</span>
+          <span class="geo-proof-label">avg. SAT point increase</span>
+        </li>
+        <li class="geo-proof-item">
+          <span class="geo-proof-num">500+</span>
+          <span class="geo-proof-label">NYC families helped</span>
+        </li>
+        <li class="geo-proof-item">
+          <span class="geo-proof-num">4.9/5</span>
+          <span class="geo-proof-label">average parent rating</span>
+        </li>
+      </ul>
     </div>
 
     <!-- Bottom fade -->
@@ -165,7 +196,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       </div>
       <!-- Video: place your intro video at assets/intro-video.mp4 -->
       <div class="video-container reveal" style="max-width: 800px; margin: 40px auto 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
-        <video controls style="width: 100%; display: block; aspect-ratio: 16/9; background: #000;">
+        <video controls playsinline preload="metadata" poster="assets/video-poster-placeholder.jpg" style="width: 100%; display: block; aspect-ratio: 16/9; background: #000;">
           <source src="assets/0428.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -362,11 +393,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="script.js?v=3"></script>
+  <script defer src="script.js?v=3"></script>
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
   <script src="geo-hero.js"></script>
-  <script src="session-toggle.js"></script>
-  <script src="cart.js?v=3"></script>
+  <script defer src="session-toggle.js"></script>
+  <script defer src="cart.js?v=3"></script>
 </body>
 </html>

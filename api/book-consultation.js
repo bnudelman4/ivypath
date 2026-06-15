@@ -10,11 +10,43 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  try {
-    const { name, email, date, time } = req.body;
+  // Build a date label once so every response (success OR calendar-failure) is consistent.
+  const formatDateLabel = (dateStr) => {
+    const parts = String(dateStr).split('-').map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) return dateStr;
+    const [year, month, day] = parts;
+    const dateObj = new Date(year, month - 1, day);
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${dayNames[dateObj.getDay()]}, ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+  };
 
-    if (!name || !email || !date || !time) {
-      return res.status(400).json({ error: 'Missing required fields: name, email, date, time' });
+  try {
+    const body = req.body || {};
+    const name = typeof body.name === 'string' ? body.name.trim() : '';
+    const email = typeof body.email === 'string' ? body.email.trim() : '';
+    const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
+    const date = typeof body.date === 'string' ? body.date.trim() : '';
+    const time = typeof body.time === 'string' ? body.time.trim() : '';
+
+    // --- Validate inputs ---
+    if (!name || !email || !phone || !date || !time) {
+      return res.status(400).json({ error: 'Missing required fields: name, email, phone, date, time' });
+    }
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+
+    const phoneDigits = (phone.match(/\d/g) || []).length;
+    if (phoneDigits < 7) {
+      return res.status(400).json({ error: 'Invalid phone number' });
+    }
+
+    const dateOk = /^\d{4}-\d{2}-\d{2}$/.test(date);
+    if (!dateOk) {
+      return res.status(400).json({ error: 'Invalid date format' });
     }
 
     // --- Parse date and time ---
@@ -37,97 +69,100 @@ module.exports = async (req, res) => {
     }
     const endDT = `${date}T${String(endHours).padStart(2, '0')}:${String(endMins).padStart(2, '0')}:00`;
 
-    // --- Google Calendar with domain-wide delegation ---
-    if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
-      return res.status(500).json({ error: 'Google Calendar not configured. Please contact support.' });
-    }
+    const formattedDate = formatDateLabel(date);
 
-    let serviceAccountKey;
+    // A real lead has arrived. From here on we NEVER 500 just because the
+    // calendar write fails — we acknowledge the lead and flag calendar status.
+    let calendarOk = false;
+    let meetLink = '';
+    let eventLink = '';
+
     try {
-      serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-    } catch (parseErr) {
-      console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_KEY:', parseErr.message);
-      return res.status(500).json({ error: 'Google Calendar configuration error.' });
-    }
+      if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+        throw new Error('GOOGLE_SERVICE_ACCOUNT_KEY is not configured');
+      }
 
-    // Impersonate info@ivypathacademy.com via domain-wide delegation
-    const subject = process.env.GOOGLE_CALENDAR_SUBJECT || 'info@ivypathacademy.com';
-    const auth = new google.auth.JWT({
-      email: serviceAccountKey.client_email,
-      key: serviceAccountKey.private_key,
-      scopes: [
-        'https://www.googleapis.com/auth/calendar',
-        'https://www.googleapis.com/auth/calendar.events',
-      ],
-      subject: subject,
-    });
+      const serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
 
-    const calendar = google.calendar({ version: 'v3', auth });
-
-    const event = {
-      summary: `IvyPath Academy - Free Consultation`,
-      description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}`,
-      start: {
-        dateTime: startDT,
-        timeZone: 'America/New_York',
-      },
-      end: {
-        dateTime: endDT,
-        timeZone: 'America/New_York',
-      },
-      attendees: [
-        { email: email },
-      ],
-      conferenceData: {
-        createRequest: {
-          requestId: uuidv4(),
-          conferenceSolutionKey: { type: 'hangoutsMeet' },
-        },
-      },
-      reminders: {
-        useDefault: false,
-        overrides: [
-          { method: 'email', minutes: 30 },
-          { method: 'popup', minutes: 10 },
+      // Impersonate info@ivypathacademy.com via domain-wide delegation
+      const subject = process.env.GOOGLE_CALENDAR_SUBJECT || 'info@ivypathacademy.com';
+      const auth = new google.auth.JWT({
+        email: serviceAccountKey.client_email,
+        key: serviceAccountKey.private_key,
+        scopes: [
+          'https://www.googleapis.com/auth/calendar',
+          'https://www.googleapis.com/auth/calendar.events',
         ],
-      },
-    };
+        subject: subject,
+      });
 
-    let createdEvent;
-    try {
+      const calendar = google.calendar({ version: 'v3', auth });
+
+      const event = {
+        summary: `IvyPath Academy - Free Consultation`,
+        description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
+        start: {
+          dateTime: startDT,
+          timeZone: 'America/New_York',
+        },
+        end: {
+          dateTime: endDT,
+          timeZone: 'America/New_York',
+        },
+        attendees: [
+          { email: email },
+        ],
+        conferenceData: {
+          createRequest: {
+            requestId: uuidv4(),
+            conferenceSolutionKey: { type: 'hangoutsMeet' },
+          },
+        },
+        reminders: {
+          useDefault: false,
+          overrides: [
+            { method: 'email', minutes: 30 },
+            { method: 'popup', minutes: 10 },
+          ],
+        },
+      };
+
       const result = await calendar.events.insert({
         calendarId: 'primary',
         resource: event,
         conferenceDataVersion: 1,
         sendUpdates: 'all',
       });
-      createdEvent = result.data;
+
+      const createdEvent = result.data || {};
+      meetLink = createdEvent.hangoutLink || '';
+      eventLink = createdEvent.htmlLink || '';
+      calendarOk = true;
     } catch (calErr) {
-      console.error('Google Calendar insert error:', calErr.message, calErr.response?.data);
-      return res.status(500).json({
-        error: 'Failed to create calendar event.',
-        detail: calErr.message,
-      });
+      // Calendar failed (missing key, parse error, API error, etc.).
+      // Log it for follow-up, but DO NOT lose the lead — return success.
+      console.error(
+        'Calendar write failed (lead preserved):',
+        calErr && calErr.message,
+        calErr && calErr.response && calErr.response.data
+      );
+      calendarOk = false;
     }
 
-    const meetLink = createdEvent.hangoutLink || '';
-
-    // Format date for response
-    const [year, month, day] = date.split('-').map(Number);
-    const dateObj = new Date(year, month - 1, day);
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const formattedDate = `${dayNames[dateObj.getDay()]}, ${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
-
-    res.json({
+    // Always acknowledge the lead with 200 so the client never sees a failure.
+    return res.status(200).json({
+      ok: true,
+      calendar: calendarOk,
+      // Legacy fields kept for the existing client redirect + thank-you.html.
       success: true,
       date: formattedDate,
       time: time,
       email: email,
       meetLink: meetLink,
-      eventLink: createdEvent.htmlLink || '',
+      eventLink: eventLink,
     });
   } catch (err) {
+    // Unexpected error BEFORE we could capture a usable lead.
     console.error('Booking error:', err.message, err.stack);
     res.status(500).json({ error: 'Failed to create booking: ' + err.message });
   }

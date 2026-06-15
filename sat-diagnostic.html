@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free SAT Diagnostic | IvyPath Academy</title>
   <meta name="description" content="Free SAT diagnostic scored against competitive college thresholds. Built by tutors who scored 99th percentile. See where your teen actually stands.">
+  <link rel="canonical" href="https://ivypathacademy.com/sat-diagnostic.html">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ivypathacademy.com/sat-diagnostic.html">
+  <meta property="og:title" content="Free SAT Diagnostic | IvyPath Academy">
+  <meta property="og:description" content="Free SAT diagnostic scored against competitive college thresholds. Built by tutors who scored 99th percentile. See where your teen actually stands.">
+  <meta property="og:image" content="https://ivypathacademy.com/assets/ivypath-sat-vsl-poster.jpg">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://ivypathacademy.com/sat-diagnostic.html">
+  <meta name="twitter:title" content="Free SAT Diagnostic | IvyPath Academy">
+  <meta name="twitter:description" content="Free SAT diagnostic scored against competitive college thresholds. Built by tutors who scored 99th percentile. See where your teen actually stands.">
+  <meta name="twitter:image" content="https://ivypathacademy.com/assets/ivypath-sat-vsl-poster.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -168,6 +181,39 @@
     }
 
     .btn-primary:hover { background: var(--sage-deep); }
+
+    /* Secondary CTA — ghost variant of .btn-primary, same tokens/sizing */
+    .btn-secondary {
+      display: inline-block;
+      font-family: var(--body);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--sage-deep);
+      background: transparent;
+      padding: 14px 32px;
+      border: 1px solid var(--sage);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-align: center;
+    }
+
+    .btn-secondary:hover { background: var(--sage); color: var(--white); }
+
+    /* Pair the two CTAs with consistent spacing */
+    .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .cta-stack .btn-primary, .cta-stack .btn-secondary { margin-bottom: 0; }
+
+    /* Small inline funnel links near the foot of the page */
+    .funnel-links {
+      margin-top: 14px;
+      font-family: var(--body);
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .funnel-links a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
+    .funnel-links a:hover { color: var(--sage); }
+    .funnel-links .sep { margin: 0 10px; opacity: 0.4; }
 
     .reassurance {
       margin-top: 16px;
@@ -676,6 +722,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- IvyPath tracking + sticky CTA -->
+<script src="tracking.js" defer></script>
+<script src="sticky-cta.js" defer></script>
 </head>
 <body>
 
@@ -710,7 +759,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <p class="hero-sub fade-in delay-2">Free SAT diagnostic. Scored against competitive college thresholds. Built by tutors who scored 99th percentile themselves.</p>
 
-      <a href="https://app.ivypathacademy.com/diagnostic-sat" class="btn-primary fade-in delay-2">Start the free diagnostic</a>
+      <div class="cta-stack fade-in delay-2">
+        <a href="https://app.ivypathacademy.com/diagnostic-sat" class="btn-primary">Start the free diagnostic</a>
+        <a href="book.html" class="btn-secondary">Not ready to test? Book a free 15-min consultation instead &rarr;</a>
+      </div>
 
       <p class="reassurance fade-in delay-3">Takes a few minutes to start<span class="dot">&middot;</span>No commitment<span class="dot">&middot;</span>Real diagnostic, real cutoffs</p>
     </div>
@@ -894,10 +946,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <h2 class="fade-in">See where your teen actually stands.</h2>
       <p class="fade-in delay-1">Book the free SAT diagnostic. A few minutes to start, and you'll finally have a real number to work from.</p>
-      <a href="https://app.ivypathacademy.com/diagnostic-sat" class="btn-primary fade-in delay-2">Start the free diagnostic</a>
+      <div class="cta-stack fade-in delay-2">
+        <a href="https://app.ivypathacademy.com/diagnostic-sat" class="btn-primary">Start the free diagnostic</a>
+        <a href="book.html" class="btn-secondary">Not ready to test? Book a free 15-min consultation instead &rarr;</a>
+      </div>
       <div class="final-phone fade-in delay-3">
         Or call <a href="tel:+19293940349">(929) 394-0349</a>
       </div>
+      <p class="funnel-links fade-in delay-3">
+        <a href="pricing.html">See pricing &amp; packages</a><span class="sep">&middot;</span><a href="method.html">How our method works</a>
+      </p>
     </div>
   </section>
 

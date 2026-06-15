@@ -493,6 +493,75 @@
   text-align: center;
 }
 
+/* Lead-First Contact Step */
+.calendar-contact {
+  padding: 24px 28px 28px;
+}
+
+.calendar-step-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-lighter);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 18px;
+}
+
+.contact-form .form-group:last-of-type {
+  margin-bottom: 12px;
+}
+
+.form-hint {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.contact-error {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 4px 0 12px;
+}
+
+.contact-reassure {
+  font-size: 0.78rem;
+  color: var(--text-lighter);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+/* Contact recap shown on the confirm step */
+.confirm-contact-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.confirm-contact-summary span {
+  font-size: 0.88rem;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.confirm-contact-summary span:first-child {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+/* "Change time" secondary action under the confirm button */
+.confirm-change-time {
+  margin: 16px auto 0;
+  justify-content: center;
+}
+
 /* Booking Success / Confirmation Screen */
 .booking-success {
   padding: 36px 28px;

@@ -28,6 +28,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- IvyPath tracking + sticky CTA -->
+<script src="tracking.js" defer></script>
+<script src="sticky-cta.js" defer></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -151,5 +154,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
   <script src="cart.js?v=3"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var sid = new URLSearchParams(location.search).get("session_id");
+      function fire(v, c, t) { if (window.ivypathTrackPurchase) window.ivypathTrackPurchase({ value: v, currency: c, transaction_id: t }); }
+      if (!sid) { fire(); return; }
+      fetch("/api/checkout-session?session_id=" + encodeURIComponent(sid))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d && typeof d.amount_total === "number") fire(d.amount_total / 100, d.currency, d.transaction_id); else fire(); })
+        .catch(function () { fire(); });
+    });
+  </script>
 </body>
 </html>

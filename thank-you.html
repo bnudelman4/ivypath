@@ -28,6 +28,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- IvyPath tracking + sticky CTA -->
+<script src="tracking.js" defer></script>
+<script src="sticky-cta.js" defer></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -198,6 +201,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     if (!date && !time && !email) {
       document.getElementById('bookingDetails').style.display = 'none';
     }
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.ivypathTrackBooking) window.ivypathTrackBooking({ source: "thank_you" });
+    });
   </script>
 </body>
 </html>

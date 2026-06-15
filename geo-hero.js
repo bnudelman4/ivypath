@@ -6,7 +6,17 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    if (!document.querySelector('.geo-hero')) return;
+    const heroEl = document.querySelector('.geo-hero');
+    if (!heroEl) return;
+
+    const prefersReducedMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Opt in to the JS-driven entrance: this adds the hidden start-state via CSS.
+    // Without JS (or with reduced motion) the hero content stays visible.
+    if (!prefersReducedMotion) {
+      heroEl.classList.add('js-anim');
+    }
 
     // --- Animate shapes in ---
     const shapes = document.querySelectorAll('.geo-shape');
@@ -40,18 +50,23 @@
     const title2 = document.querySelector('.geo-title-line2');
     const subtitle = document.querySelector('.geo-hero-subtitle');
     const ctas = document.querySelector('.geo-hero-ctas');
+    const proof = document.querySelector('.geo-hero-proof');
 
-    const content = [title1, title2, subtitle, ctas].filter(Boolean);
+    const content = [title1, title2, subtitle, ctas, proof].filter(Boolean);
 
-    content.forEach((el, i) => {
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        delay: 0.5 + i * 0.2,
-        ease: 'power2.out',
+    // Only run the entrance tween when motion is allowed. With reduced motion
+    // the CSS leaves these visible (no .js-anim hidden state), so we skip it.
+    if (!prefersReducedMotion) {
+      content.forEach((el, i) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: 0.5 + i * 0.2,
+          ease: 'power2.out',
+        });
       });
-    });
+    }
 
     // --- Parallax scrolling ---
     if (typeof ScrollTrigger !== 'undefined') {

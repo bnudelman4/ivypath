@@ -136,15 +136,11 @@
   font-weight: 400;
   font-size: 0.6em;
   margin-bottom: 8px;
-  opacity: 0;
-  transform: translateY(30px);
 }
 
 .geo-title-line2 {
   display: block;
   color: white;
-  opacity: 0;
-  transform: translateY(30px);
 }
 
 .geo-title-line2 .highlight {
@@ -159,8 +155,6 @@
   max-width: 600px;
   margin: 0 auto 32px;
   font-weight: 300;
-  opacity: 0;
-  transform: translateY(30px);
 }
 
 .geo-hero-ctas {
@@ -168,8 +162,6 @@
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(30px);
 }
 
 .geo-hero-ctas .btn-white {
@@ -230,4 +222,100 @@
   .geo-shape-2 { width: 250px; height: 70px; }
   .geo-shape-3 { width: 180px; height: 50px; }
   .geo-shape-4, .geo-shape-5 { display: none; }
+}
+
+/* ============================================
+   Conversion edits: no-JS-safe entrance, green CTA, proof strip
+   ============================================ */
+
+/* Hero text/CTAs are visible by DEFAULT (above) so they never disappear if
+   JS fails or is blocked. When geo-hero.js runs it adds .js-anim to .geo-hero,
+   which sets the hidden start-state so the GSAP entrance can animate in. */
+.geo-hero.js-anim .geo-title-line1,
+.geo-hero.js-anim .geo-title-line2,
+.geo-hero.js-anim .geo-hero-subtitle,
+.geo-hero.js-anim .geo-hero-ctas,
+.geo-hero.js-anim .geo-hero-proof {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Respect reduced-motion: keep everything visible, skip the entrance offset */
+@media (prefers-reduced-motion: reduce) {
+  .geo-hero.js-anim .geo-title-line1,
+  .geo-hero.js-anim .geo-title-line2,
+  .geo-hero.js-anim .geo-hero-subtitle,
+  .geo-hero.js-anim .geo-hero-ctas,
+  .geo-hero.js-anim .geo-hero-proof {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* High-contrast brand-green primary CTA (uses deep-green from the palette) */
+.geo-hero-ctas .btn-green {
+  background: var(--primary, #1B4D3E);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(27, 77, 62, 0.45);
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+}
+
+.geo-hero-ctas .btn-green:hover {
+  background: var(--primary-light, #2D7D5F);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(27, 77, 62, 0.55);
+}
+
+/* Above-the-fold proof strip */
+.geo-hero-proof {
+  list-style: none;
+  margin: 28px auto 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 28px;
+  max-width: 600px;
+}
+
+.geo-proof-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 96px;
+}
+
+.geo-proof-num {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1;
+  color: #C5A55A;
+}
+
+.geo-proof-label {
+  margin-top: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Mobile: keep proof strip tight and readable */
+@media (max-width: 480px) {
+  .geo-hero-proof {
+    gap: 10px 18px;
+  }
+  .geo-proof-item {
+    min-width: 84px;
+  }
+  .geo-proof-label {
+    font-size: 0.66rem;
+  }
 }

@@ -6,6 +6,19 @@
   <title>IvyPath Academy | Pricing</title>
   <meta name="description" content="View pricing for IvyPath Academy's SAT, SHSAT, AP tutoring and college admissions consulting packages.">
   <link rel="canonical" href="https://ivypathacademy.com/pricing.html">
+
+  <!-- Open Graph / social share -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ivypathacademy.com/pricing.html">
+  <meta property="og:title" content="IvyPath Academy | Pricing">
+  <meta property="og:description" content="Flexible SAT, SHSAT, AP tutoring and college admissions packages. Start with a free, no-pressure consultation to find the right plan for your student.">
+  <meta property="og:image" content="https://ivypathacademy.com/assets/hero-campus.jpg">
+  <meta property="og:site_name" content="IvyPath Academy">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IvyPath Academy | Pricing">
+  <meta name="twitter:description" content="Flexible SAT, SHSAT, AP tutoring and college admissions packages. Start with a free, no-pressure consultation to find the right plan for your student.">
+  <meta name="twitter:image" content="https://ivypathacademy.com/assets/hero-campus.jpg">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -27,6 +40,56 @@
   <link rel="stylesheet" href="pill-nav.css?v=14">
   <link rel="stylesheet" href="session-toggle.css">
   <link rel="stylesheet" href="scroll-effects.css">
+  <style>
+    /* Scoped styles for the top-of-page free-consultation CTA (cold-traffic first step). */
+    /* Mobile-first; reuses brand deep-green via .btn.btn-primary. No shared stylesheet edits. */
+    .consult-first {
+      margin: 0 auto 40px;
+      max-width: 760px;
+      background: #F2F7F4;
+      border: 1px solid rgba(27, 77, 62, 0.18);
+      border-radius: 20px;
+      padding: 28px 22px;
+      text-align: center;
+    }
+    .consult-first-eyebrow {
+      margin: 0 0 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #2D7D5F;
+    }
+    .consult-first-title {
+      margin: 0 0 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      line-height: 1.15;
+      color: #1B4D3E;
+    }
+    .consult-first-sub {
+      margin: 0 auto 22px;
+      max-width: 560px;
+      color: #4a4a4a;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+    .consult-first .consult-first-cta {
+      display: inline-flex;
+      width: 100%;
+      max-width: 360px;
+      font-size: 1.05rem;
+      padding: 16px 28px;
+    }
+    .consult-first-note {
+      margin: 14px 0 0;
+      font-size: 0.8rem;
+      color: #6b6b6b;
+    }
+    @media (min-width: 640px) {
+      .consult-first { padding: 36px 32px; }
+      .consult-first .consult-first-cta { width: auto; }
+    }
+  </style>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -44,6 +107,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- IvyPath tracking + sticky CTA -->
+<script src="tracking.js" defer></script>
+<script src="sticky-cta.js" defer></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -152,7 +218,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <li style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #444;"><span style="color: #C5A55A;">&#10003;</span> 1-on-1 sessions</li>
           <li style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #444;"><span style="color: #C5A55A;">&#10003;</span> Practice tests included</li>
           <li style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #444;"><span style="color: #C5A55A;">&#10003;</span> Weekly score tracking</li>
-          <li style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #444;"><span style="color: #C5A55A;">&#10003;</span> Score improvement guarantee</li>
+          <!-- TODO(owner): insert exact Score Improvement Guarantee terms (point threshold + remedy) -->
+          <li style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #444;"><span style="color: #C5A55A;">&#10003;</span> Score Improvement Guarantee &ndash; ask on your free consultation</li>
         </ul>
       </div>
       <div class="svg-stroke-card" style="top: 180px; background: white;">
@@ -181,6 +248,18 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- Pricing Tabs & Table -->
   <section class="pricing page-section" id="pricing">
     <div class="container">
+
+      <!-- Cold-traffic first step: low-commitment free consultation, offered before the paid packages -->
+      <div class="consult-first reveal">
+        <div class="consult-first-inner">
+          <p class="consult-first-eyebrow">NOT READY TO COMMIT?</p>
+          <h2 class="consult-first-title">Start with a free consultation</h2>
+          <p class="consult-first-sub">No pressure, no payment. Talk to an IvyPath advisor about your student's goals and we'll point you to the right plan &mdash; or just answer your questions. Browse the packages below whenever you're ready.</p>
+          <a href="book.html" class="btn btn-primary consult-first-cta">Start with a Free Consultation &rarr;</a>
+          <p class="consult-first-note">Free 1-on-1 call &middot; Ask about our Score Improvement Guarantee &middot; No card required</p>
+        </div>
+      </div>
+
       <div class="session-toggle-wrapper">
         <div class="session-toggle">
           <button class="session-toggle-btn active" data-mode="online">Online</button>
@@ -209,7 +288,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
               <li>SAT groups: 3-10 students</li>
               <li>SHSAT groups: 3-15 students</li>
               <li>Fixed weekly schedule</li>
-              <li>Score Improvement Guarantee</li>
+              <li>Score Improvement Guarantee &mdash; ask about it on your free consultation</li>
               <li>Practice tests &amp; materials included</li>
             </ul>
             <button class="consulting-btn consulting-btn-gold add-to-cart-btn" data-name="Group Test Prep - Online (50 hours)" data-price="2250">Add to Cart</button>
@@ -224,7 +303,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
               <li>SAT &amp; SHSAT: 3-5 students</li>
               <li>Small group, close attention</li>
               <li>Fixed weekly schedule</li>
-              <li>Score Improvement Guarantee</li>
+              <li>Score Improvement Guarantee &mdash; ask about it on your free consultation</li>
               <li>Practice tests &amp; materials included</li>
             </ul>
             <button class="consulting-btn consulting-btn-green add-to-cart-btn" data-name="Group Test Prep - In-Person (50 hours)" data-price="3250">Add to Cart</button>

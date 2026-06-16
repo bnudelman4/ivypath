@@ -727,6 +727,27 @@
       /* --- Brand logo in top bar --- */
     .wordmark img { height: 42px; width: auto; display: block; }
     @media (max-width: 640px) { .wordmark img { height: 36px; } }
+
+    /* --- Guarantee callout --- */
+    .guarantee-section { padding: 64px 0; border-top: 1px solid var(--line); }
+    .guarantee-card { background: var(--sage); border-radius: 16px; padding: 48px 40px; text-align: center; }
+    .guarantee-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(197,165,114,0.5); border-radius: 999px; padding: 6px 16px; margin-bottom: 20px; }
+    .guarantee-card h2 { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.25; color: var(--white); margin: 0 auto 16px; max-width: 640px; }
+    .guarantee-card p { font-family: var(--body); font-size: 16px; line-height: 1.65; color: rgba(253,248,240,0.9); max-width: 600px; margin: 0 auto; }
+    .guarantee-card .guarantee-fine { font-size: 13px; color: rgba(253,248,240,0.62); margin-top: 18px; }
+    @media (max-width: 640px){ .guarantee-card { padding: 36px 24px; } .guarantee-card h2 { font-size: 24px; } }
+
+    /* --- FAQ --- */
+    .faq-section { padding: 72px 0; border-top: 1px solid var(--line); }
+    .faq-list { max-width: 760px; margin: 40px auto 0; }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-item summary { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); padding: 22px 44px 22px 0; cursor: pointer; list-style: none; position: relative; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; position: absolute; right: 6px; top: 20px; font-family: var(--body); font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-deep); }
+    .faq-item[open] summary::after { content: '\2212'; }
+    .faq-item .faq-answer { font-family: var(--body); font-size: 15.5px; line-height: 1.7; color: var(--muted); padding: 0 44px 24px 0; }
+    .faq-item .faq-answer a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
+    @media (max-width: 640px){ .faq-item summary { font-size: 16px; padding-right: 36px; } .faq-item .faq-answer { padding-right: 0; } }
   </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -740,6 +761,7 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1550873539731081');
 fbq('track', 'PageView');
+fbq('track', 'ViewContent', {content_name: 'SAT Diagnostic Landing'});
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
@@ -760,6 +782,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- HERO -->
   <section class="hero">
     <div class="wrap">
+      <p class="eyebrow fade-in" style="text-align:center;margin-bottom:14px;">&#9654; Step 1 &middot; Watch this 2-minute video</p>
       <div class="hero-video-wrap fade-in">
         <video
           id="heroVideo"
@@ -778,16 +801,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <div class="eyebrow fade-in delay-1">FREE SAT DIAGNOSTIC &middot; NYC</div>
 
-      <h1 class="hero-headline fade-in delay-1">Most students don't actually know what's between them and a <span class="hl">1550+</span>. We'll show you.</h1>
+      <h1 class="hero-headline fade-in delay-1">Your teen's SAT score is going to go <span class="hl">up</span> &mdash; guaranteed. It starts with a free diagnostic.</h1>
 
-      <p class="hero-sub fade-in delay-2">Free SAT diagnostic. Scored against competitive college thresholds. Built by tutors who scored 99th percentile themselves.</p>
+      <p class="hero-sub fade-in delay-2">See exactly where they stand against their target schools, then get a personalized plan from 99th-percentile Ivy League &amp; Top&nbsp;20 tutors &mdash; backed by our money-back Score Improvement Guarantee.</p>
 
       <div class="cta-stack fade-in delay-2">
-        <a href="https://app.ivypathacademy.com/free-diagnostic-sat/" class="btn-primary">Start the free diagnostic</a>
-        <a href="book.html" class="btn-secondary">Not ready to test? Book a free 15-min consultation instead &rarr;</a>
+        <a href="https://app.ivypathacademy.com/free-diagnostic-sat/" class="btn-primary js-diagnostic-cta" data-exam="SAT">Start the free diagnostic &rarr;</a>
       </div>
 
-      <p class="reassurance fade-in delay-3">Takes a few minutes to start<span class="dot">&middot;</span>No commitment<span class="dot">&middot;</span>Real diagnostic, real cutoffs</p>
+      <p class="reassurance fade-in delay-3">Free &amp; takes ~20 minutes<span class="dot">&middot;</span>Real diagnostic, real college cutoffs<span class="dot">&middot;</span>A tutor reviews your results on a free call</p>
+      <p class="funnel-links fade-in delay-3" style="margin-top:10px;">Prefer to talk first? <a href="book.html">Book a free 15-min consultation &rarr;</a></p>
     </div>
   </section>
 
@@ -806,8 +829,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <div class="proof-grid">
         <div class="proof-item fade-in">
-          <h3>Tutors who scored 1550+</h3>
-          <p>Every IvyPath SAT tutor scored in the 99th percentile, at Ivy League and Top 20 universities.</p>
+          <h3>Tutors who scored in the 99th percentile</h3>
+          <p>Every IvyPath SAT tutor scored in the 99th percentile of the SAT and studies at an Ivy League or Top&nbsp;20 university.</p>
         </div>
         <div class="proof-item fade-in delay-1">
           <h3>Your teen's real number</h3>
@@ -923,7 +946,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             </div>
             <div class="email-body">
               <div class="email-to">To: parent@example.com</div>
-              <div class="email-subject">SAT Diagnostic Results</div>
+              <div class="email-subject">SAT Diagnostic Results <span style="font-weight:500;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px;vertical-align:middle;">sample</span></div>
               <div class="email-score-row">
                 <span class="label">Composite Score</span>
                 <span class="value">1380</span>
@@ -973,6 +996,62 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <!-- GUARANTEE -->
+  <section class="guarantee-section">
+    <div class="wrap">
+      <div class="guarantee-card fade-in">
+        <div class="guarantee-badge">Score Improvement Guarantee</div>
+        <h2>Raise your teen's official SAT score, or your money back.</h2>
+        <p>On eligible programs, if your teen&rsquo;s official SAT score doesn&rsquo;t improve by at least 50 points over their official baseline, you choose: a refund or additional tutoring at no charge until it does. Measured on real College Board scores &mdash; never internal practice tests.</p>
+        <p class="guarantee-fine">Eligible on 50-hour group and 40+ hour 1-on-1 programs. Requires 95% attendance, 90% homework completion, and an official baseline and retest. Full terms reviewed on your call.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA after guarantee -->
+  <section style="padding:8px 0 0;text-align:center;">
+    <div class="wrap">
+      <a href="https://app.ivypathacademy.com/free-diagnostic-sat/" class="btn-primary js-diagnostic-cta" data-exam="SAT">Start the free diagnostic &rarr;</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="wrap">
+      <h2 class="section-headline fade-in" style="margin-bottom:0;">Questions parents ask.</h2>
+      <div class="faq-list fade-in delay-1">
+        <details class="faq-item">
+          <summary>Is the diagnostic really free?</summary>
+          <div class="faq-answer">Yes &mdash; completely free, with no payment and no obligation. It's a real, calibrated SAT-level diagnostic. You'll get a clear breakdown of your teen's score against competitive college thresholds, reviewed with a real tutor.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How does the Score Improvement Guarantee work?</summary>
+          <div class="faq-answer">On eligible programs (50-hour group and 40+ hour 1-on-1), if your teen completes the program &mdash; 95% attendance, 90% of homework, and all practice tests &mdash; and their <strong>official</strong> SAT score doesn&rsquo;t rise at least 50 points over their official baseline, you choose a refund or free additional tutoring until it does. We use official College Board scores (never internal practice tests), so the standard is clear and verifiable. Full terms are reviewed on your call.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Who are the tutors?</summary>
+          <div class="faq-answer">Every IvyPath SAT tutor scored in the 99th percentile and studies at an Ivy League or Top&nbsp;20 university. We match your teen to a tutor who fits their goals and learning style.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How much time does my teen need to put in?</summary>
+          <div class="faq-answer">We typically recommend around two hours a week of focused work alongside sessions, but it's tailored to your teen's gap and schedule. The diagnostic tells us exactly where to focus, so no time is wasted.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is tutoring online or in person?</summary>
+          <div class="faq-answer">Both. We tutor in person across NYC and online citywide &mdash; whichever works best for your family. You'll choose on your consultation.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How long until we see results?</summary>
+          <div class="faq-answer">Most students need six to eight weeks of focused prep to move their score meaningfully. We map the plan to your teen's next SAT date so every session counts.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Do you offer support in Mandarin or Chinese?</summary>
+          <div class="faq-answer">Yes. We have bilingual support available for families who prefer to communicate in Mandarin or Chinese &mdash; just let us know on your consultation.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- SCARCITY -->
   <section class="scarcity-section">
     <div class="wrap">
@@ -1001,7 +1080,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- DISCLAIMER -->
   <section class="disclaimer-section">
     <div class="wrap">
-      <p>IvyPath Academy is not affiliated with or endorsed by Stuyvesant High School, the Bronx High School of Science, Brooklyn Technical High School, the New York City Department of Education, the College Board, or any university. Tutor credentials reflect schools individual tutors have attended.</p>
+      <p>Results shown reflect the experiences of individual IvyPath students and are not a guarantee of any particular score or admissions outcome. Individual results vary based on each student's starting point, effort, and circumstances. Our Score Improvement Guarantee is subject to program eligibility and the terms provided during your consultation.</p>
+      <p style="margin-top:12px;">IvyPath Academy is not affiliated with or endorsed by Stuyvesant High School, the Bronx High School of Science, Brooklyn Technical High School, the New York City Department of Education, the College Board, or any university. Tutor credentials reflect schools individual tutors have attended.</p>
     </div>
   </section>
 
@@ -1050,6 +1130,20 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         /* Fallback: show everything */
         var els = document.querySelectorAll('.fade-in');
         els.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+  </script>
+
+  <script>
+    /* Facebook Pixel: fire Lead when a diagnostic CTA is clicked (the diagnostic itself lives on app.ivypathacademy.com) */
+    (function(){
+      function fireDiagnosticLead(exam){
+        try { if (window.fbq) fbq('track','Lead',{content_name:(exam||'SAT')+' Diagnostic Start'}); } catch(e){}
+        try { if (typeof window.ivypathTrackLead==='function') window.ivypathTrackLead(); } catch(e){}
+      }
+      var ctas = document.querySelectorAll('.js-diagnostic-cta');
+      for (var i=0;i<ctas.length;i++){
+        ctas[i].addEventListener('click', function(){ fireDiagnosticLead(this.getAttribute('data-exam')); });
       }
     })();
   </script>

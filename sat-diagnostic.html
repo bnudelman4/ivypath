@@ -704,6 +704,20 @@
 
       .btn-primary { width: 100%; padding: 16px 24px; }
     }
+  
+    /* --- Real tutor headshots --- */
+    .tutor-avatar img.tutor-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    /* --- Exam-date urgency --- */
+    .exam-section { padding: 8px 0 0; }
+    .exam-banner { display: flex; align-items: center; gap: 12px; background: #FBF3E2; border: 1px solid var(--gold); border-left: 4px solid var(--gold-deep); border-radius: 4px; padding: 14px 18px; font-family: var(--body); font-size: 14.5px; color: var(--ink); line-height: 1.5; }
+    .exam-banner .exam-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-deep); flex-shrink: 0; }
+    .exam-banner strong { color: var(--sage-deep); }
+    /* --- Recreated parent testimonials --- */
+    .review-quote { border: 1px solid var(--line); background: var(--white); padding: 22px 22px 18px; display: flex; flex-direction: column; gap: 14px; }
+    .review-bubble { background: #ECECEC; color: var(--ink); border-radius: 16px; padding: 14px 16px; font-family: var(--body); font-size: 15px; line-height: 1.5; align-self: flex-start; }
+    .review-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+    .review-score { font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--white); background: var(--sage); padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+    .review-name { font-family: var(--body); font-size: 13px; color: var(--muted); }
   </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -768,6 +782,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <!-- EXAM-DATE URGENCY -->
+  <section class="exam-section">
+    <div class="wrap">
+      <div class="exam-banner fade-in">
+        <span class="exam-dot"></span>
+        <span>Next SAT: <strong>August 22, 2026</strong> &middot; registration closes <strong>August 7</strong>. Most students need 6&ndash;8 weeks of focused prep &mdash; the sooner you start, the more we can move the score.</span>
+      </div>
+    </div>
+  </section>
+
   <!-- PROOF STRIP -->
   <section class="proof-strip">
     <div class="wrap">
@@ -818,49 +842,51 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <h2 class="section-headline fade-in">Your teen's tutors.</h2>
       <div class="tutor-grid">
         <div class="tutor-card fade-in">
-          <div class="tutor-avatar"><span>AH</span></div>
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/MAbrarHasnat.jpg" alt="M. Abrar Hasnat" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">AH</span></div>
           <div class="tutor-info">
-            <h4>Abrar H.</h4>
-            <div class="cred">Cornell '27 &middot; 99th percentile SAT</div>
-            <div class="cred">Lead Consultant</div>
+            <h4>M. Abrar Hasnat</h4>
+            <div class="cred">Cornell University &middot; 99th percentile SAT</div>
+            <div class="cred">Lead Test Prep &amp; Math</div>
           </div>
         </div>
         <div class="tutor-card fade-in delay-1">
-          <div class="tutor-avatar"><span>AV</span></div>
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/alp.jpg" alt="Alp Vargelci" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">AV</span></div>
           <div class="tutor-info">
-            <h4>Alp V.</h4>
-            <div class="cred">Cornell '27 &middot; 1570 SAT</div>
+            <h4>Alp Vargelci</h4>
+            <div class="cred">Cornell University &middot; 99th percentile SAT</div>
             <div class="cred">Lead Test Prep</div>
           </div>
         </div>
         <div class="tutor-card fade-in delay-2">
-          <div class="tutor-avatar"><span>JL</span></div>
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/AndrewRafaelSaid.jpg" alt="Andrew Rafael-Said" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">AR</span></div>
           <div class="tutor-info">
-            <h4>Julia L.</h4>
-            <div class="cred">Columbia '26 &middot; 99th percentile SAT</div>
+            <h4>Andrew Rafael-Said</h4>
+            <div class="cred">Cornell University &middot; 99th percentile SAT</div>
+            <div class="cred">SAT/ACT &amp; AP Sciences</div>
           </div>
         </div>
         <div class="tutor-card fade-in">
-          <div class="tutor-avatar"><span>MK</span></div>
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/BisheshShah.png" alt="Bishesh Shah" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">BS</span></div>
           <div class="tutor-info">
-            <h4>Marcus K.</h4>
-            <div class="cred">UPenn '27 &middot; Stuyvesant '23</div>
-            <div class="cred">SHSAT Tutor</div>
+            <h4>Bishesh Shah</h4>
+            <div class="cred">Cornell University &middot; 99th percentile SAT</div>
+            <div class="cred">SAT/ACT Specialist</div>
           </div>
         </div>
         <div class="tutor-card fade-in delay-1">
-          <div class="tutor-avatar"><span>SC</span></div>
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/TenzinSamchok.jpg" alt="Tenzin Samchok" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">TS</span></div>
           <div class="tutor-info">
-            <h4>Sarah C.</h4>
-            <div class="cred">Princeton '26 &middot; AP Calculus Specialist</div>
+            <h4>Tenzin Samchok</h4>
+            <div class="cred">New York University &middot; 99th percentile SAT</div>
+            <div class="cred">SAT/ACT &amp; AP Chem</div>
           </div>
         </div>
         <div class="tutor-card fade-in delay-2">
-          <div class="tutor-avatar"><span>DW</span></div>
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/ben.JPG" alt="Benjamin Nudelman" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">BN</span></div>
           <div class="tutor-info">
-            <h4>David W.</h4>
-            <div class="cred">Yale '27 &middot; Bronx Science '23</div>
-            <div class="cred">SHSAT Tutor</div>
+            <h4>Benjamin Nudelman</h4>
+            <div class="cred">Cornell University &middot; 99th percentile SAT</div>
+            <div class="cred">SAT/ACT &amp; Computer Science</div>
           </div>
         </div>
       </div>
@@ -921,14 +947,17 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <h2 class="section-headline fade-in">What families say.</h2>
       <div class="reviews-grid">
-        <div class="review-img-wrap fade-in">
-          <img src="assets/reviews/review-1.png" alt="Parent review" loading="lazy">
+        <div class="review-quote fade-in">
+          <div class="review-bubble">&ldquo;He got a 1530. Thank you for your services!&rdquo;</div>
+          <div class="review-meta"><span class="review-name">&mdash; IvyPath parent</span><span class="review-score">1530 SAT</span></div>
         </div>
-        <div class="review-img-wrap fade-in delay-1">
-          <img src="assets/reviews/review-2.png" alt="Parent review" loading="lazy">
+        <div class="review-quote fade-in delay-1">
+          <div class="review-bubble">&ldquo;My son has done a lot better since you&rsquo;ve started teaching him! After a couple of sessions he was able to finally get up to 1500.&rdquo;</div>
+          <div class="review-meta"><span class="review-name">&mdash; Brian, IvyPath parent</span><span class="review-score">1370 &rarr; 1500</span></div>
         </div>
-        <div class="review-img-wrap fade-in delay-2">
-          <img src="assets/reviews/review-3.png" alt="Parent review" loading="lazy">
+        <div class="review-quote fade-in delay-2">
+          <div class="review-bubble">&ldquo;She just got the results today &mdash; Emily got a 1560! The hard work paid off.&rdquo;</div>
+          <div class="review-meta"><span class="review-name">&mdash; Nora, IvyPath parent</span><span class="review-score">1560 SAT</span></div>
         </div>
       </div>
     </div>
@@ -969,7 +998,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="wrap">
-      <p>&copy; 2025 IvyPath Academy. Perevalis Tutoring LLC. Contact: (929) 394-0349</p>
+      <p>&copy; 2026 IvyPath Academy. Perevalis Tutoring LLC. Contact: (929) 394-0349</p>
     </div>
   </footer>
 

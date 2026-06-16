@@ -690,6 +690,9 @@
     .review-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
     .review-score { font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--white); background: var(--sage); padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
     .review-name { font-family: var(--body); font-size: 13px; color: var(--muted); }
+      /* --- Brand logo in top bar --- */
+    .wordmark img { height: 42px; width: auto; display: block; }
+    @media (max-width: 640px) { .wordmark img { height: 36px; } }
   </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -716,7 +719,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
   <!-- TOP BAR -->
   <header class="top-bar">
-    <a href="index.html" class="wordmark">IVYPATH ACADEMY</a>
+    <a href="index.html" class="wordmark" aria-label="IvyPath Academy"><img src="assets/logo-transparent.png" alt="IvyPath Academy"></a>
     <a href="tel:+19293940349" class="top-phone">(929) 394-0349</a>
   </header>
 

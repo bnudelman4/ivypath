@@ -319,3 +319,15 @@
     font-size: 0.66rem;
   }
 }
+
+
+/* --- Diagnostic dropdown (SAT / SHSAT chooser) --- */
+.diag-dropdown { position: relative; display: inline-block; }
+.diag-toggle { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; }
+.diag-caret { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid currentColor; opacity: .85; transition: transform .2s ease; }
+.diag-dropdown.open .diag-caret { transform: rotate(180deg); }
+.diag-menu { position: absolute; left: 0; top: calc(100% + 10px); min-width: 100%; background: rgba(255,255,255,.98); border-radius: 12px; box-shadow: 0 14px 36px rgba(0,0,0,.20); padding: 6px; display: flex; flex-direction: column; gap: 2px; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .18s ease, transform .18s ease, visibility .18s; z-index: 40; }
+.diag-dropdown.open .diag-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.diag-item { display: block; padding: 11px 18px; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #1B4D3E; white-space: nowrap; text-decoration: none; transition: background .15s ease; }
+.diag-item:hover, .diag-item:focus { background: #EAF2EE; }
+@media (max-width: 640px) { .diag-dropdown { width: 100%; } .diag-menu { width: 100%; } }

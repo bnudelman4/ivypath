@@ -142,3 +142,21 @@
     }
   });
 })();
+
+
+/* --- Diagnostic dropdown (SAT / SHSAT chooser) --- */
+(function () {
+  var dd = document.querySelector('.diag-dropdown');
+  if (!dd) return;
+  var btn = dd.querySelector('.diag-toggle');
+  function close() { dd.classList.remove('open'); if (btn) btn.setAttribute('aria-expanded', 'false'); }
+  if (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      var open = dd.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+  document.addEventListener('click', function (e) { if (!dd.contains(e.target)) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();

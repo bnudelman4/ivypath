@@ -718,6 +718,12 @@
     .review-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
     .review-score { font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--white); background: var(--sage); padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
     .review-name { font-family: var(--body); font-size: 13px; color: var(--muted); }
+      /* --- Real review screenshots --- */
+    .shots-grid { display: flex; gap: 24px; align-items: flex-start; }
+    .shots-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+    .review-shot { margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 4px 18px rgba(0,0,0,0.10); }
+    .review-shot img { width: 100%; display: block; }
+    @media (max-width: 640px) { .shots-grid { flex-direction: column; } }
   </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -946,18 +952,19 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <section class="reviews-section">
     <div class="wrap">
       <h2 class="section-headline fade-in">What families say.</h2>
-      <div class="reviews-grid">
-        <div class="review-quote fade-in">
-          <div class="review-bubble">&ldquo;He got a 1530. Thank you for your services!&rdquo;</div>
-          <div class="review-meta"><span class="review-name">&mdash; IvyPath parent</span><span class="review-score">1530 SAT</span></div>
+      <div class="shots-grid">
+        <div class="shots-col">
+          <figure class="review-shot fade-in">
+            <img src="assets/reviews/review-1530.jpg" alt="Parent text message: He got a 1530. Thank you for your services!" loading="lazy">
+          </figure>
+          <figure class="review-shot fade-in delay-1">
+            <img src="assets/reviews/review-nora-1560.jpg" alt="Parent text message: Emily got a 1560." loading="lazy">
+          </figure>
         </div>
-        <div class="review-quote fade-in delay-1">
-          <div class="review-bubble">&ldquo;My son has done a lot better since you&rsquo;ve started teaching him! After a couple of sessions he was able to finally get up to 1500.&rdquo;</div>
-          <div class="review-meta"><span class="review-name">&mdash; Brian, IvyPath parent</span><span class="review-score">1370 &rarr; 1500</span></div>
-        </div>
-        <div class="review-quote fade-in delay-2">
-          <div class="review-bubble">&ldquo;She just got the results today &mdash; Emily got a 1560! The hard work paid off.&rdquo;</div>
-          <div class="review-meta"><span class="review-name">&mdash; Nora, IvyPath parent</span><span class="review-score">1560 SAT</span></div>
+        <div class="shots-col">
+          <figure class="review-shot fade-in delay-1">
+            <img src="assets/reviews/review-brian-1500.jpg" alt="Parent text message: my son was able to finally get up to 1500 after a couple of sessions." loading="lazy">
+          </figure>
         </div>
       </div>
     </div>

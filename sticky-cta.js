@@ -49,7 +49,7 @@
     if (exam) {
       var primaryEl = bar.querySelector('.ivp-book');
       primaryEl.addEventListener('click', function () {
-        try { if (window.fbq) fbq('track', 'Lead', { content_name: exam + ' Diagnostic Start' }); } catch (e) {}
+        try { if (window.fbq) fbq('trackCustom', 'DiagnosticCTAClick', { content_name: exam + ' Diagnostic CTA Click' }); } catch (e) {}
       });
     }
   }

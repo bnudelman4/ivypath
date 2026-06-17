@@ -1135,10 +1135,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   </script>
 
   <script>
-    /* Facebook Pixel: fire Lead when a diagnostic CTA is clicked (the diagnostic itself lives on app.ivypathacademy.com) */
+    /* Meta Pixel: the diagnostic CTA click is a soft mid-funnel signal (custom event), NOT a Lead.
+       The genuine Lead fires inside the app when the diagnostic actually starts. */
     (function(){
       function fireDiagnosticLead(exam){
-        try { if (window.fbq) fbq('track','Lead',{content_name:(exam||'SAT')+' Diagnostic Start'}); } catch(e){}
+        try { if (window.fbq) fbq('trackCustom','DiagnosticCTAClick',{content_name:(exam||'SAT')+' Diagnostic CTA Click'}); } catch(e){}
       }
       var ctas = document.querySelectorAll('.js-diagnostic-cta');
       for (var i=0;i<ctas.length;i++){

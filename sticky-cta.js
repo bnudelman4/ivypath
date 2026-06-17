@@ -50,7 +50,6 @@
       var primaryEl = bar.querySelector('.ivp-book');
       primaryEl.addEventListener('click', function () {
         try { if (window.fbq) fbq('track', 'Lead', { content_name: exam + ' Diagnostic Start' }); } catch (e) {}
-        try { if (typeof window.ivypathTrackLead === 'function') window.ivypathTrackLead(); } catch (e) {}
       });
     }
   }

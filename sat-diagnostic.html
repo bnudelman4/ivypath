@@ -1139,7 +1139,6 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     (function(){
       function fireDiagnosticLead(exam){
         try { if (window.fbq) fbq('track','Lead',{content_name:(exam||'SAT')+' Diagnostic Start'}); } catch(e){}
-        try { if (typeof window.ivypathTrackLead==='function') window.ivypathTrackLead(); } catch(e){}
       }
       var ctas = document.querySelectorAll('.js-diagnostic-cta');
       for (var i=0;i<ctas.length;i++){

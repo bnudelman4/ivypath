@@ -409,6 +409,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
     const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
     const times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+    const refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
 
     function renderCalendar() {
       monthLabel.textContent = currentYear + '年' + months[currentMonth];
@@ -501,7 +502,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         const response = await fetch('/api/book-consultation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, date: dateStr, time: selectedTime }),
+          body: JSON.stringify({ name, email, date: dateStr, time: selectedTime, ref: refCode }),
         });
 
         const data = await response.json();

@@ -15,7 +15,7 @@
       booking:  'vfkdCPOj578cEJq4t_RD',        // "Consultation booked" conversion label
       purchase: 'XXXXXXXXXXXXXXXXX'         // "Purchase" conversion label
     },
-    ga4Id: ''                               // optional, e.g. 'G-XXXXXXX'
+    ga4Id: 'G-EW2RB4F5JB'                               // optional, e.g. 'G-XXXXXXX'
   };
 
   function configured(v) { return !!v && v.indexOf('XXXX') === -1; }
@@ -77,4 +77,22 @@
         window.fbq('track', 'Purchase', value !== undefined ? { value: value, currency: currency } : {});
     } catch (e) {}
   };
+})();
+/* Forward ad click IDs + UTMs to the app subdomain so attribution survives the site->app hop */
+(function(){
+  try {
+    var src = new URLSearchParams(location.search);
+    var keep = ['gclid','fbclid','wbraid','gbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+    var pass = keep.filter(function(k){ return src.get(k); });
+    if (!pass.length) return;
+    function decorate(){
+      var links = document.querySelectorAll('a[href*="app.ivypathacademy.com"]');
+      for (var i=0;i<links.length;i++){
+        try { var u=new URL(links[i].href); pass.forEach(function(k){ if(!u.searchParams.get(k)) u.searchParams.set(k, src.get(k)); }); links[i].href=u.toString(); } catch(e){}
+      }
+    }
+    if (document.readyState!=='loading') decorate(); else document.addEventListener('DOMContentLoaded', decorate);
+    window.addEventListener('load', decorate);
+    setTimeout(decorate, 1500);
+  } catch(e){}
 })();

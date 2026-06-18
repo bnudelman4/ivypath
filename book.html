@@ -459,6 +459,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
     // ----- Lead state (captured up front) -----
     const lead = { name: '', email: '', phone: '' };
+    const refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
     let leadSignalFired = false;
 
     // ----- Validation helpers (lenient: don't block real leads) -----
@@ -628,7 +629,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             email: lead.email,
             phone: lead.phone,
             date: dateStr,
-            time: selectedTime
+            time: selectedTime,
+            ref: refCode
           }),
         });
 

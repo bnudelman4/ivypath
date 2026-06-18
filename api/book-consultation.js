@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
     const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
     const date = typeof body.date === 'string' ? body.date.trim() : '';
     const time = typeof body.time === 'string' ? body.time.trim() : '';
+    const ref = typeof body.ref === 'string' ? body.ref.trim().slice(0,64) : '';
 
     // --- Validate inputs ---
     if (!name || !email || !phone || !date || !time) {
@@ -99,7 +100,7 @@ module.exports = async (req, res) => {
       const calendar = google.calendar({ version: 'v3', auth });
 
       const event = {
-        summary: `IvyPath Academy - Free Consultation`,
+        summary: `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
         description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
         start: {
           dateTime: startDT,

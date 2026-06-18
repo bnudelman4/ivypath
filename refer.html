@@ -219,14 +219,43 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <!-- Referral Signup Form -->
+  <section class="page-section" id="signup" style="background: var(--bg-alt, #f8f7f4);">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">GET STARTED</span>
+        <h2 class="section-title">Get Your Referral Link</h2>
+        <p style="text-align:center;color:var(--text-light);max-width:560px;margin:14px auto 0;">Sign up below and we&rsquo;ll instantly generate your personal referral link. Share it &mdash; when a family books and enrolls through it, you earn your Zelle reward.</p>
+      </div>
+      <form id="referForm" class="reveal" style="max-width:520px;margin:32px auto 0;background:#fff;border:1px solid #ece9e2;border-radius:16px;padding:30px 26px;box-shadow:0 10px 30px rgba(0,0,0,.06);">
+        <input type="text" name="company_name" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
+        <label style="display:block;margin-bottom:16px;"><span style="display:block;font-size:.9rem;font-weight:600;color:var(--primary-dark);margin-bottom:6px;">Your full name</span><input name="name" type="text" required style="width:100%;padding:12px 14px;border:1px solid #d8d4cc;border-radius:10px;font-size:1rem;box-sizing:border-box;"></label>
+        <label style="display:block;margin-bottom:16px;"><span style="display:block;font-size:.9rem;font-weight:600;color:var(--primary-dark);margin-bottom:6px;">Your email</span><input name="email" type="email" required autocomplete="email" style="width:100%;padding:12px 14px;border:1px solid #d8d4cc;border-radius:10px;font-size:1rem;box-sizing:border-box;"></label>
+        <label style="display:block;margin-bottom:8px;"><span style="display:block;font-size:.9rem;font-weight:600;color:var(--primary-dark);margin-bottom:6px;">Zelle handle (email or phone we send your reward to)</span><input name="zelle_tag" type="text" required placeholder="e.g. you@email.com or (929) 123-4567" style="width:100%;padding:12px 14px;border:1px solid #d8d4cc;border-radius:10px;font-size:1rem;box-sizing:border-box;"></label>
+        <p style="font-size:.78rem;color:var(--text-lighter,#999);margin:6px 0 18px;">Rewards are paid via Zelle. By signing up you agree to the program details above.</p>
+        <button type="submit" id="referSubmit" class="btn btn-primary" style="width:100%;border:none;cursor:pointer;">Get my referral link</button>
+        <p id="referError" role="alert" style="display:none;color:#b3261e;font-size:.9rem;margin-top:12px;"></p>
+      </form>
+      <div id="referSuccess" style="display:none;max-width:520px;margin:32px auto 0;background:#fff;border:1px solid #ece9e2;border-radius:16px;padding:30px 26px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.06);">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 14px;">&#10003;</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--primary-dark);margin-bottom:8px;">You&rsquo;re in! Here&rsquo;s your link</h3>
+        <p style="color:var(--text-light);font-size:.95rem;margin-bottom:16px;">Share this link. Anyone who books through it is automatically credited to you.</p>
+        <div style="display:flex;gap:8px;align-items:stretch;max-width:430px;margin:0 auto;">
+          <input id="referLink" type="text" readonly style="flex:1;padding:12px 14px;border:1px solid #d8d4cc;border-radius:10px;font-size:.88rem;background:#faf9f7;">
+          <button id="referCopy" type="button" class="btn btn-primary" style="border:none;cursor:pointer;white-space:nowrap;">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA Section -->
   <section class="cta-section">
     <div class="container">
       <div class="cta-content reveal">
         <h2>Know a Family? Share IvyPath.</h2>
-        <p>Tell them to mention your name and email when they book a free consultation. Choose credits or cash once they enroll.</p>
+        <p>Sign up above to get your personal referral link, then share it with families you know. When they book and enroll through your link, you earn your reward.</p>
         <div class="cta-buttons">
-          <a href="book.html" class="btn btn-primary">Book a Free Consultation</a>
+          <a href="#signup" class="btn btn-primary">Get my referral link</a>
         </div>
         <p style="margin-top: 24px; color: rgba(255,255,255,0.7);">
           <a href="mailto:info@ivypathacademy.com" style="color: var(--accent);">info@ivypathacademy.com</a> &nbsp;|&nbsp;
@@ -290,5 +319,22 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
   <script src="cart.js?v=3"></script>
+<script>
+(function(){
+  var form=document.getElementById('referForm'); if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn=document.getElementById('referSubmit'), err=document.getElementById('referError');
+    err.style.display='none'; btn.disabled=true; var old=btn.textContent; btn.textContent='Generating\u2026';
+    var fd=new FormData(form);
+    fetch('https://app.ivypathacademy.com/api/referral',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fd.get('name'),email:fd.get('email'),zelle_tag:fd.get('zelle_tag'),company_name:fd.get('company_name')||''})})
+      .then(function(r){return r.json();})
+      .then(function(d){ if(d&&d.ok&&d.link){ form.style.display='none'; var su=document.getElementById('referSuccess'); su.style.display='block'; document.getElementById('referLink').value=d.link; try{if(window.fbq)fbq('trackCustom','ReferrerSignup');}catch(e){} } else { throw new Error((d&&d.error)||'Something went wrong'); } })
+      .catch(function(ex){ err.textContent=(ex&&ex.message)||'Something went wrong. Please try again.'; err.style.display='block'; btn.disabled=false; btn.textContent=old; });
+  });
+  var c=document.getElementById('referCopy');
+  if(c) c.addEventListener('click', function(){ var i=document.getElementById('referLink'); i.select(); i.setSelectionRange(0,99999); try{navigator.clipboard.writeText(i.value);}catch(e){document.execCommand('copy');} c.textContent='Copied!'; setTimeout(function(){c.textContent='Copy';},1800); });
+})();
+</script>
 </body>
 </html>

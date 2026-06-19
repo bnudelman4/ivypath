@@ -20,13 +20,16 @@
 
   function configured(v) { return !!v && v.indexOf('XXXX') === -1; }
 
+  var SUPPRESS = false;
+  try { SUPPRESS = (window.__ivpNoTrack === 1) || (document.cookie.indexOf('ivp_notrack=1') > -1); } catch (e) {}
+
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = window.gtag || gtag;
 
   var googleId = configured(CFG.googleAdsId) ? CFG.googleAdsId
                : (configured(CFG.ga4Id) ? CFG.ga4Id : '');
-  if (googleId) {
+  if (googleId && !SUPPRESS) {
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + googleId;
@@ -41,6 +44,7 @@
   var leadFired = false;
 
   window.ivypathTrackLead = function (data) {
+    if (SUPPRESS) return;
     if (leadFired) return;
     leadFired = true;
     try {
@@ -52,6 +56,7 @@
   };
 
   window.ivypathTrackBooking = function (data) {
+    if (SUPPRESS) return;
     try {
       if (configured(CFG.googleAdsId) && configured(CFG.labels.booking))
         gtag('event', 'conversion', { send_to: sendTo(CFG.labels.booking) });
@@ -61,6 +66,7 @@
   };
 
   window.ivypathTrackPurchase = function (data) {
+    if (SUPPRESS) return;
     data = data || {};
     var value = (typeof data.value === 'number') ? data.value : undefined;
     var currency = data.currency || 'USD';
@@ -85,7 +91,7 @@
     var keep = ['gclid','fbclid','wbraid','gbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
     var pass = keep.filter(function(k){ return src.get(k); });
     if (!pass.length) return;
-    function decorate(){
+    function decorate(){ if (window.__ivpNoTrack===1) return;
       var links = document.querySelectorAll('a[href*="app.ivypathacademy.com"]');
       for (var i=0;i<links.length;i++){
         try { var u=new URL(links[i].href); pass.forEach(function(k){ if(!u.searchParams.get(k)) u.searchParams.set(k, src.get(k)); }); links[i].href=u.toString(); } catch(e){}

@@ -540,6 +540,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
               '</ul>' +
             '</div>' +
           '</div>';
+
+        // Fire the Google Ads booking conversion (+ GA4 schedule + Meta Schedule).
+        // tracking.js is loaded site-wide and no-ops under the ?notrack cookie.
+        if (window.ivypathTrackBooking) window.ivypathTrackBooking({ source: 'cn_book' });
       } catch (err) {
         submitBtn.disabled = false;
         submitBtn.textContent = '确认预约';

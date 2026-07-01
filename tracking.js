@@ -102,3 +102,30 @@
     setTimeout(decorate, 1500);
   } catch(e){}
 })();
+
+
+// --- Click-source forwarding (added 2026-07-01) -----------------------------
+// Appends qualifying attribution params (utm_*, fbclid, gclid, ref) from the
+// current URL, plus ivp_lp=<landing pathname>, to every link pointing at
+// app.ivypathacademy.com — so the funnel can store where each lead came from.
+(function () {
+  try {
+    var qualifying = /^(utm_|fbclid$|gclid$|ref$)/;
+    var params = new URLSearchParams(location.search);
+    var fwd = new URLSearchParams();
+    params.forEach(function (v, k) { if (qualifying.test(k)) fwd.append(k, v); });
+    fwd.append('ivp_lp', location.pathname);
+    var decorate = function () {
+      document.querySelectorAll('a[href*="app.ivypathacademy.com"]').forEach(function (a) {
+        try {
+          var u = new URL(a.href);
+          fwd.forEach(function (v, k) { if (!u.searchParams.has(k)) u.searchParams.append(k, v); });
+          a.href = u.toString();
+        } catch (e) {}
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', decorate);
+    } else { decorate(); }
+  } catch (e) {}
+})();

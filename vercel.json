@@ -8,10 +8,33 @@
       "maxDuration": 10
     }
   },
-  "redirects": [],
+  "redirects": [
+    {
+      "source": "/book-consultation",
+      "destination": "/book.html",
+      "permanent": false
+    }
+  ],
   "rewrites": [
-    { "source": "/sat", "destination": "/sat-diagnostic.html" },
-    { "source": "/shsat", "destination": "/shsat-diagnostic.html" },
-    { "source": "/thank-you", "destination": "/thank-you.html" }
+    {
+      "source": "/sat",
+      "destination": "/sat-diagnostic.html"
+    },
+    {
+      "source": "/shsat",
+      "destination": "/shsat-diagnostic.html"
+    },
+    {
+      "source": "/thank-you",
+      "destination": "/thank-you.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
+    }
   ]
 }

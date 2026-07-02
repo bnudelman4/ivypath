@@ -370,9 +370,9 @@
 
     /* ---------- REVIEWS ---------- */
     .reviews-section { padding: 72px 0; }
-    .shots-grid { display: flex; gap: 24px; align-items: flex-start; }
-    .shots-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+    .shots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
     .review-shot { margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--white); box-shadow: 0 4px 18px rgba(0,0,0,0.10); }
+    .review-shot.wide { grid-column: 1 / -1; max-width: 760px; justify-self: center; width: 100%; }
     .review-shot img { width: 100%; display: block; }
     .reviews-note { margin-top: 20px; font-size: 12.5px; color: var(--muted); opacity: 0.75; }
 
@@ -488,7 +488,7 @@
       .preview-section { padding: 56px 0; }
       .result-section { padding: 56px 0; }
       .reviews-section { padding: 56px 0; }
-      .shots-grid { flex-direction: column; }
+      .shots-grid { grid-template-columns: 1fr; }
       .scarcity-section { padding: 40px 0; }
       .final-cta { padding: 64px 0; }
       .btn-primary { width: 100%; padding: 16px 24px; }
@@ -544,11 +544,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <img src="assets/ivypath-sat-vsl-poster.jpg" alt="IvyPath Academy">
         </div>
       </div>
-      <p class="video-note fade-in delay-1">Benjamin &mdash; 1570 SAT &middot; Cornell University &middot; on why the diagnostic comes first</p>
+      <p class="video-note fade-in delay-1">Benjamin &middot; 1570 SAT &middot; Cornell University &middot; on why the diagnostic comes first</p>
 
-      <h1 class="hero-headline fade-in delay-1">See exactly where your student stands &mdash; and what it takes to close the <span class="gi">gap.</span></h1>
+      <h1 class="hero-headline fade-in delay-1">See exactly where your student stands, and what it takes to close the <span class="gi">gap.</span></h1>
 
-      <p class="hero-sub fade-in delay-2">A free, calibrated SAT diagnostic scored against real college thresholds. Then a plan from 99th-percentile tutors at Ivy League and Top&nbsp;20 universities &mdash; backed by our money-back Score Improvement Guarantee.</p>
+      <p class="hero-sub fade-in delay-2">A free, calibrated SAT diagnostic scored against real college thresholds. Then a plan from 99th-percentile tutors at Ivy League and Top&nbsp;20 universities, backed by our money-back Score Improvement Guarantee.</p>
 
       <div class="cta-stack fade-in delay-2">
         <a href="https://app.ivypathacademy.com/free-diagnostic-sat/" class="btn-primary js-diagnostic-cta" data-exam="SAT">Start the free diagnostic &rarr;</a>
@@ -570,7 +570,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <div class="exam-banner fade-in">
         <span class="exam-dot"></span>
-        <span>Next SAT: <strong>August 22, 2026</strong> &middot; registration closes <strong>August 7</strong>. Most students need 6&ndash;8 weeks of focused prep &mdash; the sooner you start, the more we can move the score.</span>
+        <span>Next SAT: <strong>August 22, 2026</strong> &middot; registration closes <strong>August 7</strong>. Most students need 6&ndash;8 weeks of focused prep, so the sooner you start, the more we can move the score.</span>
       </div>
     </div>
   </section>
@@ -641,6 +641,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <h2 class="fade-in">1370 <span class="up">&rarr; 1500</span> on the official SAT.</h2>
           <p class="fade-in delay-1">One IvyPath student's real College Board score reports, a few months apart. The diagnostic found the gap; the sessions closed it.</p>
           <p class="proof-caption fade-in delay-2">Official College Board score reports, shared with permission. Individual results vary.</p>
+          <div class="fade-in delay-2" style="margin-top:32px;">
+            <a href="https://app.ivypathacademy.com/free-diagnostic-sat/" class="btn-primary js-diagnostic-cta" data-exam="SAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+            <p style="margin-top:10px;font-size:13px;color:var(--muted);">Free &middot; about 30&ndash;35 minutes &middot; no obligation</p>
+          </div>
         </div>
         <div class="ba-stack fade-in delay-1">
           <figure class="ba-shot">
@@ -787,21 +791,21 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <h2 class="section-headline fade-in">What families say.</h2>
       <div class="shots-grid">
-        <div class="shots-col">
-          <figure class="review-shot fade-in">
-            <img src="assets/reviews/review-1530.jpg" alt="Parent text message: He got a 1530. Thank you for your services!" loading="lazy">
-          </figure>
-          <figure class="review-shot fade-in delay-1">
-            <img src="assets/reviews/review-nora-1560.jpg" alt="Parent text message: Emily got a 1560." loading="lazy">
-          </figure>
-        </div>
-        <div class="shots-col">
-          <figure class="review-shot fade-in delay-1">
-            <img src="assets/reviews/review-brian-1500.jpg" alt="Parent text message: my son was able to finally get up to 1500 after a couple of sessions." loading="lazy">
-          </figure>
-        </div>
+        <figure class="review-shot wide fade-in">
+          <img src="assets/reviews/review-1530.jpg" alt="Parent text message: He got a 1530. Thank you for your services!" loading="lazy">
+        </figure>
+        <figure class="review-shot fade-in delay-1">
+          <img src="assets/reviews/review-nora-1560.jpg" alt="Parent text message: Emily got a 1560." loading="lazy">
+        </figure>
+        <figure class="review-shot fade-in delay-1">
+          <img src="assets/reviews/review-brian-1500.jpg" alt="Parent text message: my son was able to finally get up to 1500 after a couple of sessions." loading="lazy">
+        </figure>
       </div>
       <p class="reviews-note">Messages from IvyPath parents, shared with permission. Individual results vary.</p>
+      <div class="fade-in" style="text-align:center;margin-top:44px;">
+        <a href="https://app.ivypathacademy.com/free-diagnostic-sat/" class="btn-primary js-diagnostic-cta" data-exam="SAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+        <p style="margin-top:10px;font-size:13px;color:var(--muted);">A tutor reviews your student's results with you on a free call</p>
+      </div>
     </div>
   </section>
 

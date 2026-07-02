@@ -24,6 +24,20 @@
     }
     var callLabel = isCn ? '致电' : 'Call';
 
+    // Mirror tracking.js link decoration: forward attribution params + landing page
+    // (tracking.js runs before this bar exists, so decorate here as well)
+    if (primaryHref.indexOf('app.ivypathacademy.com') > -1) {
+      try {
+        var q = new URLSearchParams(location.search);
+        var u = new URL(primaryHref);
+        q.forEach(function (v, k) {
+          if (/^(utm_|fbclid$|gclid$|ref$)/.test(k) && !u.searchParams.has(k)) u.searchParams.append(k, v);
+        });
+        if (!u.searchParams.has('ivp_lp')) u.searchParams.append('ivp_lp', location.pathname);
+        primaryHref = u.toString();
+      } catch (e) {}
+    }
+
     var style = document.createElement('style');
     style.textContent =
       '#ivp-sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;gap:8px;' +
@@ -50,6 +64,7 @@
       var primaryEl = bar.querySelector('.ivp-book');
       primaryEl.addEventListener('click', function () {
         try { if (window.fbq) fbq('trackCustom', 'DiagnosticCTAClick', { content_name: exam + ' Diagnostic CTA Click' }); } catch (e) {}
+        try { if (window.gtag) gtag('event', 'diagnostic_cta_click', { exam: exam }); } catch (e) {}
       });
     }
   }

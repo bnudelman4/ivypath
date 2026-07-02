@@ -2,30 +2,35 @@
 <html lang="en">
 <head>
   <script>(function(){try{var s=location.search||'';if(s.indexOf('notrack=1')>-1){document.cookie='ivp_notrack=1; domain=.ivypathacademy.com; path=/; max-age=63072000; samesite=lax';}else if(s.indexOf('notrack=0')>-1){document.cookie='ivp_notrack=; domain=.ivypathacademy.com; path=/; max-age=0; samesite=lax';}if(document.cookie.indexOf('ivp_notrack=1')>-1){window.fbq=function(){};window['ga-disable-G-EW2RB4F5JB']=true;window.__ivpNoTrack=1;}}catch(e){}})();</script>
+  <script>document.documentElement.className += ' js';</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free SHSAT Diagnostic | IvyPath Academy</title>
-  <meta name="description" content="Free SHSAT diagnostic measured against real specialized high school cutoffs. See exactly where your child stands today. No guessing, no pressure.">
+  <meta name="description" content="Free SHSAT diagnostic measured against prior-year specialized high school cutoffs. See exactly where your child stands today. No guessing, no pressure.">
   <link rel="canonical" href="https://ivypathacademy.com/shsat-diagnostic.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ivypathacademy.com/shsat-diagnostic.html">
   <meta property="og:title" content="Free SHSAT Diagnostic | IvyPath Academy">
-  <meta property="og:description" content="Free SHSAT diagnostic measured against real specialized high school cutoffs. See exactly where your child stands today. No guessing, no pressure.">
+  <meta property="og:description" content="Free SHSAT diagnostic measured against prior-year specialized high school cutoffs. See exactly where your child stands today. No guessing, no pressure.">
   <meta property="og:image" content="https://ivypathacademy.com/assets/ivypath-shsat-vsl-poster.jpg">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://ivypathacademy.com/shsat-diagnostic.html">
   <meta name="twitter:title" content="Free SHSAT Diagnostic | IvyPath Academy">
-  <meta name="twitter:description" content="Free SHSAT diagnostic measured against real specialized high school cutoffs. See exactly where your child stands today. No guessing, no pressure.">
+  <meta name="twitter:description" content="Free SHSAT diagnostic measured against prior-year specialized high school cutoffs. See exactly where your child stands today. No guessing, no pressure.">
   <meta name="twitter:image" content="https://ivypathacademy.com/assets/ivypath-shsat-vsl-poster.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --sage: #4A7C59;
       --sage-deep: #3A6347;
+      --forest: #1E4D38;
+      --forest-deep: #16382A;
       --gold: #C5A572;
       --gold-deep: #A8854E;
       --cream: #FDF8F0;
@@ -33,6 +38,7 @@
       --muted: #5C6B60;
       --line: #E4DECF;
       --white: #ffffff;
+      --cream-on-dark: rgba(253,248,240,0.9);
       --display: 'Lora', Georgia, serif;
       --body: 'Instrument Sans', system-ui, sans-serif;
     }
@@ -49,205 +55,163 @@
     }
 
     a { color: inherit; text-decoration: none; }
-
     img, video { max-width: 100%; height: auto; display: block; }
+    h1, h2, h3 { text-wrap: balance; }
 
-    .wrap {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    .gi { font-style: italic; color: var(--gold); }
+
+    /* ---------- DARK HERO ---------- */
+    .hero-dark {
+      background:
+        radial-gradient(120% 90% at 50% 0%, rgba(74,124,89,0.35), rgba(0,0,0,0) 60%),
+        linear-gradient(180deg, var(--forest) 0%, var(--forest-deep) 100%);
+      color: var(--cream-on-dark);
+      padding: 0 0 56px;
     }
 
-    /* ---------- TOP BAR ---------- */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 24px;
+      padding: 22px 24px;
       max-width: 1080px;
       margin: 0 auto;
     }
+    .wordmark img { height: 44px; width: auto; display: block; }
+    .top-phone { font-size: 14px; color: rgba(253,248,240,0.75); }
+    .top-phone:hover { color: var(--cream); }
 
-    .wordmark {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--sage);
-      letter-spacing: 0.02em;
-    }
+    .hero-inner { text-align: center; padding-top: 22px; }
 
-    .top-phone {
-      font-family: var(--body);
-      font-size: 14px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .top-phone:hover { color: var(--sage); }
-
-    /* ---------- HERO ---------- */
-    .hero {
-      padding: 48px 0 64px;
+    .eyebrow {
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
     }
 
     .hero-video-wrap {
-      max-width: 720px;
-      margin: 0 auto 40px;
+      max-width: 780px;
+      margin: 0 auto 36px;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border: 1px solid rgba(197,165,114,0.45);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+      background: var(--forest-deep);
     }
-
     .hero-video-wrap video {
       width: 100%;
       display: block;
-      background: var(--ink);
+      background: var(--forest-deep);
       aspect-ratio: 16/9;
       object-fit: cover;
     }
+    .hero-video-fallback { display: none; width: 100%; position: relative; }
+    .hero-video-fallback img { width: 100%; display: block; }
 
-    .hero-video-fallback {
-      display: none;
-      width: 100%;
-      position: relative;
-    }
-
-    .hero-video-fallback img {
-      width: 100%;
-      display: block;
-    }
-
-    .hero-video-fallback .fallback-caption {
-      position: absolute;
-      bottom: 16px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-family: var(--body);
-      font-size: 14px;
-      color: var(--cream);
-      opacity: 0.9;
-    }
-
-    .eyebrow {
-      font-family: var(--body);
-      font-weight: 600;
-      font-size: 13px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold-deep);
-      margin-bottom: 16px;
-    }
+    .video-note { font-size: 13px; color: rgba(253,248,240,0.6); margin: -22px auto 34px; }
 
     .hero-headline {
       font-family: var(--display);
-      font-weight: 700;
-      font-size: 36px;
-      line-height: 1.25;
-      color: var(--ink);
-      margin-bottom: 20px;
-      max-width: 640px;
-    }
-
-    .hero-headline .hl {
-      color: var(--sage);
-      text-decoration: underline;
-      text-decoration-color: var(--gold);
-      text-underline-offset: 4px;
-      text-decoration-thickness: 2px;
+      font-weight: 600;
+      font-size: clamp(32px, 4.6vw, 52px);
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+      color: var(--cream);
+      max-width: 860px;
+      margin: 0 auto 20px;
     }
 
     .hero-sub {
-      font-family: var(--body);
       font-size: 17px;
       line-height: 1.65;
-      color: var(--muted);
-      max-width: 560px;
-      margin-bottom: 32px;
+      color: rgba(253,248,240,0.82);
+      max-width: 640px;
+      margin: 0 auto 32px;
     }
 
     .btn-primary {
       display: inline-block;
       font-family: var(--body);
       font-weight: 600;
-      font-size: 15px;
-      color: var(--white);
-      background: var(--sage);
-      padding: 14px 32px;
+      font-size: 16px;
+      color: var(--forest-deep);
+      background: var(--gold);
+      padding: 16px 40px;
       border: none;
-      border-radius: 2px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.2s;
       text-align: center;
     }
+    .btn-primary:hover { background: #D4B683; transform: translateY(-1px); }
 
-    .btn-primary:hover { background: var(--sage-deep); }
-
-    /* Secondary CTA — ghost variant of .btn-primary, same tokens/sizing */
     .btn-secondary {
       display: inline-block;
-      font-family: var(--body);
       font-weight: 600;
       font-size: 15px;
       color: var(--sage-deep);
       background: transparent;
       padding: 14px 32px;
       border: 1px solid var(--sage);
-      border-radius: 2px;
+      border-radius: 4px;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
       text-align: center;
     }
-
     .btn-secondary:hover { background: var(--sage); color: var(--white); }
 
-    /* Pair the two CTAs with consistent spacing */
     .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .cta-stack .btn-primary, .cta-stack .btn-secondary { margin-bottom: 0; }
 
-    /* Small inline funnel links near the foot of the page */
-    .funnel-links {
-      margin-top: 14px;
-      font-family: var(--body);
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .funnel-links a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
-    .funnel-links a:hover { color: var(--sage); }
-    .funnel-links .sep { margin: 0 10px; opacity: 0.4; }
+    .reassurance { margin-top: 18px; font-size: 13px; color: rgba(253,248,240,0.65); }
+    .reassurance .dot { margin: 0 8px; opacity: 0.5; }
 
-    .reassurance {
-      margin-top: 16px;
-      font-family: var(--body);
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .hero-alt-link { margin-top: 12px; font-size: 14px; color: rgba(253,248,240,0.7); }
+    .hero-alt-link a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+    .hero-alt-link a:hover { color: #D4B683; }
 
-    .reassurance .dot {
-      margin: 0 8px;
-      opacity: 0.4;
+    .trust-chips {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: 44px;
+      flex-wrap: wrap;
     }
+    .trust-chips .chip {
+      font-size: 13.5px;
+      letter-spacing: 0.04em;
+      color: rgba(253,248,240,0.75);
+      padding: 0 26px;
+      border-left: 1px solid rgba(197,165,114,0.35);
+    }
+    .trust-chips .chip:first-child { border-left: none; }
+    .trust-chips .chip strong { color: var(--cream); font-weight: 600; }
+
+    /* ---------- EXAM-DATE URGENCY ---------- */
+    .exam-section { padding: 28px 0 0; }
+    .exam-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FBF3E2;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-size: 14.5px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .exam-banner .exam-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-deep); flex-shrink: 0; }
+    .exam-banner strong { color: var(--sage-deep); }
 
     /* ---------- PROOF STRIP ---------- */
-    .proof-strip {
-      padding: 56px 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .proof-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 0;
-    }
-
-    .proof-item {
-      padding: 0 32px;
-      border-left: 2px solid var(--gold);
-    }
-
-    .proof-item:first-child { padding-left: 0; border-left: none; }
-
+    .proof-strip { padding: 64px 0 56px; border-bottom: 1px solid var(--line); }
+    .proof-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+    .proof-item { border-top: 2px solid var(--gold); padding-top: 20px; }
     .proof-item h3 {
       font-family: var(--display);
       font-weight: 600;
@@ -255,467 +219,144 @@
       color: var(--ink);
       margin-bottom: 8px;
     }
-
-    .proof-item p {
-      font-family: var(--body);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
+    .proof-item p { font-size: 15px; line-height: 1.6; color: var(--muted); }
 
     /* ---------- HOW IT WORKS ---------- */
-    .how-section {
-      padding: 72px 0;
-    }
-
+    .how-section { padding: 72px 0; }
     .section-headline {
       font-family: var(--display);
       font-weight: 700;
-      font-size: 28px;
+      font-size: clamp(26px, 3.2vw, 34px);
       color: var(--ink);
       margin-bottom: 48px;
     }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-    }
-
-    .step {
-      border-top: 2px solid var(--sage);
-      padding-top: 24px;
-    }
-
+    .steps-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+    .step { border-top: 2px solid var(--sage); padding-top: 24px; }
     .step-label {
-      font-family: var(--body);
       font-weight: 600;
       font-size: 12px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--gold-deep);
       margin-bottom: 12px;
     }
-
-    .step h3 {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 19px;
-      color: var(--ink);
-      margin-bottom: 12px;
-    }
-
-    .step p {
-      font-family: var(--body);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
+    .step h3 { font-family: var(--display); font-weight: 600; font-size: 19px; color: var(--ink); margin-bottom: 12px; }
+    .step p { font-size: 15px; line-height: 1.6; color: var(--muted); }
 
     /* ---------- TUTOR WALL ---------- */
-    .tutor-section {
-      padding: 72px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .tutor-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
+    .tutor-section { padding: 72px 0; border-top: 1px solid var(--line); }
+    .tutor-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
     .tutor-card {
       border: 1px solid var(--line);
-      border-radius: 0;
+      background: var(--white);
+      border-radius: 12px;
       padding: 24px;
       display: flex;
       align-items: flex-start;
       gap: 16px;
+      transition: box-shadow 0.3s, transform 0.3s;
     }
-
+    .tutor-card:hover { box-shadow: 0 10px 32px rgba(31,43,35,0.10); transform: translateY(-2px); }
     .tutor-avatar {
-      width: 60px;
-      height: 60px;
+      width: 60px; height: 60px;
       border-radius: 50%;
       background: var(--sage);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      border: 2px solid var(--gold);
     }
-
-    .tutor-avatar span {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--white);
-    }
-
-    .tutor-info h4 {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .tutor-info .cred {
-      font-family: var(--body);
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .tutor-disclaimer {
-      font-family: var(--body);
-      font-size: 12px;
-      color: var(--muted);
-      opacity: 0.7;
-      margin-top: 8px;
-    }
+    .tutor-avatar span { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--white); }
+    .tutor-avatar img.tutor-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .tutor-info h4 { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+    .tutor-info .cred { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .tutor-disclaimer { font-size: 12px; color: var(--muted); opacity: 0.7; margin-top: 8px; }
 
     /* ---------- DIAGNOSTIC PREVIEW ---------- */
-    .preview-section {
-      padding: 72px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .preview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 56px;
-      align-items: start;
-    }
-
-    .preview-prose h2 {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 28px;
-      color: var(--ink);
-      margin-bottom: 24px;
-    }
-
-    .preview-prose p {
-      font-family: var(--body);
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .preview-bullets {
-      list-style: none;
-      padding: 0;
-    }
-
+    .preview-section { padding: 72px 0; border-top: 1px solid var(--line); }
+    .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .preview-prose h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.2vw, 34px); color: var(--ink); margin-bottom: 24px; }
+    .preview-prose p { font-size: 15px; line-height: 1.65; color: var(--muted); margin-bottom: 16px; }
+    .preview-bullets { list-style: none; padding: 0; }
     .preview-bullets li {
-      font-family: var(--body);
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--ink);
-      padding: 8px 0;
-      border-bottom: 1px solid var(--line);
+      font-size: 15px; line-height: 1.65; color: var(--ink);
+      padding: 8px 0; border-bottom: 1px solid var(--line);
     }
-
     .preview-bullets li:last-child { border-bottom: none; }
-
     .preview-bullets li::before {
       content: '';
       display: inline-block;
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       background: var(--gold);
       margin-right: 12px;
       vertical-align: middle;
     }
+    .email-mockup { border: 1px solid var(--line); background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 36px rgba(31,43,35,0.08); }
+    .email-header { background: var(--forest); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .email-header span { font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--cream); letter-spacing: 0.02em; }
+    .email-header .sample-pill { font-family: var(--body); font-weight: 500; font-size: 11px; color: rgba(253,248,240,0.85); border: 1px solid rgba(253,248,240,0.4); border-radius: 999px; padding: 2px 10px; letter-spacing: 0.06em; }
+    .email-body { padding: 24px 20px; }
+    .email-body .email-to { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .email-body .email-subject { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 20px; }
+    .email-score-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .email-score-row .label { font-size: 13px; color: var(--muted); }
+    .email-score-row .value { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--sage); }
+    .email-score-row .value.cutoff { font-size: 16px; color: var(--ink); font-weight: 500; }
+    .email-strength { margin-top: 16px; }
+    .email-strength .str-label { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .email-strength .str-value { font-size: 14px; color: var(--ink); line-height: 1.5; }
 
-    /* Faux email mockup */
-    .email-mockup {
-      border: 1px solid var(--line);
-      background: var(--white);
-    }
-
-    .email-header {
-      background: var(--sage);
-      padding: 16px 20px;
-    }
-
-    .email-header span {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--white);
-      letter-spacing: 0.02em;
-    }
-
-    .email-body {
-      padding: 24px 20px;
-    }
-
-    .email-body .email-to {
-      font-family: var(--body);
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .email-body .email-subject {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-
-    .email-score-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .email-score-row .label {
-      font-family: var(--body);
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .email-score-row .value {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 20px;
-      color: var(--sage);
-    }
-
-    .email-score-row .value.cutoff {
-      font-size: 16px;
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .email-strength {
-      margin-top: 16px;
-    }
-
-    .email-strength .str-label {
-      font-family: var(--body);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .email-strength .str-value {
-      font-family: var(--body);
-      font-size: 14px;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-
-    /* ---------- SCARCITY ---------- */
-    .scarcity-section {
-      padding: 56px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .scarcity-section p {
-      font-family: var(--body);
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--muted);
-      max-width: 640px;
-    }
-
-    /* ---------- FINAL CTA ---------- */
-    .final-cta {
-      padding: 80px 0;
-      border-top: 1px solid var(--line);
-      text-align: center;
-    }
-
-    .final-cta h2 {
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 32px;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-
-    .final-cta p {
-      font-family: var(--body);
-      font-size: 16px;
-      line-height: 1.65;
-      color: var(--muted);
-      max-width: 520px;
-      margin: 0 auto 32px;
-    }
-
-    .final-cta .btn-primary { margin-bottom: 16px; }
-
-    .final-phone {
-      font-family: var(--body);
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .final-phone a { color: var(--muted); }
-    .final-phone a:hover { color: var(--sage); }
-
-    /* ---------- DISCLAIMER ---------- */
-    .disclaimer-section {
-      padding: 40px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .disclaimer-section p {
-      font-family: var(--body);
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--muted);
-      opacity: 0.7;
-      max-width: 680px;
-    }
-
-    /* ---------- FOOTER ---------- */
-    .site-footer {
-      padding: 24px 0 32px;
-      border-top: 1px solid var(--line);
-    }
-
-    .site-footer p {
-      font-family: var(--body);
-      font-size: 12px;
-      color: var(--muted);
-      opacity: 0.6;
-    }
-
-    /* ---------- FADE-IN ANIMATION ---------- */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-in.delay-1 { transition-delay: 0.1s; }
-    .fade-in.delay-2 { transition-delay: 0.2s; }
-    .fade-in.delay-3 { transition-delay: 0.3s; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .fade-in {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-    }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 960px) {
-      .proof-grid { grid-template-columns: 1fr 1fr 1fr; }
-      .steps-grid { grid-template-columns: 1fr 1fr 1fr; }
-      .tutor-grid { grid-template-columns: 1fr 1fr; }
-      .preview-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-    }
-
-    @media (max-width: 768px) {
-      .proof-grid { grid-template-columns: 1fr; gap: 0; }
-      .proof-item {
-        border-left: none;
-        padding: 20px 0;
-        border-bottom: 1px solid var(--gold);
-      }
-      .proof-item:first-child { padding-top: 0; }
-      .proof-item:last-child { border-bottom: none; }
-
-      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
-
-      .tutor-grid { grid-template-columns: 1fr 1fr; }
-
-      .preview-grid { grid-template-columns: 1fr; gap: 40px; }
-
-      .hero-headline { font-size: 28px; }
-      .section-headline { font-size: 24px; }
-      .final-cta h2 { font-size: 26px; }
-    }
-
-    @media (max-width: 640px) {
-      .wrap { padding: 0 20px; }
-      .top-bar { padding: 16px 20px; }
-
-      .hero { padding: 32px 0 48px; }
-
-      .hero-headline { font-size: 26px; }
-      .hero-sub { font-size: 15px; }
-
-      .reassurance { font-size: 12px; }
-      .reassurance .dot { margin: 0 6px; }
-
-      .proof-strip { padding: 40px 0; }
-
-      .how-section { padding: 56px 0; }
-      .section-headline { font-size: 22px; margin-bottom: 36px; }
-
-      .tutor-section { padding: 56px 0; }
-      .tutor-grid { grid-template-columns: 1fr; }
-      .tutor-card { padding: 20px; }
-
-      .preview-section { padding: 56px 0; }
-      .preview-prose h2 { font-size: 24px; }
-
-      .scarcity-section { padding: 40px 0; }
-
-      .final-cta { padding: 56px 0; }
-      .final-cta h2 { font-size: 24px; }
-
-      .btn-primary { width: 100%; padding: 16px 24px; }
-    }
-  
-    /* --- Real tutor headshots --- */
-    .tutor-avatar img.tutor-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-    /* --- Exam-date urgency --- */
-    .exam-section { padding: 8px 0 0; }
-    .exam-banner { display: flex; align-items: center; gap: 12px; background: #FBF3E2; border: 1px solid var(--gold); border-left: 4px solid var(--gold-deep); border-radius: 4px; padding: 14px 18px; font-family: var(--body); font-size: 14.5px; color: var(--ink); line-height: 1.5; }
-    .exam-banner .exam-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-deep); flex-shrink: 0; }
-    .exam-banner strong { color: var(--sage-deep); }
-    /* --- Recreated parent testimonials --- */
-    .review-quote { border: 1px solid var(--line); background: var(--white); padding: 22px 22px 18px; display: flex; flex-direction: column; gap: 14px; }
-    .review-bubble { background: #ECECEC; color: var(--ink); border-radius: 16px; padding: 14px 16px; font-family: var(--body); font-size: 15px; line-height: 1.5; align-self: flex-start; }
-    .review-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
-    .review-score { font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--white); background: var(--sage); padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
-    .review-name { font-family: var(--body); font-size: 13px; color: var(--muted); }
-      /* --- Brand logo in top bar --- */
-    .wordmark img { height: 42px; width: auto; display: block; }
-    @media (max-width: 640px) { .wordmark img { height: 36px; } }
-
-    /* --- Featured result proof --- */
+    /* ---------- FEATURED RESULT PROOF ---------- */
     .result-proof-section { padding: 72px 0; border-top: 1px solid var(--line); }
     .result-proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-    .result-proof-shot { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.10); background: #fff; }
+    .result-proof-shot { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.10); background: var(--white); }
     .result-proof-shot img { width: 100%; display: block; }
-    .result-proof-prose h2 { font-family: var(--display); font-weight: 700; font-size: 28px; color: var(--ink); margin-bottom: 18px; }
-    .result-proof-prose p { font-family: var(--body); font-size: 15.5px; line-height: 1.7; color: var(--muted); margin-bottom: 14px; }
+    .result-proof-prose h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.4vw, 36px); color: var(--ink); margin-bottom: 18px; }
+    .result-proof-prose h2 .gi { color: var(--gold-deep); }
+    .result-proof-prose p { font-size: 15.5px; line-height: 1.7; color: var(--muted); margin-bottom: 14px; }
     .result-proof-prose strong { color: var(--sage-deep); }
     .result-proof-prose .proof-caption { font-size: 13px; color: var(--muted); opacity: 0.75; }
-    @media (max-width: 768px){ .result-proof-grid { grid-template-columns: 1fr; gap: 28px; } }
 
-    /* --- Guarantee callout --- */
-    .guarantee-section { padding: 64px 0; border-top: 1px solid var(--line); }
-    .guarantee-card { background: var(--sage); border-radius: 16px; padding: 48px 40px; text-align: center; }
-    .guarantee-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(197,165,114,0.5); border-radius: 999px; padding: 6px 16px; margin-bottom: 20px; }
-    .guarantee-card h2 { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.25; color: var(--white); margin: 0 auto 16px; max-width: 640px; }
-    .guarantee-card p { font-family: var(--body); font-size: 16px; line-height: 1.65; color: rgba(253,248,240,0.9); max-width: 600px; margin: 0 auto; }
+    /* ---------- IMAGE BAND ---------- */
+    .band-section { padding: 72px 0 0; }
+    .band { position: relative; border-radius: 16px; overflow: hidden; }
+    .band img { width: 100%; height: 420px; object-fit: cover; display: block; }
+    .band-card {
+      position: absolute;
+      left: 32px; bottom: 32px;
+      max-width: 460px;
+      background: rgba(22,56,42,0.88);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(197,165,114,0.4);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+    .band-card h3 { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--cream); margin-bottom: 8px; }
+    .band-card p { font-size: 14px; line-height: 1.6; color: rgba(253,248,240,0.82); }
+
+    /* ---------- GUARANTEE ---------- */
+    .guarantee-section { padding: 64px 0; }
+    .guarantee-card {
+      background: linear-gradient(160deg, var(--forest) 0%, var(--forest-deep) 100%);
+      border-radius: 16px;
+      padding: 56px 40px;
+      text-align: center;
+    }
+    .guarantee-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(197,165,114,0.5);
+      border-radius: 999px;
+      padding: 6px 16px;
+      margin-bottom: 20px;
+    }
+    .guarantee-card h2 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.25; color: var(--cream); margin: 0 auto 16px; max-width: 640px; }
+    .guarantee-card p { font-size: 16px; line-height: 1.65; color: rgba(253,248,240,0.9); max-width: 600px; margin: 0 auto; }
     .guarantee-card .guarantee-fine { font-size: 13px; color: rgba(253,248,240,0.62); margin-top: 18px; }
-    @media (max-width: 640px){ .guarantee-card { padding: 36px 24px; } .guarantee-card h2 { font-size: 24px; } }
 
-    /* --- FAQ --- */
+    /* ---------- FAQ ---------- */
     .faq-section { padding: 72px 0; border-top: 1px solid var(--line); }
     .faq-list { max-width: 760px; margin: 40px auto 0; }
     .faq-item { border-bottom: 1px solid var(--line); }
@@ -723,9 +364,90 @@
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary::after { content: '+'; position: absolute; right: 6px; top: 20px; font-family: var(--body); font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-deep); }
     .faq-item[open] summary::after { content: '\2212'; }
-    .faq-item .faq-answer { font-family: var(--body); font-size: 15.5px; line-height: 1.7; color: var(--muted); padding: 0 44px 24px 0; }
+    .faq-item .faq-answer { font-size: 15.5px; line-height: 1.7; color: var(--muted); padding: 0 44px 24px 0; }
     .faq-item .faq-answer a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
-    @media (max-width: 640px){ .faq-item summary { font-size: 16px; padding-right: 36px; } .faq-item .faq-answer { padding-right: 0; } }
+
+    /* ---------- SCARCITY ---------- */
+    .scarcity-section { padding: 48px 0; border-top: 1px solid var(--line); }
+    .scarcity-section p { font-size: 15px; line-height: 1.65; color: var(--muted); max-width: 640px; }
+
+    /* ---------- FINAL CTA ---------- */
+    .final-cta {
+      margin-top: 24px;
+      padding: 88px 0;
+      background: linear-gradient(180deg, var(--forest) 0%, var(--forest-deep) 100%);
+      text-align: center;
+    }
+    .final-cta h2 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4vw, 40px); color: var(--cream); margin-bottom: 16px; }
+    .final-cta h2 .gi { color: var(--gold); }
+    .final-cta > .wrap > p { font-size: 16px; line-height: 1.65; color: rgba(253,248,240,0.82); max-width: 520px; margin: 0 auto 32px; }
+    .final-cta .btn-secondary { color: var(--cream); border-color: rgba(253,248,240,0.4); }
+    .final-cta .btn-secondary:hover { background: rgba(253,248,240,0.08); color: var(--cream); }
+    .final-phone { margin-top: 16px; font-size: 14px; color: rgba(253,248,240,0.65); }
+    .final-phone a { color: rgba(253,248,240,0.85); }
+    .funnel-links { margin-top: 14px; font-size: 14px; color: rgba(253,248,240,0.65); }
+    .funnel-links a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+    .funnel-links .sep { margin: 0 10px; opacity: 0.4; }
+
+    /* ---------- DISCLAIMER + FOOTER (dark continuation) ---------- */
+    .disclaimer-section { background: var(--forest-deep); padding: 36px 0 8px; }
+    .disclaimer-section p { font-size: 12px; line-height: 1.6; color: rgba(253,248,240,0.45); max-width: 680px; }
+    .site-footer { background: var(--forest-deep); padding: 24px 0 32px; }
+    .site-footer p { font-size: 12px; color: rgba(253,248,240,0.45); }
+    .site-footer a { color: inherit; }
+
+    /* ---------- FADE-IN ANIMATION (progressive enhancement only) ---------- */
+    .js .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .js .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .js .fade-in.delay-1 { transition-delay: 0.1s; }
+    .js .fade-in.delay-2 { transition-delay: 0.2s; }
+    .js .fade-in.delay-3 { transition-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .js .fade-in { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 960px) {
+      .tutor-grid { grid-template-columns: 1fr 1fr; }
+      .preview-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .result-proof-grid { grid-template-columns: 1fr; gap: 28px; }
+    }
+
+    @media (max-width: 768px) {
+      .proof-grid { grid-template-columns: 1fr; gap: 28px; }
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+      .tutor-grid { grid-template-columns: 1fr 1fr; }
+      .preview-grid { grid-template-columns: 1fr; gap: 40px; }
+      .band img { height: 320px; }
+      .band-card { left: 16px; right: 16px; bottom: 16px; padding: 20px 22px; }
+      .trust-chips .chip { padding: 6px 16px; border-left: none; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px; }
+      .top-bar { padding: 16px 20px; }
+      .wordmark img { height: 38px; }
+      .hero-inner { padding-top: 12px; }
+      .hero-sub { font-size: 15px; }
+      .reassurance { font-size: 12px; }
+      .reassurance .dot { margin: 0 6px; }
+      .proof-strip { padding: 48px 0 40px; }
+      .how-section { padding: 56px 0; }
+      .section-headline { margin-bottom: 36px; }
+      .tutor-section { padding: 56px 0; }
+      .tutor-grid { grid-template-columns: 1fr; }
+      .tutor-card { padding: 20px; }
+      .preview-section { padding: 56px 0; }
+      .result-proof-section { padding: 56px 0; }
+      .scarcity-section { padding: 40px 0; }
+      .final-cta { padding: 64px 0; }
+      .btn-primary { width: 100%; padding: 16px 24px; }
+    }
   </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -751,16 +473,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    <a href="index.html" class="wordmark" aria-label="IvyPath Academy"><img src="assets/logo-transparent.png" alt="IvyPath Academy"></a>
-    <a href="tel:+19293940349" class="top-phone">(929) 394-0349</a>
-  </header>
+  <!-- DARK HERO -->
+  <section class="hero-dark">
+    <header class="top-bar">
+      <a href="index.html" class="wordmark" aria-label="IvyPath Academy"><img src="assets/logo-white-transparent.png" alt="IvyPath Academy"></a>
+      <a href="tel:+19293940349" class="top-phone">(929) 394-0349</a>
+    </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow fade-in" style="text-align:center;margin-bottom:14px;">&#9654; Step 1 &middot; Watch this 2-minute video</p>
+    <div class="wrap hero-inner">
+      <p class="eyebrow fade-in">&#9654; Step 1 &middot; Watch the 90-second video</p>
+
       <div class="hero-video-wrap fade-in">
         <video
           id="heroVideo"
@@ -772,23 +494,27 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <source src="assets/ivypath-shsat-vsl.mp4" type="video/mp4">
         </video>
         <div class="hero-video-fallback" id="videoFallback">
-          <img src="assets/video-poster-placeholder.jpg" alt="IvyPath Academy">
-          <div class="fallback-caption">Video coming soon.</div>
+          <img src="assets/ivypath-shsat-vsl-poster.jpg" alt="IvyPath Academy">
         </div>
       </div>
+      <p class="video-note fade-in delay-1">Benjamin &middot; Stuyvesant '20 &middot; Cornell University &middot; on what the SHSAT actually takes</p>
 
-      <div class="eyebrow fade-in delay-1">FREE SHSAT DIAGNOSTIC &middot; NYC</div>
+      <h1 class="hero-headline fade-in delay-1">Your child's shot at Stuyvesant, Bronx Science &amp; Brooklyn Tech, with tutors who <span class="gi">got in themselves.</span></h1>
 
-      <h1 class="hero-headline fade-in delay-1">Your child's shot at Stuyvesant, Bronx Science &amp; Brooklyn Tech &mdash; with tutors who <span class="hl">got in themselves</span>.</h1>
-
-      <p class="hero-sub fade-in delay-2">Start with a free diagnostic scored against the real specialized-high-school cutoffs. Then get a plan from tutors who aced the SHSAT and now study at Ivy League &amp; Top&nbsp;20 universities &mdash; backed by our money-back Score Improvement Guarantee.</p>
+      <p class="hero-sub fade-in delay-2">Start with a free diagnostic scored against prior-year specialized-high-school cutoffs. Then get a plan from tutors who aced the SHSAT and now study at Ivy League &amp; Top&nbsp;20 universities, backed by our money-back Score Improvement Guarantee.</p>
 
       <div class="cta-stack fade-in delay-2">
         <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic &rarr;</a>
       </div>
 
-      <p class="reassurance fade-in delay-3">Free &amp; takes about 30–35 minutes<span class="dot">&middot;</span>Real diagnostic, real specialized-HS cutoffs<span class="dot">&middot;</span>A tutor reviews your results on a free call</p>
-      <p class="funnel-links fade-in delay-3" style="margin-top:10px;">Prefer to talk first? <a href="book.html">Book a free 15-min consultation &rarr;</a></p>
+      <p class="reassurance fade-in delay-3">Free &middot; under an hour &middot; taken online at home<span class="dot">&middot;</span>Measured against prior-year specialized-HS cutoffs<span class="dot">&middot;</span>A tutor reviews your results on a free call</p>
+      <p class="hero-alt-link fade-in delay-3">Prefer to talk first? <a href="book.html">Book a free 15-min consultation &rarr;</a></p>
+
+      <div class="trust-chips fade-in delay-3">
+        <div class="chip">Tutors are <strong>Stuyvesant graduates</strong></div>
+        <div class="chip"><strong>Score Improvement Guarantee</strong> on eligible programs</div>
+        <div class="chip">Bilingual support &middot; <strong>English &amp; 中文</strong></div>
+      </div>
     </div>
   </section>
 
@@ -797,7 +523,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <div class="exam-banner fade-in">
         <span class="exam-dot"></span>
-        <span>SHSAT test date: <strong>November 12, 2026</strong> &mdash; and fall 2026 is the first year of the new <strong>computer-adaptive</strong> format. Early, targeted prep matters more than ever this cycle.</span>
+        <span>SHSAT test date: <strong>November 12, 2026</strong>, and fall 2026 is the first year of the new <strong>computer-adaptive</strong> format. Early, targeted prep matters more than ever this cycle.</span>
       </div>
     </div>
   </section>
@@ -812,12 +538,33 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         </div>
         <div class="proof-item fade-in delay-1">
           <h3>Your child's real number</h3>
-          <p>The diagnostic shows their current standing against the actual cutoffs for the specialized high schools, with the exact gap to close.</p>
+          <p>The diagnostic shows their current standing against prior-year cutoffs for the specialized high schools, with the exact gap to close.</p>
         </div>
         <div class="proof-item fade-in delay-2">
           <h3>Weekly parent updates</h3>
           <p>You see progress by topic, every week, on whichever channel you prefer.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED RESULT PROOF -->
+  <section class="result-proof-section" style="border-top:none;padding-top:64px;">
+    <div class="wrap">
+      <div class="result-proof-grid">
+        <div class="result-proof-prose">
+          <h2 class="fade-in">SHSAT 606. Offer: <span class="gi">Stuyvesant.</span></h2>
+          <p class="fade-in delay-1">This is an actual NYC MySchools result from an IvyPath student &mdash; an SHSAT score of <strong>606</strong> and an offer from Stuyvesant High School, the city's most competitive specialized high school.</p>
+          <p class="fade-in delay-1">Every child's starting point is different. The free diagnostic shows your child's number today, and the exact gap between it and the schools you're aiming for.</p>
+          <p class="proof-caption fade-in delay-2">Screenshot from the official NYC MySchools portal, shared with permission. Individual results vary.</p>
+          <div class="fade-in delay-2" style="margin-top:32px;">
+            <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+            <p style="margin-top:10px;font-size:13px;color:var(--muted);">Free &middot; under an hour &middot; no obligation</p>
+          </div>
+        </div>
+        <figure class="result-proof-shot fade-in delay-1">
+          <img src="assets/reviews/stuyvesant-offer.jpg" alt="NYC MySchools result showing an SHSAT score of 606 and an offer to Stuyvesant High School" loading="lazy">
+        </figure>
       </div>
     </div>
   </section>
@@ -828,17 +575,17 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <h2 class="section-headline fade-in">How it works</h2>
       <div class="steps-grid">
         <div class="step fade-in">
-          <div class="step-label">STEP 1</div>
+          <div class="step-label">Step 1</div>
           <h3>Take the free diagnostic</h3>
           <p>A real, calibrated SHSAT-level diagnostic on the IvyPath platform. It reflects the actual difficulty of the exam, so the result is honest.</p>
         </div>
         <div class="step fade-in delay-1">
-          <div class="step-label">STEP 2</div>
+          <div class="step-label">Step 2</div>
           <h3>See the real gap</h3>
-          <p>We walk you through your child's score against the genuine specialized high school cutoffs, and pinpoint which topics are costing them points.</p>
+          <p>We walk you through your child's score against prior-year specialized high school cutoffs, and pinpoint which topics are costing them points.</p>
         </div>
         <div class="step fade-in delay-2">
-          <div class="step-label">STEP 3</div>
+          <div class="step-label">Step 3</div>
           <h3>Decide with clarity</h3>
           <p>If the gap is real, we'll show you how our program closes it. If your child is already on track, we'll tell you that too.</p>
         </div>
@@ -901,6 +648,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         </div>
       </div>
       <p class="tutor-disclaimer">Tutor credentials reflect schools individual tutors have attended.</p>
+      <div class="fade-in" style="text-align:center;margin-top:44px;">
+        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+        <p style="margin-top:10px;font-size:13px;color:var(--muted);">A tutor reviews your child's results with you on a free call</p>
+      </div>
     </div>
   </section>
 
@@ -913,7 +664,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <p>After the diagnostic, we'll send you a clear, jargon-free breakdown of your child's performance.</p>
           <ul class="preview-bullets">
             <li>The composite SHSAT score</li>
-            <li>A direct comparison against current specialized high school cutoffs</li>
+            <li>A direct comparison against prior-year specialized high school cutoffs</li>
             <li>A coarse strength and focus-area read (no answer key, just where to focus)</li>
           </ul>
         </div>
@@ -921,10 +672,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <div class="email-mockup">
             <div class="email-header">
               <span>IVYPATH ACADEMY</span>
+              <span class="sample-pill">SAMPLE</span>
             </div>
             <div class="email-body">
               <div class="email-to">To: parent@example.com</div>
-              <div class="email-subject">SHSAT Diagnostic Results <span style="font-weight:500;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px;vertical-align:middle;">sample</span></div>
+              <div class="email-subject">SHSAT Diagnostic Results</div>
               <div class="email-score-row">
                 <span class="label">Composite Score</span>
                 <span class="value">485</span>
@@ -952,19 +704,26 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
-  <!-- FEATURED RESULT PROOF -->
-  <section class="result-proof-section">
+  <!-- IMAGE BAND -->
+  <section class="band-section" style="padding-top:0;">
     <div class="wrap">
-      <div class="result-proof-grid">
-        <div class="result-proof-prose fade-in">
-          <h2>A real Stuyvesant offer.</h2>
-          <p>This is an actual NYC MySchools result from an IvyPath student &mdash; an SHSAT score of <strong>606</strong> and an offer from Stuyvesant High School, the city's most competitive specialized high school.</p>
-          <p>Every child's starting point is different. The free diagnostic shows your child's number today, and the exact gap between it and the schools you're aiming for.</p>
-          <p class="proof-caption">Screenshot from the official NYC MySchools portal, shared with permission. Individual results vary.</p>
+      <div class="band fade-in">
+        <img src="assets/hero-school.jpg" alt="Grand stone facade of a historic New York City high school at golden hour" loading="lazy">
+        <div class="band-card">
+          <h3>Prep built by people who made this exact climb.</h3>
+          <p>Cohorts of 15 or fewer, a plan built from the diagnostic, and tutors who went from the SHSAT to Stuyvesant to the Ivy League.</p>
         </div>
-        <figure class="result-proof-shot fade-in delay-1">
-          <img src="assets/reviews/stuyvesant-offer.jpg" alt="NYC MySchools result showing an SHSAT score of 606 and an offer to Stuyvesant High School" loading="lazy">
-        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TRANSPARENCY -->
+  <section style="padding:64px 0 0;">
+    <div class="wrap">
+      <div class="fade-in" style="border:1px solid var(--line);background:var(--white);border-radius:12px;padding:32px 36px;max-width:760px;margin:0 auto;text-align:center;">
+        <h2 style="font-family:var(--display);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:12px;">What it costs, in plain terms.</h2>
+        <p style="font-size:15px;line-height:1.65;color:var(--muted);margin-bottom:18px;">1-on-1 tutoring starts at $75/hour. 50-hour group cohorts run in small groups of 3&ndash;15 students. Every current rate is public on our pricing page &mdash; no call needed to see them. The diagnostic is free either way.</p>
+        <a href="pricing.html" class="btn-secondary">See full pricing &amp; packages &rarr;</a>
       </div>
     </div>
   </section>
@@ -984,7 +743,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- CTA after guarantee -->
   <section style="padding:8px 0 0;text-align:center;">
     <div class="wrap">
-      <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic &rarr;</a>
+      <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
     </div>
   </section>
 
@@ -1031,12 +790,12 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- FINAL CTA -->
   <section class="final-cta">
     <div class="wrap">
-      <h2 class="fade-in">See where your child actually stands.</h2>
+      <h2 class="fade-in">See where your child <span class="gi">really</span> stands.</h2>
       <p class="fade-in delay-1">Book the free SHSAT diagnostic. A few minutes to start, and you'll finally have a real number to work from.</p>
       <div class="cta-stack fade-in delay-2">
-        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic &rarr;</a>
+        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic</a>
+        <a href="book.html" class="btn-secondary">Not ready to test? Book a free 15-min consultation instead &rarr;</a>
       </div>
-      <p class="funnel-links fade-in delay-2" style="margin-top:10px;">Prefer to talk first? <a href="book.html">Book a free 15-min consultation &rarr;</a></p>
       <div class="final-phone fade-in delay-3">
         Or call <a href="tel:+19293940349">(929) 394-0349</a>
       </div>
@@ -1057,7 +816,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="wrap">
-      <p>&copy; 2026 IvyPath Academy. Perevalis Tutoring LLC. Contact: (929) 394-0349 &middot; <a href="privacy.html" style="color:inherit;">Privacy</a> &middot; <a href="terms.html" style="color:inherit;">Terms</a></p>
+      <p>&copy; 2026 IvyPath Academy, operated by Perevalis Tutoring LLC. Contact: (929) 394-0349 &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
     </div>
   </footer>
 
@@ -1071,7 +830,6 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           video.style.display = 'none';
           fallback.style.display = 'block';
         });
-        /* Also handle source error */
         var sources = video.querySelectorAll('source');
         for (var i = 0; i < sources.length; i++) {
           sources[i].addEventListener('error', function() {
@@ -1082,7 +840,24 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       }
     })();
 
-    /* IntersectionObserver fade-in */
+    /* VSL engagement signals: first play + completion (Meta custom + GA4) */
+    (function() {
+      var video = document.getElementById('heroVideo');
+      if (!video) return;
+      var played = false;
+      video.addEventListener('play', function() {
+        if (played) return;
+        played = true;
+        try { if (window.fbq) fbq('trackCustom', 'VSLPlay', { content_name: 'SHSAT VSL' }); } catch (e) {}
+        try { if (window.gtag) gtag('event', 'vsl_play', { exam: 'SHSAT' }); } catch (e) {}
+      });
+      video.addEventListener('ended', function() {
+        try { if (window.fbq) fbq('trackCustom', 'VSLComplete', { content_name: 'SHSAT VSL' }); } catch (e) {}
+        try { if (window.gtag) gtag('event', 'vsl_complete', { exam: 'SHSAT' }); } catch (e) {}
+      });
+    })();
+
+    /* IntersectionObserver fade-in (progressive enhancement; content visible without JS) */
     (function() {
       if ('IntersectionObserver' in window) {
         var els = document.querySelectorAll('.fade-in');
@@ -1096,23 +871,23 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         }, { threshold: 0.1 });
         els.forEach(function(el) { observer.observe(el); });
       } else {
-        /* Fallback: show everything */
-        var els = document.querySelectorAll('.fade-in');
-        els.forEach(function(el) { el.classList.add('visible'); });
+        var els2 = document.querySelectorAll('.fade-in');
+        els2.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
   </script>
 
   <script>
-    /* Meta Pixel: the diagnostic CTA click is a soft mid-funnel signal (custom event), NOT a Lead.
+    /* Meta Pixel + GA4: the diagnostic CTA click is a soft mid-funnel signal (custom event), NOT a Lead.
        The genuine Lead fires inside the app when the diagnostic actually starts. */
     (function(){
-      function fireDiagnosticLead(exam){
+      function fireDiagnosticSignal(exam){
         try { if (window.fbq) fbq('trackCustom','DiagnosticCTAClick',{content_name:(exam||'SHSAT')+' Diagnostic CTA Click'}); } catch(e){}
+        try { if (window.gtag) gtag('event','diagnostic_cta_click',{exam:exam||'SHSAT'}); } catch(e){}
       }
       var ctas = document.querySelectorAll('.js-diagnostic-cta');
       for (var i=0;i<ctas.length;i++){
-        ctas[i].addEventListener('click', function(){ fireDiagnosticLead(this.getAttribute('data-exam')); });
+        ctas[i].addEventListener('click', function(){ fireDiagnosticSignal(this.getAttribute('data-exam')); });
       }
     })();
   </script>

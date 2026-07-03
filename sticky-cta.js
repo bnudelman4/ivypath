@@ -4,6 +4,9 @@
 (function () {
   function init() {
     var path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    // Vercel serves the funnels at the clean paths /sat and /shsat
+    if (path === 'sat') path = 'sat-diagnostic.html';
+    if (path === 'shsat') path = 'shsat-diagnostic.html';
     var hidden = ['book.html', 'cn-book.html', 'thank-you.html', 'success.html', 'cancel.html'];
     if (hidden.indexOf(path) !== -1) return;
     var isCn = path.indexOf('cn') === 0;

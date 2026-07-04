@@ -95,6 +95,7 @@
     }
 
     .hero-video-wrap {
+      position: relative;
       max-width: 780px;
       margin: 0 auto 36px;
       border-radius: 16px;
@@ -110,6 +111,28 @@
       aspect-ratio: 16/9;
       object-fit: cover;
     }
+    .vsl-sound-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(197,165,114,0.96);
+      color: var(--forest-deep);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      transition: opacity 0.3s ease, transform 0.15s ease;
+    }
+    .vsl-sound-btn:hover { transform: translateY(-1px); }
+    .vsl-sound-btn.is-hidden { opacity: 0; pointer-events: none; }
     .hero-video-fallback { display: none; width: 100%; position: relative; }
     .hero-video-fallback img { width: 100%; display: block; }
 
@@ -487,12 +510,15 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <video
           id="heroVideo"
           controls
-          preload="metadata"
+          autoplay
+          muted
           playsinline
+          preload="auto"
           poster="assets/ivypath-shsat-vsl-poster.jpg"
         >
           <source src="assets/ivypath-shsat-vsl.mp4" type="video/mp4">
         </video>
+        <button type="button" class="vsl-sound-btn" id="vslSound" aria-label="Turn on sound">&#128266; Tap for sound</button>
         <div class="hero-video-fallback" id="videoFallback">
           <img src="assets/ivypath-shsat-vsl-poster.jpg" alt="IvyPath Academy">
         </div>
@@ -821,40 +847,63 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   </footer>
 
   <script>
-    /* Video error fallback */
+    /* VSL: muted autoplay + tap-for-sound, with error fallback and engagement signals */
     (function() {
       var video = document.getElementById('heroVideo');
       var fallback = document.getElementById('videoFallback');
-      if (video && fallback) {
-        video.addEventListener('error', function() {
-          video.style.display = 'none';
-          fallback.style.display = 'block';
-        });
-        var sources = video.querySelectorAll('source');
-        for (var i = 0; i < sources.length; i++) {
-          sources[i].addEventListener('error', function() {
-            video.style.display = 'none';
-            fallback.style.display = 'block';
-          });
-        }
-      }
-    })();
-
-    /* VSL engagement signals: first play + completion (Meta custom + GA4) */
-    (function() {
-      var video = document.getElementById('heroVideo');
+      var soundBtn = document.getElementById('vslSound');
       if (!video) return;
-      var played = false;
-      video.addEventListener('play', function() {
-        if (played) return;
-        played = true;
+
+      function showFallback() {
+        video.style.display = 'none';
+        if (soundBtn) soundBtn.classList.add('is-hidden');
+        if (fallback) fallback.style.display = 'block';
+      }
+      video.addEventListener('error', showFallback);
+      var sources = video.querySelectorAll('source');
+      for (var i = 0; i < sources.length; i++) {
+        sources[i].addEventListener('error', showFallback);
+      }
+
+      // Kick off muted autoplay (some browsers need an explicit call).
+      var kickoff = video.play();
+      if (kickoff && typeof kickoff.catch === 'function') {
+        kickoff.catch(function () { /* autoplay blocked; poster + controls remain */ });
+      }
+
+      // VSLPlay = actually watched a few seconds, not just autoplay firing at t=0.
+      var playCounted = false;
+      video.addEventListener('timeupdate', function () {
+        if (playCounted || video.currentTime < 3) return;
+        playCounted = true;
         try { if (window.fbq) fbq('trackCustom', 'VSLPlay', { content_name: 'SHSAT VSL' }); } catch (e) {}
         try { if (window.gtag) gtag('event', 'vsl_play', { exam: 'SHSAT' }); } catch (e) {}
       });
-      video.addEventListener('ended', function() {
+
+      video.addEventListener('ended', function () {
         try { if (window.fbq) fbq('trackCustom', 'VSLComplete', { content_name: 'SHSAT VSL' }); } catch (e) {}
         try { if (window.gtag) gtag('event', 'vsl_complete', { exam: 'SHSAT' }); } catch (e) {}
+        if (soundBtn) soundBtn.classList.add('is-hidden');
       });
+
+      // Unmute (via our button OR native controls) = strongest pre-CTA intent signal.
+      var unmuteCounted = false;
+      video.addEventListener('volumechange', function () {
+        if (video.muted || video.volume === 0) return;
+        if (soundBtn) soundBtn.classList.add('is-hidden');
+        if (unmuteCounted) return;
+        unmuteCounted = true;
+        try { if (window.fbq) fbq('trackCustom', 'VSLUnmute', { content_name: 'SHSAT VSL' }); } catch (e) {}
+        try { if (window.gtag) gtag('event', 'vsl_unmute', { exam: 'SHSAT' }); } catch (e) {}
+      });
+      if (soundBtn) {
+        soundBtn.addEventListener('click', function () {
+          video.muted = false;
+          video.volume = 1;
+          var p = video.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        });
+      }
     })();
 
     /* IntersectionObserver fade-in (progressive enhancement; content visible without JS) */

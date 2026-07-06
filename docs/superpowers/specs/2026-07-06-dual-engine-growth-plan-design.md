@@ -1,5 +1,9 @@
 # Dual-Engine Growth Plan — Design Spec
-**Date:** 2026-07-06 · **Status:** Approved section-by-section in brainstorm; pending final user review
+**Date:** 2026-07-06 · **Status:** **APPROVED** (user, 2026-07-06) — open checks resolved: consulting is
+fully remote (national targeting unlocked at Gate 2); written consent covers paid ads (named schools
+allowed from day 1). **Amendment:** ad/VSL editing follows the Zenith-teardown edit spec (workflow
+`wf_9bc6591a-ef3`; frame-level tactics playbook + IvyPath blueprint) — their tactics, executed better,
+on real consented proof.
 **Owner:** Vicente (IvyPath) · **Executor:** Claude (build, produce, launch, measure)
 
 ## 1. Decision & context

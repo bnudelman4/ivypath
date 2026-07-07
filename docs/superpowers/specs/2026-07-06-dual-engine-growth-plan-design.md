@@ -65,8 +65,13 @@ Same design language as `/sat` (dark-forest hero, cream body, Lora accents). Sec
    against proof docs before publication (incl. SAT-vs-PSAT scale check on the "1000").
 5. **Team:** the two consultants + credentials.
 6. FAQ (split-layout accordion) → closing CTA.
-7. **Single CTA everywhere:** "Book a free strategy call" → Calendly embed (UTM passthrough);
-   booking confirmation fires `StrategyCallBooked` (browser pixel + CAPI w/ `external_id`).
+7. **Single CTA everywhere:** "Book a free strategy call" → **native booking widget**
+   (AMENDED 2026-07-07: user does not use Calendly — same custom two-step flow as book.html
+   → `/api/book-consultation`, Google Calendar service account + Meet link, 30-min
+   `type: consulting-strategy` variant). Booking fires `StrategyCallBooked` twice with one
+   eventId: browser pixel on success + server-side relay from the API function to the
+   platform CAPI endpoint (PR #22) — Meta dedups on event_id. All time slots shown
+   (book.html's random-subset "availability" pattern deliberately NOT ported).
 
 ### 3.2 VSL: ~90–120s, six beats (Claude scripts; Vicente reads naturally)
 1. **Hook (0–10s):** "Most families start thinking seriously about college applications in

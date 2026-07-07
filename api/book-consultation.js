@@ -29,6 +29,12 @@ module.exports = async (req, res) => {
     const date = typeof body.date === 'string' ? body.date.trim() : '';
     const time = typeof body.time === 'string' ? body.time.trim() : '';
     const ref = typeof body.ref === 'string' ? body.ref.trim().slice(0,64) : '';
+    // Booking variants: default 15-min consult (book.html) vs the 30-min
+    // college-consulting strategy call (/consulting).
+    const isConsulting = body.type === 'consulting-strategy';
+    const eventId = typeof body.eventId === 'string' && body.eventId.length > 0 && body.eventId.length <= 64
+      ? body.eventId : '';
+    const grade = typeof body.grade === 'string' ? body.grade.trim().slice(0, 20) : '';
 
     // --- Validate inputs ---
     if (!name || !email || !phone || !date || !time) {
@@ -63,7 +69,7 @@ module.exports = async (req, res) => {
     const startDT = `${date}T${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:00`;
 
     let endHours = hours;
-    let endMins = mins + 15;
+    let endMins = mins + (isConsulting ? 30 : 15);
     if (endMins >= 60) {
       endMins -= 60;
       endHours += 1;
@@ -100,8 +106,12 @@ module.exports = async (req, res) => {
       const calendar = google.calendar({ version: 'v3', auth });
 
       const event = {
-        summary: `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
-        description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
+        summary: isConsulting
+          ? `IvyPath Academy - College Consulting Strategy Call${ref ? ' [ref: ' + ref + ']' : ''}`
+          : `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
+        description: isConsulting
+          ? `Free 30-minute college consulting strategy call.\n\nParent: ${name}\nEmail: ${email}\nPhone: ${phone}${grade ? '\nStudent grade: ' + grade : ''}\n\nConsultants: Alp / Edison. Review profile, honest read, roadmap sketch.`
+          : `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
         start: {
           dateTime: startDT,
           timeZone: 'America/New_York',
@@ -148,6 +158,24 @@ module.exports = async (req, res) => {
         calErr && calErr.response && calErr.response.data
       );
       calendarOk = false;
+    }
+
+    // Consulting bookings: relay the StrategyCallBooked conversion server-side
+    // (browser fires the pixel with the SAME eventId — Meta dedups on event_id).
+    // Adblock-proof and never blocks the booking response for long.
+    if (isConsulting && eventId) {
+      try {
+        await Promise.race([
+          fetch('https://app.ivypathacademy.com/api/track/strategy-call-booked', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ eventId: eventId, sourceUrl: 'https://www.ivypathacademy.com/consulting' }),
+          }).catch(() => {}),
+          new Promise((resolve) => setTimeout(resolve, 1500)),
+        ]);
+      } catch (relayErr) {
+        // Never fail a booking over conversion tracking.
+      }
     }
 
     // Always acknowledge the lead with 200 so the client never sees a failure.

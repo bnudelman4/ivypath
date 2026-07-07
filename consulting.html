@@ -395,9 +395,77 @@
       text-align: center;
       color: var(--gold-deep);
     }
-    #calendlyEmbed { max-width: 720px; margin: 0 auto; border-radius: 12px; }
     .book-phone { margin-top: 24px !important; margin-bottom: 0 !important; }
     .book-phone a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Native booking widget (IvyPath's own two-step flow) */
+    .book-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(31,43,35,0.06);
+      padding: 28px 28px 18px;
+      text-align: left;
+    }
+    .book-card-head { text-align: center; margin-bottom: 20px; }
+    .book-card-head h3 { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink); }
+    .book-card-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .cal-step-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 14px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .form-group input, .form-group select {
+      width: 100%;
+      font-family: var(--body);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 11px 12px;
+    }
+    .form-group input:focus, .form-group select:focus { outline: 2px solid var(--sage); outline-offset: 0; border-color: var(--sage); }
+    .form-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .contact-error, .booking-error { font-size: 13.5px; color: #A34141; margin: 4px 0 8px; }
+    .book-submit { width: 100%; margin-top: 6px; }
+    .book-reassure { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
+    .cal-back {
+      display: inline-block;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--body); font-size: 13px; font-weight: 600;
+      color: var(--sage-deep); margin-bottom: 12px; padding: 4px 0;
+    }
+    .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .cal-month { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); }
+    .cal-nav-btn {
+      background: var(--cream); border: 1px solid var(--line); border-radius: 6px;
+      width: 34px; height: 34px; cursor: pointer; font-size: 15px; color: var(--ink);
+    }
+    .cal-nav-btn:hover { border-color: var(--sage); }
+    .cal-days-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 6px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-day {
+      aspect-ratio: 1; border: none; background: none; border-radius: 8px;
+      font-family: var(--body); font-size: 14px; color: var(--ink); cursor: pointer;
+    }
+    .cal-day.available { background: var(--cream); border: 1px solid var(--line); }
+    .cal-day.available:hover { border-color: var(--sage); background: #F1EBDD; }
+    .cal-day.disabled { color: #C9C2B2; cursor: default; }
+    .cal-day.today { font-weight: 700; }
+    .cal-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .time-slot {
+      font-family: var(--body); font-size: 14px; font-weight: 600; color: var(--sage-deep);
+      background: var(--cream); border: 1px solid var(--line); border-radius: 6px;
+      padding: 11px 8px; cursor: pointer;
+    }
+    .time-slot:hover { border-color: var(--sage); background: #F1EBDD; }
+    .confirm-details { text-align: center; margin-bottom: 14px; }
+    .confirm-details h4 { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); }
+    .confirm-datetime { font-size: 15px; font-weight: 600; color: var(--sage-deep); margin-top: 6px; }
+    .confirm-duration { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .confirm-summary { display: flex; flex-direction: column; gap: 2px; text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .cal-timezone { text-align: center; font-size: 12px; color: var(--muted); margin-top: 16px; }
 
     /* ---------- FINAL CTA ---------- */
     .final-cta {
@@ -767,13 +835,85 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <li>You get an honest read on what&rsquo;s strong and what&rsquo;s missing</li>
         <li>We sketch the roadmap we&rsquo;d build. If it&rsquo;s not a fit, you keep it</li>
       </ol>
-      <!-- Plain iframe embed on purpose: no third-party script executes in our page
-           context (Calendly's widget.js is unversioned, so SRI pinning would break on
-           their deploys). The iframe still postMessages calendly.event_scheduled to
-           the parent, which Task 4's listener consumes. -->
-      <iframe id="calendlyEmbed" title="Book a free strategy call"
-        src="https://calendly.com/PLACEHOLDER-ivypath-academy/strategy-call?embed_domain=www.ivypathacademy.com&embed_type=Inline&hide_gdpr_banner=1"
-        style="width:100%;min-width:320px;height:700px;border:0;" loading="lazy"></iframe>
+      <!-- Native booking widget: IvyPath's own two-step flow (same stack as
+           book.html) → /api/book-consultation (Google Calendar service account,
+           Meet link). No third-party embeds. -->
+      <div class="book-card" id="bookCard">
+        <div class="book-card-head">
+          <h3>Schedule your strategy call</h3>
+          <p class="book-card-sub">30 min &middot; Google Meet &middot; free</p>
+        </div>
+
+        <!-- Step 1: details -->
+        <div class="cal-panel" id="calContact">
+          <p class="cal-step-label">Step 1 of 2 &middot; Your details</p>
+          <form id="contactForm" novalidate>
+            <div class="form-group">
+              <label for="leadName">Your name</label>
+              <input type="text" id="leadName" name="name" placeholder="Full name" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="leadEmail">Email</label>
+              <input type="email" id="leadEmail" name="email" placeholder="you@email.com" autocomplete="email" required>
+            </div>
+            <div class="form-group">
+              <label for="leadPhone">Mobile phone</label>
+              <input type="tel" id="leadPhone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-describedby="leadPhoneHint">
+              <p class="form-hint" id="leadPhoneHint">Mobile, so we can text your Meet link and a reminder.</p>
+            </div>
+            <div class="form-group">
+              <label for="leadGrade">Student&rsquo;s grade this fall</label>
+              <select id="leadGrade" name="grade" required>
+                <option value="" selected disabled>Select grade</option>
+                <option value="9">9th grade</option>
+                <option value="10">10th grade</option>
+                <option value="11">11th grade</option>
+                <option value="12">12th grade</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <p class="contact-error" id="contactError" role="alert" aria-live="polite" style="display:none;"></p>
+            <button type="submit" class="btn-primary book-submit" id="contactContinueBtn">Continue to pick a time &rarr;</button>
+            <p class="book-reassure">No spam. We only use this to confirm your free strategy call.</p>
+          </form>
+        </div>
+
+        <!-- Step 2a: date -->
+        <div class="cal-panel" id="calendarWidget" style="display:none;">
+          <button class="cal-back" id="calContactBack" type="button">&larr; Edit your details</button>
+          <p class="cal-step-label">Step 2 of 2 &middot; Pick a date</p>
+          <div class="cal-nav">
+            <button class="cal-nav-btn" id="calPrev" type="button" aria-label="Previous month">&larr;</button>
+            <span class="cal-month" id="calMonth"></span>
+            <button class="cal-nav-btn" id="calNext" type="button" aria-label="Next month">&rarr;</button>
+          </div>
+          <div class="cal-days-header"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+
+        <!-- Step 2b: times -->
+        <div class="cal-panel" id="calTimes" style="display:none;">
+          <button class="cal-back" id="calBack" type="button">&larr; <span id="calSelectedDate"></span></button>
+          <p class="cal-step-label">Available times</p>
+          <div class="cal-slots" id="calSlots"></div>
+        </div>
+
+        <!-- Step 2c: confirm -->
+        <div class="cal-panel" id="calConfirm" style="display:none;">
+          <div class="confirm-details">
+            <h4>Free strategy call</h4>
+            <p class="confirm-datetime" id="confirmDateTime"></p>
+            <p class="confirm-duration">30 min &middot; Google Meet</p>
+          </div>
+          <div class="confirm-summary" id="confirmContactSummary"></div>
+          <form id="confirmForm">
+            <button type="submit" class="btn-primary book-submit" id="confirmBtn">Confirm booking</button>
+            <button type="button" class="cal-back" id="calChangeTime">&larr; Change time</button>
+          </form>
+        </div>
+
+        <p class="cal-timezone">All times Eastern (ET)</p>
+      </div>
       <p class="book-phone">Prefer to talk first? Call or text <a href="tel:+19293940349"><strong>(929) 394-0349</strong></a> &middot; English &amp; <span lang="zh">中文</span></p>
     </div>
   </section>
@@ -900,8 +1040,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   </script>
 
   <script>
-    /* Strategy-call conversion: fires on Calendly's scheduled event.
-       Browser pixel + GA4 + CAPI relay (deduped via shared eventID). */
+    /* Consulting CTA signal + native booking widget.
+       StrategyCallBooked fires twice with ONE eventId: browser pixel here and
+       server-side CAPI relay inside /api/book-consultation — Meta dedups on event_id. */
     (function(){
       var CTA = document.querySelectorAll('.js-book-cta');
       for (var i=0;i<CTA.length;i++){
@@ -910,23 +1051,135 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           try { if (window.gtag) gtag('event','consulting_cta_click',{}); } catch(e){}
         });
       }
-      window.addEventListener('message', function(e){
-        // Exact-hostname origin check: substring matching would accept
-        // lookalike origins such as https://calendly.com.attacker.io
-        var oh;
-        try { oh = new URL(e.origin).hostname; } catch (err) { return; }
-        if (oh !== 'calendly.com' && oh.slice(-13) !== '.calendly.com') return;
-        var d = e.data || {};
-        if (d.event !== 'calendly.event_scheduled') return;
+    })();
+
+    /* Booking widget (same stack as book.html: /api/book-consultation ->
+       Google Calendar service account). All slots shown — no fake scarcity. */
+    (function() {
+      var contactPanel = document.getElementById('calContact');
+      if (!contactPanel) return;
+      var contactForm = document.getElementById('contactForm');
+      var contactError = document.getElementById('contactError');
+      var nameInput = document.getElementById('leadName');
+      var emailInput = document.getElementById('leadEmail');
+      var phoneInput = document.getElementById('leadPhone');
+      var gradeInput = document.getElementById('leadGrade');
+      var grid = document.getElementById('calGrid');
+      var monthLabel = document.getElementById('calMonth');
+      var calWidget = document.getElementById('calendarWidget');
+      var timesPanel = document.getElementById('calTimes');
+      var slotsContainer = document.getElementById('calSlots');
+      var selectedDateLabel = document.getElementById('calSelectedDate');
+      var confirmPanel = document.getElementById('calConfirm');
+      var confirmDateTime = document.getElementById('confirmDateTime');
+      var confirmContactSummary = document.getElementById('confirmContactSummary');
+
+      var today = new Date();
+      var currentMonth = today.getMonth();
+      var currentYear = today.getFullYear();
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+
+      var lead = { name:'', email:'', phone:'', grade:'' };
+      var refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
+      var selectedDate = null, selectedTime = null;
+
+      function show(panel){
+        [contactPanel, calWidget, timesPanel, confirmPanel].forEach(function(p){ p.style.display = (p===panel) ? 'block' : 'none'; });
+      }
+      function esc(x){ return String(x).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+      contactForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var name = nameInput.value.trim(), email = emailInput.value.trim(), phone = phoneInput.value.trim(), grade = gradeInput.value;
+        var msg = '';
+        if (name.length < 2) msg = 'Please enter your name.';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) msg = 'Please enter a valid email address.';
+        else if ((phone.match(/\d/g) || []).length < 7) msg = 'Please enter a valid mobile phone number.';
+        else if (!grade) msg = 'Please select your student\u2019s grade.';
+        if (msg) { contactError.textContent = msg; contactError.style.display = 'block'; return; }
+        contactError.style.display = 'none';
+        lead.name = name; lead.email = email; lead.phone = phone; lead.grade = grade;
+        show(calWidget); renderCalendar();
+      });
+
+      function renderCalendar(){
+        monthLabel.textContent = months[currentMonth] + ' ' + currentYear;
+        grid.innerHTML = '';
+        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        for (var i = 0; i < firstDay; i++) { var sp = document.createElement('span'); sp.className='cal-day disabled'; grid.appendChild(sp); }
+        for (var d = 1; d <= daysInMonth; d++) {
+          (function(d){
+            var btn = document.createElement('button');
+            btn.type = 'button'; btn.className = 'cal-day'; btn.textContent = d;
+            var date = new Date(currentYear, currentMonth, d);
+            var dow = date.getDay();
+            var isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            if (isPast || dow === 0 || dow === 6) { btn.disabled = true; btn.classList.add('disabled'); }
+            else { btn.classList.add('available'); btn.addEventListener('click', function(){ showTimes(date, d); }); }
+            if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) btn.classList.add('today');
+            grid.appendChild(btn);
+          })(d);
+        }
+      }
+
+      function showTimes(date, day){
+        selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
+        slotsContainer.innerHTML = '';
+        times.forEach(function(time){
+          var btn = document.createElement('button');
+          btn.type = 'button'; btn.className = 'time-slot'; btn.textContent = time;
+          btn.addEventListener('click', function(){ showConfirm(date, day, time); });
+          slotsContainer.appendChild(btn);
+        });
+        show(timesPanel);
+      }
+
+      function showConfirm(date, day, time){
+        confirmDateTime.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day + ' at ' + time;
+        selectedDate = date; selectedTime = time;
+        confirmContactSummary.innerHTML = '<span>' + esc(lead.name) + '</span><span>' + esc(lead.email) + '</span><span>' + esc(lead.phone) + '</span>';
+        show(confirmPanel);
+      }
+
+      document.getElementById('calContactBack').addEventListener('click', function(){ show(contactPanel); });
+      document.getElementById('calBack').addEventListener('click', function(){ show(calWidget); });
+      document.getElementById('calChangeTime').addEventListener('click', function(){ show(timesPanel); });
+      document.getElementById('calPrev').addEventListener('click', function(){
+        if (currentMonth === today.getMonth() && currentYear === today.getFullYear()) return;
+        currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar();
+      });
+      document.getElementById('calNext').addEventListener('click', function(){
+        currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar();
+      });
+
+      document.getElementById('confirmForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        if (!lead.name || !lead.email || !lead.phone || !selectedDate || !selectedTime) return;
+        var submitBtn = document.getElementById('confirmBtn');
+        submitBtn.disabled = true; submitBtn.textContent = 'Scheduling\u2026';
+        var dateStr = selectedDate.getFullYear() + '-' + String(selectedDate.getMonth()+1).padStart(2,'0') + '-' + String(selectedDate.getDate()).padStart(2,'0');
         var eid = 'scb-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
-        try { if (window.fbq) fbq('trackCustom','StrategyCallBooked',{content_name:'Consulting Strategy Call'},{eventID:eid}); } catch(err){}
-        try { if (window.gtag) gtag('event','strategy_call_booked',{}); } catch(err){}
-        try {
-          fetch('https://app.ivypathacademy.com/api/track/strategy-call-booked', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ eventId: eid, sourceUrl: location.href })
-          }).catch(function(){}); // async failures must never surface (endpoint may lag deploys)
-        } catch(err){}
+        fetch('/api/book-consultation', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: lead.name, email: lead.email, phone: lead.phone, date: dateStr, time: selectedTime, ref: refCode, grade: lead.grade, type: 'consulting-strategy', eventId: eid })
+        }).then(function(response){ return response.json().then(function(data){ return { ok: response.ok, data: data }; }); })
+        .then(function(r){
+          if (!r.ok) throw new Error((r.data && r.data.error) || 'Booking failed');
+          // Browser half of the deduped conversion (server relayed CAPI with the same eventId)
+          try { if (window.fbq) fbq('trackCustom','StrategyCallBooked',{content_name:'Consulting Strategy Call'},{eventID:eid}); } catch(err){}
+          try { if (window.gtag) gtag('event','strategy_call_booked',{}); } catch(err){}
+          var ty = new URLSearchParams({ type: 'consulting', date: (r.data && r.data.date) || '', time: (r.data && r.data.time) || '', email: (r.data && r.data.email) || '' });
+          window.location.href = 'thank-you.html?' + ty.toString();
+        })
+        .catch(function(err){
+          submitBtn.disabled = false; submitBtn.textContent = 'Confirm booking';
+          var errEl = confirmPanel.querySelector('.booking-error');
+          if (!errEl) { errEl = document.createElement('p'); errEl.className = 'booking-error'; document.getElementById('confirmForm').appendChild(errEl); }
+          errEl.textContent = (err && err.message) || 'Something went wrong. Please try again.';
+        });
       });
     })();
   </script>

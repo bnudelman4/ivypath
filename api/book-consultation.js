@@ -29,6 +29,12 @@ module.exports = async (req, res) => {
     const date = typeof body.date === 'string' ? body.date.trim() : '';
     const time = typeof body.time === 'string' ? body.time.trim() : '';
     const ref = typeof body.ref === 'string' ? body.ref.trim().slice(0,64) : '';
+    // Booking variants: default 15-min consult (book.html) vs the 30-min
+    // college-consulting strategy call (/consulting).
+    const isConsulting = body.type === 'consulting-strategy';
+    const eventId = typeof body.eventId === 'string' && body.eventId.length > 0 && body.eventId.length <= 64
+      ? body.eventId : '';
+    const grade = typeof body.grade === 'string' ? body.grade.trim().slice(0, 20) : '';
 
     // --- Validate inputs ---
     if (!name || !email || !phone || !date || !time) {
@@ -63,7 +69,7 @@ module.exports = async (req, res) => {
     const startDT = `${date}T${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:00`;
 
     let endHours = hours;
-    let endMins = mins + 15;
+    let endMins = mins + (isConsulting ? 30 : 15);
     if (endMins >= 60) {
       endMins -= 60;
       endHours += 1;
@@ -100,8 +106,12 @@ module.exports = async (req, res) => {
       const calendar = google.calendar({ version: 'v3', auth });
 
       const event = {
-        summary: `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
-        description: `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
+        summary: isConsulting
+          ? `IvyPath Academy - College Consulting Strategy Call${ref ? ' [ref: ' + ref + ']' : ''}`
+          : `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
+        description: isConsulting
+          ? `Free 30-minute college consulting strategy call.\n\nParent: ${name}\nEmail: ${email}\nPhone: ${phone}${grade ? '\nStudent grade: ' + grade : ''}\n\nConsultants: Alp / Edison. Review profile, honest read, roadmap sketch.`
+          : `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
         start: {
           dateTime: startDT,
           timeZone: 'America/New_York',
@@ -148,6 +158,73 @@ module.exports = async (req, res) => {
         calErr && calErr.response && calErr.response.data
       );
       calendarOk = false;
+    }
+
+    // Branded confirmation email via Resend (matches the platform's email brand
+    // system: forest #1B4D3E / gold #C5A55A, Playfair/Inter stacks, same from-
+    // address). Google Calendar's generic invite still goes out via sendUpdates;
+    // this is the on-brand touch. No-ops without RESEND_API_KEY; never blocks.
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const label = isConsulting ? 'strategy call' : 'consultation';
+        const duration = isConsulting ? '30 minutes' : '15 minutes';
+        const firstName = (name.split(/\s+/)[0] || name);
+        const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const meetRow = meetLink
+          ? `<tr><td align="center" style="padding:8px 0 20px;"><a href="${esc(meetLink)}" style="display:inline-block;background:#C5A55A;color:#0F1C2E;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:600;text-decoration:none;padding:13px 32px;border-radius:8px;">Join on Google Meet</a></td></tr>`
+          : '';
+        const consultingSteps = isConsulting
+          ? `<tr><td style="padding:0 32px 8px;"><p style="margin:0 0 8px;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#C5A55A;">What happens on the call</p><p style="margin:0;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:14px;line-height:1.7;color:#636E72;">A consultant reviews where your student is today, gives you an honest read on what&rsquo;s strong and what&rsquo;s missing, and sketches the roadmap we&rsquo;d build. If it&rsquo;s not a fit, you keep the roadmap.</p></td></tr>`
+          : '';
+        const html = `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#F7FAF8;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7FAF8;padding:32px 16px;"><tr><td align="center">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#FFFFFF;border:1px solid #E8EDEB;border-radius:12px;overflow:hidden;">
+<tr><td style="background:#1B4D3E;padding:22px 32px;"><span style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#FFFFFF;">IvyPath Academy</span></td></tr>
+<tr><td style="padding:32px 32px 8px;"><h1 style="margin:0 0 6px;font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;color:#1B4D3E;">Your ${label} is booked, ${esc(firstName)}.</h1>
+<p style="margin:0 0 18px;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.65;color:#2D3436;">We&rsquo;re looking forward to speaking with you.</p></td></tr>
+<tr><td style="padding:0 32px 20px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7FAF8;border:1px solid #E8EDEB;border-radius:8px;"><tr><td style="padding:16px 20px;">
+<p style="margin:0;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:#1B4D3E;">${esc(formattedDate)} at ${esc(time)} ET</p>
+<p style="margin:4px 0 0;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:13px;color:#636E72;">${duration} &middot; Google Meet${calendarOk ? ' &middot; calendar invite sent to ' + esc(email) : ''}</p>
+</td></tr></table></td></tr>
+${meetRow}
+${consultingSteps}
+<tr><td style="padding:16px 32px 28px;"><p style="margin:0;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:13px;line-height:1.7;color:#636E72;">Need to reschedule? Reply to this email or call/text <a href="tel:+19293940349" style="color:#1B4D3E;font-weight:600;text-decoration:none;">(929) 394-0349</a> &middot; English &amp; <span lang="zh">中文</span></p></td></tr>
+<tr><td style="background:#0B1D14;padding:18px 32px;"><p style="margin:0;font-family:Inter,-apple-system,'Segoe UI',sans-serif;font-size:12px;line-height:1.6;color:#7A9E8F;">IvyPath Academy &middot; operated by Perevalis Tutoring LLC<br>You received this email because you booked a free ${label} at ivypathacademy.com.</p></td></tr>
+</table></td></tr></table></body></html>`;
+        await Promise.race([
+          fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.RESEND_API_KEY },
+            body: JSON.stringify({
+              from: 'IvyPath Academy <noreply@ivypathacademy.com>',
+              to: email,
+              subject: `Your ${label} is booked — ${formattedDate} at ${time} ET`,
+              html: html,
+            }),
+          }).catch(() => {}),
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+        ]);
+      } catch (mailErr) {
+        // Never fail a booking over a confirmation email.
+      }
+    }
+
+    // Consulting bookings: relay the StrategyCallBooked conversion server-side
+    // (browser fires the pixel with the SAME eventId — Meta dedups on event_id).
+    // Adblock-proof and never blocks the booking response for long.
+    if (isConsulting && eventId) {
+      try {
+        await Promise.race([
+          fetch('https://app.ivypathacademy.com/api/track/strategy-call-booked', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ eventId: eventId, sourceUrl: 'https://www.ivypathacademy.com/consulting' }),
+          }).catch(() => {}),
+          new Promise((resolve) => setTimeout(resolve, 1500)),
+        ]);
+      } catch (relayErr) {
+        // Never fail a booking over conversion tracking.
+      }
     }
 
     // Always acknowledge the lead with 200 so the client never sees a failure.

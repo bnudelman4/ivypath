@@ -21,6 +21,10 @@
       "destination": "/sat-diagnostic.html"
     },
     {
+      "source": "/consulting",
+      "destination": "/consulting.html"
+    },
+    {
       "source": "/shsat",
       "destination": "/shsat-diagnostic.html"
     },

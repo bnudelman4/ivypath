@@ -222,18 +222,11 @@
       margin: 0 auto 28px;
       max-width: 640px;
     }
-    .accept-row { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; margin: 8px 0 4px; }
-    .accept-row span {
-      display: inline-block;
-      font-family: var(--display);
-      font-weight: 500;
-      font-size: 15px;
-      letter-spacing: 0.02em;
-      color: var(--ink);
-      background: var(--white);
-      border: 1px solid rgba(197,165,114,0.5);
-      border-radius: 4px;
-      padding: 8px 22px;
+    .accept-logos { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; margin: 8px 0 4px; }
+    .accept-logos img { height: 34px; width: auto; opacity: 0.55; filter: grayscale(1); }
+    @media (max-width: 640px) {
+      .accept-logos { gap: 28px; }
+      .accept-logos img { height: 26px; }
     }
     .accept-note { margin-top: 20px; font-size: 12.5px; color: var(--muted); }
 
@@ -621,8 +614,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <section class="wrap proof-strip">
     <p class="eyebrow">Real results from our consulting students</p>
     <h2>Our consultants have helped students earn admission to</h2>
-    <div class="accept-row">
-      <span>Brown</span><span>Carnegie Mellon</span><span>Princeton</span><span>Harvard</span>
+    <div class="accept-logos">
+      <img src="assets/logo-brown-DKMp3uIq.png" alt="Brown University" loading="lazy">
+      <img src="assets/logo-cmu.png" alt="Carnegie Mellon University" loading="lazy">
+      <img src="assets/logo-princeton-DnGXlD0c.png" alt="Princeton University" loading="lazy">
+      <img src="assets/logo-harvard-B7zSCZPf.png" alt="Harvard University" loading="lazy">
     </div>
     <p class="accept-note">Individual results vary. Admissions depend on many factors; no outcome is ever guaranteed.</p>
   </section>

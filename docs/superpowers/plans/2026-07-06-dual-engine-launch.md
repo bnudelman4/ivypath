@@ -1,5 +1,10 @@
 # Dual-Engine Launch Implementation Plan
 
+> **AMENDMENT 2026-07-07:** Calendly was replaced by the site's native booking widget
+> (book.html stack → /api/book-consultation, 30-min `consulting-strategy` variant with
+> server-side StrategyCallBooked relay). Task 3 Step 6, Task 4, and Task 7's Calendly-URL
+> gate are superseded accordingly — see the spec §3.1.7 amendment and commit 5980e1e.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Launch IvyPath's college-consulting funnel (`/consulting` + Vicente VSL + StrategyCallBooked tracking + capped Meta campaign) while consolidating the test-prep engine onto the `VSL Watched` optimization event.

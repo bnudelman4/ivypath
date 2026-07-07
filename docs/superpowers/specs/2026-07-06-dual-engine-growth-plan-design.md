@@ -161,5 +161,5 @@ on arrival.
 ## 8. Out of scope (v1)
 - Consulting cross-sell inside the SAT/SHSAT diagnostic results flow (v2).
 - WeChat/Mandarin-language creative variants (revisit at Gate 2 with data).
-- Platform-native booking (Calendly first).
+- ~~Platform-native booking (Calendly first)~~ SUPERSEDED 2026-07-07: native booking widget shipped in v1 (see §3.1.7 amendment).
 - New consultant hiring mechanics (triggered at 8 signed families, handled then).

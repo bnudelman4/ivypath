@@ -864,6 +864,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       for (var i = 0; i < sources.length; i++) {
         sources[i].addEventListener('error', showFallback);
       }
+      // Race close: a fast failure can beat these listeners binding.
+      if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showFallback();
 
       // Kick off muted autoplay (some browsers need an explicit call).
       var kickoff = video.play();

@@ -1087,6 +1087,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       function show(panel){
         [contactPanel, calWidget, timesPanel, confirmPanel].forEach(function(p){ p.style.display = (p===panel) ? 'block' : 'none'; });
+        // Keep keyboard/AT focus inside the flow when panels swap.
+        var target = panel.querySelector('button, input, select, [tabindex]');
+        if (target) target.focus();
       }
       function esc(x){ return String(x).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
@@ -1115,6 +1118,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             var btn = document.createElement('button');
             btn.type = 'button'; btn.className = 'cal-day'; btn.textContent = d;
             var date = new Date(currentYear, currentMonth, d);
+            btn.setAttribute('aria-label', dayNames[date.getDay()] + ', ' + months[currentMonth] + ' ' + d + ', ' + currentYear);
             var dow = date.getDay();
             var isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
             if (isPast || dow === 0 || dow === 6) { btn.disabled = true; btn.classList.add('disabled'); }
@@ -1125,10 +1129,31 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         }
       }
 
+      function etNow(){
+        // Current wall-clock in ET, independent of the visitor's timezone.
+        var p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+        var g = function(t){ return parseInt(p.find(function(x){ return x.type === t; }).value, 10); };
+        return { y: g('year'), m: g('month'), d: g('day'), mins: g('hour') * 60 + g('minute') };
+      }
+      function slotMins(t){
+        var m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+        var h = parseInt(m[1], 10) % 12 + (m[3].toUpperCase() === 'PM' ? 12 : 0);
+        return h * 60 + parseInt(m[2], 10);
+      }
       function showTimes(date, day){
         selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
         slotsContainer.innerHTML = '';
-        times.forEach(function(time){
+        // Hide slots already past in ET when the picked date is ET-today (+30 min buffer).
+        var now = etNow();
+        var isEtToday = date.getFullYear() === now.y && (date.getMonth() + 1) === now.m && day === now.d;
+        var usable = times.filter(function(t){ return !isEtToday || slotMins(t) > now.mins + 30; });
+        if (!usable.length) {
+          var msg = document.createElement('p');
+          msg.className = 'form-hint';
+          msg.textContent = 'No more times today. Please pick another day.';
+          slotsContainer.appendChild(msg);
+        }
+        usable.forEach(function(time){
           var btn = document.createElement('button');
           btn.type = 'button'; btn.className = 'time-slot'; btn.textContent = time;
           btn.addEventListener('click', function(){ showConfirm(date, day, time); });
@@ -1161,7 +1186,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         var submitBtn = document.getElementById('confirmBtn');
         submitBtn.disabled = true; submitBtn.textContent = 'Scheduling\u2026';
         var dateStr = selectedDate.getFullYear() + '-' + String(selectedDate.getMonth()+1).padStart(2,'0') + '-' + String(selectedDate.getDate()).padStart(2,'0');
-        var eid = 'scb-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
+        // notrack must suppress the server-side relay too: empty eventId = API skips CAPI.
+        var eid = (window.__ivpNoTrack === 1) ? '' : 'scb-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
         fetch('/api/book-consultation', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: lead.name, email: lead.email, phone: lead.phone, date: dateStr, time: selectedTime, ref: refCode, grade: lead.grade, type: 'consulting-strategy', eventId: eid })

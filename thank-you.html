@@ -198,6 +198,15 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     var date = params.get('date');
     var time = params.get('time');
     var email = params.get('email');
+    // Consulting strategy-call variant (booked from /consulting)
+    if (params.get('type') === 'consulting') {
+      try {
+        var h1 = document.querySelector('h1'); if (h1) h1.textContent = 'Your strategy call is booked';
+        document.querySelectorAll('p, span, div').forEach(function(el){
+          if (el.children.length === 0 && /15[- ]min/i.test(el.textContent)) el.textContent = el.textContent.replace(/15([- ])min/i, '30$1min');
+        });
+      } catch (e) {}
+    }
     if (date) document.getElementById('bookingDate').textContent = date;
     if (time) document.getElementById('bookingTime').textContent = time + ' ET';
     if (email) document.getElementById('bookingEmail').textContent = email;

@@ -270,7 +270,9 @@ git add consulting.html vercel.json && git commit -m "Add /consulting funnel pag
       });
     }
     window.addEventListener('message', function(e){
-      if (String(e.origin).indexOf('calendly.com') === -1) return;
+      // Exact-hostname origin check (substring matching accepts lookalike origins)
+      var oh; try { oh = new URL(e.origin).hostname; } catch (err) { return; }
+      if (oh !== 'calendly.com' && oh.slice(-13) !== '.calendly.com') return;
       var d = e.data || {};
       if (d.event !== 'calendly.event_scheduled') return;
       var eid = 'scb-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
@@ -280,7 +282,7 @@ git add consulting.html vercel.json && git commit -m "Add /consulting funnel pag
         fetch('https://app.ivypathacademy.com/api/track/strategy-call-booked', {
           method:'POST', headers:{'Content-Type':'application/json'},
           body: JSON.stringify({ eventId: eid, sourceUrl: location.href })
-        });
+        }).catch(function(){});
       } catch(err){}
     });
   })();

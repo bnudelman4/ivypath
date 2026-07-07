@@ -406,6 +406,7 @@
       color: var(--ink);
       padding: 8px 0 8px 22px;
       border-bottom: 1px solid var(--line);
+      overflow: hidden; /* BFC: the divider stops at the floated polaroid instead of running under it */
     }
     .outcome-list li:last-child { border-bottom: none; }
     .outcome-list li::before {

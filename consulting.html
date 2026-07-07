@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
   <script>(function(){try{var s=location.search||'';if(s.indexOf('notrack=1')>-1){document.cookie='ivp_notrack=1; domain=.ivypathacademy.com; path=/; max-age=63072000; samesite=lax';}else if(s.indexOf('notrack=0')>-1){document.cookie='ivp_notrack=; domain=.ivypathacademy.com; path=/; max-age=0; samesite=lax';}if(document.cookie.indexOf('ivp_notrack=1')>-1){window.fbq=function(){};window['ga-disable-G-EW2RB4F5JB']=true;window.__ivpNoTrack=1;}}catch(e){}})();</script>
-  <script>document.documentElement.className += ' js';</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>College Consulting · IvyPath Academy</title>
   <meta name="description" content="Two consulting tracks: build the profile in grades 9-10, or win the application cycle in 11-12. Book a free strategy call.">
-  <link rel="canonical" href="https://ivypathacademy.com/consulting.html">
+  <link rel="canonical" href="https://ivypathacademy.com/consulting">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ivypathacademy.com/consulting.html">
+  <meta property="og:url" content="https://ivypathacademy.com/consulting">
   <meta property="og:title" content="College Consulting · IvyPath Academy">
   <meta property="og:description" content="Two consulting tracks: build the profile in grades 9-10, or win the application cycle in 11-12. Book a free strategy call.">
   <meta property="og:image" content="https://ivypathacademy.com/assets/ivypath-consulting-poster.jpg">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://ivypathacademy.com/consulting.html">
+  <meta name="twitter:url" content="https://ivypathacademy.com/consulting">
   <meta name="twitter:title" content="College Consulting · IvyPath Academy">
   <meta name="twitter:description" content="Two consulting tracks: build the profile in grades 9-10, or win the application cycle in 11-12. Book a free strategy call.">
   <meta name="twitter:image" content="https://ivypathacademy.com/assets/ivypath-consulting-poster.jpg">
@@ -57,10 +56,20 @@
     a { color: inherit; text-decoration: none; }
     img, video { max-width: 100%; height: auto; display: block; }
     h1, h2, h3 { text-wrap: balance; }
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--gold-deep);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    .hero-dark a:focus-visible, .hero-dark button:focus-visible,
+    .final-cta a:focus-visible, .site-footer a:focus-visible {
+      outline-color: var(--gold);
+    }
 
     .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
     .gi { font-style: italic; color: var(--gold); }
+    .gi-cream { color: var(--gold-deep); } /* accent words on cream need the darker gold for contrast */
 
     /* ---------- DARK HERO ---------- */
     .hero-dark {
@@ -75,29 +84,30 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 22px 24px;
+      padding: 16px 24px;
       max-width: 1080px;
       margin: 0 auto;
     }
     .wordmark img { height: 44px; width: auto; display: block; }
-    .top-phone { font-size: 14px; color: rgba(253,248,240,0.75); }
+    .top-phone { font-size: 14px; color: rgba(253,248,240,0.75); padding: 12px 0; margin: -12px 0; display: inline-block; }
     .top-phone:hover { color: var(--cream); }
 
-    .hero-inner { text-align: center; padding-top: 22px; }
+    .hero-inner { text-align: center; padding-top: 12px; }
 
     .eyebrow {
       font-weight: 600;
       font-size: 13px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--gold-deep);
       margin-bottom: 18px;
     }
+    .hero-dark .eyebrow { color: #DEC79B; }
 
     .hero-video-wrap {
       position: relative;
-      max-width: 780px;
-      margin: 0 auto 36px;
+      max-width: 640px;
+      margin: 0 auto 28px;
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid rgba(197,165,114,0.45);
@@ -216,12 +226,13 @@
     .accept-row span {
       display: inline-block;
       font-family: var(--display);
-      font-weight: 600;
+      font-weight: 500;
       font-size: 15px;
+      letter-spacing: 0.02em;
       color: var(--ink);
       background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: 999px;
+      border: 1px solid rgba(197,165,114,0.5);
+      border-radius: 4px;
       padding: 8px 22px;
     }
     .accept-note { margin-top: 20px; font-size: 12.5px; color: var(--muted); }
@@ -248,9 +259,30 @@
       transition: box-shadow 0.3s, transform 0.3s;
     }
     .tier-card:hover { box-shadow: 0 10px 32px rgba(31,43,35,0.10); transform: translateY(-2px); }
-    .tier-card.flagship { border-color: var(--gold); box-shadow: 0 10px 32px rgba(197,165,114,0.18); }
+    .tier-card.flagship { border: 2px solid var(--gold); box-shadow: 0 10px 32px rgba(197,165,114,0.18); }
+    @media (min-width: 960px) {
+      .tier-card.flagship { transform: translateY(-6px); }
+      .tier-card.flagship:hover { transform: translateY(-8px); }
+    }
     .tier-card.premium { background: var(--forest-deep); border-color: var(--forest-deep); }
+    /* On light cards the primary button is sage (gold fill is reserved for dark surfaces) */
+    .tier-card:not(.premium) .btn-primary { background: var(--sage); color: var(--cream); }
+    .tier-card:not(.premium) .btn-primary:hover { background: var(--sage-deep); }
     .tier-badge { font-weight: 600; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 10px; }
+    .track-chip {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid rgba(197,165,114,0.5);
+      border-radius: 3px;
+      padding: 2px 7px;
+      margin-left: 8px;
+      vertical-align: 1px;
+    }
+    .tier-card.premium .track-chip { color: rgba(253,248,240,0.75); }
     .tier-card.premium .tier-badge { color: var(--gold); }
     .tier-name { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink); margin-bottom: 6px; }
     .tier-card.premium .tier-name { color: var(--cream); }
@@ -268,8 +300,26 @@
     /* ---------- CASE STUDY ---------- */
     .case-study { padding: 72px 0; border-top: 1px solid var(--line); text-align: center; }
     .case-study h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.2vw, 34px); color: var(--ink); margin: 12px auto 28px; max-width: 700px; }
-    .case-study p:not(.proof-caption) { font-size: 16px; line-height: 1.75; color: var(--muted); max-width: 640px; margin: 0 auto 16px; text-align: left; }
-    .case-study .proof-caption { font-size: 13px; color: var(--muted); opacity: 0.75; margin-top: 8px; }
+    @media (min-width: 768px) { .case-study h2 .nowrap { white-space: nowrap; } }
+    .case-frame {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(31,43,35,0.06);
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 32px 26px;
+    }
+    .case-stats {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .case-stats .sep { color: var(--gold-deep); margin: 0 10px; font-weight: 500; }
+    .case-study .case-frame p:not(.proof-caption) { font-size: 16px; line-height: 1.75; color: var(--muted); max-width: 640px; margin: 0 auto 16px; text-align: left; }
+    .case-study .proof-caption { font-size: 13px; color: var(--muted); margin-top: 8px; }
 
     /* ---------- TEAM ---------- */
     .team-section { padding: 72px 0; border-top: 1px solid var(--line); }
@@ -296,7 +346,7 @@
     }
     .tutor-avatar span { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--white); }
     .tutor-avatar img.tutor-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-    .tutor-info h4 { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+    .tutor-info h3 { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
     .tutor-info .cred { font-size: 13px; color: var(--muted); line-height: 1.5; }
     .tutor-disclaimer { font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 640px; margin: 0 auto; }
 
@@ -306,7 +356,7 @@
     .faq-item { border-bottom: 1px solid var(--line); }
     .faq-item summary { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); padding: 22px 44px 22px 0; cursor: pointer; list-style: none; position: relative; }
     .faq-item summary::-webkit-details-marker { display: none; }
-    .faq-item summary::after { content: '+'; position: absolute; right: 6px; top: 20px; font-family: var(--body); font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-deep); transition: transform 0.2s; }
+    .faq-item summary::after { content: '+'; position: absolute; right: 6px; top: 20px; font-family: var(--body); font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-deep); }
     .faq-item[open] summary::after { content: '\2212'; }
     .faq-item .faq-answer { font-size: 15.5px; line-height: 1.7; color: var(--muted); padding: 0 44px 24px 0; }
     .faq-item .faq-answer a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
@@ -314,8 +364,40 @@
     /* ---------- BOOKING ---------- */
     #book { padding: 72px 0; border-top: 1px solid var(--line); text-align: center; }
     #book h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.2vw, 34px); color: var(--ink); margin-bottom: 12px; }
-    #book > .wrap > p, #book p { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
+    #book .wrap > p { font-size: 15px; color: var(--muted); margin-bottom: 20px; }
+    .call-steps {
+      list-style: none;
+      counter-reset: step;
+      max-width: 560px;
+      margin: 0 auto 28px;
+      padding: 0;
+      text-align: left;
+    }
+    .call-steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 6px 0 6px 40px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .call-steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0; top: 7px;
+      width: 24px; height: 24px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 24px;
+      text-align: center;
+      color: var(--gold-deep);
+    }
     #calendlyEmbed { max-width: 720px; margin: 0 auto; border-radius: 12px; }
+    .book-phone { margin-top: 24px !important; margin-bottom: 0 !important; }
+    .book-phone a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
 
     /* ---------- FINAL CTA ---------- */
     .final-cta {
@@ -340,19 +422,19 @@
     .site-footer p { font-size: 12px; color: rgba(253,248,240,0.62); }
     .site-footer a { color: inherit; }
 
-    /* ---------- FADE-IN ANIMATION (progressive enhancement only) ---------- */
-    .js .fade-in {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-    .js .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .js .fade-in.delay-1 { transition-delay: 0.1s; }
-    .js .fade-in.delay-2 { transition-delay: 0.2s; }
-    .js .fade-in.delay-3 { transition-delay: 0.3s; }
+    /* ---------- FADE-IN ANIMATION (additive reveals — content is visible by
+       default; the hidden .pre state is applied by JS immediately before
+       observing, and a failsafe force-reveals stragglers. Never gate
+       visibility on a class-triggered transition.) ---------- */
+    .fade-in { transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .fade-in.pre { opacity: 0; transform: translateY(16px); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in.delay-1 { transition-delay: 0.1s; }
+    .fade-in.delay-2 { transition-delay: 0.2s; }
+    .fade-in.delay-3 { transition-delay: 0.3s; }
 
     @media (prefers-reduced-motion: reduce) {
-      .js .fade-in { opacity: 1; transform: none; transition: none; }
+      .fade-in, .fade-in.pre { opacity: 1; transform: none; transition: none; }
     }
 
     /* ---------- RESPONSIVE ---------- */
@@ -403,13 +485,29 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <!-- IvyPath tracking -->
 <script src="tracking.js" defer></script>
+<script src="sticky-cta.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Who actually works with my child?", "acceptedAnswer": {"@type": "Answer", "text": "One of our two dedicated college consultants, Alp (Cornell) or Edison (Princeton), leads every engagement; both are assigned on Concierge."}},
+    {"@type": "Question", "name": "Is this only for Ivy-bound students?", "acceptedAnswer": {"@type": "Answer", "text": "No. The goal is the strongest set of real options for your child. The same process applies whether the target list is Ivy League or the best-fit state flagship."}},
+    {"@type": "Question", "name": "When should we start?", "acceptedAnswer": {"@type": "Answer", "text": "Grades 9-10: the Foundation Track builds the profile while there's still time to shape it. Grades 11-12: the Application Track runs the cycle itself. Earlier means more room to build; the Application Track exists precisely because senior year still matters."}},
+    {"@type": "Question", "name": "What happens on the free call?", "acceptedAnswer": {"@type": "Answer", "text": "A consultant reviews where your child is today, tells you honestly what's strong and what's missing, and sketches the roadmap we'd build. If it's not a fit, you keep the roadmap."}},
+    {"@type": "Question", "name": "Do you guarantee admission?", "acceptedAnswer": {"@type": "Answer", "text": "No, and no honest consultant can. We guarantee the process: the sessions, the strategy, and the attention your child's application deserves. Results vary."}},
+    {"@type": "Question", "name": "Is everything remote?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, fully remote over Zoom. We work with families nationwide."}}
+  ]
+}
+</script>
 </head>
 <body>
+  <main>
 
   <!-- DARK HERO -->
   <section class="hero-dark">
     <header class="top-bar">
-      <a href="index.html" class="wordmark" aria-label="IvyPath Academy"><img src="assets/logo-white-transparent.png" alt="IvyPath Academy"></a>
+      <a href="index.html" class="wordmark"><img src="assets/logo-white-transparent.png" alt="IvyPath Academy" width="83" height="44"></a>
       <a href="tel:+19293940349" class="top-phone">(929) 394-0349</a>
     </header>
 
@@ -428,9 +526,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         >
           <source src="assets/ivypath-consulting-vsl.mp4" type="video/mp4">
         </video>
-        <button type="button" class="vsl-sound-btn" id="vslSound" aria-label="Turn on sound">&#128266; Tap for sound</button>
+        <button type="button" class="vsl-sound-btn" id="vslSound" aria-label="Tap for sound">&#128266; Tap for sound</button>
         <div class="hero-video-fallback" id="videoFallback">
-          <img src="assets/ivypath-consulting-poster.jpg" alt="IvyPath Academy">
+          <img src="assets/ivypath-consulting-poster.jpg" width="1280" height="720" alt="Preview of the IvyPath college consulting overview video">
         </div>
       </div>
 
@@ -444,9 +542,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <p class="video-note fade-in delay-2">Free &middot; ~30 minutes &middot; honest assessment &middot; no obligation</p>
 
       <div class="trust-chips fade-in delay-3">
-        <div class="chip"><strong>2+ years</strong> guiding applicants</div>
         <div class="chip">Placements include <strong>Brown, Carnegie Mellon, Princeton, Harvard</strong></div>
-        <div class="chip">Bilingual support &middot; <strong>English &amp; 中文</strong></div>
+        <div class="chip">Bilingual support &middot; <strong>English &amp; <span lang="zh">中文</span></strong></div>
+        <div class="chip"><strong>2+ years</strong> guiding applicants</div>
       </div>
     </div>
   </section>
@@ -461,11 +559,37 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <p class="accept-note">Individual results vary. Admissions depend on many factors; no outcome is ever guaranteed.</p>
   </section>
 
+  <!-- TEAM -->
+  <section class="team-section">
+    <div class="wrap">
+      <h2 class="section-headline fade-in">Your child&rsquo;s consultant.</h2>
+      <div class="team-grid-consulting">
+        <div class="tutor-card fade-in">
+          <div class="tutor-avatar"><img class="tutor-photo" src="assets/alp-sq.jpg" alt="Alp, IvyPath college consultant" width="60" height="60" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none" aria-hidden="true">A</span></div>
+          <div class="tutor-info">
+            <h3>Alp</h3>
+            <div class="cred">Cornell University</div>
+            <div class="cred">College Consultant</div>
+          </div>
+        </div>
+        <div class="tutor-card fade-in delay-1">
+          <div class="tutor-avatar"><span aria-hidden="true">EZ</span></div>
+          <div class="tutor-info">
+            <h3>Edison Zhu</h3>
+            <div class="cred">Princeton University</div>
+            <div class="cred">College Consultant</div>
+          </div>
+        </div>
+      </div>
+      <p class="tutor-disclaimer">2+ years guiding applicants; placements include Brown, Carnegie Mellon, Princeton, Harvard. One of these two consultants leads every engagement; both are assigned on Concierge.</p>
+    </div>
+  </section>
+
   <!-- TWO DOORS + TIERS -->
   <section class="doors-section">
     <div class="wrap">
       <div class="doors-intro fade-in">
-        <h2>Two tracks, one process.</h2>
+        <h2>Two tracks, one <span class="gi gi-cream">process.</span></h2>
         <p>Every engagement starts with the same free strategy call. Which track fits depends on where your child is today.</p>
       </div>
 
@@ -477,7 +601,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <p class="door-sub">Yearlong strategic engagement building the resume, experiences, and writing portfolio for competitive applications. Renewable annually.</p>
         <div class="tier-grid">
           <div class="tier-card">
-            <div class="tier-badge">Entry</div>
+            <div class="tier-badge">Entry <span class="track-chip">Foundation &middot; Gr 9&ndash;10</span></div>
             <div class="tier-name">Essential</div>
             <div class="tier-price">$3,500<small>/year</small></div>
             <ul class="tier-list">
@@ -492,7 +616,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             <a href="#book" class="btn-primary js-book-cta">Book a free strategy call &rarr;</a>
           </div>
           <div class="tier-card flagship">
-            <div class="tier-badge">Flagship</div>
+            <div class="tier-badge">Flagship <span class="track-chip">Foundation &middot; Gr 9&ndash;10</span></div>
             <div class="tier-name">Comprehensive</div>
             <div class="tier-price">$6,000<small>/year</small></div>
             <ul class="tier-list">
@@ -507,7 +631,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             <a href="#book" class="btn-primary js-book-cta">Book a free strategy call &rarr;</a>
           </div>
           <div class="tier-card premium">
-            <div class="tier-badge">Premium</div>
+            <div class="tier-badge">Premium <span class="track-chip">Foundation &middot; Gr 9&ndash;10</span></div>
             <div class="tier-name">Concierge</div>
             <div class="tier-price">$10,500<small>/year</small></div>
             <ul class="tier-list">
@@ -532,9 +656,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <p class="door-sub">Up to 18 months covering the full application cycle from junior year strategy through senior year decisions.</p>
         <div class="tier-grid">
           <div class="tier-card">
-            <div class="tier-badge">Entry</div>
+            <div class="tier-badge">Entry <span class="track-chip">Application &middot; Gr 11&ndash;12</span></div>
             <div class="tier-name">Essential</div>
-            <div class="tier-price">$5,500</div>
+            <div class="tier-price">$5,500<small> total &middot; up to 18 months</small></div>
             <ul class="tier-list">
               <li>College list strategy meeting</li>
               <li>12 strategy/coaching sessions</li>
@@ -547,9 +671,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             <a href="#book" class="btn-primary js-book-cta">Book a free strategy call &rarr;</a>
           </div>
           <div class="tier-card flagship">
-            <div class="tier-badge">Flagship</div>
+            <div class="tier-badge">Flagship <span class="track-chip">Application &middot; Gr 11&ndash;12</span></div>
             <div class="tier-name">Comprehensive</div>
-            <div class="tier-price">$8,500</div>
+            <div class="tier-price">$8,500<small> total &middot; up to 18 months</small></div>
             <ul class="tier-list">
               <li>Everything in Essential, plus:</li>
               <li>20 strategy/coaching sessions</li>
@@ -562,9 +686,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             <a href="#book" class="btn-primary js-book-cta">Book a free strategy call &rarr;</a>
           </div>
           <div class="tier-card premium">
-            <div class="tier-badge">Premium</div>
+            <div class="tier-badge">Premium <span class="track-chip">Application &middot; Gr 11&ndash;12</span></div>
             <div class="tier-name">Concierge</div>
-            <div class="tier-price">$14,500</div>
+            <div class="tier-price">$14,500<small> total &middot; up to 18 months</small></div>
             <ul class="tier-list">
               <li>Everything in Comprehensive, plus:</li>
               <li>Unlimited strategy sessions</li>
@@ -579,46 +703,24 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         </div>
       </div>
 
-      <p class="tier-note">Every plan includes the same attention to your child's application. Results vary based on effort, timeline, and starting point.</p>
+      <p class="tier-note">Every plan includes the same attention to your child&rsquo;s application. Results vary based on effort, timeline, and starting point.</p>
+      <p class="tier-note">You don&rsquo;t choose a plan today. The free call is where we work out fit.</p>
     </div>
   </section>
 
   <!-- CASE STUDY -->
   <section class="wrap case-study">
-    <p class="eyebrow">What the process actually looks like</p>
-    <h2>From &ldquo;no idea where to start&rdquo; to a plan she's proud of</h2>
-    <p>When one of our students started with us, she had a 1000 SAT, two APs,
-    and no clear direction. Working with her consultant, she rebuilt her plan
-    from the ground up: today she's at a 1400, heading into a Stanford
-    neurology internship and a New York ecology internship, on track for eight
-    APs to maximize college credit. And she knows exactly where she's going,
-    and why.</p>
-    <p class="proof-caption">A real IvyPath consulting student, shared with permission. Results vary student to student.</p>
-  </section>
-
-  <!-- TEAM -->
-  <section class="team-section">
-    <div class="wrap">
-      <h2 class="section-headline fade-in">Your child's consultant.</h2>
-      <div class="team-grid-consulting">
-        <div class="tutor-card fade-in">
-          <div class="tutor-avatar"><img class="tutor-photo" src="assets/alp.jpg" alt="Alp, college consultant" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">A</span></div>
-          <div class="tutor-info">
-            <h4>Alp</h4>
-            <div class="cred">Cornell University</div>
-            <div class="cred">College Consultant</div>
-          </div>
-        </div>
-        <div class="tutor-card fade-in delay-1">
-          <div class="tutor-avatar"><span>EZ</span></div>
-          <div class="tutor-info">
-            <h4>Edison Zhu</h4>
-            <div class="cred">Princeton University</div>
-            <div class="cred">College Consultant</div>
-          </div>
-        </div>
-      </div>
-      <p class="tutor-disclaimer">2+ years guiding applicants; placements include Brown, Carnegie Mellon, Princeton, Harvard. One of these two consultants leads every engagement; both are assigned on Concierge. Vicente oversees every family's roadmap.</p>
+    <p class="eyebrow">What the process looks like</p>
+    <h2>From <span class="nowrap">&ldquo;no idea where to start&rdquo;</span> to a plan she&rsquo;s proud of</h2>
+    <div class="case-frame">
+      <p class="case-stats">1000 &rarr; 1400 SAT<span class="sep">&middot;</span>8 APs on track<span class="sep">&middot;</span>2 research internships</p>
+      <p>When one of our students started with us, she had a 1000 SAT, two APs,
+      and no clear direction. Working with her consultant, she rebuilt her plan
+      from the ground up: today she&rsquo;s at a 1400, heading into a Stanford
+      neurology internship and a New York ecology internship, on track for eight
+      APs to maximize college credit. And she knows exactly where she&rsquo;s going,
+      and why.</p>
+      <p class="proof-caption">A real IvyPath consulting student, shared with permission. Results vary student to student.</p>
     </div>
   </section>
 
@@ -629,7 +731,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <div class="faq-list fade-in delay-1">
         <details class="faq-item">
           <summary>Who actually works with my child?</summary>
-          <div class="faq-answer">One of our two dedicated college consultants, Alp (Cornell) or Edison (Princeton), leads every engagement; both are assigned on Concierge. Vicente oversees every family's roadmap.</div>
+          <div class="faq-answer">One of our two dedicated college consultants, Alp (Cornell) or Edison (Princeton), leads every engagement; both are assigned on Concierge.</div>
         </details>
         <details class="faq-item">
           <summary>Is this only for Ivy-bound students?</summary>
@@ -656,16 +758,24 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   </section>
 
   <!-- BOOKING -->
-  <section class="wrap" id="book">
-    <h2>Book your free strategy call</h2>
-    <p>Free &middot; ~30 minutes &middot; we take a limited number of families each cycle</p>
-    <!-- Plain iframe embed on purpose: no third-party script executes in our page
-         context (Calendly's widget.js is unversioned, so SRI pinning would break on
-         their deploys). The iframe still postMessages calendly.event_scheduled to
-         the parent, which Task 4's listener consumes. -->
-    <iframe id="calendlyEmbed" title="Book a free strategy call"
-      src="https://calendly.com/PLACEHOLDER-ivypath-academy/strategy-call?embed_domain=www.ivypathacademy.com&embed_type=Inline&hide_gdpr_banner=1"
-      style="width:100%;min-width:320px;height:700px;border:0;" loading="lazy"></iframe>
+  <section id="book">
+    <div class="wrap">
+      <h2>Book your free strategy call</h2>
+      <p>Free &middot; ~30 minutes &middot; honest assessment &middot; no obligation</p>
+      <ol class="call-steps">
+        <li>A consultant reviews where your child is today</li>
+        <li>You get an honest read on what&rsquo;s strong and what&rsquo;s missing</li>
+        <li>We sketch the roadmap we&rsquo;d build. If it&rsquo;s not a fit, you keep it</li>
+      </ol>
+      <!-- Plain iframe embed on purpose: no third-party script executes in our page
+           context (Calendly's widget.js is unversioned, so SRI pinning would break on
+           their deploys). The iframe still postMessages calendly.event_scheduled to
+           the parent, which Task 4's listener consumes. -->
+      <iframe id="calendlyEmbed" title="Book a free strategy call"
+        src="https://calendly.com/PLACEHOLDER-ivypath-academy/strategy-call?embed_domain=www.ivypathacademy.com&embed_type=Inline&hide_gdpr_banner=1"
+        style="width:100%;min-width:320px;height:700px;border:0;" loading="lazy"></iframe>
+      <p class="book-phone">Prefer to talk first? Call or text <a href="tel:+19293940349"><strong>(929) 394-0349</strong></a> &middot; English &amp; <span lang="zh">中文</span></p>
+    </div>
   </section>
 
   <!-- FINAL CTA -->
@@ -678,16 +788,19 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       </div>
       <p class="video-note fade-in delay-2">Free &middot; ~30 minutes &middot; honest assessment &middot; no obligation</p>
       <div class="final-phone fade-in delay-3">
-        Or call <a href="tel:+19293940349">(929) 394-0349</a>
+        Or call <a href="tel:+19293940349">(929) 394-0349</a> &middot; <span lang="zh">提供中文服务</span>
       </div>
       <p class="funnel-links fade-in delay-3">
-        Preparing for a test instead? <a href="/sat">SAT prep</a><span class="sep">&middot;</span><a href="/shsat">SHSAT prep</a>
+        Preparing for a test instead? <a href="/sat"><span style="white-space:nowrap">SAT prep</span></a><span class="sep">&middot;</span><a href="/shsat"><span style="white-space:nowrap">SHSAT prep</span></a>
       </p>
     </div>
   </section>
 
+  </main>
+
   <!-- DISCLAIMER -->
   <section class="disclaimer-section">
+    <div class="wrap"><img src="assets/logo-white-transparent.png" alt="" width="83" height="44" loading="lazy" style="margin-bottom:16px;opacity:0.85;"></div>
     <div class="wrap">
       <p>Results shown reflect the experiences of individual IvyPath consulting students and are not a guarantee of any admissions outcome. Individual results vary based on each student's starting point, effort, and circumstances.</p>
       <p style="margin-top:12px;">IvyPath Academy is not affiliated with or endorsed by Brown University, Carnegie Mellon University, Princeton University, Harvard University, or any other university. Consultant credentials reflect schools individual consultants have attended.</p>
@@ -719,6 +832,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       for (var i = 0; i < sources.length; i++) {
         sources[i].addEventListener('error', showFallback);
       }
+      // Race close: if the source already failed before these listeners bound
+      // (fast 404), the error event is gone — check state directly.
+      if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showFallback();
 
       // Kick off muted autoplay (some browsers need an explicit call).
       var kickoff = video.play();
@@ -761,23 +877,25 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       }
     })();
 
-    /* IntersectionObserver fade-in (progressive enhancement; content visible without JS) */
+    /* IntersectionObserver fade-in — additive only. Content is visible by
+       default; we hide (.pre) just-in-time, reveal on intersect, and a 4s
+       failsafe force-reveals anything the observer missed (headless renders,
+       paused tabs, odd viewports). Without IO support, nothing is ever hidden. */
     (function() {
-      if ('IntersectionObserver' in window) {
-        var els = document.querySelectorAll('.fade-in');
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1 });
-        els.forEach(function(el) { observer.observe(el); });
-      } else {
-        var els2 = document.querySelectorAll('.fade-in');
-        els2.forEach(function(el) { el.classList.add('visible'); });
-      }
+      if (!('IntersectionObserver' in window)) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var els = Array.prototype.slice.call(document.querySelectorAll('.fade-in'));
+      var reveal = function(el) { el.classList.add('visible'); el.classList.remove('pre'); };
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      els.forEach(function(el) { el.classList.add('pre'); observer.observe(el); });
+      setTimeout(function() { els.forEach(reveal); }, 4000);
     })();
   </script>
 

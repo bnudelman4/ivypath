@@ -899,5 +899,33 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     })();
   </script>
 
+  <script>
+    /* Strategy-call conversion: fires on Calendly's scheduled event.
+       Browser pixel + GA4 + CAPI relay (deduped via shared eventID). */
+    (function(){
+      var CTA = document.querySelectorAll('.js-book-cta');
+      for (var i=0;i<CTA.length;i++){
+        CTA[i].addEventListener('click', function(){
+          try { if (window.fbq) fbq('trackCustom','ConsultingCTAClick',{content_name:'Consulting Book CTA'}); } catch(e){}
+          try { if (window.gtag) gtag('event','consulting_cta_click',{}); } catch(e){}
+        });
+      }
+      window.addEventListener('message', function(e){
+        if (String(e.origin).indexOf('calendly.com') === -1) return;
+        var d = e.data || {};
+        if (d.event !== 'calendly.event_scheduled') return;
+        var eid = 'scb-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
+        try { if (window.fbq) fbq('trackCustom','StrategyCallBooked',{content_name:'Consulting Strategy Call'},{eventID:eid}); } catch(err){}
+        try { if (window.gtag) gtag('event','strategy_call_booked',{}); } catch(err){}
+        try {
+          fetch('https://app.ivypathacademy.com/api/track/strategy-call-booked', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ eventId: eid, sourceUrl: location.href })
+          });
+        } catch(err){}
+      });
+    })();
+  </script>
+
 </body>
 </html>

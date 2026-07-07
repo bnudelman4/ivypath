@@ -23,7 +23,7 @@
   <meta name="twitter:image" content="https://ivypathacademy.com/assets/ivypath-consulting-poster.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
   <style>
     :root {
       --sage: #4A7C59;
@@ -290,29 +290,137 @@
     .tier-card .btn-primary { width: 100%; padding: 13px 16px; font-size: 14.5px; }
     .tier-note { text-align: center; font-size: 13px; color: var(--muted); max-width: 640px; margin: 8px auto 0; }
 
-    /* ---------- CASE STUDY ---------- */
-    .case-study { padding: 72px 0; border-top: 1px solid var(--line); text-align: center; }
-    .case-study h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.2vw, 34px); color: var(--ink); margin: 12px auto 28px; max-width: 700px; }
-    @media (min-width: 768px) { .case-study h2 .nowrap { white-space: nowrap; } }
-    .case-frame {
+    /* ---------- STUDENT OUTCOMES (annotated proof cards) ---------- */
+    .outcomes-section { padding: 72px 0; border-top: 1px solid var(--line); }
+    .outcomes-intro { text-align: center; margin-bottom: 44px; }
+    .outcomes-intro h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.2vw, 34px); color: var(--ink); margin-bottom: 14px; }
+    .outcomes-intro > p:not(.eyebrow) { font-size: 16px; line-height: 1.65; color: var(--muted); max-width: 560px; margin: 0 auto; }
+    .outcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+    .outcome-card {
+      position: relative;
       background: var(--white);
       border: 1px solid var(--line);
       border-radius: 14px;
+      padding: 30px 28px 24px;
       box-shadow: 0 8px 28px rgba(31,43,35,0.06);
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 32px 32px 26px;
     }
-    .case-stats {
+    .outcome-chip {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+      border: 1px solid rgba(197,165,114,0.5);
+      border-radius: 3px;
+      padding: 3px 9px;
+      margin-bottom: 16px;
+    }
+    .polaroid {
+      float: right;
+      width: 172px;
+      margin: -2px -4px 14px 20px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 7px 7px 6px;
+      box-shadow: 0 12px 28px rgba(31,43,35,0.16);
+      transform: rotate(2.4deg);
+      position: relative;
+    }
+    .outcome-card.tilt-left .polaroid { transform: rotate(-2.2deg); }
+    .polaroid::before { /* tape strip */
+      content: '';
+      position: absolute;
+      top: -11px; left: 50%;
+      width: 78px; height: 24px;
+      background: rgba(197,165,114,0.32);
+      transform: translateX(-50%) rotate(-3deg);
+    }
+    .polaroid img { width: 100%; display: block; }
+    .polaroid figcaption {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      line-height: 1.1;
+      color: var(--ink);
+      text-align: center;
+      padding: 7px 2px 2px;
+      transform: rotate(-1deg);
+    }
+    /* PRODUCT.md: imagery must be visibly disclosed as illustrative, on the
+       photo itself, not only in the fine print below the grid. */
+    .polaroid-note {
+      display: block;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      padding-top: 3px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .outcome-card h3 {
       font-family: var(--display);
       font-weight: 600;
-      font-size: clamp(16px, 2vw, 19px);
+      font-size: clamp(19px, 2.1vw, 22px);
+      line-height: 1.3;
       color: var(--ink);
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
-    .case-stats .sep { color: var(--gold-deep); margin: 0 10px; font-weight: 500; }
-    .case-study .case-frame p:not(.proof-caption) { font-size: 16px; line-height: 1.75; color: var(--muted); max-width: 640px; margin: 0 auto 16px; text-align: left; }
-    .case-study .proof-caption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .outcome-stat {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(22px, 2.2vw, 27px);
+      line-height: 1.3;
+      color: var(--ink);
+      margin: 2px 0 18px;
+    }
+    .outcome-stat .stat-from { color: var(--muted); font-weight: 600; }
+    .stat-nb { white-space: nowrap; }
+    .ann-wrap { position: relative; display: inline-block; padding: 2px 8px; margin-right: 6px; }
+    .ann-wrap .ann-circle {
+      position: absolute; left: 50%; top: 50%;
+      width: 126%; height: 152%; max-width: none;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .ann-under { position: relative; display: inline-block; white-space: nowrap; }
+    .ann-under .ann-underline {
+      position: absolute; left: -1%; bottom: -0.34em;
+      width: 102%; height: auto; max-width: none;
+      pointer-events: none;
+    }
+    .outcome-list { list-style: none; margin: 0 0 16px; padding: 0; }
+    .outcome-list li {
+      position: relative;
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: var(--ink);
+      padding: 8px 0 8px 22px;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden; /* BFC: the divider stops at the floated polaroid instead of running under it */
+    }
+    .outcome-list li:last-child { border-bottom: none; }
+    .outcome-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px; top: 15px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 1.5px solid var(--gold-deep);
+      box-sizing: border-box;
+    }
+    .outcome-note { font-size: 14.5px; line-height: 1.7; color: var(--muted); clear: none; }
+    .outcome-consent { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 22px; }
 
     /* ---------- TEAM ---------- */
     .team-section { padding: 72px 0; border-top: 1px solid var(--line); }
@@ -503,6 +611,13 @@
       .tier-grid { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
     }
 
+    /* 940px, not 900: below ~920px the two-column text gutter beside the
+       floated polaroid is narrower than the nowrap "Carnegie Mellon" span,
+       which punches a blank hole into the card. */
+    @media (max-width: 940px) {
+      .outcome-grid { grid-template-columns: 1fr; gap: 24px; max-width: 560px; margin: 0 auto; }
+    }
+
     @media (max-width: 768px) {
       .trust-chips .chip { padding: 6px 16px; border-left: none; }
       .tier-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -518,7 +633,10 @@
       .proof-strip { padding: 48px 0 40px; }
       .doors-section { padding: 56px 0; }
       .door { margin-bottom: 48px; }
-      .case-study { padding: 56px 0; }
+      .outcomes-section { padding: 56px 0; }
+      /* Standalone polaroid on small screens: the float column is too narrow
+         for the annotated stat lines to breathe. */
+      .polaroid { float: none; width: 186px; margin: 6px auto 20px; }
       .team-section { padding: 56px 0; }
       .faq-section { padding: 56px 0; }
       #book { padding: 56px 0; }
@@ -649,6 +767,56 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <!-- STUDENT OUTCOMES -->
+  <section class="outcomes-section">
+    <div class="wrap">
+      <div class="outcomes-intro fade-in">
+        <p class="eyebrow">Student outcomes</p>
+        <h2>Two tracks. Two&nbsp;real&nbsp;<span class="gi gi-cream">students.</span></h2>
+        <p>The consultants you just met, and what their guidance looks like on paper.</p>
+      </div>
+
+      <div class="outcome-grid">
+        <!-- Foundation Track student -->
+        <article class="outcome-card fade-in">
+          <span class="outcome-chip">Foundation Track</span>
+          <figure class="polaroid">
+            <img src="assets/student-foundation.jpg" alt="Illustrative photo: a student walking up the steps of a university building" width="720" height="960" loading="lazy" decoding="async">
+            <figcaption>the plan came first</figcaption>
+            <span class="polaroid-note">Illustrative photo</span>
+          </figure>
+          <h3>From two APs and no direction to a plan she owns</h3>
+          <p class="outcome-stat"><span class="stat-from">1000 <span aria-hidden="true">&rarr;</span><span class="sr-only">to</span></span> <span class="stat-nb"><span class="ann-wrap">1400<img class="ann-circle" src="assets/ann-circle.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span> SAT</span></p>
+          <ul class="outcome-list">
+            <li>Stanford neurology internship</li>
+            <li>New York City ecology internship</li>
+            <li>8 APs on track, maximizing college credit</li>
+          </ul>
+          <p class="outcome-note">She came to us with a 1000 SAT, two APs, and no idea where she was headed. Her consultant rebuilt the plan from the ground up, and the results followed.</p>
+        </article>
+
+        <!-- Application Track student -->
+        <article class="outcome-card tilt-left fade-in delay-1">
+          <span class="outcome-chip">Application Track</span>
+          <figure class="polaroid">
+            <img src="assets/student-application.jpg" alt="Illustrative photo: a student looking up at a glass office tower" width="720" height="960" loading="lazy" decoding="async">
+            <figcaption>next stop: Pittsburgh</figcaption>
+            <span class="polaroid-note">Illustrative photo</span>
+          </figure>
+          <h3>An application cycle run end to end</h3>
+          <p class="outcome-stat"><span class="stat-from">Admitted to</span> <span class="ann-under">Carnegie Mellon<img class="ann-underline" src="assets/ann-underline.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span></p>
+          <ul class="outcome-list">
+            <li>ATLAS internship at one of the world&rsquo;s top hedge funds</li>
+            <li>Youth Construct internship during the school year</li>
+          </ul>
+          <p class="outcome-note">The ATLAS internship is among the most selective open to a high school student. We ran her full cycle: the college list, the essays, the interviews, and the internships that made her application impossible to skim.</p>
+        </article>
+      </div>
+
+      <p class="outcome-consent">Real IvyPath consulting students, shared with written consent. Photos are illustrative to protect student privacy. Results vary student to student.</p>
+    </div>
+  </section>
+
   <!-- TWO DOORS + TIERS -->
   <section class="doors-section">
     <div class="wrap">
@@ -769,22 +937,6 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <p class="tier-note">Every plan includes the same attention to your child&rsquo;s application. Results vary based on effort, timeline, and starting point.</p>
       <p class="tier-note">You don&rsquo;t choose a plan today. The free call is where we work out fit.</p>
-    </div>
-  </section>
-
-  <!-- CASE STUDY -->
-  <section class="wrap case-study">
-    <p class="eyebrow">What the process looks like</p>
-    <h2>From <span class="nowrap">&ldquo;no idea where to start&rdquo;</span> to a plan she&rsquo;s proud of</h2>
-    <div class="case-frame">
-      <p class="case-stats">1000 &rarr; 1400 SAT<span class="sep">&middot;</span>8 APs on track<span class="sep">&middot;</span>2 research internships</p>
-      <p>When one of our students started with us, she had a 1000 SAT, two APs,
-      and no clear direction. Working with her consultant, she rebuilt her plan
-      from the ground up: today she&rsquo;s at a 1400, heading into a Stanford
-      neurology internship and a New York ecology internship, on track for eight
-      APs to maximize college credit. And she knows exactly where she&rsquo;s going,
-      and why.</p>
-      <p class="proof-caption">A real IvyPath consulting student, shared with permission. Results vary student to student.</p>
     </div>
   </section>
 

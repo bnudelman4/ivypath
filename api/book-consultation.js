@@ -32,6 +32,27 @@ module.exports = async (req, res) => {
     // Booking variants: default 15-min consult (book.html) vs the 30-min
     // college-consulting strategy call (/consulting).
     const isConsulting = body.type === 'consulting-strategy';
+
+    // Pre-call intake (consulting only): allowlisted keys, newline-stripped,
+    // length-capped. Renders into the calendar invite as the "Call prep" block.
+    let intake = null;
+    if (isConsulting && body.intake && typeof body.intake === 'object') {
+      const clean = {};
+      if (Array.isArray(body.intake.schools)) {
+        const schools = body.intake.schools
+          .filter((s) => typeof s === 'string' && s.trim())
+          .map((s) => s.replace(/[\r\n]+/g, ' ').trim().slice(0, 60))
+          .slice(0, 5);
+        if (schools.length) clean.schools = schools;
+      }
+      for (const k of ['sat', 'aps', 'ecs', 'concern']) {
+        const v = body.intake[k];
+        if (typeof v === 'string' && v.trim()) {
+          clean[k] = v.replace(/[\r\n]+/g, ' ').trim().slice(0, 120);
+        }
+      }
+      if (Object.keys(clean).length) intake = clean;
+    }
     const eventId = typeof body.eventId === 'string' && body.eventId.length > 0 && body.eventId.length <= 64
       ? body.eventId : '';
     const grade = typeof body.grade === 'string' ? body.grade.trim().slice(0, 20) : '';
@@ -110,7 +131,12 @@ module.exports = async (req, res) => {
           ? `IvyPath Academy - College Consulting Strategy Call${ref ? ' [ref: ' + ref + ']' : ''}`
           : `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
         description: isConsulting
-          ? `Free 30-minute college consulting strategy call.\n\nParent: ${name}\nEmail: ${email}\nPhone: ${phone}${grade ? '\nStudent grade: ' + grade : ''}\n\nConsultants: Alp / Edison. Review profile, honest read, roadmap sketch.`
+          ? `Free 30-minute college consulting strategy call.\n\nParent: ${name}\nEmail: ${email}\nPhone: ${phone}${grade ? '\nStudent grade: ' + grade : ''}${intake ? '\n\nCALL PREP (from intake):' +
+              (intake.schools ? '\n- Target schools (ranked): ' + intake.schools.map((s, i) => `${i + 1}. ${s}`).join('  ') : '') +
+              (intake.sat ? '\n- Current SAT: ' + intake.sat : '') +
+              (intake.aps ? '\n- AP / advanced classes: ' + intake.aps : '') +
+              (intake.ecs ? '\n- Extracurriculars: ' + intake.ecs : '') +
+              (intake.concern ? '\n- Biggest concern: ' + intake.concern : '') : ''}\n\nConsultants: Alp / Edison. Draft the roadmap from the prep block above, honest read live.`
           : `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
         start: {
           dateTime: startDT,

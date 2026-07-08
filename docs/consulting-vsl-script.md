@@ -21,9 +21,11 @@ is there.
 **[PROOF]** One student we work with started with a 1000 SAT, two APs, and no
 real direction. Today she's at a 1400, she's headed into a Stanford neurology
 internship and an ecology internship here in New York, she's on track for
-eight AP classes — and she knows exactly where she's going and why. That's
-what a real plan looks like. Results vary student to student — but the
-process is the same.
+eight AP classes — and she knows exactly where she's going and why. Another
+of our students was just admitted to Carnegie Mellon — with an internship at
+one of the top hedge funds in the world on her résumé, one of the most
+selective a high schooler can earn. That's what a real plan looks like.
+Results vary student to student — but the process is the same.
 
 **[DE-RISK]** So here's what we do. Book a free strategy call. A consultant —
 not a salesperson — will look at where your child is right now, tell you

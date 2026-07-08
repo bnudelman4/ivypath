@@ -514,6 +514,91 @@
     .book-card-head h3 { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink); }
     .book-card-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
     .cal-step-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 14px; }
+
+    /* Intake questionnaire (one question per screen, Typeform-style) */
+    .book-progress { height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; margin-bottom: 18px; }
+    .book-progress span { display: block; height: 100%; width: 0; background: var(--gold); border-radius: 999px; transition: width 0.35s ease; }
+    .q-title { font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.35; color: var(--ink); margin: 2px 0 6px; outline: none; }
+    .q-hint { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    .choice-list { display: grid; gap: 8px; }
+    .choice-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      font-family: var(--body);
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .choice-chip:hover { border-color: var(--sage); }
+    .choice-chip.selected { border-color: var(--sage); background: #EDF3EE; }
+    .choice-chip .chip-key {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--white);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 20px;
+      text-align: center;
+    }
+    .choice-chip.selected .chip-key { background: var(--sage); border-color: var(--sage); color: var(--white); }
+    .school-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .school-chip {
+      position: relative;
+      font-family: var(--body);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 30px 11px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .school-chip:hover { border-color: var(--sage); }
+    .school-chip.selected { border-color: var(--sage); background: #EDF3EE; }
+    .school-chip .rank {
+      position: absolute;
+      right: 8px; top: 50%;
+      transform: translateY(-50%);
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--sage);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 20px;
+      text-align: center;
+    }
+    .q-continue { margin-top: 16px; }
+    .q-back {
+      display: inline-block;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--body); font-size: 13px; font-weight: 600;
+      color: var(--sage-deep); margin-bottom: 12px; padding: 4px 0;
+    }
+    .q-panel.q-anim { animation: qIn 0.32s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes qIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .q-panel.q-anim { animation: none; }
+      .book-progress span { transition: none; }
+    }
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
     .form-group input, .form-group select {
@@ -979,9 +1064,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <h2>Book your free strategy call</h2>
       <p>Free &middot; ~30 minutes &middot; honest assessment &middot; no obligation</p>
       <ol class="call-steps">
-        <li>A consultant reviews where your child is today</li>
-        <li>You get an honest read on what&rsquo;s strong and what&rsquo;s missing</li>
-        <li>We sketch the roadmap we&rsquo;d build. If it&rsquo;s not a fit, you keep it</li>
+        <li>Answer six quick questions about where your student is today (about a minute)</li>
+        <li>Pick a time. Your consultant preps a draft roadmap from your answers before the call</li>
+        <li>Walk through it live, with an honest read on what&rsquo;s strong and what&rsquo;s missing. If it&rsquo;s not a fit, the roadmap is yours to keep</li>
       </ol>
       <!-- Native booking widget: IvyPath's own two-step flow (same stack as
            book.html) → /api/book-consultation (Google Calendar service account,
@@ -992,9 +1077,17 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <p class="book-card-sub">30 min &middot; Google Meet &middot; free</p>
         </div>
 
-        <!-- Step 1: details -->
-        <div class="cal-panel" id="calContact">
-          <p class="cal-step-label">Step 1 of 2 &middot; Your details</p>
+        <div class="book-progress"><span id="bookProgressFill"></span></div>
+
+        <!-- Step 1: intake questionnaire (rendered by JS, one question per screen).
+             Answers become the "Call prep" block in the consultant's calendar
+             invite so the draft roadmap is ready before the call. -->
+        <div class="cal-panel" id="calIntake" aria-live="polite"></div>
+
+        <!-- Step 2: details -->
+        <div class="cal-panel" id="calContact" style="display:none;">
+          <button class="q-back" id="contactBackToIntake" type="button">&larr; Back</button>
+          <p class="cal-step-label">Almost done &middot; Your details</p>
           <form id="contactForm" novalidate>
             <div class="form-group">
               <label for="leadName">Your name</label>
@@ -1009,27 +1102,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
               <input type="tel" id="leadPhone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-describedby="leadPhoneHint">
               <p class="form-hint" id="leadPhoneHint">Mobile, so we can text your Meet link and a reminder.</p>
             </div>
-            <div class="form-group">
-              <label for="leadGrade">Student&rsquo;s grade this fall</label>
-              <select id="leadGrade" name="grade" required>
-                <option value="" selected disabled>Select grade</option>
-                <option value="9">9th grade</option>
-                <option value="10">10th grade</option>
-                <option value="11">11th grade</option>
-                <option value="12">12th grade</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
             <p class="contact-error" id="contactError" role="alert" aria-live="polite" style="display:none;"></p>
             <button type="submit" class="btn-primary book-submit" id="contactContinueBtn">Continue to pick a time &rarr;</button>
             <p class="book-reassure">No spam. We only use this to confirm your free strategy call.</p>
           </form>
         </div>
 
-        <!-- Step 2a: date -->
+        <!-- Step 3a: date -->
         <div class="cal-panel" id="calendarWidget" style="display:none;">
           <button class="cal-back" id="calContactBack" type="button">&larr; Edit your details</button>
-          <p class="cal-step-label">Step 2 of 2 &middot; Pick a date</p>
+          <p class="cal-step-label">Last step &middot; Pick a date</p>
           <div class="cal-nav">
             <button class="cal-nav-btn" id="calPrev" type="button" aria-label="Previous month">&larr;</button>
             <span class="cal-month" id="calMonth"></span>
@@ -1202,16 +1284,19 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     })();
 
     /* Booking widget (same stack as book.html: /api/book-consultation ->
-       Google Calendar service account). All slots shown — no fake scarcity. */
+       Google Calendar service account). All slots shown — no fake scarcity.
+       Flow: intake questionnaire (6 taps) -> contact -> date -> time -> confirm.
+       Intake answers ride along in the POST and become the "Call prep" block in
+       the consultant's calendar invite, so a draft roadmap exists BEFORE the call. */
     (function() {
+      var intakePanel = document.getElementById('calIntake');
       var contactPanel = document.getElementById('calContact');
-      if (!contactPanel) return;
+      if (!intakePanel || !contactPanel) return;
       var contactForm = document.getElementById('contactForm');
       var contactError = document.getElementById('contactError');
       var nameInput = document.getElementById('leadName');
       var emailInput = document.getElementById('leadEmail');
       var phoneInput = document.getElementById('leadPhone');
-      var gradeInput = document.getElementById('leadGrade');
       var grid = document.getElementById('calGrid');
       var monthLabel = document.getElementById('calMonth');
       var calWidget = document.getElementById('calendarWidget');
@@ -1221,6 +1306,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var confirmPanel = document.getElementById('calConfirm');
       var confirmDateTime = document.getElementById('confirmDateTime');
       var confirmContactSummary = document.getElementById('confirmContactSummary');
+      var progressFill = document.getElementById('bookProgressFill');
 
       var today = new Date();
       var currentMonth = today.getMonth();
@@ -1229,29 +1315,153 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
       var times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
 
-      var lead = { name:'', email:'', phone:'', grade:'' };
+      var lead = { name:'', email:'', phone:'' };
       var refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
       var selectedDate = null, selectedTime = null;
 
+      /* ---------- Intake questionnaire (one question per screen) ---------- */
+      var SCHOOLS = ['Harvard','Princeton','Yale','Columbia','Brown','Cornell','UPenn','Dartmouth','MIT','Stanford','Carnegie Mellon','Duke','NYU','UMichigan','UC Berkeley','Not sure yet'];
+      var QUESTIONS = [
+        { id:'grade', title:'What grade is your student in this fall?', type:'single',
+          options:[{v:'9',l:'9th grade'},{v:'10',l:'10th grade'},{v:'11',l:'11th grade'},{v:'12',l:'12th grade'},{v:'other',l:'Other'}] },
+        { id:'schools', title:'Which schools are on the wish list?', hint:'Tap up to 5, in order of preference.', type:'schools' },
+        { id:'sat', title:'Where is their SAT score today?', type:'single',
+          options:[{v:'not-taken',l:'Hasn’t taken it yet'},{v:'under-1000',l:'Under 1000'},{v:'1000-1190',l:'1000–1190'},{v:'1200-1350',l:'1200–1350'},{v:'1360-1480',l:'1360–1480'},{v:'1490+',l:'1490 or above'}] },
+        { id:'aps', title:'How many AP or advanced classes so far?', hint:'Including this year’s.', type:'single',
+          options:[{v:'0',l:'None yet'},{v:'1-2',l:'1–2'},{v:'3-5',l:'3–5'},{v:'6+',l:'6 or more'},{v:'not-sure',l:'Not sure'}] },
+        { id:'ecs', title:'Which best describes their extracurriculars right now?', type:'single',
+          options:[{v:'none',l:'Nothing consistent yet'},{v:'clubs',l:'A few clubs, no leadership'},{v:'leadership',l:'Leadership roles in clubs'},{v:'advanced',l:'Competitions, research, or internships'}] },
+        { id:'concern', title:'What worries you most right now?', type:'single',
+          options:[{v:'essays',l:'The essays and the story'},{v:'scores',l:'Test scores'},{v:'ecs',l:'Extracurriculars and awards'},{v:'list',l:'Choosing the right schools'},{v:'start',l:'We don’t know where to start'}] },
+      ];
+      var intake = { grade:'', schools:[], sat:'', aps:'', ecs:'', concern:'' };
+      var intakeLabels = {};
+      var qIndex = 0;
+
+      function setProgress(frac){ if (progressFill) progressFill.style.width = Math.round(frac * 100) + '%'; }
+
+      function renderQuestion(moveFocus){
+        var q = QUESTIONS[qIndex];
+        setProgress(qIndex / 9);
+        var html = '';
+        if (qIndex > 0) html += '<button class="q-back" type="button" id="qBack">&larr; Back</button>';
+        html += '<p class="cal-step-label">Question ' + (qIndex + 1) + ' of ' + QUESTIONS.length + '</p>';
+        html += '<h4 class="q-title" tabindex="-1" id="qTitle">' + q.title + '</h4>';
+        if (q.hint) html += '<p class="q-hint">' + q.hint + '</p>';
+        if (q.type === 'single') {
+          html += '<div class="choice-list" role="group" aria-label="' + q.title + '">';
+          for (var i = 0; i < q.options.length; i++) {
+            var o = q.options[i];
+            var sel = intake[q.id] === o.v;
+            html += '<button type="button" class="choice-chip' + (sel ? ' selected' : '') + '" data-v="' + o.v + '" data-l="' + o.l + '" aria-pressed="' + sel + '">' +
+              '<span class="chip-key" aria-hidden="true">' + String.fromCharCode(65 + i) + '</span>' + o.l + '</button>';
+          }
+          html += '</div>';
+        } else {
+          html += '<div class="school-grid" role="group" aria-label="' + q.title + '">';
+          for (var s = 0; s < SCHOOLS.length; s++) {
+            var nm = SCHOOLS[s];
+            var r = intake.schools.indexOf(nm);
+            html += '<button type="button" class="school-chip' + (r > -1 ? ' selected' : '') + '" data-s="' + nm + '" aria-pressed="' + (r > -1) + '">' + nm +
+              (r > -1 ? '<span class="rank" aria-hidden="true">' + (r + 1) + '</span>' : '') + '</button>';
+          }
+          html += '</div>';
+          html += '<button type="button" class="btn-primary book-submit q-continue" id="qContinue"' + (intake.schools.length ? '' : ' disabled') + '>Continue &rarr;</button>';
+        }
+        intakePanel.innerHTML = html;
+        // Restart the enter animation (slide-up + fade, Typeform-style).
+        intakePanel.classList.remove('q-panel', 'q-anim');
+        void intakePanel.offsetWidth;
+        intakePanel.classList.add('q-panel', 'q-anim');
+        bindQuestion(q);
+        if (moveFocus) {
+          var t = document.getElementById('qTitle');
+          if (t) t.focus();
+        }
+      }
+
+      function bindQuestion(q){
+        var back = document.getElementById('qBack');
+        if (back) back.addEventListener('click', function(){ qIndex--; renderQuestion(true); });
+        if (q.type === 'single') {
+          var chips = intakePanel.querySelectorAll('.choice-chip');
+          for (var i = 0; i < chips.length; i++) {
+            chips[i].addEventListener('click', function(){
+              intake[q.id] = this.getAttribute('data-v');
+              intakeLabels[q.id] = this.getAttribute('data-l');
+              var all = intakePanel.querySelectorAll('.choice-chip');
+              for (var j = 0; j < all.length; j++) { all[j].classList.remove('selected'); all[j].setAttribute('aria-pressed', 'false'); }
+              this.classList.add('selected');
+              this.setAttribute('aria-pressed', 'true');
+              // Brief beat so the selection registers visually, then advance.
+              setTimeout(advanceQuestion, 260);
+            });
+          }
+        } else {
+          var schoolChips = intakePanel.querySelectorAll('.school-chip');
+          for (var k = 0; k < schoolChips.length; k++) {
+            schoolChips[k].addEventListener('click', function(){
+              var nm = this.getAttribute('data-s');
+              if (nm === 'Not sure yet') {
+                intake.schools = intake.schools[0] === 'Not sure yet' ? [] : ['Not sure yet'];
+              } else {
+                var ns = intake.schools.indexOf('Not sure yet');
+                if (ns > -1) intake.schools.splice(ns, 1);
+                var at = intake.schools.indexOf(nm);
+                if (at > -1) intake.schools.splice(at, 1);
+                else if (intake.schools.length < 5) intake.schools.push(nm);
+              }
+              renderQuestion(false);
+              // Re-render replaced the tapped chip; put focus back on it.
+              var again = intakePanel.querySelector('.school-chip[data-s="' + nm + '"]');
+              if (again) again.focus();
+            });
+          }
+          var cont = document.getElementById('qContinue');
+          if (cont) cont.addEventListener('click', function(){ advanceQuestion(); });
+        }
+      }
+
+      function advanceQuestion(){
+        if (qIndex < QUESTIONS.length - 1) {
+          qIndex++;
+          renderQuestion(true);
+        } else {
+          // Intake complete: a strong mid-funnel signal on its own.
+          try { if (window.fbq) fbq('trackCustom', 'ConsultingIntakeComplete', { content_name: 'Consulting Intake Complete' }); } catch (e) {}
+          try { if (window.gtag) gtag('event', 'consulting_intake_complete', {}); } catch (e) {}
+          show(contactPanel);
+        }
+      }
+
       function show(panel){
-        [contactPanel, calWidget, timesPanel, confirmPanel].forEach(function(p){ p.style.display = (p===panel) ? 'block' : 'none'; });
+        [intakePanel, contactPanel, calWidget, timesPanel, confirmPanel].forEach(function(p){ p.style.display = (p===panel) ? 'block' : 'none'; });
+        if (panel === contactPanel) setProgress(6 / 9);
+        else if (panel === calWidget) setProgress(7 / 9);
+        else if (panel === timesPanel) setProgress(7.5 / 9);
+        else if (panel === confirmPanel) setProgress(8 / 9);
         // Keep keyboard/AT focus inside the flow when panels swap.
         var target = panel.querySelector('button, input, select, [tabindex]');
         if (target) target.focus();
       }
       function esc(x){ return String(x).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
+      document.getElementById('contactBackToIntake').addEventListener('click', function(){
+        qIndex = QUESTIONS.length - 1;
+        show(intakePanel);
+        renderQuestion(true);
+      });
+
       contactForm.addEventListener('submit', function(e){
         e.preventDefault();
-        var name = nameInput.value.trim(), email = emailInput.value.trim(), phone = phoneInput.value.trim(), grade = gradeInput.value;
+        var name = nameInput.value.trim(), email = emailInput.value.trim(), phone = phoneInput.value.trim();
         var msg = '';
         if (name.length < 2) msg = 'Please enter your name.';
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) msg = 'Please enter a valid email address.';
         else if ((phone.match(/\d/g) || []).length < 7) msg = 'Please enter a valid mobile phone number.';
-        else if (!grade) msg = 'Please select your student\u2019s grade.';
         if (msg) { contactError.textContent = msg; contactError.style.display = 'block'; return; }
         contactError.style.display = 'none';
-        lead.name = name; lead.email = email; lead.phone = phone; lead.grade = grade;
+        lead.name = name; lead.email = email; lead.phone = phone;
         show(calWidget); renderCalendar();
       });
 
@@ -1338,7 +1548,20 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         var eid = (window.__ivpNoTrack === 1) ? '' : 'scb-' + Math.random().toString(36).slice(2) + '-' + Date.now().toString(36);
         fetch('/api/book-consultation', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: lead.name, email: lead.email, phone: lead.phone, date: dateStr, time: selectedTime, ref: refCode, grade: lead.grade, type: 'consulting-strategy', eventId: eid })
+          body: JSON.stringify({
+            name: lead.name, email: lead.email, phone: lead.phone,
+            date: dateStr, time: selectedTime, ref: refCode,
+            grade: intake.grade, type: 'consulting-strategy', eventId: eid,
+            // Human-readable answers; the API renders them into the calendar
+            // invite as the consultant's "Call prep" block.
+            intake: {
+              schools: intake.schools,
+              sat: intakeLabels.sat || '',
+              aps: intakeLabels.aps || '',
+              ecs: intakeLabels.ecs || '',
+              concern: intakeLabels.concern || ''
+            }
+          })
         }).then(function(response){ return response.json().then(function(data){ return { ok: response.ok, data: data }; }); })
         .then(function(r){
           if (!r.ok) throw new Error((r.data && r.data.error) || 'Booking failed');
@@ -1355,6 +1578,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           errEl.textContent = (err && err.message) || 'Something went wrong. Please try again.';
         });
       });
+
+      // Kick off the intake questionnaire (no focus steal on page load).
+      renderQuestion(false);
     })();
   </script>
 

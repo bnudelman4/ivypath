@@ -101,9 +101,10 @@
       background: transparent;
       color: rgba(253,248,240,0.75);
       border: 0;
-      padding: 8px 14px;
+      padding: 11px 14px;
       cursor: pointer;
       min-width: 52px;
+      min-height: 44px; /* WCAG tap-target size */
     }
     .lang-pill button[aria-pressed="true"] {
       background: var(--cream);
@@ -479,7 +480,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           </label>
           <label class="field"><span class="label-text"><span class="en">Grade</span><span class="zh">年级</span></span>
             <select name="student_grade" required>
-              <option value="" disabled selected></option>
+              <option value="" disabled selected>Select grade · 请选择年级</option>
               <option value="9">Grade 9 · 9年级</option>
               <option value="10">Grade 10 · 10年级</option>
               <option value="11">Grade 11 · 11年级</option>
@@ -511,11 +512,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
         <label class="check-row">
           <input type="checkbox" name="device_ack">
-          <span class="check-text"><span class="en">My student will bring a charged laptop or iPad</span><span class="zh">我的学生会携带充满电的笔记本电脑或iPad</span></span>
+          <span class="check-text"><span class="en">My student will bring a charged laptop or iPad</span><span class="zh">学生将携带充满电的笔记本电脑或iPad</span></span>
         </label>
         <label class="check-row">
           <input type="checkbox" name="consent_contact" required>
-          <span class="check-text"><span class="en">I agree to receive email/text updates about this event</span><span class="zh">我同意接收关于本次活动的邮件/短信通知</span></span>
+          <span class="check-text"><span class="en">I agree to receive email/text updates about this event and the score report</span><span class="zh">我同意接收关于本次活动及成绩报告的邮件/短信通知</span></span>
         </label>
         <label class="check-row">
           <input type="checkbox" name="consent_photo">
@@ -533,7 +534,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <p class="confirm-dup" id="confirmDup"><span class="en">Good news: this family was already registered. Your original spot is safe.</span><span class="zh">好消息：您的家庭此前已报名，原有名额依然有效。</span></p>
         <p class="confirm-recap"><span class="en" id="confirmDateEn">Friday, July 24, 2026 · 7:30 PM ET</span><span class="zh" id="confirmDateZh">2026年7月24日 星期五 · 美东时间 晚上7:30</span></p>
         <p class="confirm-venue"><a id="confirmVenueLink" href="https://www.google.com/maps/search/?api=1&amp;query=2111%20Avenue%20U%2C%20Brooklyn%2C%20NY%2011229" target="_blank" rel="noopener"><span id="confirmVenueText">2111 Avenue U, Brooklyn, NY 11229</span></a></p>
-        <p class="confirm-note"><span class="en">A confirmation email is on the way. If you don't see it in a few minutes, check your spam folder.</span><span class="zh">确认邮件正在发送中。若几分钟内未收到，请查看垃圾邮件文件夹。</span></p>
+        <p class="confirm-note" id="confirmNote"><span class="en">A confirmation email is on the way. If you don't see it in a few minutes, check your spam folder.</span><span class="zh">确认邮件正在发送中。若几分钟内未收到，请查看垃圾邮件文件夹。</span></p>
+        <p class="confirm-note" id="confirmNoteDup" style="display:none;"><span class="en">Use the confirmation email we sent when you first registered.</span><span class="zh">请查收首次报名时发送的确认邮件。</span></p>
         <a class="cal-link" id="calLink" href="#" target="_blank" rel="noopener"><span class="en">Add to Google Calendar</span><span class="zh">添加到谷歌日历</span></a>
         <div class="bring-reminder">
           <strong><span class="en">What to bring:</span><span class="zh">请携带：</span></strong>
@@ -753,7 +755,13 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             if (d && d.ok) {
               if (d.event && d.event.starts_at) { currentEvent = d.event; renderEvent(); }
               form.style.display = 'none';
-              if (d.duplicate) document.getElementById('confirmDup').style.display = 'block';
+              if (d.duplicate) {
+                document.getElementById('confirmDup').style.display = 'block';
+                /* No new confirmation email is sent for duplicates: swap the
+                   "on the way" note for the first-registration one. */
+                document.getElementById('confirmNote').style.display = 'none';
+                document.getElementById('confirmNoteDup').style.display = 'block';
+              }
               document.getElementById('confirmCard').style.display = 'block';
               document.getElementById('confirmCard').scrollIntoView({ block: 'center' });
               /* Signals fire ONLY on a real first-time success: never on

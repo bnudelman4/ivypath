@@ -7,274 +7,13 @@
   <title>Book a Free Consultation | IvyPath Academy</title>
   <meta name="description" content="Book a free 15-minute consultation with IvyPath Academy. Discuss your child's academic goals and learn how our Ivy League tutors can help.">
   <link rel="canonical" href="https://ivypathacademy.com/book.html">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --sage: #4A7C59;
-      --sage-deep: #3A6347;
-      --forest: #1E4D38;
-      --forest-deep: #16382A;
-      --gold: #C5A572;
-      --gold-deep: #8F6B37; /* 4.5:1+ on cream at label sizes (WCAG AA) */
-      --cream: #FDF8F0;
-      --ink: #1F2B23;
-      --muted: #5C6B60;
-      --line: #E4DECF;
-      --white: #ffffff;
-      --cream-on-dark: rgba(253,248,240,0.9);
-      --display: 'Lora', Georgia, serif;
-      --body: 'Instrument Sans', system-ui, sans-serif;
-    }
-
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-    body { font-family: var(--body); color: var(--ink); background: var(--cream); line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; height: auto; display: block; }
-    h1, h2, h3 { text-wrap: balance; }
-    a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--gold-deep);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-    .hero-dark a:focus-visible, .hero-dark button:focus-visible, .site-footer a:focus-visible { outline-color: var(--gold); }
-
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-    .gi { font-style: italic; color: var(--gold); }
-
-    /* ---------- DARK HERO ---------- */
-    .hero-dark {
-      background:
-        radial-gradient(120% 90% at 50% 0%, rgba(74,124,89,0.35), rgba(0,0,0,0) 60%),
-        linear-gradient(180deg, var(--forest) 0%, var(--forest-deep) 100%);
-      color: var(--cream-on-dark);
-      padding: 0 0 56px;
-    }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      max-width: 1080px;
-      margin: 0 auto;
-    }
-    .wordmark img { height: 44px; width: auto; display: block; }
-    .top-actions { display: flex; align-items: center; gap: 20px; }
-    .top-phone, .top-lang { font-size: 14px; color: rgba(253,248,240,0.75); padding: 12px 0; margin: -12px 0; display: inline-block; }
-    .top-phone:hover, .top-lang:hover { color: var(--cream); }
-
-    .hero-inner { text-align: center; padding-top: 40px; }
-    .eyebrow {
-      font-weight: 600;
-      font-size: 13px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #DEC79B;
-      margin-bottom: 18px;
-    }
-    .hero-headline {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: clamp(32px, 4.6vw, 52px);
-      line-height: 1.16;
-      letter-spacing: -0.01em;
-      color: var(--cream);
-      max-width: 780px;
-      margin: 0 auto 20px;
-    }
-    .hero-sub {
-      font-size: 17px;
-      line-height: 1.65;
-      color: rgba(253,248,240,0.82);
-      max-width: 600px;
-      margin: 0 auto 32px;
-    }
-    .btn-primary {
-      display: inline-block;
-      font-family: var(--body);
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--forest-deep);
-      background: var(--gold);
-      padding: 16px 40px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-      text-align: center;
-    }
-    .btn-primary:hover { background: #D4B683; transform: translateY(-1px); }
-    .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .video-note { font-size: 13px; color: rgba(253,248,240,0.72); margin-top: 12px; }
-
-    .trust-chips { display: flex; justify-content: center; gap: 0; margin-top: 44px; flex-wrap: wrap; }
-    .trust-chips .chip {
-      font-size: 13.5px;
-      letter-spacing: 0.04em;
-      color: rgba(253,248,240,0.75);
-      padding: 0 26px;
-      border-left: 1px solid rgba(197,165,114,0.35);
-    }
-    .trust-chips .chip:first-child { border-left: none; }
-    .trust-chips .chip strong { color: var(--cream); font-weight: 600; }
-
-    /* ---------- PROOF (photo + real results) ---------- */
-    .proof-section { padding: 72px 0; border-bottom: 1px solid var(--line); }
-    .proof-grid { display: grid; grid-template-columns: 5fr 6fr; gap: 36px; align-items: center; max-width: 920px; margin: 0 auto; }
-    .proof-photo { border-radius: 14px; overflow: hidden; box-shadow: 0 12px 32px rgba(31,43,35,0.12); }
-    .proof-photo img { width: 100%; height: 320px; object-fit: cover; }
-    .proof-copy h2 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3vw, 30px); color: var(--ink); margin-bottom: 18px; }
-    .proof-list { list-style: none; margin: 0; padding: 0; }
-    .proof-list li { display: flex; align-items: baseline; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
-    .proof-list li:last-child { border-bottom: none; }
-    .proof-list strong { font-family: var(--display); font-weight: 700; font-size: 20px; color: var(--sage-deep); white-space: nowrap; }
-    .proof-list span { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
-    .proof-note { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
-
-    /* ---------- BOOKING ---------- */
-    #book { padding: 72px 0; text-align: center; }
-    #book h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3.2vw, 34px); color: var(--ink); margin-bottom: 12px; }
-    #book .wrap > p { font-size: 15px; color: var(--muted); margin-bottom: 20px; }
-    .call-steps { list-style: none; counter-reset: step; max-width: 560px; margin: 0 auto 28px; padding: 0; text-align: left; }
-    .call-steps li {
-      counter-increment: step;
-      position: relative;
-      padding: 6px 0 6px 40px;
-      font-size: 14.5px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
-    .call-steps li::before {
-      content: counter(step);
-      position: absolute;
-      left: 0; top: 7px;
-      width: 24px; height: 24px;
-      border: 1px solid var(--gold);
-      border-radius: 50%;
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 24px;
-      text-align: center;
-      color: var(--gold-deep);
-    }
-    .book-phone { margin-top: 24px !important; margin-bottom: 0 !important; }
-    .book-phone a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
-
-    .book-card {
-      max-width: 480px;
-      margin: 0 auto;
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: 0 8px 28px rgba(31,43,35,0.06);
-      padding: 28px 28px 18px;
-      text-align: left;
-    }
-    .book-card-head { text-align: center; margin-bottom: 20px; }
-    .book-card-head h3 { font-family: var(--display); font-weight: 600; font-size: 20px; color: var(--ink); }
-    .book-card-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .cal-step-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 14px; }
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
-    .form-group input {
-      width: 100%;
-      font-family: var(--body);
-      font-size: 15px;
-      color: var(--ink);
-      background: var(--cream);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 11px 12px;
-    }
-    .form-group input:focus { outline: 2px solid var(--sage); outline-offset: 0; border-color: var(--sage); }
-    .form-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
-    .contact-error, .booking-error { font-size: 13.5px; color: #A34141; margin: 4px 0 8px; }
-    .book-submit { width: 100%; margin-top: 6px; }
-    .book-reassure { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
-    .cal-back {
-      display: inline-block;
-      background: none; border: none; cursor: pointer;
-      font-family: var(--body); font-size: 13px; font-weight: 600;
-      color: var(--sage-deep); margin-bottom: 12px; padding: 4px 0;
-    }
-    .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .cal-month { font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--ink); }
-    .cal-nav-btn {
-      background: var(--cream); border: 1px solid var(--line); border-radius: 6px;
-      width: 34px; height: 34px; cursor: pointer; font-size: 15px; color: var(--ink);
-    }
-    .cal-nav-btn:hover { border-color: var(--sage); }
-    .cal-days-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 6px; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-    .cal-day {
-      aspect-ratio: 1; border: none; background: none; border-radius: 8px;
-      font-family: var(--body); font-size: 14px; color: var(--ink); cursor: pointer;
-    }
-    .cal-day.available { background: var(--cream); border: 1px solid var(--line); }
-    .cal-day.available:hover { border-color: var(--sage); background: #F1EBDD; }
-    .cal-day.disabled { color: #C9C2B2; cursor: default; }
-    .cal-day.today { font-weight: 700; }
-    .cal-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .time-slot {
-      font-family: var(--body); font-size: 14px; font-weight: 600; color: var(--sage-deep);
-      background: var(--cream); border: 1px solid var(--line); border-radius: 6px;
-      padding: 11px 8px; cursor: pointer;
-    }
-    .time-slot:hover { border-color: var(--sage); background: #F1EBDD; }
-    .confirm-details { text-align: center; margin-bottom: 14px; }
-    .confirm-details h4 { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); }
-    .confirm-datetime { font-size: 15px; font-weight: 600; color: var(--sage-deep); margin-top: 6px; }
-    .confirm-duration { font-size: 13px; color: var(--muted); margin-top: 2px; }
-    .confirm-summary { display: flex; flex-direction: column; gap: 2px; text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-    .cal-timezone { text-align: center; font-size: 12px; color: var(--muted); margin-top: 16px; }
-
-    /* ---------- AFTER YOU BOOK ---------- */
-    .after-section { padding: 72px 0; border-top: 1px solid var(--line); text-align: center; }
-    .after-section h2 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3vw, 30px); color: var(--ink); margin-bottom: 28px; }
-    .after-section .call-steps { margin-bottom: 0; }
-
-    /* ---------- DISCLAIMER + FOOTER ---------- */
-    .disclaimer-section { background: var(--forest-deep); padding: 36px 0 8px; margin-top: 24px; }
-    .disclaimer-section p { font-size: 12px; line-height: 1.6; color: rgba(253,248,240,0.62); max-width: 680px; }
-    .site-footer { background: var(--forest-deep); padding: 24px 0 32px; }
-    .site-footer p { font-size: 12px; color: rgba(253,248,240,0.62); }
-    .site-footer a { color: inherit; }
-
-    /* ---------- FADE-IN (additive; content visible by default) ---------- */
-    .fade-in { transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-    .fade-in.pre { opacity: 0; transform: translateY(16px); }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .fade-in.delay-1 { transition-delay: 0.1s; }
-    .fade-in.delay-2 { transition-delay: 0.2s; }
-    @media (prefers-reduced-motion: reduce) {
-      .fade-in, .fade-in.pre { opacity: 1; transform: none; transition: none; }
-    }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 820px) {
-      .proof-grid { grid-template-columns: 1fr; max-width: 520px; gap: 24px; }
-      .proof-photo img { height: 240px; }
-    }
-    @media (max-width: 768px) {
-      .trust-chips .chip { padding: 6px 16px; border-left: none; }
-    }
-    @media (max-width: 640px) {
-      .wrap { padding: 0 20px; }
-      .top-bar { padding: 16px 20px; }
-      .wordmark img { height: 38px; }
-      .hero-inner { padding-top: 24px; }
-      .hero-sub { font-size: 15px; }
-      .proof-section { padding: 56px 0; }
-      #book { padding: 56px 0; }
-      .after-section { padding: 56px 0; }
-      .btn-primary { width: 100%; padding: 16px 24px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="pill-nav.css?v=14">
+  <link rel="stylesheet" href="book.css?v=4">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -297,337 +36,636 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <script src="sticky-cta.js" defer></script>
 </head>
 <body>
-  <main>
-
-  <!-- DARK HERO -->
-  <section class="hero-dark">
-    <header class="top-bar">
-      <a href="index.html" class="wordmark"><img src="assets/logo-white-transparent.png" alt="IvyPath Academy" width="83" height="44"></a>
-      <div class="top-actions">
-        <a href="cn-book.html" class="top-lang" lang="zh">中文</a>
-        <a href="tel:+19293940349" class="top-phone">(929) 394-0349</a>
+  <!-- Navigation -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="refer.html">Refer</a></li>
+            <li><a href="blog.html">Blog</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cn-book.html" class="lang-toggle">中文</a>
+        <a href="book.html" class="nav-cta">Book Consultation</a>
       </div>
-    </header>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
 
-    <div class="wrap hero-inner">
-      <p class="eyebrow fade-in">Free 15-minute consultation</p>
-      <h1 class="hero-headline fade-in">Fifteen minutes with a real tutor. A clear plan for your <span class="gi">child.</span></h1>
-      <p class="hero-sub fade-in delay-1">Tell us where your child stands, and we&rsquo;ll tell you honestly what to work on first, what a realistic target looks like, and whether we&rsquo;re the right fit.</p>
-      <div class="cta-stack fade-in delay-1">
-        <a href="#book" class="btn-primary">Pick a time &rarr;</a>
-        <p class="video-note">Free &middot; 15 minutes &middot; Google Meet &middot; no obligation</p>
+  <!-- Pill Nav -->
+  <div class="pill-nav-container">
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-logo" href="index.html" aria-label="Home">
+        <img src="assets/logo-transparent.png" alt="IvyPath Academy">
+      </a>
+      <div class="pill-nav-items pill-desktop-only">
+        <ul class="pill-list" role="menubar">
+          <li role="none"><a role="menuitem" href="results.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Results</span><span class="pill-label-hover" aria-hidden="true">Results</span></span></a></li>
+          <li role="none"><a role="menuitem" href="method.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Method</span><span class="pill-label-hover" aria-hidden="true">Method</span></span></a></li>
+          <li role="none"><a role="menuitem" href="about.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">About Us</span><span class="pill-label-hover" aria-hidden="true">About Us</span></span></a></li>
+          <li role="none"><a role="menuitem" href="pricing.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Pricing</span><span class="pill-label-hover" aria-hidden="true">Pricing</span></span></a></li>
+          <li role="none"><a role="menuitem" href="faq.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">FAQ</span><span class="pill-label-hover" aria-hidden="true">FAQ</span></span></a></li>
+          <li role="none"><a role="menuitem" href="refer.html" class="pill"><span class="hover-circle" aria-hidden="true"></span><span class="label-stack"><span class="pill-label">Refer</span><span class="pill-label-hover" aria-hidden="true">Refer</span></span></a></li>
+        </ul>
       </div>
-      <div class="trust-chips fade-in delay-2">
-        <div class="chip"><strong>1370 &rarr; 1500</strong> in six weeks, a real parent&rsquo;s texts</div>
-        <div class="chip">A real <strong>Stuyvesant</strong> offer, shared with consent</div>
-        <div class="chip">Bilingual &middot; <strong>English &amp; <span lang="zh">中文</span></strong></div>
+      <div class="pill-nav-right pill-desktop-only">
+        <a href="cn-book.html" class="pill-lang">中文</a>
+        <button class="pill-cart-btn cart-toggle" aria-label="Shopping cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="book.html" class="pill-cta">Book Consultation</a>
+      </div>
+      <button class="pill-cart-btn cart-toggle pill-mobile-only" aria-label="Shopping cart" style="margin-left: auto; margin-right: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="pill-mobile-btn pill-mobile-only" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+    <div class="pill-mobile-menu pill-mobile-only">
+      <ul class="pill-mobile-menu-list">
+        <li><a href="results.html">Results</a></li>
+        <li><a href="method.html">Method</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="refer.html">Refer</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        <li><a href="cn-book.html">中文</a></li>
+        <li><a href="book.html">Book Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="book-hero">
+    <div class="book-hero-overlay"></div>
+    <div class="container book-hero-content">
+      <h1 class="book-hero-title">Book Your Free Consultation</h1>
+      <p class="book-hero-subtitle">A 15-minute, no-pressure call to discuss your child's academic goals and learn how IvyPath can help.</p>
+      <p class="hero-fact">Free &middot; 15 minutes &middot; no obligation &middot; English &amp; <span lang="zh">中文</span></p>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section class="book-section">
+    <div class="container">
+      <div class="book-grid">
+        <!-- Left: Testimonial & Info -->
+        <div class="book-info">
+          <div class="book-proof-card">
+            <span class="proof-kicker">Real results, shared with consent</span>
+            <p class="proof-stat"><span class="stat-from">1370 &rarr;</span> <span class="stat-nb"><span class="ann-wrap">1500<img class="ann-circle" src="assets/ann-circle.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span></span></p>
+            <p class="proof-caption">A real parent&rsquo;s texts, six weeks apart</p>
+            <div class="proof-divider" aria-hidden="true"></div>
+            <p class="proof-stat proof-stat-sm">A real <span class="ann-under">Stuyvesant offer<img class="ann-underline" src="assets/ann-underline.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span></p>
+            <p class="proof-caption">A MySchools admission letter from an IvyPath student</p>
+            <div class="proof-divider" aria-hidden="true"></div>
+            <p class="proof-stat proof-stat-sm">1570 SAT</p>
+            <p class="proof-caption">Co-founder Ben: Stuyvesant &rsquo;20, Cornell</p>
+            <p class="proof-fineprint">Individual results vary based on each student&rsquo;s starting point and effort.</p>
+          </div>
+
+          <div class="book-expect">
+            <h3>What to Expect</h3>
+            <ol class="expect-steps">
+              <li>
+                <strong>A focused 15 minutes</strong>
+                <p>Where your child stands today, and the realistic target</p>
+              </li>
+              <li>
+                <strong>An honest read</strong>
+                <p>What we would work on first, specifically</p>
+              </li>
+              <li>
+                <strong>A recommendation, only if it fits</strong>
+                <p>No pressure either way. You keep the advice regardless</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Right: Calendar Widget -->
+        <div class="book-form-wrapper">
+          <div class="book-calendar-card">
+            <div class="calendar-header">
+              <div class="calendar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div>
+                <h3>Schedule a Call</h3>
+                <p class="calendar-subtitle">15 min &middot; Free Consultation</p>
+              </div>
+            </div>
+            <!-- Step 1: Contact details (lead-first) -->
+            <div class="calendar-contact" id="calContact">
+              <p class="calendar-step-label">Step 1 of 2 &middot; Your details</p>
+              <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-group">
+                  <label for="leadName">Your Name</label>
+                  <input type="text" id="leadName" name="name" placeholder="Full name" autocomplete="name" required aria-required="true">
+                </div>
+                <div class="form-group">
+                  <label for="leadEmail">Email</label>
+                  <input type="email" id="leadEmail" name="email" placeholder="your@email.com" autocomplete="email" required aria-required="true">
+                </div>
+                <div class="form-group">
+                  <label for="leadPhone">Mobile Phone</label>
+                  <input type="tel" id="leadPhone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-required="true" aria-describedby="leadPhoneHint">
+                  <p class="form-hint" id="leadPhoneHint">Mobile, so we can text your Meet link and a reminder.</p>
+                </div>
+                <p class="contact-error" id="contactError" role="alert" aria-live="polite" style="display:none;"></p>
+                <button type="submit" class="btn btn-primary book-submit-btn" id="contactContinueBtn">Continue to pick a time</button>
+                <p class="contact-reassure">No spam. We only use this to confirm your free consultation.</p>
+              </form>
+            </div>
+
+            <!-- Step 2a: Date picker (revealed after contact step) -->
+            <div class="calendar-widget" id="calendarWidget" style="display:none;">
+              <button class="calendar-back" id="calContactBack" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                <span>Edit your details</span>
+              </button>
+              <p class="calendar-step-label">Step 2 of 2 &middot; Pick a date</p>
+              <div class="calendar-nav">
+                <button class="calendar-nav-btn" id="calPrev" type="button" aria-label="Previous month">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="calendar-month" id="calMonth"></span>
+                <button class="calendar-nav-btn" id="calNext" type="button" aria-label="Next month">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+              <div class="calendar-days-header">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+              <div class="calendar-grid" id="calGrid"></div>
+            </div>
+
+            <!-- Step 2b: Time slots -->
+            <div class="calendar-times" id="calTimes" style="display:none;">
+              <button class="calendar-back" id="calBack" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                <span id="calSelectedDate"></span>
+              </button>
+              <p class="calendar-times-label">Available times</p>
+              <div class="calendar-time-slots" id="calSlots"></div>
+            </div>
+
+            <!-- Step 2c: Confirm (details already captured up front) -->
+            <div class="calendar-confirm" id="calConfirm" style="display:none;">
+              <div class="confirm-details">
+                <div class="confirm-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h4>Free Consultation</h4>
+                <p class="confirm-datetime" id="confirmDateTime"></p>
+                <p class="confirm-duration">15 min &middot; Google Meet</p>
+              </div>
+              <div class="confirm-contact-summary" id="confirmContactSummary"></div>
+              <form class="confirm-form" id="confirmForm">
+                <button type="submit" class="btn btn-primary book-submit-btn" id="confirmBtn">Confirm Booking</button>
+                <button type="button" class="calendar-back confirm-change-time" id="calChangeTime">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                  <span>Change time</span>
+                </button>
+              </form>
+            </div>
+            <p class="calendar-timezone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Eastern Time (ET)
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PROOF -->
-  <section class="proof-section">
-    <div class="wrap">
-      <div class="proof-grid">
-        <figure class="proof-photo fade-in">
-          <img src="assets/book-desk.jpg" alt="A tutoring desk with handwritten notes, a laptop, and a mug in warm afternoon light" width="840" height="1120" loading="lazy" decoding="async">
-        </figure>
-        <div class="proof-copy fade-in delay-1">
-          <h2>Real results, on record</h2>
-          <ul class="proof-list">
-            <li><strong>1370 &rarr; 1500</strong><span>a real parent&rsquo;s texts, six weeks apart</span></li>
-            <li><strong>Stuyvesant offer</strong><span>a real MySchools admission letter, shared with consent</span></li>
-            <li><strong>1570 SAT</strong><span>co-founder Ben: Stuyvesant &rsquo;20, Cornell</span></li>
+  <!-- Stats Mini -->
+  <section class="book-stats">
+    <div class="container">
+      <div class="book-stats-grid book-stats-grid-3">
+        <div class="book-stat reveal">
+          <span class="book-stat-number">1370 &rarr; 1500</span>
+          <span class="book-stat-label">A real parent&rsquo;s texts, six weeks apart</span>
+        </div>
+        <div class="book-stat reveal">
+          <span class="book-stat-number">Stuyvesant</span>
+          <span class="book-stat-label">A real MySchools offer, shared with consent</span>
+        </div>
+        <div class="book-stat reveal">
+          <span class="book-stat-number">1570 SAT</span>
+          <span class="book-stat-label">Co-founder Ben: Stuyvesant &rsquo;20, Cornell</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- After You Book -->
+  <section class="book-steps-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Next Steps</span>
+        <h2 class="section-title">What Happens After You Book</h2>
+      </div>
+      <div class="book-steps-grid">
+        <div class="book-step reveal">
+          <div class="book-step-number">1</div>
+          <h4>Confirmation Email</h4>
+          <p>You'll receive an email confirmation with a Google Meet link and calendar invite.</p>
+        </div>
+        <div class="book-step reveal">
+          <div class="book-step-number">2</div>
+          <h4>15-Minute Consultation</h4>
+          <p>We'll discuss your child's academic goals, current challenges, and how IvyPath can help.</p>
+        </div>
+        <div class="book-step reveal">
+          <div class="book-step-number">3</div>
+          <h4>Personalized Plan</h4>
+          <p>If we're a good fit, we'll recommend a tutor and package tailored to your needs. No pressure to decide on the spot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Other Ways -->
+  <section class="book-contact-alt">
+    <div class="container">
+      <div class="book-contact-card reveal">
+        <h3>Other Ways to Reach Us</h3>
+        <div class="contact-methods">
+          <a href="mailto:info@ivypathacademy.com" class="contact-method">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <strong>info@ivypathacademy.com</strong>
+              <span>We typically respond within 24 hours</span>
+            </div>
+          </a>
+          <a href="tel:+19293940349" class="contact-method">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <strong>(929) 394-0349</strong>
+              <span>Call or text us anytime</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <img src="assets/logo-transparent.png" alt="IvyPath Academy" class="nav-logo-img">
+          </div>
+          <p>Premium tutoring and admissions consulting from Ivy League student tutors in New York City.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="method.html">Method</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="refer.html">Refer</a></li>
+            <li><a href="blog.html">Blog</a></li>
           </ul>
-          <p class="proof-note">Individual results vary based on each student&rsquo;s starting point and effort.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:info@ivypathacademy.com">info@ivypathacademy.com</a></li>
+            <li><a href="tel:+19293940349">(929) 394-0349</a></li>
+            <li><span>New York, NY</span></li>
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- BOOKING -->
-  <section id="book">
-    <div class="wrap">
-      <h2>Book your free consultation</h2>
-      <p>Free &middot; 15 minutes &middot; honest assessment &middot; no obligation</p>
-      <ol class="call-steps">
-        <li>A tutor reviews where your child is today</li>
-        <li>You get an honest read on what to work on first</li>
-        <li>If we&rsquo;re a fit, we recommend a plan. No pressure either way</li>
-      </ol>
-
-      <div class="book-card" id="bookCard">
-        <div class="book-card-head">
-          <h3>Schedule your call</h3>
-          <p class="book-card-sub">15 min &middot; Google Meet &middot; free</p>
-        </div>
-
-        <!-- Step 1: details -->
-        <div class="cal-panel" id="calContact">
-          <p class="cal-step-label">Step 1 of 2 &middot; Your details</p>
-          <form id="contactForm" novalidate>
-            <div class="form-group">
-              <label for="leadName">Your name</label>
-              <input type="text" id="leadName" name="name" placeholder="Full name" autocomplete="name" required>
-            </div>
-            <div class="form-group">
-              <label for="leadEmail">Email</label>
-              <input type="email" id="leadEmail" name="email" placeholder="you@email.com" autocomplete="email" required>
-            </div>
-            <div class="form-group">
-              <label for="leadPhone">Mobile phone</label>
-              <input type="tel" id="leadPhone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-describedby="leadPhoneHint">
-              <p class="form-hint" id="leadPhoneHint">Mobile, so we can text your Meet link and a reminder.</p>
-            </div>
-            <p class="contact-error" id="contactError" role="alert" aria-live="polite" style="display:none;"></p>
-            <button type="submit" class="btn-primary book-submit" id="contactContinueBtn">Continue to pick a time &rarr;</button>
-            <p class="book-reassure">No spam. We only use this to confirm your free consultation.</p>
-          </form>
-        </div>
-
-        <!-- Step 2a: date -->
-        <div class="cal-panel" id="calendarWidget" style="display:none;">
-          <button class="cal-back" id="calContactBack" type="button">&larr; Edit your details</button>
-          <p class="cal-step-label">Step 2 of 2 &middot; Pick a date</p>
-          <div class="cal-nav">
-            <button class="cal-nav-btn" id="calPrev" type="button" aria-label="Previous month">&larr;</button>
-            <span class="cal-month" id="calMonth"></span>
-            <button class="cal-nav-btn" id="calNext" type="button" aria-label="Next month">&rarr;</button>
-          </div>
-          <div class="cal-days-header"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
-          <div class="cal-grid" id="calGrid"></div>
-        </div>
-
-        <!-- Step 2b: times -->
-        <div class="cal-panel" id="calTimes" style="display:none;">
-          <button class="cal-back" id="calBack" type="button">&larr; <span id="calSelectedDate"></span></button>
-          <p class="cal-step-label">Available times</p>
-          <div class="cal-slots" id="calSlots"></div>
-        </div>
-
-        <!-- Step 2c: confirm -->
-        <div class="cal-panel" id="calConfirm" style="display:none;">
-          <div class="confirm-details">
-            <h4>Free consultation</h4>
-            <p class="confirm-datetime" id="confirmDateTime"></p>
-            <p class="confirm-duration">15 min &middot; Google Meet</p>
-          </div>
-          <div class="confirm-summary" id="confirmContactSummary"></div>
-          <form id="confirmForm">
-            <button type="submit" class="btn-primary book-submit" id="confirmBtn">Confirm booking</button>
-            <button type="button" class="cal-back" id="calChangeTime">&larr; Change time</button>
-          </form>
-        </div>
-
-        <p class="cal-timezone">All times Eastern (ET)</p>
+      <div class="footer-bottom">
+        <p>&copy; 2026 IvyPath Academy. All rights reserved. &middot; <a href="privacy.html" style="color:inherit;">Privacy</a> &middot; <a href="terms.html" style="color:inherit;">Terms</a></p>
       </div>
-      <p class="book-phone">Prefer to talk first? Call or text <a href="tel:+19293940349"><strong>(929) 394-0349</strong></a> &middot; English &amp; <span lang="zh">中文</span></p>
-    </div>
-  </section>
-
-  <!-- AFTER YOU BOOK -->
-  <section class="after-section">
-    <div class="wrap">
-      <h2>What happens after you book</h2>
-      <ol class="call-steps fade-in">
-        <li>A confirmation email arrives with your Google Meet link and a calendar invite</li>
-        <li>On the call, we cover your child&rsquo;s goals, current level, and the first things we&rsquo;d work on</li>
-        <li>If we&rsquo;re a good fit, we recommend a tutor and plan. No pressure to decide on the spot</li>
-      </ol>
-    </div>
-  </section>
-
-  </main>
-
-  <!-- DISCLAIMER -->
-  <section class="disclaimer-section">
-    <div class="wrap"><img src="assets/logo-white-transparent.png" alt="" width="83" height="44" loading="lazy" style="margin-bottom:16px;opacity:0.85;"></div>
-    <div class="wrap">
-      <p>Results shown reflect the experiences of individual IvyPath students, shared with consent, and are not a guarantee of any outcome. Individual results vary based on each student&rsquo;s starting point, effort, and circumstances.</p>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>&copy; 2026 IvyPath Academy, operated by Perevalis Tutoring LLC. Contact: (929) 394-0349 &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
     </div>
   </footer>
 
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js?v=3"></script>
+  <script src="smooth-scroll.js"></script>
+  <script src="pill-nav.js?v=14"></script>
+  <script src="cart.js?v=3"></script>
   <script>
-    /* Booking widget: same stack as consulting.html (/api/book-consultation ->
-       Google Calendar service account). All slots shown — no fake scarcity;
-       past ET slots hidden on same-day bookings. POST contract unchanged from
-       the previous book.html: {name,email,phone,date,time,ref} -> thank-you. */
-    (function() {
-      var contactPanel = document.getElementById('calContact');
-      if (!contactPanel) return;
-      var contactForm = document.getElementById('contactForm');
-      var contactError = document.getElementById('contactError');
-      var nameInput = document.getElementById('leadName');
-      var emailInput = document.getElementById('leadEmail');
-      var phoneInput = document.getElementById('leadPhone');
-      var grid = document.getElementById('calGrid');
-      var monthLabel = document.getElementById('calMonth');
-      var calWidget = document.getElementById('calendarWidget');
-      var timesPanel = document.getElementById('calTimes');
-      var slotsContainer = document.getElementById('calSlots');
-      var selectedDateLabel = document.getElementById('calSelectedDate');
-      var confirmPanel = document.getElementById('calConfirm');
-      var confirmDateTime = document.getElementById('confirmDateTime');
-      var confirmContactSummary = document.getElementById('confirmContactSummary');
+  (function() {
+    // ----- Elements -----
+    const contactPanel = document.getElementById('calContact');
+    const contactForm = document.getElementById('contactForm');
+    const contactError = document.getElementById('contactError');
+    const continueBtn = document.getElementById('contactContinueBtn');
+    const nameInput = document.getElementById('leadName');
+    const emailInput = document.getElementById('leadEmail');
+    const phoneInput = document.getElementById('leadPhone');
 
-      var today = new Date();
-      var currentMonth = today.getMonth();
-      var currentYear = today.getFullYear();
-      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-      var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      var times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+    const grid = document.getElementById('calGrid');
+    const monthLabel = document.getElementById('calMonth');
+    const prevBtn = document.getElementById('calPrev');
+    const nextBtn = document.getElementById('calNext');
+    const timesPanel = document.getElementById('calTimes');
+    const calWidget = document.getElementById('calendarWidget');
+    const slotsContainer = document.getElementById('calSlots');
+    const selectedDateLabel = document.getElementById('calSelectedDate');
+    const backBtn = document.getElementById('calBack');
+    const contactBackBtn = document.getElementById('calContactBack');
+    const changeTimeBtn = document.getElementById('calChangeTime');
+    const confirmPanel = document.getElementById('calConfirm');
+    const confirmDateTime = document.getElementById('confirmDateTime');
+    const confirmContactSummary = document.getElementById('confirmContactSummary');
 
-      var lead = { name:'', email:'', phone:'' };
-      var refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
-      var selectedDate = null, selectedTime = null;
-      var leadSignalFired = false;
+    const today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
 
-      function show(panel){
-        [contactPanel, calWidget, timesPanel, confirmPanel].forEach(function(p){ p.style.display = (p===panel) ? 'block' : 'none'; });
-        var target = panel.querySelector('button, input, [tabindex]');
-        if (target) target.focus();
-      }
-      function esc(x){ return String(x).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
 
-      function fireLeadSignal(){
-        if (leadSignalFired) return;
-        leadSignalFired = true;
-        try { if (window.ivypathTrackLead) window.ivypathTrackLead({ source: 'booking_contact' }); } catch (e) {}
-      }
+    // ----- Lead state (captured up front) -----
+    const lead = { name: '', email: '', phone: '' };
+    const refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
+    let leadSignalFired = false;
 
-      contactForm.addEventListener('submit', function(e){
-        e.preventDefault();
-        var name = nameInput.value.trim(), email = emailInput.value.trim(), phone = phoneInput.value.trim();
-        var msg = '';
-        if (name.length < 2) msg = 'Please enter your name.';
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) msg = 'Please enter a valid email address.';
-        else if ((phone.match(/\d/g) || []).length < 7) msg = 'Please enter a valid mobile phone number.';
-        if (msg) { contactError.textContent = msg; contactError.style.display = 'block'; return; }
-        contactError.style.display = 'none';
-        lead.name = name; lead.email = email; lead.phone = phone;
-        fireLeadSignal();
-        show(calWidget); renderCalendar();
-      });
+    // ----- Validation helpers (lenient: don't block real leads) -----
+    function validName(v) { return v.trim().length >= 2; }
+    function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+    function validPhone(v) {
+      // Accept any input with at least 7 digits (handles +, -, spaces, parens).
+      const digits = (v.match(/\d/g) || []).length;
+      return digits >= 7;
+    }
 
-      function renderCalendar(){
-        monthLabel.textContent = months[currentMonth] + ' ' + currentYear;
-        grid.innerHTML = '';
-        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        for (var i = 0; i < firstDay; i++) { var sp = document.createElement('span'); sp.className='cal-day disabled'; grid.appendChild(sp); }
-        for (var d = 1; d <= daysInMonth; d++) {
-          (function(d){
-            var btn = document.createElement('button');
-            btn.type = 'button'; btn.className = 'cal-day'; btn.textContent = d;
-            var date = new Date(currentYear, currentMonth, d);
-            btn.setAttribute('aria-label', dayNames[date.getDay()] + ', ' + months[currentMonth] + ' ' + d + ', ' + currentYear);
-            var dow = date.getDay();
-            var isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            if (isPast || dow === 0 || dow === 6) { btn.disabled = true; btn.classList.add('disabled'); }
-            else { btn.classList.add('available'); btn.addEventListener('click', function(){ showTimes(date, d); }); }
-            if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) btn.classList.add('today');
-            grid.appendChild(btn);
-          })(d);
+    function fireLeadSignal() {
+      if (leadSignalFired) return;
+      leadSignalFired = true;
+      try {
+        if (window.ivypathTrackLead) {
+          window.ivypathTrackLead({ source: 'booking_contact' });
         }
+      } catch (e) {
+        // Never let a tracking error break the booking flow.
+      }
+    }
+
+    // ----- Step 1 -> Step 2: validate contact, fire lead, reveal calendar -----
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
+
+      let msg = '';
+      if (!validName(name)) msg = 'Please enter your name.';
+      else if (!validEmail(email)) msg = 'Please enter a valid email address.';
+      else if (!validPhone(phone)) msg = 'Please enter a valid mobile phone number.';
+
+      if (msg) {
+        contactError.textContent = msg;
+        contactError.style.display = 'block';
+        if (!validName(name)) nameInput.focus();
+        else if (!validEmail(email)) emailInput.focus();
+        else phoneInput.focus();
+        return;
       }
 
-      function etNow(){
-        var p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
-        var g = function(t){ return parseInt(p.find(function(x){ return x.type === t; }).value, 10); };
-        return { y: g('year'), m: g('month'), d: g('day'), mins: g('hour') * 60 + g('minute') };
+      contactError.style.display = 'none';
+      lead.name = name;
+      lead.email = email;
+      lead.phone = phone;
+
+      // Fire the lead signal the moment all three fields are valid (before calendar).
+      fireLeadSignal();
+
+      // Reveal the calendar (Step 2).
+      contactPanel.style.display = 'none';
+      calWidget.style.display = 'block';
+      timesPanel.style.display = 'none';
+      confirmPanel.style.display = 'none';
+      renderCalendar();
+    });
+
+    function renderCalendar() {
+      monthLabel.textContent = months[currentMonth] + ' ' + currentYear;
+      grid.innerHTML = '';
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('span');
+        empty.className = 'calendar-day empty';
+        grid.appendChild(empty);
       }
-      function slotMins(t){
-        var m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
-        var h = parseInt(m[1], 10) % 12 + (m[3].toUpperCase() === 'PM' ? 12 : 0);
-        return h * 60 + parseInt(m[2], 10);
-      }
-      function showTimes(date, day){
-        selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
-        slotsContainer.innerHTML = '';
-        var now = etNow();
-        var isEtToday = date.getFullYear() === now.y && (date.getMonth() + 1) === now.m && day === now.d;
-        var usable = times.filter(function(t){ return !isEtToday || slotMins(t) > now.mins + 30; });
-        if (!usable.length) {
-          var msg = document.createElement('p');
-          msg.className = 'form-hint';
-          msg.textContent = 'No more times today. Please pick another day.';
-          slotsContainer.appendChild(msg);
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'calendar-day';
+        btn.textContent = d;
+
+        const date = new Date(currentYear, currentMonth, d);
+        const dayOfWeek = date.getDay();
+        const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        const isToday = d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+
+        if (isPast || isWeekend) {
+          btn.disabled = true;
+          btn.classList.add('disabled');
+        } else {
+          btn.classList.add('available');
+          btn.addEventListener('click', () => showTimes(date, d));
         }
-        usable.forEach(function(time){
-          var btn = document.createElement('button');
-          btn.type = 'button'; btn.className = 'time-slot'; btn.textContent = time;
-          btn.addEventListener('click', function(){ showConfirm(date, day, time); });
-          slotsContainer.appendChild(btn);
-        });
-        show(timesPanel);
+        if (isToday) btn.classList.add('today');
+
+        grid.appendChild(btn);
       }
+    }
 
-      function showConfirm(date, day, time){
-        confirmDateTime.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day + ' at ' + time;
-        selectedDate = date; selectedTime = time;
-        confirmContactSummary.innerHTML = '<span>' + esc(lead.name) + '</span><span>' + esc(lead.email) + '</span><span>' + esc(lead.phone) + '</span>';
-        show(confirmPanel);
+    function showTimes(date, day) {
+      const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
+      slotsContainer.innerHTML = '';
+
+      // All slots shown (no fake scarcity); hide past ET slots on same-day.
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+      const g = t => parseInt(p.find(x => x.type === t).value, 10);
+      const isEtToday = date.getFullYear() === g('year') && (date.getMonth() + 1) === g('month') && day === g('day');
+      const nowMins = g('hour') * 60 + g('minute');
+      const slotMins = t => { const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i); return (parseInt(m[1], 10) % 12 + (m[3].toUpperCase() === 'PM' ? 12 : 0)) * 60 + parseInt(m[2], 10); };
+      const usable = times.filter(t => !isEtToday || slotMins(t) > nowMins + 30);
+      usable.forEach(time => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'time-slot';
+        btn.textContent = time;
+        btn.addEventListener('click', () => showConfirm(date, day, time));
+        slotsContainer.appendChild(btn);
+      });
+
+      calWidget.style.display = 'none';
+      timesPanel.style.display = 'block';
+      confirmPanel.style.display = 'none';
+    }
+
+    let selectedDate = null;
+    let selectedTime = null;
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function showConfirm(date, day, time) {
+      const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      confirmDateTime.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day + ' at ' + time;
+      selectedDate = date;
+      selectedTime = time;
+
+      // Recap the contact details we already captured.
+      confirmContactSummary.innerHTML =
+        '<span>' + escapeHtml(lead.name) + '</span>' +
+        '<span>' + escapeHtml(lead.email) + '</span>' +
+        '<span>' + escapeHtml(lead.phone) + '</span>';
+
+      timesPanel.style.display = 'none';
+      confirmPanel.style.display = 'block';
+    }
+
+    // ----- Final submit: POST booking (contact already captured) -----
+    document.getElementById('confirmForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!lead.name || !lead.email || !lead.phone || !selectedDate || !selectedTime) return;
+
+      const submitBtn = document.getElementById('confirmBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Scheduling...';
+
+      // Format date as YYYY-MM-DD for the API
+      const dateStr = selectedDate.getFullYear() + '-' +
+        String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(selectedDate.getDate()).padStart(2, '0');
+
+      try {
+        const response = await fetch('/api/book-consultation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: lead.name,
+            email: lead.email,
+            phone: lead.phone,
+            date: dateStr,
+            time: selectedTime,
+            ref: refCode
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Booking failed');
+        }
+
+        // Redirect to thank-you page with booking details
+        var tyParams = new URLSearchParams({
+          date: data.date || '',
+          time: data.time || '',
+          email: data.email || ''
+        });
+        window.location.href = 'thank-you.html?' + tyParams.toString();
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm Booking';
+        // Show inline error
+        let errEl = confirmPanel.querySelector('.booking-error');
+        if (!errEl) {
+          errEl = document.createElement('p');
+          errEl.className = 'booking-error';
+          confirmPanel.querySelector('.confirm-form').appendChild(errEl);
+        }
+        errEl.textContent = err.message || 'Something went wrong. Please try again.';
       }
+    });
 
-      document.getElementById('calContactBack').addEventListener('click', function(){ show(contactPanel); });
-      document.getElementById('calBack').addEventListener('click', function(){ show(calWidget); });
-      document.getElementById('calChangeTime').addEventListener('click', function(){ show(timesPanel); });
-      document.getElementById('calPrev').addEventListener('click', function(){
-        if (currentMonth === today.getMonth() && currentYear === today.getFullYear()) return;
-        currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar();
-      });
-      document.getElementById('calNext').addEventListener('click', function(){
-        currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar();
-      });
+    // Back from date picker -> edit contact details
+    contactBackBtn.addEventListener('click', () => {
+      calWidget.style.display = 'none';
+      timesPanel.style.display = 'none';
+      confirmPanel.style.display = 'none';
+      contactPanel.style.display = 'block';
+    });
 
-      document.getElementById('confirmForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        if (!lead.name || !lead.email || !lead.phone || !selectedDate || !selectedTime) return;
-        var submitBtn = document.getElementById('confirmBtn');
-        submitBtn.disabled = true; submitBtn.textContent = 'Scheduling…';
-        var dateStr = selectedDate.getFullYear() + '-' + String(selectedDate.getMonth()+1).padStart(2,'0') + '-' + String(selectedDate.getDate()).padStart(2,'0');
-        fetch('/api/book-consultation', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: lead.name, email: lead.email, phone: lead.phone, date: dateStr, time: selectedTime, ref: refCode })
-        }).then(function(response){ return response.json().then(function(data){ return { ok: response.ok, data: data }; }); })
-        .then(function(r){
-          if (!r.ok) throw new Error((r.data && r.data.error) || 'Booking failed');
-          var ty = new URLSearchParams({ date: (r.data && r.data.date) || '', time: (r.data && r.data.time) || '', email: (r.data && r.data.email) || '' });
-          window.location.href = 'thank-you.html?' + ty.toString();
-        })
-        .catch(function(err){
-          submitBtn.disabled = false; submitBtn.textContent = 'Confirm booking';
-          var errEl = confirmPanel.querySelector('.booking-error');
-          if (!errEl) { errEl = document.createElement('p'); errEl.className = 'booking-error'; document.getElementById('confirmForm').appendChild(errEl); }
-          errEl.textContent = (err && err.message) || 'Something went wrong. Please try again.';
-        });
-      });
-    })();
+    // Back from time slots -> date picker
+    backBtn.addEventListener('click', () => {
+      timesPanel.style.display = 'none';
+      confirmPanel.style.display = 'none';
+      calWidget.style.display = 'block';
+    });
 
-    /* IntersectionObserver fade-in — additive only. Content is visible by
-       default; hidden (.pre) just-in-time, revealed on intersect, with a 4s
-       failsafe. Never gate visibility on a class-triggered transition. */
-    (function() {
-      if (!('IntersectionObserver' in window)) return;
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var els = Array.prototype.slice.call(document.querySelectorAll('.fade-in'));
-      var reveal = function(el) { el.classList.add('visible'); el.classList.remove('pre'); };
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) { reveal(entry.target); observer.unobserve(entry.target); }
-        });
-      }, { threshold: 0.1 });
-      els.forEach(function(el) { el.classList.add('pre'); observer.observe(el); });
-      setTimeout(function() { els.forEach(reveal); }, 4000);
-    })();
+    // Change time from confirm -> back to time slots
+    changeTimeBtn.addEventListener('click', () => {
+      confirmPanel.style.display = 'none';
+      timesPanel.style.display = 'block';
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentMonth === today.getMonth() && currentYear === today.getFullYear()) return;
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
+    });
+
+    // Calendar is rendered when the user advances past the contact step.
+  })();
   </script>
-
+  <script>
+    /* Failsafe: .reveal content must never stay hidden (observer misses left
+       whole sections blank on some viewports). */
+    setTimeout(function () {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+    }, 1500);
+  </script>
 </body>
 </html>

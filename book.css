@@ -875,52 +875,88 @@
   }
 }
 
-/* ---- v3 polish: real proof replaces generic badges/testimonial ---- */
-.hero-fact {
-  color: #5C6B60;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  margin-top: 18px;
-}
-.book-photo {
-  margin: 0 0 20px;
+/* ---- v4: real proof (consulting outcome-card aesthetic), premium details ---- */
+.hero-fact { color: #5C6B60; font-size: 0.95rem; letter-spacing: 0.02em; margin-top: 18px; }
+
+.book-proof-card {
+  background: #fff;
+  border: 1px solid #E4DECF;
   border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 12px 32px rgba(20, 35, 30, 0.12);
+  box-shadow: 0 8px 28px rgba(31, 43, 35, 0.06);
+  padding: 26px 28px 20px;
+  margin-bottom: 24px;
 }
-.book-photo img { display: block; width: 100%; height: 280px; object-fit: cover; }
-.book-proof,
-.book-covers-card {
-  background: #FDF8F0;
-  border: 1px solid #E7E2D6;
-  border-radius: 14px;
-  padding: 22px 24px;
-  margin-bottom: 20px;
+.proof-kicker {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8F6B37;
+  border: 1px solid rgba(197, 165, 114, 0.5);
+  border-radius: 3px;
+  padding: 3px 9px;
+  margin-bottom: 16px;
 }
-.book-proof h3,
-.book-covers-card h3 {
+.proof-stat {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.15rem;
-  margin: 0 0 12px;
-  color: #14231E;
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1.25;
+  color: #1F2B23;
+  margin: 0;
 }
-.proof-list { list-style: none; margin: 0; padding: 0; }
-.proof-list li {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 9px 0;
-  border-bottom: 1px solid #EDE7DA;
+.proof-stat-sm { font-size: 1.25rem; }
+.proof-stat .stat-from { color: #5C6B60; font-weight: 600; }
+.stat-nb { white-space: nowrap; }
+.ann-wrap { position: relative; display: inline-block; padding: 2px 8px; margin-right: 6px; }
+.ann-wrap .ann-circle {
+  position: absolute; left: 50%; top: 50%;
+  width: 126%; height: 152%; max-width: none;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
-.proof-list li:last-child { border-bottom: 0; }
-.proof-list strong {
+.ann-under { position: relative; display: inline-block; white-space: nowrap; }
+.ann-under .ann-underline {
+  position: absolute; left: -1%; bottom: -0.3em;
+  width: 102%; height: auto; max-width: none;
+  pointer-events: none;
+}
+.proof-caption { font-size: 0.88rem; color: #5C6B60; margin: 6px 0 0; }
+.proof-divider { height: 1px; background: #EDE7DA; margin: 16px 0; }
+.proof-fineprint { font-size: 0.78rem; color: #8a9389; margin-top: 16px; }
+
+.expect-steps { list-style: none; counter-reset: step; margin: 0; padding: 0; }
+.expect-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 10px 0 10px 44px;
+}
+.expect-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0; top: 12px;
+  width: 26px; height: 26px;
+  border: 1px solid #C5A572;
+  border-radius: 50%;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.1rem;
-  color: #1E4D38;
-  white-space: nowrap;
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 26px;
+  text-align: center;
+  color: #8F6B37;
 }
-.proof-list span { color: #5C6B60; font-size: 0.92rem; line-height: 1.45; }
-.book-covers { margin: 0; padding-left: 20px; color: #444; }
-.book-covers li { padding: 4px 0; line-height: 1.55; }
+.expect-steps strong { display: block; color: #1F2B23; font-size: 0.98rem; }
+.expect-steps p { margin: 2px 0 0; color: #5C6B60; font-size: 0.9rem; line-height: 1.5; }
+
 .book-stats-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.book-stats-grid-3 .book-stat-number { font-family: 'Playfair Display', Georgia, serif; }
 @media (max-width: 768px) { .book-stats-grid-3 { grid-template-columns: 1fr; } }
+
+/* Premium step markers: gold-ring serif numerals instead of filled bubbles */
+.book-step-number {
+  background: #fff !important;
+  border: 1px solid #C5A572;
+  color: #8F6B37 !important;
+  font-family: 'Playfair Display', Georgia, serif;
+}

@@ -408,7 +408,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
        wrong language. Full toggle logic lives in the main script below. */
     (function(){
       try {
-        var l = localStorage.getItem('ivp_seminar_lang');
+        // URL wins (QR codes for Chinese flyers / WeChat land pre-switched):
+        // /seminar-cn or ?lang=zh forces 中文 and persists; ?lang=en forces EN.
+        var forced = '';
+        if (location.pathname.indexOf('seminar-cn') > -1) forced = 'zh';
+        var ql = (new URLSearchParams(location.search)).get('lang');
+        if (ql === 'zh' || ql === 'en') forced = ql;
+        if (forced) { try { localStorage.setItem('ivp_seminar_lang', forced); } catch (e2) {} }
+        var l = forced || localStorage.getItem('ivp_seminar_lang');
         if (!l) l = ((navigator.language || '').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en';
         if (l === 'zh') { document.body.className = 'zh'; document.documentElement.lang = 'zh-CN'; }
       } catch (e) {}

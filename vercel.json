@@ -29,6 +29,10 @@
       "destination": "/seminar.html"
     },
     {
+      "source": "/seminar-cn",
+      "destination": "/seminar.html"
+    },
+    {
       "source": "/shsat",
       "destination": "/shsat-diagnostic.html"
     },

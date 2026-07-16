@@ -9,6 +9,7 @@
     if (path === 'shsat') path = 'shsat-diagnostic.html';
     if (path === 'consulting') path = 'consulting.html';
     if (path === 'seminar') path = 'seminar.html';
+    if (path === 'seminar-cn') path = 'seminar.html';
     var hidden = ['book.html', 'cn-book.html', 'thank-you.html', 'success.html', 'cancel.html', 'seminar.html'];
     if (hidden.indexOf(path) !== -1) return;
     var isCn = path.indexOf('cn') === 0;

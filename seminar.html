@@ -174,7 +174,18 @@
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 24px 22px;
+      overflow: hidden;
     }
+    .what-photo {
+      margin: -24px -22px 18px;
+      display: block;
+      width: calc(100% + 44px);
+      max-width: none;
+      height: 168px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+    @media (min-width: 720px) { .what-photo { height: 196px; } }
     .what-chip {
       display: inline-block;
       font-size: 12px;
@@ -408,7 +419,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
        wrong language. Full toggle logic lives in the main script below. */
     (function(){
       try {
-        var l = localStorage.getItem('ivp_seminar_lang');
+        // URL wins (QR codes for Chinese flyers / WeChat land pre-switched):
+        // /seminar-cn or ?lang=zh forces 中文 and persists; ?lang=en forces EN.
+        var forced = '';
+        if (location.pathname.indexOf('seminar-cn') > -1) forced = 'zh';
+        var ql = (new URLSearchParams(location.search)).get('lang');
+        if (ql === 'zh' || ql === 'en') forced = ql;
+        if (forced) { try { localStorage.setItem('ivp_seminar_lang', forced); } catch (e2) {} }
+        var l = forced || localStorage.getItem('ivp_seminar_lang');
         if (!l) l = ((navigator.language || '').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en';
         if (l === 'zh') { document.body.className = 'zh'; document.documentElement.lang = 'zh-CN'; }
       } catch (e) {}
@@ -450,12 +468,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <h2 class="section-headline fade-in"><span class="en">One evening, two rooms.</span><span class="zh">一个晚上，两个课堂。</span></h2>
       <div class="what-grid">
         <article class="what-card fade-in">
+          <img class="what-photo" src="assets/seminar-diagnostic-room.jpg" alt="Students working on laptops in a warm classroom, seen from the back of the room" width="1200" height="675" loading="lazy" decoding="async">
           <span class="what-chip"><span class="en">Students</span><span class="zh">学生</span></span>
           <h3><span class="en">A real digital SAT diagnostic</span><span class="zh">全真Digital SAT模拟考试</span></h3>
           <p><span class="en">Students sit a proctored digital SAT diagnostic on their own laptop or iPad, under real test conditions. Scores and a breakdown follow after the event.</span><span class="zh">学生使用自己的笔记本电脑或iPad，在监考环境下完成一场Digital SAT模拟考试。活动结束后提供成绩和分析报告。</span></p>
           <p class="bring-note"><span class="en">Bring it charged, with a charger.</span><span class="zh">请提前充满电，并携带充电器。</span></p>
         </article>
         <article class="what-card fade-in delay-1">
+          <img class="what-photo" src="assets/seminar-parent-room.jpg" alt="A seated audience of parents listening to an evening presentation" width="1200" height="675" loading="lazy" decoding="async">
           <span class="what-chip"><span class="en">Parents</span><span class="zh">家长</span></span>
           <h3><span class="en">A college-application seminar</span><span class="zh">大学申请讲座</span></h3>
           <p><span class="en">While students test, parents attend a bilingual seminar (English and 中文) on how college admissions actually works: timelines, test scores, and what top colleges look for.</span><span class="zh">学生考试期间，家长参加中英双语讲座，了解美国大学录取的真实流程：时间规划、标化成绩，以及名校真正看重什么。</span></p>

@@ -526,6 +526,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <label class="field"><span class="label-text"><span class="en">Parent phone</span><span class="zh">家长电话</span></span>
             <input name="parent_phone" type="tel" required autocomplete="tel" inputmode="tel">
           </label>
+          <label class="field"><span class="label-text"><span class="en">Who invited you? <span class="hint">(optional)</span></span><span class="zh">邀请人 <span class="hint">（选填）</span></span></span>
+            <input name="invited_by" type="text" autocomplete="off">
+          </label>
         </fieldset>
 
         <input type="hidden" name="language" id="langField" value="en">
@@ -758,6 +761,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           device_ack: !!fd.get('device_ack'),
           consent_contact: true,
           consent_photo: !!fd.get('consent_photo'),
+          invited_by: (fd.get('invited_by') || '').trim(),
           company_name: fd.get('company_name') || ''
         };
 

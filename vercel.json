@@ -25,6 +25,10 @@
       "destination": "/consulting.html"
     },
     {
+      "source": "/seminar",
+      "destination": "/seminar.html"
+    },
+    {
       "source": "/shsat",
       "destination": "/shsat-diagnostic.html"
     },

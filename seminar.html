@@ -510,8 +510,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <label class="field"><span class="label-text"><span class="en">School <span class="hint">(optional)</span></span><span class="zh">学校 <span class="hint">（选填）</span></span></span>
             <input name="school" type="text">
           </label>
-          <label class="field"><span class="label-text"><span class="en">Student email <span class="hint">(optional, used for the test login)</span></span><span class="zh">学生邮箱 <span class="hint">（选填，用于登录考试系统）</span></span></span>
-            <input name="student_email" type="email" autocomplete="email">
+          <label class="field"><span class="label-text"><span class="en">Student email <span class="hint">(becomes the test login, and how they check in)</span></span><span class="zh">学生邮箱 <span class="hint">（用于登录考试系统及现场签到）</span></span></span>
+            <input name="student_email" type="email" required autocomplete="email">
           </label>
         </fieldset>
 
@@ -525,6 +525,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           </label>
           <label class="field"><span class="label-text"><span class="en">Parent phone</span><span class="zh">家长电话</span></span>
             <input name="parent_phone" type="tel" required autocomplete="tel" inputmode="tel">
+          </label>
+          <label class="field"><span class="label-text"><span class="en">Who invited you? <span class="hint">(optional)</span></span><span class="zh">邀请人 <span class="hint">（选填）</span></span></span>
+            <input name="invited_by" type="text" autocomplete="off">
           </label>
         </fieldset>
 
@@ -758,6 +761,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           device_ack: !!fd.get('device_ack'),
           consent_contact: true,
           consent_photo: !!fd.get('consent_photo'),
+          invited_by: (fd.get('invited_by') || '').trim(),
           company_name: fd.get('company_name') || ''
         };
 

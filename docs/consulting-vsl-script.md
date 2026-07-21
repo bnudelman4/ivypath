@@ -47,3 +47,29 @@ find out where your child actually stands.
 5. Extra: record the HOOK and the CTA 2 more times each as standalones.
 6. Leave 2 seconds of silence before and after every take.
 7. Send back the raw files untrimmed (AirDrop/Drive), named take1/2/3.
+
+## Shooting at a nice location (Sat) — the 4 things that actually ruin footage
+
+A nice location buys warmth but adds risk. In priority order:
+
+1. **AUDIO is #1.** A pretty shot with bad audio is unusable; a plain shot
+   with clean audio ships. Pick the QUIETEST spot you can (no café music, no
+   HVAC hum, no traffic/wind). If outdoors, avoid wind on the mic — get close
+   to a wall/corner. Best case: a cheap lav mic clipped on, or a second phone
+   held just out of frame recording audio. Record 5 seconds of pure room tone
+   (silence) once, so the editor can clean the rest. If you can hear a hum,
+   the camera hears it louder.
+2. **LIGHT: face the light, never a bright window behind you.** A bright
+   background = you become a silhouette (unfixable). Turn so soft daylight
+   hits your face at ~45°. Outdoors: open shade or golden hour, never harsh
+   noon sun (raccoon-eye shadows). Warm even light on the face wins.
+3. **FRAME for both crops.** Shoot **4K, landscape, on a tripod/propped
+   steady** (never handheld) at eye level. Keep yourself CENTERED with real
+   headroom and space on both sides — we use it 16:9 on the page AND
+   center-crop it to vertical 9:16 for the ads, plus we overlay captions and
+   annotations, so your face must sit in the middle third. Let the nice
+   background fall soft/blurred behind you; don't let it compete.
+4. **DELIVERY: eyes on the lens, not the script.** Looking into the lens is
+   the whole close. Run the script on a phone/tablet just under the lens, or
+   take it beat by beat. Full script 3x + hook and CTA 2x each; don't stop on
+   a stumble, just repeat the line and keep rolling. Send raw, untrimmed.

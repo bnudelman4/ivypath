@@ -854,7 +854,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var soundBtn = document.getElementById('vslSound');
       if (!video) return;
 
+      var videoReady = false;
       function showFallback() {
+        if (videoReady) return; // never replace a video that has already loaded/played
         video.style.display = 'none';
         if (soundBtn) soundBtn.classList.add('is-hidden');
         if (fallback) fallback.style.display = 'block';
@@ -864,14 +866,26 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       for (var i = 0; i < sources.length; i++) {
         sources[i].addEventListener('error', showFallback);
       }
-      // Race close: a fast failure can beat these listeners binding.
-      if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showFallback();
+      // No synchronous networkState/error snapshot here: on a cold (uncached)
+      // load the source has not resolved yet at this point, so that check
+      // misfired and hid the real <video> behind the static poster — the VSL
+      // then only worked after a reload. Genuine failures are caught by the
+      // 'error' listeners above; a long timeout is the safety net if nothing
+      // ever loads.
+      video.addEventListener('loadeddata', function () { videoReady = true; });
+      var fbTimer = setTimeout(function () { if (video.readyState < 2) showFallback(); }, 12000);
+      video.addEventListener('loadeddata', function () { clearTimeout(fbTimer); });
 
-      // Kick off muted autoplay (some browsers need an explicit call).
-      var kickoff = video.play();
-      if (kickoff && typeof kickoff.catch === 'function') {
-        kickoff.catch(function () { /* autoplay blocked; poster + controls remain */ });
+      // Kick off muted autoplay, and retry once data is actually available. A
+      // single synchronous play() only succeeded when the file was cached;
+      // retrying on loadeddata/canplay makes autoplay reliable on first load.
+      function tryPlay() {
+        var p = video.play();
+        if (p && typeof p.catch === 'function') p.catch(function () { /* autoplay blocked; controls remain */ });
       }
+      tryPlay();
+      video.addEventListener('loadeddata', tryPlay);
+      video.addEventListener('canplay', tryPlay);
 
       // VSLPlay = actually watched a few seconds, not just autoplay firing at t=0.
       var playCounted = false;

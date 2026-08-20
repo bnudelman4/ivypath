@@ -37,7 +37,7 @@ IvyPath Academy (Perevalis Tutoring LLC) sells premium SAT/SHSAT test prep and c
 2. **Old-money collegiate warmth** — dark-academia photography, serif confidence, gold used sparingly like a wax seal.
 3. **A parent's skepticism is the design constraint** — every section answers an objection; disclaimers visible, terms honest.
 4. **One action** — start the free diagnostic. Consultation is the soft alternative, phone is the fallback. Nothing else competes.
-5. **The founder is the brand** — Benjamin (Stuyvesant '20, 1570 SAT, Cornell) speaking directly to parents is the trust engine; production quality must match the promise of "elite."
+5. **The founder is the brand** — Benjamin (Stuyvesant '24, 1570 SAT, Cornell '28) speaking directly to parents is the trust engine; production quality must match the promise of "elite."
 
 ## Accessibility & Inclusion
 

@@ -435,6 +435,30 @@
     }
 
     /* ---------- RESPONSIVE ---------- */
+
+    /* ---------- EMAIL THE DIAGNOSTIC LINK ---------- */
+    .sendlink-section { padding: 72px 0; background: var(--cream); border-top: 1px solid var(--line); }
+    .sendlink-intro { max-width: 620px; margin: -28px auto 32px; text-align: center; font-size: 16px; line-height: 1.6; color: var(--muted); }
+    .sendlink-card { max-width: 520px; margin: 0 auto; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 28px 26px; }
+    .sendlink-hp { position: absolute; left: -9999px; }
+    .sendlink-label { display: block; margin-bottom: 18px; font-family: var(--body); font-size: 15px; font-weight: 600; color: var(--ink); }
+    .sendlink-optional { font-weight: 400; color: var(--muted); }
+    /* 16px keeps iOS from zooming the page on focus. */
+    .sendlink-input { display: block; width: 100%; margin-top: 7px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 4px; font-family: var(--body); font-size: 16px; font-weight: 400; color: var(--ink); background: var(--white); box-sizing: border-box; transition: border-color 0.15s; }
+    .sendlink-input:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,89,0.15); }
+    .sendlink-help { display: block; margin-top: 6px; font-size: 13px; font-weight: 400; line-height: 1.5; color: var(--muted); }
+    .sendlink-consent { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; font-size: 14px; line-height: 1.5; color: var(--muted); cursor: pointer; }
+    .sendlink-consent input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--sage); }
+    .sendlink-submit { width: 100%; }
+    .sendlink-submit[disabled] { opacity: 0.6; cursor: default; }
+    .sendlink-error { display: none; margin: 14px 0 0; font-size: 14px; color: #B3261E; }
+    .sendlink-success { text-align: center; }
+    .sendlink-check { width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 50%; background: var(--sage); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .sendlink-success h3 { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--ink); margin-bottom: 10px; }
+    .sendlink-success p { font-size: 15px; line-height: 1.6; color: var(--muted); margin-bottom: 6px; }
+    .sendlink-success a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 3px; }
+    [hidden] { display: none !important; }
+
     @media (max-width: 960px) {
       .tutor-grid { grid-template-columns: 1fr 1fr; }
       .preview-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -453,6 +477,8 @@
 
     @media (max-width: 640px) {
       .wrap { padding: 0 20px; }
+      .sendlink-section { padding: 56px 0; }
+      .sendlink-card { padding: 24px 20px; }
       .top-bar { padding: 16px 20px; }
       .wordmark img { height: 38px; }
       .hero-inner { padding-top: 12px; }
@@ -516,7 +542,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           preload="auto"
           poster="assets/ivypath-shsat-vsl-poster.jpg"
         >
-          <source src="assets/ivypath-shsat-vsl.mp4?v=2" type="video/mp4">
+          <source src="assets/ivypath-shsat-vsl.mp4?v=3" type="video/mp4">
         </video>
         <button type="button" class="vsl-sound-btn" id="vslSound" aria-label="Turn on sound">&#128266; Tap for sound</button>
         <div class="hero-video-fallback" id="videoFallback">
@@ -535,6 +561,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <p class="reassurance fade-in delay-3">Free &middot; 35 minutes &middot; taken online at home<span class="dot">&middot;</span>Measured against prior-year specialized-HS cutoffs<span class="dot">&middot;</span>A tutor reviews your results on a free call</p>
       <p class="hero-alt-link fade-in delay-3">Prefer to talk first? <a href="book.html">Book a free 15-min consultation &rarr;</a></p>
+      <p class="hero-alt-link fade-in delay-3">Not with your student right now? <a href="#email-link">Email them the link instead &rarr;</a></p>
 
       <div class="trust-chips fade-in delay-3">
         <div class="chip">Tutors are <strong>Stuyvesant graduates</strong></div>
@@ -813,6 +840,54 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
+
+  <!-- EMAIL THE DIAGNOSTIC LINK -->
+  <section class="sendlink-section" id="email-link">
+    <div class="wrap">
+      <h2 class="section-headline" style="text-align:center;margin-bottom:20px;">Not with your student right now?</h2>
+      <p class="sendlink-intro">Send them the diagnostic instead. It takes about 35 minutes, and the score report still comes to you the moment they finish.</p>
+
+      <form id="sendLinkForm" class="sendlink-card">
+        <input type="text" name="company_name" tabindex="-1" autocomplete="off" aria-hidden="true" class="sendlink-hp">
+
+        <label class="sendlink-label" for="sl-parent">Your email
+          <input id="sl-parent" name="parent_email" type="email" required autocomplete="email" inputmode="email" placeholder="you@email.com" class="sendlink-input">
+          <span class="sendlink-help">The score report comes here. One report, and a consultation only if you book one.</span>
+        </label>
+
+        <label class="sendlink-label" for="sl-student">Student&rsquo;s email <span class="sendlink-optional">(optional)</span>
+          <input id="sl-student" name="student_email" type="email" autocomplete="off" inputmode="email" placeholder="student@email.com" class="sendlink-input">
+          <span class="sendlink-help">Leave blank and we&rsquo;ll send the link to you to forward.</span>
+        </label>
+
+        <label class="sendlink-label" for="sl-grade">Student&rsquo;s grade this fall
+          <select id="sl-grade" name="student_grade" required class="sendlink-input">
+            <option value="" disabled selected>Select grade</option>
+            <option value="6">6th grade</option>
+            <option value="7">7th grade</option>
+            <option value="8">8th grade</option>
+          </select>
+        </label>
+
+        <label class="sendlink-consent">
+          <input type="checkbox" name="consent" required>
+          <span>I agree to be contacted by IvyPath Academy about my student&rsquo;s results.</span>
+        </label>
+
+        <button type="submit" id="sendLinkSubmit" class="btn-primary sendlink-submit">Send my student the link</button>
+        <p id="sendLinkError" role="alert" class="sendlink-error"></p>
+      </form>
+
+      <div id="sendLinkSuccess" class="sendlink-card sendlink-success" hidden>
+        <div class="sendlink-check">&#10003;</div>
+        <h3>Link sent</h3>
+        <p>We emailed the free SHSAT diagnostic to <strong id="sendLinkTo"></strong>. The link works for 14 days.</p>
+        <p>The score report still comes to you the moment your student finishes.</p>
+        <p style="margin-top:14px;"><a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="js-diagnostic-cta" data-exam="SHSAT">Or start it here yourself &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
   <!-- FINAL CTA -->
   <section class="final-cta">
     <div class="wrap">
@@ -957,5 +1032,70 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     })();
   </script>
 
+
+  <script>
+    /* Email-the-link form -> platform /api/funnel/send-link (same endpoint the
+       in-app start gate uses). Posts JSON cross-origin, exactly like refer.html.
+       Attribution is forwarded by hand: tracking.js decorates <a> hrefs, and a
+       fetch body is not an <a>. */
+    (function () {
+      var form = document.getElementById('sendLinkForm');
+      if (!form) return;
+      var EXAM = 'SHSAT';
+      var KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid','ref'];
+
+      function attribution() {
+        var out = {};
+        try {
+          var q = new URLSearchParams(location.search);
+          for (var i = 0; i < KEYS.length; i++) { var v = q.get(KEYS[i]); if (v) out[KEYS[i]] = v; }
+          out.ivp_lp = location.pathname;
+          if (document.referrer) out.referrer = document.referrer;
+        } catch (e) {}
+        return out;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = document.getElementById('sendLinkSubmit');
+        var err = document.getElementById('sendLinkError');
+        err.style.display = 'none';
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        var label = btn.textContent;
+        btn.disabled = true; btn.textContent = 'Sending\u2026';
+        var fd = new FormData(form);
+        fetch('https://app.ivypathacademy.com/api/funnel/send-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            test_type: EXAM,
+            parent_email: fd.get('parent_email') || '',
+            student_email: fd.get('student_email') || '',
+            student_grade: Number(fd.get('student_grade')),
+            consent: fd.get('consent') === 'on',
+            company_name: fd.get('company_name') || '',
+            attribution: attribution()
+          })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { status: r.status, body: d }; }); })
+          .then(function (res) {
+            if (!res.body || !res.body.ok) { throw new Error((res.body && res.body.error) || 'Something went wrong. Please try again.'); }
+            document.getElementById('sendLinkTo').textContent = res.body.sentTo || (fd.get('parent_email') || 'your inbox');
+            form.hidden = true;
+            document.getElementById('sendLinkSuccess').hidden = false;
+            /* A requested link is real intent but NOT a completed diagnostic, so
+               this is a custom signal. `Lead` stays reserved for the app, where
+               it fires when a diagnostic actually starts. */
+            try { if (window.fbq) fbq('trackCustom', 'DiagnosticLinkSent', { content_name: EXAM + ' Diagnostic Link Sent' }); } catch (e) {}
+            try { if (window.gtag) gtag('event', 'diagnostic_link_sent', { exam: EXAM }); } catch (e) {}
+          })
+          .catch(function (ex) {
+            err.textContent = (ex && ex.message) || 'Something went wrong. Please try again.';
+            err.style.display = 'block';
+            btn.disabled = false; btn.textContent = label;
+          });
+      });
+    })();
+  </script>
 </body>
 </html>

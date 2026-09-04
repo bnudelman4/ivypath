@@ -187,6 +187,12 @@
       text-align: center;
     }
     .btn-secondary:hover { background: var(--sage); color: var(--white); }
+    .hero-dark .btn-secondary { color: var(--cream); border-color: rgba(253,248,240,0.4); }
+    .hero-dark .btn-secondary:hover { background: rgba(253,248,240,0.08); color: var(--cream); }
+    /* Hero only: the diagnostic and the consultation are two equally valid
+       starting points, so they sit side by side. Scoped with a modifier because
+       .cta-stack is also used by the final-CTA block, which stays stacked. */
+    .cta-stack.cta-stack--dual { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 14px; }
 
     .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
@@ -496,6 +502,9 @@
       .scarcity-section { padding: 40px 0; }
       .final-cta { padding: 64px 0; }
       .btn-primary { width: 100%; padding: 16px 24px; }
+      .cta-stack.cta-stack--dual { flex-direction: column; width: 100%; }
+      .cta-stack.cta-stack--dual > a { width: 100%; }
+      .cta-stack.cta-stack--dual .btn-secondary { padding: 15px 24px; }
     }
   </style>
 <!-- Meta Pixel Code -->
@@ -555,12 +564,12 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <p class="hero-sub fade-in delay-2">Start with a free diagnostic scored against prior-year specialized-high-school cutoffs. Then get a plan from tutors who aced the SHSAT and now study at Ivy League &amp; Top&nbsp;20 universities, backed by our money-back Score Improvement Guarantee.</p>
 
-      <div class="cta-stack fade-in delay-2">
+      <div class="cta-stack cta-stack--dual fade-in delay-2">
         <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic &rarr;</a>
+        <a href="book.html" class="btn-secondary js-consult-cta">Book a free consultation &rarr;</a>
       </div>
 
       <p class="reassurance fade-in delay-3">Free &middot; 35 minutes &middot; taken online at home<span class="dot">&middot;</span>Measured against prior-year specialized-HS cutoffs<span class="dot">&middot;</span>A tutor reviews your results on a free call</p>
-      <p class="hero-alt-link fade-in delay-3">Prefer to talk first? <a href="book.html">Book a free 15-min consultation &rarr;</a></p>
       <p class="hero-alt-link fade-in delay-3">Not with your student right now? <a href="#email-link">Email them the link instead &rarr;</a></p>
 
       <div class="trust-chips fade-in delay-3">
@@ -611,7 +620,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <p class="fade-in delay-1">Every child's starting point is different. The free diagnostic shows your child's number today, and the exact gap between it and the schools you're aiming for.</p>
           <p class="proof-caption fade-in delay-2">Screenshot from the official NYC MySchools portal, shared with permission. Individual results vary.</p>
           <div class="fade-in delay-2" style="margin-top:32px;">
-            <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+            <div class="cta-stack cta-stack--dual">
+              <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+              <a href="book.html" class="btn-secondary js-consult-cta">Book a free consultation &rarr;</a>
+            </div>
             <p style="margin-top:10px;font-size:13px;color:var(--muted);">Free &middot; 35 minutes &middot; no obligation</p>
           </div>
         </div>
@@ -702,7 +714,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       </div>
       <p class="tutor-disclaimer">Tutor credentials reflect schools individual tutors have attended.</p>
       <div class="fade-in" style="text-align:center;margin-top:44px;">
-        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+        <div class="cta-stack cta-stack--dual">
+          <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+          <a href="book.html" class="btn-secondary js-consult-cta">Book a free consultation &rarr;</a>
+        </div>
         <p style="margin-top:10px;font-size:13px;color:var(--muted);">A tutor reviews your child's results with you on a free call</p>
       </div>
     </div>
@@ -796,7 +811,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <!-- CTA after guarantee -->
   <section style="padding:8px 0 0;text-align:center;">
     <div class="wrap">
-      <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+      <div class="cta-stack cta-stack--dual">
+        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT" style="background:var(--sage);color:var(--white);">Start the free diagnostic &rarr;</a>
+        <a href="book.html" class="btn-secondary js-consult-cta">Book a free consultation &rarr;</a>
+      </div>
     </div>
   </section>
 
@@ -893,9 +911,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     <div class="wrap">
       <h2 class="fade-in">See where your child <span class="gi">really</span> stands.</h2>
       <p class="fade-in delay-1">Book the free SHSAT diagnostic. A few minutes to start, and you'll finally have a real number to work from.</p>
-      <div class="cta-stack fade-in delay-2">
+      <div class="cta-stack cta-stack--dual fade-in delay-2">
         <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic</a>
-        <a href="book.html" class="btn-secondary">Not ready to test? Book a free 15-min consultation instead &rarr;</a>
+        <a href="book.html" class="btn-secondary js-consult-cta">Book a free consultation &rarr;</a>
       </div>
       <div class="final-phone fade-in delay-3">
         Or call <a href="tel:+19293940349">(929) 394-0349</a>

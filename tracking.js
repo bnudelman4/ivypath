@@ -9,10 +9,10 @@
 */
 (function () {
   var CFG = {
-    googleAdsId: 'AW-18229353498',          // Google Ads conversion ID (Goals > Conversions > your action)
+    googleAdsId: 'AW-18428932469',          // acct 992-977-3439. Was AW-18229353498 (acct 907-235-3191, retired).
     labels: {
-      lead:     'FIOmCJrV7b8cEJq4t_RD',        // "Lead - contact captured" conversion label
-      booking:  'vfkdCPOj578cEJq4t_RD',        // "Consultation booked" conversion label
+      lead:     'XXXXXXXXXXXXXXXXX',        // no snippet action in acct 992-977-3439 yet
+      booking:  'XXXXXXXXXXXXXXXXX',        // booking is URL-based now (thank-you.html), needs no label
       purchase: 'XXXXXXXXXXXXXXXXX'         // "Purchase" conversion label
     },
     ga4Id: 'G-EW2RB4F5JB'                               // optional, e.g. 'G-XXXXXXX'

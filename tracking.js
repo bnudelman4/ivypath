@@ -13,7 +13,8 @@
     labels: {
       lead:     'XXXXXXXXXXXXXXXXX',        // no snippet action in acct 992-977-3439 yet
       booking:  'XXXXXXXXXXXXXXXXX',        // booking is URL-based now (thank-you.html), needs no label
-      purchase: 'XXXXXXXXXXXXXXXXX'         // "Purchase" conversion label
+      purchase: 'XXXXXXXXXXXXXXXXX',        // "Purchase" conversion label
+      phoneClick: 'XXXXXXXXXXXXXXXXX'      // "Click to call" conversion label (create in acct 992-977-3439, then paste)
     },
     ga4Id: 'G-EW2RB4F5JB'                               // optional, e.g. 'G-XXXXXXX'
   };
@@ -83,6 +84,52 @@
         window.fbq('track', 'Purchase', value !== undefined ? { value: value, currency: currency } : {});
     } catch (e) {}
   };
+  /* --- Where do visitors go? (added 2026-09-05) --------------------------
+     Every tap on a diagnostic CTA, consultation CTA, pricing link, email link
+     or the phone number becomes a GA4 event (`cta_click`, or `phone_click` for
+     the number) carrying the page, the section the button sits in, and its
+     text. A phone tap is also a Google Ads conversion once labels.phoneClick
+     is filled in. Answers "ad click -> /shsat -> then what?" per button. */
+  function ctaKind(a) {
+    var h = (a.getAttribute('href') || '').toLowerCase();
+    if (h.indexOf('tel:') === 0) return 'phone';
+    if (h.indexOf('sms:') === 0) return 'sms';
+    if (h.indexOf('mailto:') === 0) return 'email';
+    if (h.indexOf('app.ivypathacademy.com') > -1) return h.indexOf('free-diagnostic') > -1 ? 'diagnostic' : 'app';
+    if (h.indexOf('book.html') > -1 || h === '/book' || h.indexOf('/book?') === 0) return 'consultation';
+    if (h.indexOf('pricing') > -1) return 'pricing';
+    return null;
+  }
+  function ctaSection(a) {
+    try {
+      var sec = a.closest('section, header, footer, nav, aside');
+      if (!sec) return 'body';
+      return sec.id || (sec.className || '').split(/\s+/)[0] || sec.tagName.toLowerCase();
+    } catch (e) { return 'body'; }
+  }
+  document.addEventListener('click', function (ev) {
+    if (SUPPRESS) return;
+    var t = ev.target;
+    var a = (t && t.closest) ? t.closest('a[href]') : null;
+    if (!a) return;
+    var kind = ctaKind(a);
+    if (!kind) return;
+    var params = {
+      cta_type: kind,
+      page_path: location.pathname,
+      cta_section: ctaSection(a),
+      cta_text: (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+      transport_type: 'beacon'
+    };
+    try {
+      if (configured(CFG.ga4Id)) gtag('event', kind === 'phone' ? 'phone_click' : 'cta_click', params);
+      if (kind === 'phone') {
+        if (configured(CFG.googleAdsId) && configured(CFG.labels.phoneClick))
+          gtag('event', 'conversion', { send_to: sendTo(CFG.labels.phoneClick), transport_type: 'beacon' });
+        if (hasFbq()) window.fbq('trackCustom', 'PhoneClick', { page_path: location.pathname });
+      }
+    } catch (e) {}
+  }, true);
 })();
 /* Forward ad click IDs + UTMs to the app subdomain so attribution survives the site->app hop */
 (function(){

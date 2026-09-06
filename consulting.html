@@ -1313,7 +1313,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var currentYear = today.getFullYear();
       var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
       var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      var times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+      // Consultation hours, Eastern Time: weekdays 5:00 PM to 11:00 PM, weekends 10:00 AM to 10:00 PM.
+      var WEEKDAY_TIMES = ['5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM','10:00 PM','10:30 PM'];
+      var WEEKEND_TIMES = ['10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM'];
+      var timesFor = function(date) { var dow = date.getDay(); return (dow === 0 || dow === 6) ? WEEKEND_TIMES : WEEKDAY_TIMES; };
 
       var lead = { name:'', email:'', phone:'' };
       var refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
@@ -1477,9 +1480,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             btn.type = 'button'; btn.className = 'cal-day'; btn.textContent = d;
             var date = new Date(currentYear, currentMonth, d);
             btn.setAttribute('aria-label', dayNames[date.getDay()] + ', ' + months[currentMonth] + ' ' + d + ', ' + currentYear);
-            var dow = date.getDay();
             var isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            if (isPast || dow === 0 || dow === 6) { btn.disabled = true; btn.classList.add('disabled'); }
+            if (isPast) { btn.disabled = true; btn.classList.add('disabled'); }
             else { btn.classList.add('available'); btn.addEventListener('click', function(){ showTimes(date, d); }); }
             if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) btn.classList.add('today');
             grid.appendChild(btn);
@@ -1504,7 +1506,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         // Hide slots already past in ET when the picked date is ET-today (+30 min buffer).
         var now = etNow();
         var isEtToday = date.getFullYear() === now.y && (date.getMonth() + 1) === now.m && day === now.d;
-        var usable = times.filter(function(t){ return !isEtToday || slotMins(t) > now.mins + 30; });
+        var usable = timesFor(date).filter(function(t){ return !isEtToday || slotMins(t) > now.mins + 30; });
         if (!usable.length) {
           var msg = document.createElement('p');
           msg.className = 'form-hint';

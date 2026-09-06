@@ -422,7 +422,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     let currentYear = today.getFullYear();
 
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const times = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+    // Consultation hours, Eastern Time: weekdays 5:00 PM to 11:00 PM, weekends 10:00 AM to 10:00 PM.
+    const WEEKDAY_TIMES = ['5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM','10:00 PM','10:30 PM'];
+    const WEEKEND_TIMES = ['10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM'];
+    const timesFor = function(date) { var dow = date.getDay(); return (dow === 0 || dow === 6) ? WEEKEND_TIMES : WEEKDAY_TIMES; };
 
     // ----- Lead state (captured up front) -----
     const lead = { name: '', email: '', phone: '' };
@@ -508,12 +511,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         btn.textContent = d;
 
         const date = new Date(currentYear, currentMonth, d);
-        const dayOfWeek = date.getDay();
         const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
         const isToday = d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
 
-        if (isPast || isWeekend) {
+        if (isPast) {
           btn.disabled = true;
           btn.classList.add('disabled');
         } else {
@@ -537,7 +538,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       const isEtToday = date.getFullYear() === g('year') && (date.getMonth() + 1) === g('month') && day === g('day');
       const nowMins = g('hour') * 60 + g('minute');
       const slotMins = t => { const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i); return (parseInt(m[1], 10) % 12 + (m[3].toUpperCase() === 'PM' ? 12 : 0)) * 60 + parseInt(m[2], 10); };
-      const usable = times.filter(t => !isEtToday || slotMins(t) > nowMins + 30);
+      const usable = timesFor(date).filter(t => !isEtToday || slotMins(t) > nowMins + 30);
       usable.forEach(time => {
         const btn = document.createElement('button');
         btn.type = 'button';

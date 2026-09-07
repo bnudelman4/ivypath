@@ -1291,6 +1291,46 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     (function() {
       var intakePanel = document.getElementById('calIntake');
       var contactPanel = document.getElementById('calContact');
+
+      // ----- Calendly (set CALENDLY_URL to hand the date/time step to Calendly; '' keeps the built-in calendar) -----
+      var CALENDLY_URL = '';  // e.g. 'https://calendly.com/ivypath/free-consultation'
+      function calendlyUtmQuery() {
+        var q = new URLSearchParams(window.location.search);
+        var out = new URLSearchParams();
+        ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(k => { if (q.get(k)) out.set(k, q.get(k)); });
+        out.set('hide_gdpr_banner', '1');
+        return out.toString();
+      }
+      function mountCalendly(afterEl, leadState) {
+        var el = document.getElementById('calendlyEmbed');
+        if (!el) {
+          el = document.createElement('div');
+          el.id = 'calendlyEmbed';
+          el.style.minWidth = '320px';
+          el.style.height = '720px';
+          afterEl.parentNode.insertBefore(el, afterEl.nextSibling);
+        }
+        el.style.display = 'block';
+        var init = () => window.Calendly.initInlineWidget({
+          url: CALENDLY_URL + (CALENDLY_URL.indexOf('?') > -1 ? '&' : '?') + calendlyUtmQuery(),
+          parentElement: el,
+          prefill: { name: leadState.name, email: leadState.email }
+        });
+        if (window.Calendly) init();
+        else {
+          var s = document.createElement('script');
+          s.src = 'https://assets.calendly.com/assets/external/widget.js';
+          s.async = true; s.onload = init;
+          document.head.appendChild(s);
+        }
+        // Calendly posts a message when the invitee books; go to the thank-you page
+        // so the URL-based Google Ads conversion and GA keep counting bookings.
+        window.addEventListener('message', function (e) {
+          if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled') {
+            window.location.href = 'thank-you.html';
+          }
+        });
+      }
       if (!intakePanel || !contactPanel) return;
       var contactForm = document.getElementById('contactForm');
       var contactError = document.getElementById('contactError');
@@ -1465,6 +1505,12 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         if (msg) { contactError.textContent = msg; contactError.style.display = 'block'; return; }
         contactError.style.display = 'none';
         lead.name = name; lead.email = email; lead.phone = phone;
+        if (CALENDLY_URL) {
+          [intakePanel, contactPanel, calWidget, timesPanel, confirmPanel].forEach(function(p){ p.style.display = 'none'; });
+          setProgress(8 / 9);
+          mountCalendly(confirmPanel, lead);
+          return;
+        }
         show(calWidget); renderCalendar();
       });
 

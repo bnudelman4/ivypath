@@ -427,6 +427,46 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     const WEEKEND_TIMES = ['10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM'];
     const timesFor = function(date) { var dow = date.getDay(); return (dow === 0 || dow === 6) ? WEEKEND_TIMES : WEEKDAY_TIMES; };
 
+    // ----- Calendly (set CALENDLY_URL to hand the date/time step to Calendly; '' keeps the built-in calendar) -----
+    const CALENDLY_URL = '';  // e.g. 'https://calendly.com/ivypath/free-consultation'
+    function calendlyUtmQuery() {
+      const q = new URLSearchParams(window.location.search);
+      const out = new URLSearchParams();
+      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(k => { if (q.get(k)) out.set(k, q.get(k)); });
+      out.set('hide_gdpr_banner', '1');
+      return out.toString();
+    }
+    function mountCalendly(afterEl, leadState) {
+      let el = document.getElementById('calendlyEmbed');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'calendlyEmbed';
+        el.style.minWidth = '320px';
+        el.style.height = '720px';
+        afterEl.parentNode.insertBefore(el, afterEl.nextSibling);
+      }
+      el.style.display = 'block';
+      const init = () => window.Calendly.initInlineWidget({
+        url: CALENDLY_URL + (CALENDLY_URL.indexOf('?') > -1 ? '&' : '?') + calendlyUtmQuery(),
+        parentElement: el,
+        prefill: { name: leadState.name, email: leadState.email }
+      });
+      if (window.Calendly) init();
+      else {
+        const s = document.createElement('script');
+        s.src = 'https://assets.calendly.com/assets/external/widget.js';
+        s.async = true; s.onload = init;
+        document.head.appendChild(s);
+      }
+      // Calendly posts a message when the invitee books; go to the thank-you page
+      // so the URL-based Google Ads conversion and GA keep counting bookings.
+      window.addEventListener('message', function (e) {
+        if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled') {
+          window.location.href = 'thank-you.html';
+        }
+      });
+    }
+
     // ----- Lead state (captured up front) -----
     const lead = { name: '', email: '', phone: '' };
     const refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
@@ -482,6 +522,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       // Fire the lead signal the moment all three fields are valid (before calendar).
       fireLeadSignal();
+
+      // Calendly owns scheduling when configured; the built-in calendar is the fallback.
+      if (CALENDLY_URL) {
+        contactPanel.style.display = 'none';
+        calWidget.style.display = 'none';
+        timesPanel.style.display = 'none';
+        confirmPanel.style.display = 'none';
+        mountCalendly(contactPanel, lead);
+        return;
+      }
 
       // Reveal the calendar (Step 2).
       contactPanel.style.display = 'none';

@@ -14,7 +14,7 @@
       lead:     'XXXXXXXXXXXXXXXXX',        // no snippet action in acct 992-977-3439 yet
       booking:  'XXXXXXXXXXXXXXXXX',        // booking is URL-based now (thank-you.html), needs no label
       purchase: 'XXXXXXXXXXXXXXXXX',        // "Purchase" conversion label
-      phoneClick: 'XXXXXXXXXXXXXXXXX'      // "Click to call" conversion label (create in acct 992-977-3439, then paste)
+      phoneClick: 'B5qYCOXnsvEcEPXizNNE'   // "Click to call" (Phone call lead) in acct 992-977-3439, created 2026-09-08
     },
     ga4Id: 'G-EW2RB4F5JB'                               // optional, e.g. 'G-XXXXXXX'
   };

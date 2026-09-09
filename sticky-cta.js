@@ -1,6 +1,8 @@
 /* IvyPath sticky mobile CTA bar — persistent primary action for paid mobile traffic.
-   On the diagnostic landing pages the primary action is "Start free diagnostic";
-   elsewhere it's "Book free consult". Hidden on booking/confirmation pages and on desktop (>768px). */
+   The primary action is "Book free consultation" everywhere, matching the call-first
+   funnel: the SHSAT/SAT pages now lead with booking and a call, and the self-serve
+   diagnostic is a secondary link in the page body. Hidden on booking/confirmation
+   pages and on desktop (>768px). */
 (function () {
   function init() {
     var path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -16,15 +18,7 @@
 
     // Determine the primary action for this page
     var primaryHref, primaryLabel, exam = null, consulting = false;
-    if (path === 'sat-diagnostic.html') {
-      primaryHref = 'https://app.ivypathacademy.com/free-diagnostic-sat/';
-      primaryLabel = 'Start free diagnostic';
-      exam = 'SAT';
-    } else if (path === 'shsat-diagnostic.html') {
-      primaryHref = 'https://app.ivypathacademy.com/free-diagnostic-shsat/';
-      primaryLabel = 'Start free diagnostic';
-      exam = 'SHSAT';
-    } else if (path === 'consulting.html') {
+    if (path === 'consulting.html') {
       primaryHref = '#book';
       primaryLabel = 'Book a free strategy call';
       consulting = true;

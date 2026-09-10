@@ -428,7 +428,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     const timesFor = function(date) { var dow = date.getDay(); return (dow === 0 || dow === 6) ? WEEKEND_TIMES : WEEKDAY_TIMES; };
 
     // ----- Calendly (set CALENDLY_URL to hand the date/time step to Calendly; '' keeps the built-in calendar) -----
-    const CALENDLY_URL = '';  // e.g. 'https://calendly.com/ivypath/free-consultation'
+    const CALENDLY_URL = 'https://calendly.com/ivypathacademy/30min';  // live 2026-09-09; '' falls back to the built-in calendar
     function calendlyUtmQuery() {
       const q = new URLSearchParams(window.location.search);
       const out = new URLSearchParams();

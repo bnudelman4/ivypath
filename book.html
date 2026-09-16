@@ -433,6 +433,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       const q = new URLSearchParams(window.location.search);
       const out = new URLSearchParams();
       ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(k => { if (q.get(k)) out.set(k, q.get(k)); });
+      // Calendly only carries utm_* and salesforce_uuid through to the webhook, so the
+      // ad click id rides in salesforce_uuid rather than overwriting a real utm field.
+      // Without this every ad-driven booking arrives with null attribution.
+      const click = q.get('gclid') || q.get('wbraid') || q.get('gbraid') || q.get('fbclid');
+      if (click) out.set('salesforce_uuid', click);
       out.set('hide_gdpr_banner', '1');
       return out.toString();
     }
@@ -449,7 +454,15 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       const init = () => window.Calendly.initInlineWidget({
         url: CALENDLY_URL + (CALENDLY_URL.indexOf('?') > -1 ? '&' : '?') + calendlyUtmQuery(),
         parentElement: el,
-        prefill: { name: leadState.name, email: leadState.email }
+        // The contact step requires a phone, so hand it to Calendly instead of
+        // dropping it: without this the booking record has no way to reach the
+        // person if they no-show. smsReminderNumber is ignored harmlessly when
+        // the event type has no text-reminder step.
+        prefill: {
+          name: leadState.name,
+          email: leadState.email,
+          smsReminderNumber: leadState.phone || undefined
+        }
       });
       if (window.Calendly) init();
       else {

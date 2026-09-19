@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>IvyPath Academy</title>
+<style>
+  html,body{height:100%;margin:0;background:#FBFAF7;color:#1F3D2B;
+    font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .w{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center}
+  .s{width:26px;height:26px;border:3px solid #E4E0D6;border-top-color:#1F3D2B;border-radius:50%;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  a{color:#1F3D2B}
+  @media (prefers-reduced-motion:reduce){.s{animation:none}}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="s" role="status" aria-label="Loading"></div>
+  <p id="f" hidden>Taking you to your free diagnostic. <a id="m" href="https://app.ivypathacademy.com/free-diagnostic-shsat">Continue</a></p>
+</div>
+<script>
+/*
+ * Bio-link router.
+ *
+ * Why this exists: 45% of all leads arrive from Instagram with referrer
+ * instagram.com and no campaign data at all -- no utm, and no ivp_lp, meaning
+ * they never touched this site. The bio link points straight at the app, so
+ * nothing tags them and Metricool cannot help (Profile Views and Website Clicks
+ * are both deprecated fields). Routing the bio link through here is the only way
+ * to make that path measurable.
+ *
+ * Put ONE stable link in the Instagram bio:
+ *     https://www.ivypathacademy.com/go
+ * Then steer it from here instead of editing the bio:
+ *     /go?t=sat          force the SAT diagnostic
+ *     /go?t=shsat        force the SHSAT diagnostic
+ *     /go?c=verbal-trap  label the current push (lands in utm_content)
+ *
+ * Default test is SHSAT until the exam date below, then SAT. Reason: 22 of the
+ * 23 untagged Instagram leads landed on SAT while the SHSAT is the product with
+ * a November 18 deadline.
+ */
+(function () {
+  var SHSAT_EXAM = new Date('2026-11-18T23:59:59-05:00');
+  var DEST = {
+    shsat: 'https://app.ivypathacademy.com/free-diagnostic-shsat',
+    sat:   'https://app.ivypathacademy.com/free-diagnostic-sat'
+  };
+
+  var q = new URLSearchParams(location.search);
+  var t = (q.get('t') || '').toLowerCase();
+  if (t !== 'sat' && t !== 'shsat') t = (new Date() <= SHSAT_EXAM) ? 'shsat' : 'sat';
+
+  var u = new URL(DEST[t]);
+  // Anything already on the incoming link wins, so a fully-tagged link still works.
+  q.forEach(function (v, k) { if (k !== 't' && k !== 'c' && v) u.searchParams.set(k, v); });
+  if (!u.searchParams.get('utm_source')) u.searchParams.set('utm_source', 'instagram');
+  if (!u.searchParams.get('utm_medium')) u.searchParams.set('utm_medium', 'bio');
+  if (!u.searchParams.get('utm_campaign')) u.searchParams.set('utm_campaign', 'profile');
+  var c = q.get('c');
+  if (c && !u.searchParams.get('utm_content')) u.searchParams.set('utm_content', c.slice(0, 60));
+
+  var go = u.toString();
+  document.getElementById('m').href = go;
+  // replace() so Back returns to Instagram rather than trapping the visitor here.
+  try { location.replace(go); } catch (e) { location.href = go; }
+  // If the redirect is blocked (in-app browsers sometimes are), show a tap target.
+  setTimeout(function () { document.getElementById('f').hidden = false; }, 1200);
+})();
+</script>
+</body>
+</html>

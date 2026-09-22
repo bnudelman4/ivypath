@@ -27,10 +27,15 @@
       });
     }
     var out = {};
+    var pm = null;
     fmt.formatToParts(new Date(ms)).forEach(function (p) {
-      if (p.type !== 'literal') out[p.type] = parseInt(p.value, 10);
+      if (p.type === 'dayPeriod') pm = /p/i.test(p.value);
+      else if (p.type !== 'literal') out[p.type] = parseInt(p.value, 10);
     });
     if (out.hour === 24) out.hour = 0; // older engines print midnight as 24
+    // Engines without hourCycle support (Safari 12 and older) ignore it and
+    // print en-US's 12-hour clock plus AM/PM; fold that back into 0-23.
+    if (pm !== null) out.hour = out.hour % 12 + (pm ? 12 : 0);
     return out;
   }
 

@@ -236,7 +236,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                 </div>
                 <h4>免费咨询</h4>
                 <p class="confirm-datetime" id="confirmDateTime"></p>
-                <p class="confirm-duration">15分钟 &middot; Zoom</p>
+                <p class="confirm-duration">15分钟 &middot; Google Meet</p>
               </div>
               <form class="confirm-form" id="confirmForm">
                 <div class="form-group">
@@ -246,6 +246,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                 <div class="form-group">
                   <label for="confirmEmail">电子邮箱</label>
                   <input type="email" id="confirmEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPhone">手机号码</label>
+                  <input type="tel" id="confirmPhone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-required="true" aria-describedby="confirmPhoneHint">
+                  <p class="form-hint" id="confirmPhoneHint">用于发送 Google Meet 链接和会前提醒。</p>
                 </div>
                 <button type="submit" class="btn btn-primary book-submit-btn" id="confirmBtn">确认预约</button>
               </form>
@@ -493,7 +498,12 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       const name = document.getElementById('confirmName').value.trim();
       const email = document.getElementById('confirmEmail').value.trim();
-      if (!name || !email) return;
+      const phone = document.getElementById('confirmPhone').value.trim();
+      // Same rule as the API: at least 7 digits, any formatting.
+      if (!name || !email || (phone.match(/\d/g) || []).length < 7) {
+        if ((phone.match(/\d/g) || []).length < 7) document.getElementById('confirmPhone').focus();
+        return;
+      }
 
       const submitBtn = document.getElementById('confirmBtn');
       submitBtn.disabled = true;
@@ -508,7 +518,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         const response = await fetch('/api/book-consultation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, date: dateStr, time: selectedTime, ref: refCode }),
+          body: JSON.stringify({
+            name, email, phone, date: dateStr, time: selectedTime, ref: refCode,
+            attribution: (window.ivpAttribution ? window.ivpAttribution() : {})
+          }),
         });
 
         const data = await response.json();

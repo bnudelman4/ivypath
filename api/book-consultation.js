@@ -1,6 +1,23 @@
 const { google } = require('googleapis');
 const { v4: uuidv4 } = require('uuid');
 
+// America/New_York UTC offset for a calendar date, as "-04:00" / "-05:00".
+// The event itself is created with an explicit timeZone; this is only so the
+// platform receives an unambiguous instant without needing a tz library.
+function etOffsetIso(dateStr) {
+  try {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const probe = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' }).formatToParts(probe);
+    const tz = (parts.find((p) => p.type === 'timeZoneName') || {}).value || 'GMT-5';
+    const mm = tz.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
+    if (!mm) return '-05:00';
+    return mm[1] + String(mm[2]).padStart(2, '0') + ':' + (mm[3] || '00');
+  } catch (e) {
+    return '-05:00';
+  }
+}
+
 module.exports = async (req, res) => {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -57,6 +74,17 @@ module.exports = async (req, res) => {
       ? body.eventId : '';
     const grade = typeof body.grade === 'string' ? body.grade.trim().slice(0, 20) : '';
 
+    // Attribution the page remembered for the session (tracking.js). Allowlisted
+    // keys, length-capped; anything else in the object is dropped.
+    const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page'];
+    const attribution = {};
+    if (body.attribution && typeof body.attribution === 'object') {
+      for (const k of ATTR_KEYS) {
+        const v = body.attribution[k];
+        if (typeof v === 'string' && v.trim()) attribution[k] = v.replace(/[\r\n]+/g, ' ').trim().slice(0, 200);
+      }
+    }
+
     // --- Validate inputs ---
     if (!name || !email || !phone || !date || !time) {
       return res.status(400).json({ error: 'Missing required fields: name, email, phone, date, time' });
@@ -104,6 +132,7 @@ module.exports = async (req, res) => {
     let calendarOk = false;
     let meetLink = '';
     let eventLink = '';
+    let googleEventId = '';
 
     try {
       if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
@@ -174,6 +203,7 @@ module.exports = async (req, res) => {
       const createdEvent = result.data || {};
       meetLink = createdEvent.hangoutLink || '';
       eventLink = createdEvent.htmlLink || '';
+      googleEventId = createdEvent.id || '';
       calendarOk = true;
     } catch (calErr) {
       // Calendar failed (missing key, parse error, API error, etc.).
@@ -232,6 +262,55 @@ ${consultingSteps}
         ]);
       } catch (mailErr) {
         // Never fail a booking over a confirmation email.
+      }
+    }
+
+    // Record the booking on the platform so consultation_bookings (and the
+    // Discord booking / no-show alerts that read it) see site bookings. The
+    // Calendly webhook used to be the only writer; Calendly is gone (2026-09-22).
+    // Shared secret lives in SITE_BOOKING_RELAY_SECRET on both Vercel projects.
+    // No-ops without it. Never blocks or fails the booking: the calendar event
+    // and the email are already out by the time this runs.
+    if (process.env.SITE_BOOKING_RELAY_SECRET) {
+      try {
+        const offset = etOffsetIso(date);
+        await Promise.race([
+          fetch('https://app.ivypathacademy.com/api/bookings/site', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + process.env.SITE_BOOKING_RELAY_SECRET,
+            },
+            body: JSON.stringify({
+              source: 'site',
+              type: isConsulting ? 'consulting-strategy' : 'consultation',
+              name: name,
+              email: email,
+              phone: phone,
+              start: startDT + offset,
+              end: endDT + offset,
+              google_event_id: googleEventId || null,
+              meet_link: meetLink || null,
+              event_link: eventLink || null,
+              ref: ref || null,
+              utm_source: attribution.utm_source || null,
+              utm_medium: attribution.utm_medium || null,
+              utm_campaign: attribution.utm_campaign || null,
+              utm_content: attribution.utm_content || null,
+              utm_term: attribution.utm_term || null,
+              gclid: attribution.gclid || null,
+              wbraid: attribution.wbraid || null,
+              gbraid: attribution.gbraid || null,
+              fbclid: attribution.fbclid || null,
+              page: attribution.page || attribution.landing || null,
+            }),
+          }).then((r) => {
+            if (!r.ok) console.error('Booking relay to platform returned', r.status);
+          }).catch((e) => console.error('Booking relay to platform failed:', e && e.message)),
+          new Promise((resolve) => setTimeout(resolve, 2000)),
+        ]);
+      } catch (relayErr) {
+        // Never fail a booking over the platform record.
       }
     }
 

@@ -151,6 +151,40 @@
 })();
 
 
+// --- Attribution memory (added 2026-09-22) ---------------------------------
+// The booking pages POST to /api/book-consultation instead of linking to the
+// app, so the link decorators above never help them. Remember the first
+// qualifying params seen this session and expose one reader the booking
+// forms call at submit time. sessionStorage, not cookies: it dies with the tab
+// and is never sent anywhere on its own.
+(function () {
+  try {
+    var KEYS = ['gclid','wbraid','gbraid','fbclid','utm_source','utm_medium','utm_campaign','utm_term','utm_content','ref'];
+    var KEY = 'ivp_attr';
+    var q = new URLSearchParams(location.search);
+    var seen = {};
+    KEYS.forEach(function (k) { var v = q.get(k); if (v) seen[k] = String(v).slice(0, 200); });
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { stored = {}; }
+    if (Object.keys(seen).length) {
+      // First touch wins for click ids and utm; a later page with its own
+      // params does not overwrite the ad click that started the session.
+      KEYS.forEach(function (k) { if (seen[k] && !stored[k]) stored[k] = seen[k]; });
+      if (!stored.landing) stored.landing = location.pathname;
+      try { sessionStorage.setItem(KEY, JSON.stringify(stored)); } catch (e) {}
+    }
+    window.ivpAttribution = function () {
+      var out = {};
+      var cur = {};
+      try { cur = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { cur = {}; }
+      KEYS.forEach(function (k) { if (cur[k]) out[k] = cur[k]; });
+      if (cur.landing) out.landing = cur.landing;
+      out.page = location.pathname;
+      return out;
+    };
+  } catch (e) {}
+})();
+
 // --- Click-source forwarding (added 2026-07-01) -----------------------------
 // Appends qualifying attribution params (utm_*, fbclid, gclid, ref) from the
 // current URL, plus ivp_lp=<landing pathname>, to every link pointing at

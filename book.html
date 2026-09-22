@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
-  <link rel="stylesheet" href="book.css?v=5">
+  <link rel="stylesheet" href="book.css?v=6">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -391,6 +391,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <script src="smooth-scroll.js"></script>
   <script src="pill-nav.js?v=14"></script>
   <script src="cart.js?v=3"></script>
+  <script src="booking-slots.js?v=1"></script>
   <script>
   (function() {
     // ----- Elements -----
@@ -417,15 +418,17 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     const confirmDateTime = document.getElementById('confirmDateTime');
     const confirmContactSummary = document.getElementById('confirmContactSummary');
 
-    const today = new Date();
-    let currentMonth = today.getMonth();
-    let currentYear = today.getFullYear();
+    // Hours, "today", the 3-hour lead time and the info@ calendar's busy
+    // blocks all live in booking-slots.js and are decided in ET, whatever the
+    // visitor's own time zone is.
+    const Slots = window.IvpSlots;
+    const DURATION = 15;
+    const etStart = Slots.etToday();
+    let currentMonth = etStart.m - 1;
+    let currentYear = etStart.y;
 
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    // Consultation hours, Eastern Time: weekdays 5:00 PM to 11:00 PM, weekends 10:00 AM to 10:00 PM.
-    const WEEKDAY_TIMES = ['5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM','10:00 PM','10:30 PM'];
-    const WEEKEND_TIMES = ['10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM'];
-    const timesFor = function(date) { var dow = date.getDay(); return (dow === 0 || dow === 6) ? WEEKEND_TIMES : WEEKDAY_TIMES; };
+    const openSlotsFor = function(date) { return Slots.openSlots(date.getFullYear(), date.getMonth() + 1, date.getDate(), { durationMinutes: DURATION }); };
 
     // ----- Calendly (set CALENDLY_URL to hand the date/time step to Calendly; '' keeps the built-in calendar) -----
     const CALENDLY_URL = '';  // '' = built-in calendar + /api/book-consultation (Google Calendar/Meet on info@). Calendly removed 2026-09-22: it needs one paid seat per host.
@@ -561,8 +564,11 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         btn.textContent = d;
 
         const date = new Date(currentYear, currentMonth, d);
-        const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const isToday = d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+        const vsToday = Slots.compareToEtToday(currentYear, currentMonth + 1, d);
+        const isToday = vsToday === 0;
+        // Past days, and days with nothing left to offer (too late today, or
+        // fully blocked on the calendar), are not clickable.
+        const isPast = vsToday < 0 || openSlotsFor(date).length === 0;
 
         if (isPast) {
           btn.disabled = true;
@@ -577,18 +583,33 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       }
     }
 
-    function showTimes(date, day) {
+    let shownDate = null;
+
+    // notice: optional message shown above the slots (used after a 409).
+    function showTimes(date, day, notice) {
       const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
       selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
       slotsContainer.innerHTML = '';
+      shownDate = date;
 
-      // All slots shown (no fake scarcity); hide past ET slots on same-day.
-      const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
-      const g = t => parseInt(p.find(x => x.type === t).value, 10);
-      const isEtToday = date.getFullYear() === g('year') && (date.getMonth() + 1) === g('month') && day === g('day');
-      const nowMins = g('hour') * 60 + g('minute');
-      const slotMins = t => { const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i); return (parseInt(m[1], 10) % 12 + (m[3].toUpperCase() === 'PM' ? 12 : 0)) * 60 + parseInt(m[2], 10); };
-      const usable = timesFor(date).filter(t => !isEtToday || slotMins(t) > nowMins + 30);
+      const oldNotice = timesPanel.querySelector('.slot-notice');
+      if (oldNotice) oldNotice.remove();
+      if (notice) {
+        const n = document.createElement('p');
+        n.className = 'slot-notice';
+        n.setAttribute('role', 'status');
+        n.textContent = notice;
+        timesPanel.insertBefore(n, slotsContainer);
+      }
+
+      // All open slots shown (no fake scarcity): 3+ hours out and not busy on the info@ calendar.
+      const usable = openSlotsFor(date);
+      if (!usable.length) {
+        const empty = document.createElement('p');
+        empty.className = 'form-hint';
+        empty.textContent = 'No open times left on this day. Please pick another day.';
+        slotsContainer.appendChild(empty);
+      }
       usable.forEach(time => {
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -660,15 +681,24 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
         const data = await response.json();
 
+        // Someone else took this slot a moment ago. Nothing was created, so
+        // keep their details and send them back to the times for that day.
+        if (response.status === 409 && data.error === 'slot_taken') {
+          slotTaken(selectedDate, selectedTime);
+          return;
+        }
+
         if (!response.ok) {
           throw new Error(data.error || 'Booking failed');
         }
 
-        // Redirect to thank-you page with booking details
+        // Redirect to the thank-you page (the URL the Google Ads booking
+        // conversion matches). Date and time only: the email rides in
+        // sessionStorage so it never lands in a URL, analytics or the pixel.
+        try { sessionStorage.setItem('ivp_booked_email', data.email || lead.email); } catch (e) {}
         var tyParams = new URLSearchParams({
           date: data.date || '',
-          time: data.time || '',
-          email: data.email || ''
+          time: data.time || ''
         });
         window.location.href = 'thank-you.html?' + tyParams.toString();
       } catch (err) {
@@ -685,6 +715,28 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       }
     });
 
+    function slotTaken(date, time) {
+      const submitBtn = document.getElementById('confirmBtn');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Confirm Booking';
+      const errEl = confirmPanel.querySelector('.booking-error');
+      if (errEl) errEl.textContent = '';
+      const notice = 'Sorry, that time was just booked by another family. Please pick another time. Your details are saved.';
+      Slots.markTaken(date.getFullYear(), date.getMonth() + 1, date.getDate(), time, DURATION);
+      selectedTime = null;
+      showTimes(date, date.getDate(), notice);
+      // Pull fresh availability past the edge cache, then redraw the same day.
+      Slots.loadAvailability(true, function() {
+        if (timesPanel.style.display !== 'none' && shownDate === date) showTimes(date, date.getDate(), notice);
+      });
+    }
+
+    // Busy blocks arrive after the first paint; redraw whatever is on screen.
+    Slots.loadAvailability(false, function() {
+      if (calWidget.style.display !== 'none') renderCalendar();
+      else if (timesPanel.style.display !== 'none' && shownDate) showTimes(shownDate, shownDate.getDate());
+    });
+
     // Back from date picker -> edit contact details
     contactBackBtn.addEventListener('click', () => {
       calWidget.style.display = 'none';
@@ -693,21 +745,23 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       contactPanel.style.display = 'block';
     });
 
-    // Back from time slots -> date picker
+    // Back from time slots -> date picker (redrawn, so the lead time and busy blocks are current)
     backBtn.addEventListener('click', () => {
       timesPanel.style.display = 'none';
       confirmPanel.style.display = 'none';
       calWidget.style.display = 'block';
+      renderCalendar();
     });
 
-    // Change time from confirm -> back to time slots
+    // Change time from confirm -> back to time slots (redrawn for the same reason)
     changeTimeBtn.addEventListener('click', () => {
-      confirmPanel.style.display = 'none';
-      timesPanel.style.display = 'block';
+      if (selectedDate) showTimes(selectedDate, selectedDate.getDate());
+      else { confirmPanel.style.display = 'none'; timesPanel.style.display = 'block'; }
     });
 
     prevBtn.addEventListener('click', () => {
-      if (currentMonth === today.getMonth() && currentYear === today.getFullYear()) return;
+      const et = Slots.etToday();
+      if (currentMonth === et.m - 1 && currentYear === et.y) return;
       currentMonth--;
       if (currentMonth < 0) { currentMonth = 11; currentYear--; }
       renderCalendar();

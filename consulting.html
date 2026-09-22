@@ -1600,6 +1600,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             name: lead.name, email: lead.email, phone: lead.phone,
             date: dateStr, time: selectedTime, ref: refCode,
             grade: intake.grade, type: 'consulting-strategy', eventId: eid,
+            attribution: (window.ivpAttribution ? window.ivpAttribution() : {}),
             // Human-readable answers; the API renders them into the calendar
             // invite as the consultant's "Call prep" block.
             intake: {

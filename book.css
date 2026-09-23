@@ -859,8 +859,16 @@
     gap: 32px;
   }
 
+  /* Phones: the scheduler comes first. A parent who tapped "Book" was
+     landing on two proof cards and "What to Expect", with the form about
+     2,000px down (measured at 390x844, 2026-09-23). The proof still follows. */
   .book-form-wrapper {
     position: static;
+    order: -1;
+  }
+
+  .book-section {
+    padding: 40px 0 72px;
   }
 
   .book-form-card {

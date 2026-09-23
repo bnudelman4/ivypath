@@ -157,6 +157,19 @@ module.exports = async (req, res) => {
     try {
       if (!calendar) throw calendarInitErr || new Error('Calendar client unavailable');
 
+      // Where this booking came from, for the booking tracker. Stored as PRIVATE
+      // extended properties, which live only on the info@ calendar's copy of the
+      // event and never appear on the parent's invite (the description does).
+      // utm_* and page paths only; click ids are recorded as present, not their
+      // values. `ref` stays in the title because it is the referral-program code.
+      const attrPrivate = {};
+      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing', 'page']) {
+        if (attribution[k]) attrPrivate[k] = attribution[k];
+      }
+      for (const k of ['gclid', 'wbraid', 'gbraid', 'fbclid']) {
+        if (attribution[k]) attrPrivate[k] = 'yes';
+      }
+
       const event = {
         summary: isConsulting
           ? `IvyPath Academy - College Consulting Strategy Call${ref ? ' [ref: ' + ref + ']' : ''}`
@@ -193,6 +206,7 @@ module.exports = async (req, res) => {
             { method: 'popup', minutes: 10 },
           ],
         },
+        ...(Object.keys(attrPrivate).length ? { extendedProperties: { private: attrPrivate } } : {}),
       };
 
       const result = await calendar.events.insert({

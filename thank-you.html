@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IvyPath Academy | Consultation Booked</title>
   <meta name="robots" content="noindex">
+  <script>
+    /* No PII in URLs: the booking pages now pass the email in sessionStorage.
+       A link from an older cached booking page may still carry ?email=; move it
+       out of the address bar before the pixel and gtag read the page URL. */
+    (function(){try{var q=new URLSearchParams(location.search);var e=q.get('email');if(e){try{sessionStorage.setItem('ivp_booked_email',e);}catch(x){}q.delete('email');var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);}}catch(x){}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
@@ -193,11 +199,13 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <script src="pill-nav.js?v=14"></script>
   <script src="cart.js?v=3"></script>
   <script>
-    // Read booking details from URL params
+    // Date and time come from the URL; the email never does (sessionStorage,
+    // set by the booking page just before the redirect).
     var params = new URLSearchParams(window.location.search);
     var date = params.get('date');
     var time = params.get('time');
-    var email = params.get('email');
+    var email = null;
+    try { email = sessionStorage.getItem('ivp_booked_email'); } catch (e) {}
     // Consulting strategy-call variant (booked from /consulting)
     if (params.get('type') === 'consulting') {
       try {

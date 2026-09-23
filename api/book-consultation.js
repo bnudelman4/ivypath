@@ -1,22 +1,5 @@
-const { google } = require('googleapis');
 const { v4: uuidv4 } = require('uuid');
-
-// America/New_York UTC offset for a calendar date, as "-04:00" / "-05:00".
-// The event itself is created with an explicit timeZone; this is only so the
-// platform receives an unambiguous instant without needing a tz library.
-function etOffsetIso(dateStr) {
-  try {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    const probe = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
-    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' }).formatToParts(probe);
-    const tz = (parts.find((p) => p.type === 'timeZoneName') || {}).value || 'GMT-5';
-    const mm = tz.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
-    if (!mm) return '-05:00';
-    return mm[1] + String(mm[2]).padStart(2, '0') + ':' + (mm[3] || '00');
-  } catch (e) {
-    return '-05:00';
-  }
-}
+const { calendarClient, busyBetween, overlaps, etOffsetIso } = require('./_calendar');
 
 module.exports = async (req, res) => {
   // CORS
@@ -127,6 +110,43 @@ module.exports = async (req, res) => {
 
     const formattedDate = formatDateLabel(date);
 
+    // The exact instants, with the real ET offset for that date (EDT/EST).
+    const offset = etOffsetIso(date);
+    const startIso = startDT + offset;
+    const endIso = endDT + offset;
+
+    // One client (impersonating info@ivypathacademy.com via domain-wide
+    // delegation) for both the double-booking check and the insert.
+    let calendar = null;
+    let calendarInitErr = null;
+    try {
+      calendar = calendarClient();
+    } catch (initErr) {
+      calendarInitErr = initErr;
+    }
+
+    // Double-booking guard. The picker already hides busy slots, but two
+    // families can have the page open on the same slot, so re-check the exact
+    // interval right before the insert. Busy -> 409 and nothing is created
+    // (no event, no email, no relay); the page keeps their details and asks
+    // for another time. If the check itself fails or times out we book anyway:
+    // a rare double booking costs a reschedule, a refused booking costs a lead.
+    // 2s cap: a cold check (token included, reused by the insert) measured
+    // 340-560ms, and the function has 10s for everything that follows.
+    if (calendar) {
+      let taken = false;
+      try {
+        const busy = await busyBetween(calendar, startIso, endIso, 2000);
+        taken = busy.some((b) => overlaps(b.start, b.end, startIso, endIso));
+      } catch (fbErr) {
+        console.error('Free/busy check failed, booking anyway:', fbErr && fbErr.message);
+      }
+      if (taken) {
+        console.log('Slot taken, nothing created:', startIso);
+        return res.status(409).json({ error: 'slot_taken' });
+      }
+    }
+
     // A real lead has arrived. From here on we NEVER 500 just because the
     // calendar write fails — we acknowledge the lead and flag calendar status.
     let calendarOk = false;
@@ -135,25 +155,20 @@ module.exports = async (req, res) => {
     let googleEventId = '';
 
     try {
-      if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
-        throw new Error('GOOGLE_SERVICE_ACCOUNT_KEY is not configured');
+      if (!calendar) throw calendarInitErr || new Error('Calendar client unavailable');
+
+      // Where this booking came from, for the booking tracker. Stored as PRIVATE
+      // extended properties, which live only on the info@ calendar's copy of the
+      // event and never appear on the parent's invite (the description does).
+      // utm_* and page paths only; click ids are recorded as present, not their
+      // values. `ref` stays in the title because it is the referral-program code.
+      const attrPrivate = {};
+      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing', 'page']) {
+        if (attribution[k]) attrPrivate[k] = attribution[k];
       }
-
-      const serviceAccountKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-
-      // Impersonate info@ivypathacademy.com via domain-wide delegation
-      const subject = process.env.GOOGLE_CALENDAR_SUBJECT || 'info@ivypathacademy.com';
-      const auth = new google.auth.JWT({
-        email: serviceAccountKey.client_email,
-        key: serviceAccountKey.private_key,
-        scopes: [
-          'https://www.googleapis.com/auth/calendar',
-          'https://www.googleapis.com/auth/calendar.events',
-        ],
-        subject: subject,
-      });
-
-      const calendar = google.calendar({ version: 'v3', auth });
+      for (const k of ['gclid', 'wbraid', 'gbraid', 'fbclid']) {
+        if (attribution[k]) attrPrivate[k] = 'yes';
+      }
 
       const event = {
         summary: isConsulting
@@ -191,6 +206,7 @@ module.exports = async (req, res) => {
             { method: 'popup', minutes: 10 },
           ],
         },
+        ...(Object.keys(attrPrivate).length ? { extendedProperties: { private: attrPrivate } } : {}),
       };
 
       const result = await calendar.events.insert({
@@ -273,7 +289,6 @@ ${consultingSteps}
     // and the email are already out by the time this runs.
     if (process.env.SITE_BOOKING_RELAY_SECRET) {
       try {
-        const offset = etOffsetIso(date);
         await Promise.race([
           fetch('https://app.ivypathacademy.com/api/bookings/site', {
             method: 'POST',
@@ -287,8 +302,8 @@ ${consultingSteps}
               name: name,
               email: email,
               phone: phone,
-              start: startDT + offset,
-              end: endDT + offset,
+              start: startIso,
+              end: endIso,
               google_event_id: googleEventId || null,
               meet_link: meetLink || null,
               event_link: eventLink || null,

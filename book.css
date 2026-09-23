@@ -493,6 +493,18 @@
   text-align: center;
 }
 
+/* Shown above the times when the slot someone picked was just taken */
+.slot-notice {
+  background: #FBF6E9;
+  border: 1px solid #E9D9A6;
+  border-radius: var(--radius-sm, 8px);
+  color: #5C4A16;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  padding: 10px 12px;
+  margin: 0 0 12px;
+}
+
 /* Lead-First Contact Step */
 .calendar-contact {
   padding: 24px 28px 28px;

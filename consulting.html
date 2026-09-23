@@ -614,6 +614,7 @@
     .form-group input:focus, .form-group select:focus { outline: 2px solid var(--sage); outline-offset: 0; border-color: var(--sage); }
     .form-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
     .contact-error, .booking-error { font-size: 13.5px; color: #A34141; margin: 4px 0 8px; }
+    .slot-notice { background: #FBF6E9; border: 1px solid #E9D9A6; border-radius: 6px; color: #5C4A16; font-size: 13.5px; line-height: 1.5; padding: 10px 12px; margin: 0 0 12px; }
     .book-submit { width: 100%; margin-top: 6px; }
     .book-reassure { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
     .cal-back {
@@ -1269,6 +1270,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     })();
   </script>
 
+  <script src="booking-slots.js?v=1"></script>
   <script>
     /* Consulting CTA signal + native booking widget.
        StrategyCallBooked fires twice with ONE eventId: browser pixel here and
@@ -1348,15 +1350,17 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var confirmContactSummary = document.getElementById('confirmContactSummary');
       var progressFill = document.getElementById('bookProgressFill');
 
-      var today = new Date();
-      var currentMonth = today.getMonth();
-      var currentYear = today.getFullYear();
+      // Hours, "today", the 3-hour lead time and the info@ calendar's busy
+      // blocks all live in booking-slots.js and are decided in ET, whatever
+      // the visitor's own time zone is.
+      var Slots = window.IvpSlots;
+      var DURATION = 30;
+      var etStart = Slots.etToday();
+      var currentMonth = etStart.m - 1;
+      var currentYear = etStart.y;
       var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
       var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      // Consultation hours, Eastern Time: weekdays 5:00 PM to 11:00 PM, weekends 10:00 AM to 10:00 PM.
-      var WEEKDAY_TIMES = ['5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM','10:00 PM','10:30 PM'];
-      var WEEKEND_TIMES = ['10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM'];
-      var timesFor = function(date) { var dow = date.getDay(); return (dow === 0 || dow === 6) ? WEEKEND_TIMES : WEEKDAY_TIMES; };
+      var openSlotsFor = function(date) { return Slots.openSlots(date.getFullYear(), date.getMonth() + 1, date.getDate(), { durationMinutes: DURATION }); };
 
       var lead = { name:'', email:'', phone:'' };
       var refCode = (new URLSearchParams(window.location.search)).get('ref') || '';
@@ -1526,37 +1530,39 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             btn.type = 'button'; btn.className = 'cal-day'; btn.textContent = d;
             var date = new Date(currentYear, currentMonth, d);
             btn.setAttribute('aria-label', dayNames[date.getDay()] + ', ' + months[currentMonth] + ' ' + d + ', ' + currentYear);
-            var isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            var vsToday = Slots.compareToEtToday(currentYear, currentMonth + 1, d);
+            // Past days, and days with nothing left to offer (too late today, or
+            // fully blocked on the calendar), are not clickable.
+            var isPast = vsToday < 0 || openSlotsFor(date).length === 0;
             if (isPast) { btn.disabled = true; btn.classList.add('disabled'); }
             else { btn.classList.add('available'); btn.addEventListener('click', function(){ showTimes(date, d); }); }
-            if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) btn.classList.add('today');
+            if (vsToday === 0) btn.classList.add('today');
             grid.appendChild(btn);
           })(d);
         }
       }
 
-      function etNow(){
-        // Current wall-clock in ET, independent of the visitor's timezone.
-        var p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
-        var g = function(t){ return parseInt(p.find(function(x){ return x.type === t; }).value, 10); };
-        return { y: g('year'), m: g('month'), d: g('day'), mins: g('hour') * 60 + g('minute') };
-      }
-      function slotMins(t){
-        var m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
-        var h = parseInt(m[1], 10) % 12 + (m[3].toUpperCase() === 'PM' ? 12 : 0);
-        return h * 60 + parseInt(m[2], 10);
-      }
-      function showTimes(date, day){
+      var shownDate = null;
+      // notice: optional message shown above the slots (used after a 409).
+      function showTimes(date, day, notice){
         selectedDateLabel.textContent = dayNames[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + day;
         slotsContainer.innerHTML = '';
-        // Hide slots already past in ET when the picked date is ET-today (+30 min buffer).
-        var now = etNow();
-        var isEtToday = date.getFullYear() === now.y && (date.getMonth() + 1) === now.m && day === now.d;
-        var usable = timesFor(date).filter(function(t){ return !isEtToday || slotMins(t) > now.mins + 30; });
+        shownDate = date;
+        var oldNotice = timesPanel.querySelector('.slot-notice');
+        if (oldNotice) oldNotice.parentNode.removeChild(oldNotice);
+        if (notice) {
+          var n = document.createElement('p');
+          n.className = 'slot-notice';
+          n.setAttribute('role', 'status');
+          n.textContent = notice;
+          timesPanel.insertBefore(n, slotsContainer);
+        }
+        // Open slots only: 3+ hours out (in ET) and not busy on the info@ calendar.
+        var usable = openSlotsFor(date);
         if (!usable.length) {
           var msg = document.createElement('p');
           msg.className = 'form-hint';
-          msg.textContent = 'No more times today. Please pick another day.';
+          msg.textContent = 'No open times left on this day. Please pick another day.';
           slotsContainer.appendChild(msg);
         }
         usable.forEach(function(time){
@@ -1576,10 +1582,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       }
 
       document.getElementById('calContactBack').addEventListener('click', function(){ show(contactPanel); });
-      document.getElementById('calBack').addEventListener('click', function(){ show(calWidget); });
-      document.getElementById('calChangeTime').addEventListener('click', function(){ show(timesPanel); });
+      // Going back redraws, so the lead time and busy blocks are current.
+      document.getElementById('calBack').addEventListener('click', function(){ show(calWidget); renderCalendar(); });
+      document.getElementById('calChangeTime').addEventListener('click', function(){
+        if (selectedDate) showTimes(selectedDate, selectedDate.getDate()); else show(timesPanel);
+      });
       document.getElementById('calPrev').addEventListener('click', function(){
-        if (currentMonth === today.getMonth() && currentYear === today.getFullYear()) return;
+        var et = Slots.etToday();
+        if (currentMonth === et.m - 1 && currentYear === et.y) return;
         currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar();
       });
       document.getElementById('calNext').addEventListener('click', function(){
@@ -1611,13 +1621,20 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
               concern: intakeLabels.concern || ''
             }
           })
-        }).then(function(response){ return response.json().then(function(data){ return { ok: response.ok, data: data }; }); })
+        }).then(function(response){ return response.json().then(function(data){ return { ok: response.ok, status: response.status, data: data }; }); })
         .then(function(r){
+          // Someone else took this slot a moment ago. Nothing was created
+          // (no event, no conversion), so keep their details and intake and
+          // send them back to the times for that day.
+          if (r.status === 409 && r.data && r.data.error === 'slot_taken') { slotTaken(selectedDate, selectedTime); return; }
           if (!r.ok) throw new Error((r.data && r.data.error) || 'Booking failed');
           // Browser half of the deduped conversion (server relayed CAPI with the same eventId)
           try { if (window.fbq) fbq('trackCustom','StrategyCallBooked',{content_name:'Consulting Strategy Call'},{eventID:eid}); } catch(err){}
           try { if (window.gtag) gtag('event','strategy_call_booked',{}); } catch(err){}
-          var ty = new URLSearchParams({ type: 'consulting', date: (r.data && r.data.date) || '', time: (r.data && r.data.time) || '', email: (r.data && r.data.email) || '' });
+          // Thank-you URL carries date and time only: the email rides in
+          // sessionStorage so it never lands in a URL, analytics or the pixel.
+          try { sessionStorage.setItem('ivp_booked_email', (r.data && r.data.email) || lead.email); } catch (err) {}
+          var ty = new URLSearchParams({ type: 'consulting', date: (r.data && r.data.date) || '', time: (r.data && r.data.time) || '' });
           window.location.href = 'thank-you.html?' + ty.toString();
         })
         .catch(function(err){
@@ -1626,6 +1643,27 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           if (!errEl) { errEl = document.createElement('p'); errEl.className = 'booking-error'; document.getElementById('confirmForm').appendChild(errEl); }
           errEl.textContent = (err && err.message) || 'Something went wrong. Please try again.';
         });
+      });
+
+      function slotTaken(date, time){
+        var submitBtn = document.getElementById('confirmBtn');
+        submitBtn.disabled = false; submitBtn.textContent = 'Confirm booking';
+        var errEl = confirmPanel.querySelector('.booking-error');
+        if (errEl) errEl.textContent = '';
+        var notice = 'Sorry, that time was just booked by another family. Please pick another time. Your details are saved.';
+        Slots.markTaken(date.getFullYear(), date.getMonth() + 1, date.getDate(), time, DURATION);
+        selectedTime = null;
+        showTimes(date, date.getDate(), notice);
+        // Pull fresh availability past the edge cache, then redraw the same day.
+        Slots.loadAvailability(true, function(){
+          if (timesPanel.style.display !== 'none' && shownDate === date) showTimes(date, date.getDate(), notice);
+        });
+      }
+
+      // Busy blocks arrive after the first paint; redraw whatever is on screen.
+      Slots.loadAvailability(false, function(){
+        if (calWidget.style.display !== 'none') renderCalendar();
+        else if (timesPanel.style.display !== 'none' && shownDate) showTimes(shownDate, shownDate.getDate());
       });
 
       // Kick off the intake questionnaire (no focus steal on page load).

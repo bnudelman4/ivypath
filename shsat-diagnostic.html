@@ -529,6 +529,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <!-- IvyPath tracking + sticky CTA -->
 <script src="tracking.js" defer></script>
+<script src="school-email-guard.js?v=1" defer></script>
 <script src="sticky-cta.js" defer></script>
 </head>
 <body>
@@ -880,14 +881,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <form id="sendLinkForm" class="sendlink-card">
         <input type="text" name="company_name" tabindex="-1" autocomplete="off" aria-hidden="true" class="sendlink-hp">
 
-        <label class="sendlink-label" for="sl-parent">Your email
-          <input id="sl-parent" name="parent_email" type="email" required autocomplete="email" inputmode="email" placeholder="you@email.com" class="sendlink-input">
-          <span class="sendlink-help">The score report comes here. One report, and a consultation only if you book one.</span>
+        <label class="sendlink-label" for="sl-parent"><span id="sl-parent-label">Your email</span>
+          <input id="sl-parent" aria-labelledby="sl-parent-label" aria-describedby="sl-parent-help" name="parent_email" type="email" required autocomplete="email" inputmode="email" placeholder="you@email.com" class="sendlink-input">
+          <span class="sendlink-help" id="sl-parent-help">The score report comes here. One report, and a consultation only if you book one.</span>
         </label>
 
-        <label class="sendlink-label" for="sl-student">Student&rsquo;s email <span class="sendlink-optional">(optional)</span>
-          <input id="sl-student" name="student_email" type="email" autocomplete="off" inputmode="email" placeholder="student@email.com" class="sendlink-input">
-          <span class="sendlink-help">Leave blank and we&rsquo;ll send the link to you to forward.</span>
+        <label class="sendlink-label" for="sl-student"><span id="sl-student-label">Student&rsquo;s email <span class="sendlink-optional">(optional)</span></span>
+          <input id="sl-student" aria-labelledby="sl-student-label" aria-describedby="sl-student-help" name="student_email" type="email" autocomplete="off" inputmode="email" placeholder="student@email.com" class="sendlink-input">
+          <span class="sendlink-help" id="sl-student-help">Leave blank and we&rsquo;ll send the link to you to forward. School accounts ending in @nycstudents.net can&rsquo;t receive it.</span>
         </label>
 
         <label class="sendlink-label" for="sl-grade">Student&rsquo;s grade this fall

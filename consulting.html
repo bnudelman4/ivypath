@@ -750,6 +750,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <!-- IvyPath tracking -->
 <script src="tracking.js" defer></script>
+<script src="school-email-guard.js?v=1" defer></script>
 <script src="sticky-cta.js" defer></script>
 <script type="application/ld+json">
 {
@@ -1089,7 +1090,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <div class="cal-panel" id="calContact" style="display:none;">
           <button class="q-back" id="contactBackToIntake" type="button">&larr; Back</button>
           <p class="cal-step-label">Almost done &middot; Your details</p>
-          <form id="contactForm" novalidate>
+          <form id="contactForm" novalidate data-school-email="warn">
             <div class="form-group">
               <label for="leadName">Your name</label>
               <input type="text" id="leadName" name="name" placeholder="Full name" autocomplete="name" required>

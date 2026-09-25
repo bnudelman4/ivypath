@@ -1111,7 +1111,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           for (var i = 0; i < KEYS.length; i++) { var v = q.get(KEYS[i]); if (v) out[KEYS[i]] = v; }
           out.ivp_lp = location.pathname;
           // Origin only: a full referrer URL can carry paths or tokens from the other site.
-          if (document.referrer) { try { out.referrer = new URL(document.referrer).origin; } catch (e) {} }
+          if (document.referrer) { try { var ru = new URL(document.referrer); out.referrer = /^https?:$/.test(ru.protocol) ? ru.origin : (ru.hostname ? ru.protocol + '//' + ru.hostname : 'unknown'); } catch (e) {} }
           // First touch from tracking.js: where this visit really started, plus
           // utm/click ids from the landing URL if this page's own URL has none.
           var ft = window.ivpAttribution ? window.ivpAttribution() : {};

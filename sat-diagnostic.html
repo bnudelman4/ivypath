@@ -984,6 +984,20 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           </select>
         </label>
 
+                <label class="sendlink-label" for="sl-heard">How did you hear about IvyPath? <span class="sendlink-optional">(optional)</span>
+          <select id="sl-heard" name="heard_from" class="sendlink-input">
+            <option value="" selected>Choose one</option>
+            <option value="google">Google search</option>
+            <option value="instagram">Instagram</option>
+            <option value="tiktok">TikTok</option>
+            <option value="youtube">YouTube</option>
+            <option value="friend">A friend or classmate</option>
+            <option value="school_program">My school or an after-school program</option>
+            <option value="teacher">A teacher or counselor</option>
+            <option value="other">Something else</option>
+          </select>
+        </label>
+
         <label class="sendlink-consent">
           <input type="checkbox" name="consent" required>
           <span>I agree to be contacted by IvyPath Academy about my student&rsquo;s results.</span>
@@ -1166,6 +1180,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           for (var i = 0; i < KEYS.length; i++) { var v = q.get(KEYS[i]); if (v) out[KEYS[i]] = v; }
           out.ivp_lp = location.pathname;
           if (document.referrer) out.referrer = document.referrer;
+          // First touch from tracking.js: where this visit really started, plus
+          // utm/click ids from the landing URL if this page's own URL has none.
+          var ft = window.ivpAttribution ? window.ivpAttribution() : {};
+          for (var j = 0; j < KEYS.length; j++) { if (!out[KEYS[j]] && ft[KEYS[j]]) out[KEYS[j]] = ft[KEYS[j]]; }
+          if (ft.first_landing) out.first_landing = ft.first_landing;
+          if (ft.first_referrer) out.first_referrer = ft.first_referrer;
+          var hf = form.querySelector('[name="heard_from"]');
+          if (hf && hf.value) out.heard_from = hf.value;
         } catch (e) {}
         return out;
       }

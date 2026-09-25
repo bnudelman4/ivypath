@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
 
     // Attribution the page remembered for the session (tracking.js). Allowlisted
     // keys, length-capped; anything else in the object is dropped.
-    const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page'];
+    const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page', 'first_landing', 'first_referrer'];
     const attribution = {};
     if (body.attribution && typeof body.attribution === 'object') {
       for (const k of ATTR_KEYS) {
@@ -163,7 +163,7 @@ module.exports = async (req, res) => {
       // utm_* and page paths only; click ids are recorded as present, not their
       // values. `ref` stays in the title because it is the referral-program code.
       const attrPrivate = {};
-      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing', 'page']) {
+      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing', 'page', 'first_landing', 'first_referrer']) {
         if (attribution[k]) attrPrivate[k] = attribution[k];
       }
       for (const k of ['gclid', 'wbraid', 'gbraid', 'fbclid']) {

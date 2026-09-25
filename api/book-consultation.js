@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
 
     // Attribution the page remembered for the session (tracking.js). Allowlisted
     // keys, length-capped; anything else in the object is dropped.
-    const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page', 'first_landing', 'first_referrer'];
+    const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page', 'first_landing', 'first_referrer', 'heard_from'];
     const attribution = {};
     if (body.attribution && typeof body.attribution === 'object') {
       for (const k of ATTR_KEYS) {
@@ -67,6 +67,25 @@ module.exports = async (req, res) => {
         if (typeof v === 'string' && v.trim()) attribution[k] = v.replace(/[\r\n]+/g, ' ').trim().slice(0, 200);
       }
     }
+    // First-touch fields are enforced here too, since old cached tracking.js copies
+    // (and any hand-made request) may still send a full URL. first_referrer is only
+    // ever a keyword, a bare hostname or app:<package>; first_landing is a path;
+    // heard_from is one of the form's own values.
+    if (attribution.first_referrer) {
+      let r = attribution.first_referrer.toLowerCase();
+      if (!/^(direct|internal|unknown)$/.test(r) && !/^app:[a-z0-9._-]{1,90}$/.test(r)) {
+        try { r = new URL(r).hostname; } catch (e) { /* already a bare host, or junk */ }
+        r = r.replace(/^www\./, '');
+        if (!/^[a-z0-9.-]{1,100}$/.test(r)) r = '';
+      }
+      if (r) attribution.first_referrer = r; else delete attribution.first_referrer;
+    }
+    if (attribution.first_landing) {
+      const p = attribution.first_landing.split(/[?#]/)[0];
+      if (/^\/[A-Za-z0-9._\/-]{0,150}$/.test(p)) attribution.first_landing = p; else delete attribution.first_landing;
+    }
+    const HEARD_FROM = ['google', 'instagram', 'tiktok', 'youtube', 'facebook', 'friend', 'classmate', 'school', 'community_program', 'parent_group', 'event', 'other'];
+    if (attribution.heard_from && !HEARD_FROM.includes(attribution.heard_from)) delete attribution.heard_from;
 
     // --- Validate inputs ---
     if (!name || !email || !phone || !date || !time) {
@@ -163,7 +182,7 @@ module.exports = async (req, res) => {
       // utm_* and page paths only; click ids are recorded as present, not their
       // values. `ref` stays in the title because it is the referral-program code.
       const attrPrivate = {};
-      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing', 'page', 'first_landing', 'first_referrer']) {
+      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing', 'page', 'first_landing', 'first_referrer', 'heard_from']) {
         if (attribution[k]) attrPrivate[k] = attribution[k];
       }
       for (const k of ['gclid', 'wbraid', 'gbraid', 'fbclid']) {

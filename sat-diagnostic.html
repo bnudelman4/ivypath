@@ -991,9 +991,13 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             <option value="instagram">Instagram</option>
             <option value="tiktok">TikTok</option>
             <option value="youtube">YouTube</option>
-            <option value="friend">A friend or classmate</option>
-            <option value="school_program">My school or an after-school program</option>
-            <option value="teacher">A teacher or counselor</option>
+            <option value="facebook">Facebook (a page or a parent group)</option>
+            <option value="friend">Another parent or a friend</option>
+            <option value="classmate">My student&rsquo;s classmate</option>
+            <option value="school">My student&rsquo;s school (a teacher, counselor or PTA)</option>
+            <option value="community_program">An after-school or community program</option>
+            <option value="parent_group">A parent newsletter or email list</option>
+            <option value="event">An IvyPath talk or event</option>
             <option value="other">Something else</option>
           </select>
         </label>
@@ -1179,7 +1183,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           var q = new URLSearchParams(location.search);
           for (var i = 0; i < KEYS.length; i++) { var v = q.get(KEYS[i]); if (v) out[KEYS[i]] = v; }
           out.ivp_lp = location.pathname;
-          if (document.referrer) out.referrer = document.referrer;
+          // Origin only: a full referrer URL can carry paths or tokens from the other site.
+          if (document.referrer) { try { out.referrer = new URL(document.referrer).origin; } catch (e) {} }
           // First touch from tracking.js: where this visit really started, plus
           // utm/click ids from the landing URL if this page's own URL has none.
           var ft = window.ivpAttribution ? window.ivpAttribution() : {};

@@ -198,6 +198,24 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                   <input type="tel" id="leadPhone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-required="true" aria-describedby="leadPhoneHint">
                   <p class="form-hint" id="leadPhoneHint">Mobile, so we can text your Meet link and a reminder.</p>
                 </div>
+                <div class="form-group">
+                  <label for="leadHeard">How did you hear about IvyPath? <span class="form-optional">(optional)</span></label>
+                  <select id="leadHeard" name="heard_from">
+                    <option value="" selected>Choose one</option>
+                    <option value="google">Google search</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="facebook">Facebook (a page or a parent group)</option>
+                    <option value="friend">Another parent or a friend</option>
+                    <option value="classmate">My student&rsquo;s classmate</option>
+                    <option value="school">My student&rsquo;s school (a teacher, counselor or PTA)</option>
+                    <option value="community_program">An after-school or community program</option>
+                    <option value="parent_group">A parent newsletter or email list</option>
+                    <option value="event">An IvyPath talk or event</option>
+                    <option value="other">Something else</option>
+                  </select>
+                </div>
                 <p class="contact-error" id="contactError" role="alert" aria-live="polite" style="display:none;"></p>
                 <button type="submit" class="btn btn-primary book-submit-btn" id="contactContinueBtn">Continue to pick a time</button>
                 <p class="contact-reassure">No spam. We only use this to confirm your free consultation.</p>
@@ -675,7 +693,12 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             date: dateStr,
             time: selectedTime,
             ref: refCode,
-            attribution: (window.ivpAttribution ? window.ivpAttribution() : {})
+            attribution: (function () {
+              var a = window.ivpAttribution ? window.ivpAttribution() : {};
+              var hf = document.getElementById('leadHeard');
+              if (hf && hf.value) a.heard_from = hf.value;
+              return a;
+            })()
           }),
         });
 

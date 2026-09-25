@@ -169,8 +169,10 @@
     // First touch, ALWAYS (added 2026-09-24). Params alone missed every typed-in or
     // untagged visit: nine SHSAT sign-ups on 09-24 all read "referrer = our homepage"
     // and nothing else, so nobody could tell a Google search from a classmate. Keep
-    // the first page of this tab session and the outside site that sent it, as
-    // origin + path only (never a query string, which can carry tokens).
+    // the first page of this tab session and WHICH site or app sent it: a bare
+    // hostname (e.g. google.com) or app:<package> for Android/iOS apps (e.g.
+    // app:com.google.android.gm). Never a path or query: a referring page can
+    // loosen its referrer policy, and paths can hold account ids, emails or tokens.
     var FT = 'ivp_ft';
     try {
       if (!sessionStorage.getItem(FT)) {
@@ -179,7 +181,13 @@
           if (document.referrer) {
             var ru = new URL(document.referrer);
             var own = function (h) { return h.replace(/^www\./, ''); };
-            ext = own(ru.hostname) === own(location.hostname) ? 'internal' : (ru.origin + ru.pathname).slice(0, 200);
+            if (/^https?:$/.test(ru.protocol)) {
+              ext = own(ru.hostname) === own(location.hostname) ? 'internal' : own(ru.hostname).toLowerCase().slice(0, 100);
+            } else if (/^(android|ios)-app:$/.test(ru.protocol) && ru.hostname) {
+              ext = ('app:' + ru.hostname.toLowerCase()).slice(0, 100);
+            } else {
+              ext = 'unknown';
+            }
           }
         } catch (e) { ext = 'unknown'; }
         sessionStorage.setItem(FT, JSON.stringify({ landing: location.pathname.slice(0, 200), referrer: ext }));

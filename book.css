@@ -190,6 +190,11 @@
   margin-bottom: 8px;
 }
 
+.form-group label .form-optional {
+  font-weight: 400;
+  color: var(--text-light);
+}
+
 .form-group input,
 .form-group select,
 .form-group textarea {

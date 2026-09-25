@@ -899,6 +899,24 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           </select>
         </label>
 
+                <label class="sendlink-label" for="sl-heard">How did you hear about IvyPath? <span class="sendlink-optional">(optional)</span>
+          <select id="sl-heard" name="heard_from" class="sendlink-input">
+            <option value="" selected>Choose one</option>
+            <option value="google">Google search</option>
+            <option value="instagram">Instagram</option>
+            <option value="tiktok">TikTok</option>
+            <option value="youtube">YouTube</option>
+            <option value="facebook">Facebook (a page or a parent group)</option>
+            <option value="friend">Another parent or a friend</option>
+            <option value="classmate">My student&rsquo;s classmate</option>
+            <option value="school">My student&rsquo;s school (a teacher, counselor or PTA)</option>
+            <option value="community_program">An after-school or community program</option>
+            <option value="parent_group">A parent newsletter or email list</option>
+            <option value="event">An IvyPath talk or event</option>
+            <option value="other">Something else</option>
+          </select>
+        </label>
+
         <label class="sendlink-consent">
           <input type="checkbox" name="consent" required>
           <span>I agree to be contacted by IvyPath Academy about my student&rsquo;s results.</span>
@@ -1092,7 +1110,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           var q = new URLSearchParams(location.search);
           for (var i = 0; i < KEYS.length; i++) { var v = q.get(KEYS[i]); if (v) out[KEYS[i]] = v; }
           out.ivp_lp = location.pathname;
-          if (document.referrer) out.referrer = document.referrer;
+          // Origin only: a full referrer URL can carry paths or tokens from the other site.
+          if (document.referrer) { try { var ru = new URL(document.referrer); out.referrer = /^https?:$/.test(ru.protocol) ? ru.origin : (ru.hostname ? ru.protocol + '//' + ru.hostname : 'unknown'); } catch (e) {} }
+          // First touch from tracking.js: where this visit really started, plus
+          // utm/click ids from the landing URL if this page's own URL has none.
+          var ft = window.ivpAttribution ? window.ivpAttribution() : {};
+          for (var j = 0; j < KEYS.length; j++) { if (!out[KEYS[j]] && ft[KEYS[j]]) out[KEYS[j]] = ft[KEYS[j]]; }
+          if (ft.first_landing) out.first_landing = ft.first_landing;
+          if (ft.first_referrer) out.first_referrer = ft.first_referrer;
+          var hf = form.querySelector('[name="heard_from"]');
+          if (hf && hf.value) out.heard_from = hf.value;
         } catch (e) {}
         return out;
       }

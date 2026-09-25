@@ -166,6 +166,33 @@
     KEYS.forEach(function (k) { var v = q.get(k); if (v) seen[k] = String(v).slice(0, 200); });
     var stored = {};
     try { stored = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { stored = {}; }
+    // First touch, ALWAYS (added 2026-09-24). Params alone missed every typed-in or
+    // untagged visit: nine SHSAT sign-ups on 09-24 all read "referrer = our homepage"
+    // and nothing else, so nobody could tell a Google search from a classmate. Keep
+    // the first page of this tab session and WHICH site or app sent it: a bare
+    // hostname (e.g. google.com) or app:<package> for Android/iOS apps (e.g.
+    // app:com.google.android.gm). Never a path or query: a referring page can
+    // loosen its referrer policy, and paths can hold account ids, emails or tokens.
+    var FT = 'ivp_ft';
+    try {
+      if (!sessionStorage.getItem(FT)) {
+        var ext = 'direct';
+        try {
+          if (document.referrer) {
+            var ru = new URL(document.referrer);
+            var own = function (h) { return h.replace(/^www\./, ''); };
+            if (/^https?:$/.test(ru.protocol)) {
+              ext = own(ru.hostname) === own(location.hostname) ? 'internal' : own(ru.hostname).toLowerCase().slice(0, 100);
+            } else if (/^(android|ios)-app:$/.test(ru.protocol) && ru.hostname) {
+              ext = ('app:' + ru.hostname.toLowerCase()).slice(0, 100);
+            } else {
+              ext = 'unknown';
+            }
+          }
+        } catch (e) { ext = 'unknown'; }
+        sessionStorage.setItem(FT, JSON.stringify({ landing: location.pathname.slice(0, 200), referrer: ext }));
+      }
+    } catch (e) {}
     if (Object.keys(seen).length) {
       // First touch wins for click ids and utm; a later page with its own
       // params does not overwrite the ad click that started the session.
@@ -180,6 +207,11 @@
       KEYS.forEach(function (k) { if (cur[k]) out[k] = cur[k]; });
       if (cur.landing) out.landing = cur.landing;
       out.page = location.pathname;
+      try {
+        var ft = JSON.parse(sessionStorage.getItem(FT) || '{}') || {};
+        if (ft.landing) out.first_landing = ft.landing;
+        if (ft.referrer) out.first_referrer = ft.referrer;
+      } catch (e) {}
       return out;
     };
   } catch (e) {}
@@ -196,6 +228,11 @@
     var fwd = new URLSearchParams();
     params.forEach(function (v, k) { if (qualifying.test(k)) fwd.append(k, v); });
     fwd.append('ivp_lp', location.pathname);
+    try {
+      var ft = JSON.parse(sessionStorage.getItem('ivp_ft') || '{}') || {};
+      if (ft.landing) fwd.append('first_landing', ft.landing);
+      if (ft.referrer) fwd.append('first_referrer', ft.referrer);
+    } catch (e) {}
     var decorate = function () {
       document.querySelectorAll('a[href*="app.ivypathacademy.com"]').forEach(function (a) {
         try {

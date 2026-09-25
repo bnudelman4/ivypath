@@ -33,6 +33,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <!-- IvyPath tracking + sticky CTA -->
 <script src="tracking.js" defer></script>
+<script src="school-email-guard.js?v=1" defer></script>
 <script src="sticky-cta.js" defer></script>
 </head>
 <body>
@@ -226,7 +227,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                 <p class="confirm-datetime" id="confirmDateTime"></p>
                 <p class="confirm-duration">15分钟 &middot; Google Meet</p>
               </div>
-              <form class="confirm-form" id="confirmForm">
+              <form class="confirm-form" id="confirmForm" data-school-email="warn">
                 <div class="form-group">
                   <label for="confirmName">您的姓名</label>
                   <input type="text" id="confirmName" placeholder="全名" required>
@@ -240,6 +241,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                   <input type="tel" id="confirmPhone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-required="true" aria-describedby="confirmPhoneHint">
                   <p class="form-hint" id="confirmPhoneHint">用于发送 Google Meet 链接和会前提醒。</p>
                 </div>
+                <p class="contact-error" id="confirmError" role="alert" aria-live="polite" style="display:none;"></p>
                 <button type="submit" class="btn btn-primary book-submit-btn" id="confirmBtn">确认预约</button>
               </form>
             </div>
@@ -547,6 +549,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           throw new Error(data.error || '预约失败');
         }
 
+        // A school student address can't receive the confirmation, so say we'll text instead.
+        var schoolEmail = false;
+        try { schoolEmail = !!(window.ivpIsSchoolEmail && window.ivpIsSchoolEmail(data.email)); } catch (e) {}
+
         // Show success confirmation screen
         confirmPanel.innerHTML =
           '<div class="booking-success">' +
@@ -565,11 +571,13 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                 '<strong>' + esc(data.time) + ' ET</strong>' +
               '</div>' +
             '</div>' +
-            '<p class="booking-success-email">包含 Google Meet 链接的确认邮件已发送至：<br><strong>' + esc(data.email) + '</strong></p>' +
+            (schoolEmail
+              ? '<p class="booking-success-email">学校学生邮箱无法接收我们的邮件，我们会把 Google Meet 链接以短信发送到您留下的手机号码。</p>'
+              : '<p class="booking-success-email">包含 Google Meet 链接的确认邮件已发送至：<br><strong>' + esc(data.email) + '</strong></p>') +
             '<div class="booking-success-next">' +
               '<h4>接下来做什么？</h4>' +
               '<ul>' +
-                '<li>查看邮箱中的日历邀请和 Google Meet 链接</li>' +
+                (schoolEmail ? '<li>留意短信中的 Google Meet 链接</li>' : '<li>查看邮箱中的日历邀请和 Google Meet 链接</li>') +
                 '<li>准备好关于学业目标的问题</li>' +
                 '<li>在预约时间加入 Google Meet 会议</li>' +
               '</ul>' +

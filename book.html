@@ -33,6 +33,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <!-- IvyPath tracking + sticky CTA -->
 <script src="tracking.js" defer></script>
+<script src="school-email-guard.js?v=1" defer></script>
 <script src="sticky-cta.js" defer></script>
 </head>
 <body>
@@ -184,7 +185,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
             <!-- Step 1: Contact details (lead-first) -->
             <div class="calendar-contact" id="calContact">
               <p class="calendar-step-label">Step 1 of 2 &middot; Your details</p>
-              <form class="contact-form" id="contactForm" novalidate>
+              <form class="contact-form" id="contactForm" novalidate data-school-email="warn">
                 <div class="form-group">
                   <label for="leadName">Your Name</label>
                   <input type="text" id="leadName" name="name" placeholder="Full name" autocomplete="name" required aria-required="true">

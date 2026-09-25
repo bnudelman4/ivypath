@@ -37,6 +37,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <!-- IvyPath tracking + sticky CTA -->
 <script src="tracking.js" defer></script>
+<script src="school-email-guard.js?v=1" defer></script>
 <script src="sticky-cta.js" defer></script>
 </head>
 <body>
@@ -138,7 +139,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span style="color: var(--text);">Confirmation sent to <strong id="bookingEmail">your email</strong></span>
+          <span style="color: var(--text);" id="bookingEmailLine">Confirmation sent to <strong id="bookingEmail">your email</strong></span>
         </div>
       </div>
 
@@ -147,7 +148,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li style="display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; color: var(--text); font-size: 0.95rem;">
             <span style="color: var(--primary); font-weight: 700; flex-shrink: 0;">1.</span>
-            Check your email for the calendar invite and Google Meet link
+            <span id="nextStep1">Check your email for the calendar invite and Google Meet link</span>
           </li>
           <li style="display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; color: var(--text); font-size: 0.95rem;">
             <span style="color: var(--primary); font-weight: 700; flex-shrink: 0;">2.</span>
@@ -218,6 +219,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     if (date) document.getElementById('bookingDate').textContent = date;
     if (time) document.getElementById('bookingTime').textContent = time + ' ET';
     if (email) document.getElementById('bookingEmail').textContent = email;
+    // A school student address (@nycstudents.net) can't receive the invite, so
+    // say we'll text the link instead. The guard script is deferred, so check
+    // once it has loaded.
+    if (email) document.addEventListener('DOMContentLoaded', function () {
+      try {
+        if (!(window.ivpIsSchoolEmail && window.ivpIsSchoolEmail(email))) return;
+        document.getElementById('bookingEmailLine').textContent = 'School email accounts can\u2019t receive our emails, so we\u2019ll text your Google Meet link to the phone number you gave us.';
+        document.getElementById('nextStep1').textContent = 'Watch for a text with your Google Meet link';
+      } catch (e) {}
+    });
     if (!date && !time && !email) {
       document.getElementById('bookingDetails').style.display = 'none';
     }

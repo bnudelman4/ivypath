@@ -59,7 +59,7 @@
 - The block is fully specified (2.6.8), so a re-cut can be switched on with one flag. The same words play on the /shsat hero today. That goes to section 10; fixing /shsat is out of scope here.
 
 **D7. Trust claims are the approved claims, worded for SHSAT and no wider than their source.**
-- **Tutors:** "Our SHSAT tutors are Stuyvesant '24 graduates, now at Cornell and Princeton." That is what the six /shsat tutor cards show. It does not say "our tutors": faq.html describes all tutors as Ivy League and Top 20 students, not all as Stuyvesant graduates.
+- **Tutors:** name them or use the approved singular: "Benjamin and Edison, Stuyvesant '24, now at Cornell and Princeton." next to their photos, and "a tutor who got into Stuyvesant" otherwise. (Changed 2026-09-28: brand.md 23cf086 disallows the unnamed group form "Our SHSAT tutors are Stuyvesant '24 graduates".) It does not say "our tutors": faq.html describes all tutors as Ivy League and Top 20 students, not all as Stuyvesant graduates.
 - **99th percentile:** left out. On an SHSAT page it reads as an SHSAT percentile, which the DOE does not report. Vicente can supply an SHSAT-true version (section 10).
 - **The 606 Stuyvesant offer** is shown with its context: an earlier SHSAT, before the fall 2026 format change.
 - **Excluded:**
@@ -252,7 +252,7 @@ Add to `headers`:
 
 **Every URL on the page is root-absolute**, because the page is served under `/shsat/`:
 - `/tracking.js`, `/school-email-guard.js?v=1`, `/shsat-quiz-logic.js?v=1`, `/shsat-quiz.js?v=1`
-- `/assets/logo-white-120.png`, `/assets/ben.JPG`, `/assets/edison-sq.jpg`, `/assets/vicente.jpg`, `/assets/reviews/stuyvesant-offer.jpg`, `/assets/reviews/stuyvesant-offer-thumb.jpg`
+- `/assets/logo-white-120.png`, `/assets/ben.JPG`, `/assets/edison-sq.jpg`, `/assets/vicente.jpg`, `/assets/reviews/stuyvesant-offer-606.jpg` (the location-redacted copy from PR #47), `/assets/reviews/stuyvesant-offer-thumb.jpg`
 - `/favicon-32.png`, `/apple-touch-icon.png`
 - `/book.html`, `/cn-book.html`, `/privacy.html`, `/terms.html`
 
@@ -334,7 +334,7 @@ Nothing else on /shsat changes. The click is tracked through the new `quiz` kind
 | Button (`#startBtn`, `.btn-primary`; hidden under `html:not(.js)`) | Start my plan → |
 | Honesty line (14 px, muted) | This is a plan built from your answers, not a score. The free 35-minute diagnostic gives an estimated score from your student's own work. |
 | Date line (`introDateLine(today)`, 3.3; empty from 2026-11-19) | See the table below |
-| Trust line (14 px), with the Benjamin and Edison photos at 32 px | Built with SHSAT tutors who are Stuyvesant '24 graduates, now at Cornell and Princeton. |
+| Trust line (14 px), with the Benjamin and Edison photos at 32 px | Built with tutors who got into Stuyvesant and now study at Cornell and Princeton. |
 
 **Date line by date** (DOE dates, verified 2026-09-23):
 
@@ -418,7 +418,7 @@ Order, top to bottom:
 | H2 | Where can we reach you? |
 | Sub | With `PLAN_COPY`: "Your plan is ready. We'll show it right away and email you a copy." Without: "Your plan is ready. We'll show it right away." |
 | Plan preview (`.plan-preview`, `aria-label="Plan preview"`) | Line 1: the eyebrow line (2.6.1). Line 2: the band name (2.6.3). Line 3: for `final_weeks_*` bands on or before Oct 30, the registration sentence ("Registration opens Tuesday, October 6 and closes Friday, October 30." or "Registration closes Friday, October 30."); for other bands, the first sentence of the band summary. |
-| Proof row | Benjamin and Edison photos (40 px), with the text "Our SHSAT tutors are Stuyvesant '24 graduates, now at Cornell and Princeton." Next to it, the 606 thumbnail (`stuyvesant-offer-thumb.jpg`, 56 px, alt "NYC MySchools screenshot: an SHSAT score of 606 and a Stuyvesant offer") captioned "A real Stuyvesant offer, SHSAT 606". Small line below: "Tutor credentials reflect schools individual tutors have attended." |
+| Proof row | Benjamin and Edison photos (40 px), with the text "Benjamin and Edison, Stuyvesant '24, now at Cornell and Princeton." Next to it, the 606 thumbnail (`stuyvesant-offer-thumb.jpg`, 56 px, alt "NYC MySchools screenshot: an SHSAT score of 606 and a Stuyvesant offer") captioned "A real Stuyvesant offer, SHSAT 606". Small line below: "Tutor credentials reflect schools individual tutors have attended." |
 | Field 1 label | Your name (parent or guardian) |
 | Field 2 label | Mobile number |
 | Field 2 help | With `TEXT_FROM_NUMBER`: "US mobile, for example (917) 555-0142. Vicente from IvyPath texts from (929) 394-0349, never before 8 AM or after 8:30 PM ET." Without: "US mobile, for example (917) 555-0142. Vicente from IvyPath texts you himself, never before 8 AM or after 8:30 PM ET." |
@@ -630,14 +630,14 @@ A white `.sendlink-card`. Visibility rules are in 3.6. This is the only place on
 
 | H3 | p |
 |---|---|
-| Stuyvesant graduates | Our SHSAT tutors are Stuyvesant '24 graduates, now at Cornell and Princeton. (Two mini cards follow: Benjamin Nudelman, Stuyvesant '24 · Cornell '28; Edison Zhu, Stuyvesant '24 · Princeton '28, with the photos at 48 px.) |
+| Tutors who got into Stuyvesant | Your student works with a tutor who got into Stuyvesant and now studies at Cornell or Princeton. (Two mini cards follow: Benjamin Nudelman, Stuyvesant '24 · Cornell '28; Edison Zhu, Stuyvesant '24 · Princeton '28, with the photos at 48 px.) |
 | A real result | An IvyPath student's SHSAT score of 606 and an offer from Stuyvesant, on the official NYC MySchools portal, shared with permission. That was on the SHSAT before the fall 2026 format change. Individual results vary. |
 | Automated parent reports | You get automated progress reports after sessions, so you can see what {who} worked on. |
 | English and 中文 | Consultations in English or Chinese. |
 
 - Below the grid: "Tutor credentials reflect schools individual tutors have attended."
 - **Screenshot:**
-  - `<img src="/assets/reviews/stuyvesant-offer.jpg" loading="lazy" decoding="async" width height alt="NYC MySchools portal screenshot showing an SHSAT score of 606 and an offer from Stuyvesant High School">`, at most 280 px wide.
+  - `<img src="/assets/reviews/stuyvesant-offer-606.jpg" loading="lazy" decoding="async" width height alt="NYC MySchools portal screenshot showing an SHSAT score of 606 and an offer from Stuyvesant High School">`, at most 280 px wide.
   - If Vicente supplies the year (section 10), the p reads "...shared with permission, from the {year} SHSAT, before the fall 2026 format change."
 
 #### 2.6.10 Save or print

@@ -23,9 +23,10 @@ module.exports = async (req, res) => {
 
   try {
     const body = req.body || {};
-    const name = typeof body.name === 'string' ? body.name.trim() : '';
-    const email = typeof body.email === 'string' ? body.email.trim() : '';
-    const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
+    // Length caps: these fields reach a calendar invite and an email subject.
+    const name = typeof body.name === 'string' ? body.name.replace(/[\r\n]+/g, ' ').trim().slice(0, 120) : '';
+    const email = typeof body.email === 'string' ? body.email.trim().slice(0, 200) : '';
+    const phone = typeof body.phone === 'string' ? body.phone.trim().slice(0, 40) : '';
     const date = typeof body.date === 'string' ? body.date.trim() : '';
     const time = typeof body.time === 'string' ? body.time.trim() : '';
     const ref = typeof body.ref === 'string' ? body.ref.trim().slice(0,64) : '';
@@ -108,8 +109,11 @@ module.exports = async (req, res) => {
     }
 
     // --- Parse date and time ---
-    const timeParts = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
-    if (!timeParts) return res.status(400).json({ error: 'Invalid time format' });
+    // Anchored: the raw time string goes into the confirmation email's subject line.
+    const timeParts = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    if (!timeParts || +timeParts[1] < 1 || +timeParts[1] > 12 || +timeParts[2] > 59) {
+      return res.status(400).json({ error: 'Invalid time format' });
+    }
 
     let hours = parseInt(timeParts[1]);
     const mins = parseInt(timeParts[2]);
@@ -255,7 +259,10 @@ module.exports = async (req, res) => {
     // system: forest #1B4D3E / gold #C5A55A, Playfair/Inter stacks, same from-
     // address). Google Calendar's generic invite still goes out via sendUpdates;
     // this is the on-brand touch. No-ops without RESEND_API_KEY; never blocks.
-    if (process.env.RESEND_API_KEY) {
+    // NYC DOE student accounts (@nycstudents.net) reject all outside mail, so skip the
+    // email there; book.html lets those families book anyway and we reach them by phone.
+    const schoolAddress = /@([a-z0-9-]+\.)*nycstudents\.net$/i.test(email);
+    if (process.env.RESEND_API_KEY && !schoolAddress) {
       try {
         const label = isConsulting ? 'strategy call' : 'consultation';
         const duration = isConsulting ? '30 minutes' : '15 minutes';
@@ -290,11 +297,16 @@ ${consultingSteps}
               // Only the noreply. subdomain is verified in Resend; the bare root domain is
               // rejected, which is why no booking confirmation ever went out (checked 2026-09-28).
               from: 'IvyPath Academy <hello@noreply.ivypathacademy.com>',
+              // noreply.ivypathacademy.com has no MX, so "Reply to this email" must land in info@.
+              reply_to: 'info@ivypathacademy.com',
               to: email,
               subject: `Your ${label} is booked — ${formattedDate} at ${time} ET`,
               html: html,
             }),
-          }).catch(() => {}),
+          })
+            // Log a rejected send: a silent .catch() hid the unverified-sender 403 for months.
+            .then((r) => { if (!r.ok) console.error('booking confirmation email failed: HTTP ' + r.status); })
+            .catch((e) => console.error('booking confirmation email error: ' + (e && e.message))),
           new Promise((resolve) => setTimeout(resolve, 2000)),
         ]);
       } catch (mailErr) {

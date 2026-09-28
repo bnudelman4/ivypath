@@ -11,7 +11,7 @@
 const RELAY_URL = 'https://app.ivypathacademy.com/api/bookings/site-started';
 const MAX_BODY = 4096;
 const HEARD_FROM = ['google', 'instagram', 'tiktok', 'youtube', 'facebook', 'friend', 'classmate', 'school', 'community_program', 'parent_group', 'event', 'other'];
-const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page', 'first_landing', 'first_referrer', 'ivp_lp'];
+const ATTR_KEYS = ['gclid', 'wbraid', 'gbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'page', 'first_landing', 'first_referrer', 'ref'];
 const PAGES = ['/book.html', '/cn-book.html'];
 
 // Only our own pages post here (production, www, and Vercel previews).
@@ -26,20 +26,28 @@ function allowedOrigin(origin) {
 }
 
 // 10-digit US number (11 with a leading 1), area code and exchange 2-9 -> +1XXXXXXXXXX.
+// A number typed with a non-US country code (+44 ..., +92 ...) is rejected rather than
+// misread as a US number.
 function usPhone(raw) {
-  let d = String(raw || '').replace(/\D/g, '');
+  const s = String(raw || '').trim();
+  if (/^\+/.test(s) && !/^\+\s*1/.test(s)) return '';
+  if (/^00/.test(s)) return '';
+  let d = s.replace(/\D/g, '');
   if (d.length === 11 && d[0] === '1') d = d.slice(1);
   if (d.length !== 10 || !/[2-9]/.test(d[0]) || !/[2-9]/.test(d[3])) return '';
   return '+1' + d;
 }
 
+// One line, no control or bidi characters (they reach an ops alert), length-capped.
 function clean(v, max) {
-  return typeof v === 'string' ? v.replace(/[\r\n]+/g, ' ').trim().slice(0, max) : '';
+  if (typeof v !== 'string') return '';
+  return v.replace(/[\u0000-\u001f\u007f\u2028\u2029\u202a-\u202e\u2066-\u2069]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
 }
 
 function buildPayload(body) {
   const name = clean(body.name, 120);
-  const email = clean(body.email, 200);
+  const email = clean(body.email, 1000);
+  if (email.length > 200) return null;
   const phone = usPhone(body.phone);
   if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone) return null;
 
@@ -61,7 +69,10 @@ function buildPayload(body) {
     page,
     heard_from,
     attribution,
-    test: body.test === true,
+    // Preview and local deployments relay to the production platform too, and the
+    // ivp_notrack cookie can't be set on *.vercel.app, so anything outside production
+    // is always a test.
+    test: body.test === true || process.env.VERCEL_ENV !== 'production',
     client_ts: clean(body.client_ts, 40),
   };
 }
@@ -78,7 +89,14 @@ module.exports = async (req, res) => {
 
     const payload = buildPayload(body);
     const secret = process.env.SITE_BOOKING_RELAY_SECRET;
-    if (!payload || !secret) return res.status(204).end();
+    if (!payload) return res.status(204).end();
+    if (!secret) {
+      console.warn('booking-started: SITE_BOOKING_RELAY_SECRET is not set; step-1 contact dropped');
+      return res.status(204).end();
+    }
+    const json = JSON.stringify(payload);
+    // The platform caps the payload at 4096 UTF-8 bytes.
+    if (Buffer.byteLength(json) > MAX_BODY) return res.status(204).end();
 
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 2000);
@@ -86,7 +104,7 @@ module.exports = async (req, res) => {
       const r = await fetch(RELAY_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + secret },
-        body: JSON.stringify(payload),
+        body: json,
         signal: ctrl.signal,
       });
       if (!r.ok) console.error('booking-started relay: platform answered', r.status);

@@ -18,6 +18,9 @@ test('usPhone normalizes US numbers and rejects others', () => {
   assert.strictEqual(handler.usPhone('+92 300 1234567'), '');
   assert.strictEqual(handler.usPhone('555-0142'), '');
   assert.strictEqual(handler.usPhone('(117) 555-0142'), '');
+  assert.strictEqual(handler.usPhone('+45 3212 3456'), '');
+  assert.strictEqual(handler.usPhone('+44 20 7946 0958'), '');
+  assert.strictEqual(handler.usPhone('0044 20 7946 0958'), '');
 });
 
 test('buildPayload allowlists fields and drops junk', () => {
@@ -30,6 +33,21 @@ test('buildPayload allowlists fields and drops junk', () => {
   assert.strictEqual(p.test, true);
   assert.strictEqual(handler.buildPayload({ ...good, email: 'bad' }), null);
   assert.strictEqual(handler.buildPayload({ ...good, phone: '12345' }), null);
+  assert.strictEqual(handler.buildPayload({ ...good, email: 'a'.repeat(195) + '@example.com' }), null);
+  assert.strictEqual(handler.buildPayload({ ...good, name: 'Ann\u202eE\u0000\tLee' }).name, 'Ann E Lee');
+  assert.strictEqual(handler.buildPayload({ ...good, attribution: { ref: 'ABC123' } }).attribution.ref, 'ABC123');
+});
+
+test('test flag: forced outside production, honored from the page in production', () => {
+  const prev = process.env.VERCEL_ENV;
+  process.env.VERCEL_ENV = 'production';
+  assert.strictEqual(handler.buildPayload({ ...good, test: false }).test, false);
+  assert.strictEqual(handler.buildPayload({ ...good, test: true }).test, true);
+  process.env.VERCEL_ENV = 'preview';
+  assert.strictEqual(handler.buildPayload({ ...good, test: false }).test, true);
+  delete process.env.VERCEL_ENV;
+  assert.strictEqual(handler.buildPayload({ ...good, test: false }).test, true);
+  if (prev !== undefined) process.env.VERCEL_ENV = prev;
 });
 
 test('non-POST gets 405', async () => {
@@ -73,7 +91,19 @@ test('drops foreign origins, oversize bodies, invalid contacts and a missing sec
   assert.strictEqual(calls.length, 0);
 });
 
-test('a platform error or hang still returns 204 within ~2s', async () => {
+test('a payload over 4096 UTF-8 bytes is not relayed', async () => {
+  process.env.SITE_BOOKING_RELAY_SECRET = 's3cret';
+  const calls = [];
+  global.fetch = async () => { calls.push(1); return { ok: true, status: 200 }; };
+  const attribution = {};
+  for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'first_landing']) attribution[k] = '中'.repeat(200);
+  const res = mockRes();
+  await handler({ method: 'POST', headers: {}, body: { ...good, attribution } }, res);
+  assert.strictEqual(res.code, 204);
+  assert.strictEqual(calls.length, 0);
+});
+
+test('a platform error or hang still returns 204 within ~2s', { timeout: 5000 }, async () => {
   process.env.SITE_BOOKING_RELAY_SECRET = 's3cret';
   global.fetch = (url, opts) => new Promise((_, rej) => opts.signal.addEventListener('abort', () => { const e = new Error('aborted'); e.name = 'AbortError'; rej(e); }));
   const t0 = Date.now();

@@ -21,6 +21,8 @@ test('usPhone normalizes US numbers and rejects others', () => {
   assert.strictEqual(handler.usPhone('+45 3212 3456'), '');
   assert.strictEqual(handler.usPhone('+44 20 7946 0958'), '');
   assert.strictEqual(handler.usPhone('0044 20 7946 0958'), '');
+  assert.strictEqual(handler.usPhone('+(1) 917 555 0142'), '+19175550142');
+  assert.strictEqual(handler.usPhone('001 917 555 0142'), '+19175550142');
 });
 
 test('buildPayload allowlists fields and drops junk', () => {
@@ -47,6 +49,8 @@ test('test flag: forced outside production, honored from the page in production'
   assert.strictEqual(handler.buildPayload({ ...good, test: false }).test, true);
   delete process.env.VERCEL_ENV;
   assert.strictEqual(handler.buildPayload({ ...good, test: false }).test, true);
+  assert.strictEqual(handler.buildPayload({ ...good, test: false }, 'www.ivypathacademy.com').test, false);
+  assert.strictEqual(handler.buildPayload({ ...good, test: false }, 'ivypath-git-x.vercel.app').test, true);
   if (prev !== undefined) process.env.VERCEL_ENV = prev;
 });
 

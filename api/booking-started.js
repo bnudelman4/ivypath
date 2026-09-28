@@ -29,10 +29,11 @@ function allowedOrigin(origin) {
 // A number typed with a non-US country code (+44 ..., +92 ...) is rejected rather than
 // misread as a US number.
 function usPhone(raw) {
-  const s = String(raw || '').trim();
-  if (/^\+/.test(s) && !/^\+\s*1/.test(s)) return '';
-  if (/^00/.test(s)) return '';
+  const s = String(raw || '').replace(/[\s().-]/g, '');
+  if (/^\+/.test(s) && !/^\+1/.test(s)) return '';
+  if (/^00/.test(s) && !/^001/.test(s)) return '';
   let d = s.replace(/\D/g, '');
+  if (d.length === 13 && d.startsWith('001')) d = d.slice(2);
   if (d.length === 11 && d[0] === '1') d = d.slice(1);
   if (d.length !== 10 || !/[2-9]/.test(d[0]) || !/[2-9]/.test(d[3])) return '';
   return '+1' + d;
@@ -41,10 +42,16 @@ function usPhone(raw) {
 // One line, no control or bidi characters (they reach an ops alert), length-capped.
 function clean(v, max) {
   if (typeof v !== 'string') return '';
-  return v.replace(/[\u0000-\u001f\u007f\u2028\u2029\u202a-\u202e\u2066-\u2069]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
+  return v.replace(/[\u0000-\u001f\u007f-\u009f\u061c\u200b-\u200f\u2028\u2029\u202a-\u202e\u2066-\u2069\ufeff]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
 }
 
-function buildPayload(body) {
+// VERCEL_ENV decides; if system env vars are ever not exposed, fall back to the Host.
+function isProduction(host) {
+  if (process.env.VERCEL_ENV) return process.env.VERCEL_ENV === 'production';
+  return /^(www\.)?ivypathacademy\.com$/i.test(String(host || '').split(':')[0]);
+}
+
+function buildPayload(body, host) {
   const name = clean(body.name, 120);
   const email = clean(body.email, 1000);
   if (email.length > 200) return null;
@@ -72,7 +79,7 @@ function buildPayload(body) {
     // Preview and local deployments relay to the production platform too, and the
     // ivp_notrack cookie can't be set on *.vercel.app, so anything outside production
     // is always a test.
-    test: body.test === true || process.env.VERCEL_ENV !== 'production',
+    test: body.test === true || !isProduction(host),
     client_ts: clean(body.client_ts, 40),
   };
 }
@@ -87,7 +94,7 @@ module.exports = async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     if (JSON.stringify(body).length > MAX_BODY) return res.status(204).end();
 
-    const payload = buildPayload(body);
+    const payload = buildPayload(body, req.headers.host);
     const secret = process.env.SITE_BOOKING_RELAY_SECRET;
     if (!payload) return res.status(204).end();
     if (!secret) {

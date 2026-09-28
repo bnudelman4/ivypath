@@ -287,7 +287,9 @@ ${consultingSteps}
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.RESEND_API_KEY },
             body: JSON.stringify({
-              from: 'IvyPath Academy <noreply@ivypathacademy.com>',
+              // Only the noreply. subdomain is verified in Resend; the bare root domain is
+              // rejected, which is why no booking confirmation ever went out (checked 2026-09-28).
+              from: 'IvyPath Academy <hello@noreply.ivypathacademy.com>',
               to: email,
               subject: `Your ${label} is booked — ${formattedDate} at ${time} ET`,
               html: html,

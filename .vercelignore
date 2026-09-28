@@ -1,0 +1,11 @@
+# Internal files that must never be served from ivypathacademy.com.
+# The site deploys with outputDirectory "." (static, no build), so every
+# uploaded file becomes a public URL. Until 2026-09-28 these returned 200:
+# /PRODUCT.md, /DESIGN.md, /docs/..., /server/server.js, /.githooks/pre-push.
+docs/
+tests/
+server/
+.githooks/
+PRODUCT.md
+DESIGN.md
+playwright.config.js

@@ -197,7 +197,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
                 <div class="form-group">
                   <label for="leadPhone">Mobile Phone</label>
                   <input type="tel" id="leadPhone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" required aria-required="true" aria-describedby="leadPhoneHint">
-                  <p class="form-hint" id="leadPhoneHint">Mobile, so we can text your Meet link and a reminder.</p>
+                  <p class="form-hint" id="leadPhoneHint">Mobile, so we can reach you about your consultation, or help you pick a time if you don't finish.</p>
                 </div>
                 <div class="form-group">
                   <label for="leadHeard">How did you hear about IvyPath? <span class="form-optional">(optional)</span></label>
@@ -539,6 +539,39 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       }
     }
 
+    // Step 1 reaches a server even if no slot is booked: /api/booking-started relays
+    // the contact to the platform, which alerts Vicente if no booking follows within
+    // 60 minutes. Fire-and-forget, once per distinct contact; never blocks step 2.
+    let lastRelayed = '';
+    function relayStepOne() {
+      try {
+        const key = lead.email + '|' + lead.phone;
+        if (key === lastRelayed) return;
+        lastRelayed = key;
+        const params = new URLSearchParams(window.location.search);
+        const exam = params.get('exam');
+        const hf = document.getElementById('leadHeard');
+        fetch('/api/booking-started', {
+          method: 'POST',
+          keepalive: true,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: lead.name,
+            email: lead.email,
+            phone: lead.phone,
+            exam: exam === 'shsat' || exam === 'sat' ? exam : '',
+            page: '/book.html',
+            heard_from: hf && hf.value ? hf.value : '',
+            attribution: window.ivpAttribution ? window.ivpAttribution() : {},
+            test: window.__ivpNoTrack === 1 || params.get('notrack') === '1' || document.cookie.indexOf('ivp_notrack=1') > -1,
+            client_ts: new Date().toISOString()
+          })
+        }).catch(function () {});
+      } catch (e) {
+        // Never let the relay break the booking flow.
+      }
+    }
+
     // ----- Step 1 -> Step 2: validate contact, fire lead, reveal calendar -----
     contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -568,6 +601,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       // Fire the lead signal the moment all three fields are valid (before calendar).
       fireLeadSignal();
+      relayStepOne();
 
       // Calendly owns scheduling when configured; the built-in calendar is the fallback.
       if (CALENDLY_URL) {

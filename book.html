@@ -485,7 +485,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           if (sub) sub.textContent = 'A free 15-minute call about your student’s SHSAT plan, with a tutor who went to Stuyvesant.';
 
           // Lead with the Stuyvesant card: hide the SAT 1370 to 1500 card, unless it is hidden already.
-          var satImg = document.querySelector('img[src*="parent-text-1370-1500"]');
+          var satImg = document.querySelector('img[src*="parent-text-1370"]');
           var satCard = satImg && satImg.closest ? satImg.closest('.book-outcome-card') : null;
           var hidSat = false;
           if (satCard && satCard.style.display !== 'none') { satCard.style.display = 'none'; hidSat = true; }

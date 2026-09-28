@@ -1307,7 +1307,7 @@ test.describe('flow 10: booking handoff', () => {
     await page.waitForURL(/\/book\.html$/);
     await expectPrefilled(page, h.person);
     await expect(page.locator('#leadPhoneHint')).toHaveText('Mobile, so we can reach you if anything changes.');
-    await expect(page.locator('img[src*="parent-text-1370-1500"]')).toBeHidden();
+    await expect(page.locator('img[src*="parent-text-1370"]')).toBeHidden();
     const clicked = gaEvents(h, '/shsat/quiz');
     expect(clicked.filter((e) => e.name === 'consultation_clicked').map((e) => e.params)).toEqual([{ source: 'shsat_quiz', band: 'final_weeks_baseline' }]);
     expect(clicked.some((e) => e.name === 'cta_click' && e.params.cta_type === 'consultation')).toBe(true);
@@ -1341,7 +1341,7 @@ test.describe('flow 10: booking handoff', () => {
     await expect(page.locator('#leadPhone')).toHaveValue('');
     await expect(page.locator('#quizHandoffNote')).toHaveCount(0);
     await expect(page.locator('.book-hero-subtitle')).toHaveText("A 15-minute, no-pressure call to discuss your child's academic goals and learn how IvyPath can help.");
-    await expect(page.locator('img[src*="parent-text-1370-1500"]')).toBeVisible();
+    await expect(page.locator('img[src*="parent-text-1370"]')).toBeVisible();
     expect(await page.evaluate(() => sessionStorage.getItem('ivp_quiz_handoff'))).toBe(null);
     expect(await page.evaluate(() => window.__ivpQuizHandoff())).toBe(null);
   });

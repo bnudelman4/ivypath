@@ -1727,7 +1727,7 @@ Write sessionStorage `ivp_quiz_handoff` as soon as the gate passes client valida
    - On `DOMContentLoaded`, read `ivp_quiz_handoff`. If it parses and `Date.now() - saved_at < 24h`:
      - Prefill `#leadName`, `#leadEmail` and `#leadPhone`, but only fields that are empty. The phone is formatted by a 3-line inline E.164 to `(xxx) xxx-xxxx` formatter (book.html does not load the logic file).
      - Change `.book-hero-subtitle` to "A free 15-minute call about your student's SHSAT plan, with a tutor who went to Stuyvesant."
-     - Hide the SAT 1370 to 1500 outcome card (the container of `parent-text-1370-1500.jpg`), so the Stuyvesant card leads.
+     - Hide the SAT 1370 to 1500 outcome card (the container of the `parent-text-1370…` image; PR #45 renames it to `parent-text-1370-to-1500.jpg`, so match on the `parent-text-1370` prefix), so the Stuyvesant card leads.
      - Insert above the form: `<p class="form-hint" id="quizHandoffNote">We'll bring your SHSAT plan answers to the consultation. <button type="button" id="quizHandoffClear" class="link-button">Not you? Clear</button></p>`
    - "Clear" empties the three fields, removes the key and the note, restores the subtitle and the SAT card, and **moves focus to `#leadName`**.
    - Expose `window.__ivpQuizHandoff = function () { return valid ? { version: 1, quiz_id, grade, targets, prep, practice_test, worry, band } : null; }`.

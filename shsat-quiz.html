@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>(function(){try{var s=location.search||'';if(s.indexOf('notrack=1')>-1){document.cookie='ivp_notrack=1; domain=.ivypathacademy.com; path=/; max-age=63072000; samesite=lax';}else if(s.indexOf('notrack=0')>-1){document.cookie='ivp_notrack=; domain=.ivypathacademy.com; path=/; max-age=0; samesite=lax';}if(document.cookie.indexOf('ivp_notrack=1')>-1){window.fbq=function(){};window['ga-disable-G-EW2RB4F5JB']=true;window.__ivpNoTrack=1;}}catch(e){}})();</script>
+  <script>
+    /* /shsat/quiz head script (spec 1.5): the js class, one canonical path for
+       ivp_lp and the link decorators, and a catcher for a Start tap that lands
+       before the controller is ready (shsat-quiz.js replays it). */
+    document.documentElement.className += ' js';
+    (function () {
+      try { if (location.pathname !== '/shsat/quiz') history.replaceState(null, '', '/shsat/quiz' + location.search + location.hash); } catch (e) {}
+      try {
+        document.addEventListener('click', function (e) {
+          if (window.IVP_QUIZ_READY) return;
+          var t = e.target;
+          if (t && t.closest && t.closest('#startBtn')) window.__ivpEarlyStart = 1;
+        }, true);
+      } catch (e) {}
+    })();
+  </script>
+  <title>2-Minute SHSAT Plan for Parents | IvyPath Academy</title>
+  <meta name="description" content="Answer six quick questions and get a clear SHSAT plan for your student: the dates that matter, where to start, and what to focus on first.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="A 2-minute SHSAT plan for parents | IvyPath Academy">
+  <meta property="og:description" content="Six quick questions and a clear SHSAT plan for your student: the dates that matter, where to start, and what to focus on first.">
+  <!-- og:image (https://www.ivypathacademy.com/assets/ivypath-shsat-vsl-poster.jpg) is added only after the poster frame check in spec 9.1. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Tokens: shsat-diagnostic.html:29-44, plus --gold-label (consulting.html:34). */
+    :root {
+      --sage: #4A7C59;
+      --sage-deep: #3A6347;
+      --forest: #1E4D38;
+      --forest-deep: #16382A;
+      --gold: #C5A572;
+      --gold-deep: #A8854E;
+      --cream: #FDF8F0;
+      --ink: #1F2B23;
+      --muted: #5C6B60;
+      --line: #E4DECF;
+      --white: #ffffff;
+      --cream-on-dark: rgba(253,248,240,0.9);
+      --display: 'Lora', Georgia, serif;
+      --body: 'Instrument Sans', system-ui, sans-serif;
+      --gold-label: #8F6B37;
+      --error: #B3261E;
+      /* Input borders: 3.1:1 on white, so the field edge meets WCAG 1.4.11 (--line is 1.3:1). */
+      --field-line: #8A948C;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--body);
+      font-size: 16px;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; }
+    img, video { max-width: 100%; height: auto; display: block; }
+    h1, h2, h3 { text-wrap: balance; }
+    button, input { font: inherit; }
+    [hidden] { display: none !important; }
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Focus (spec 4.2: A4) */
+    :focus-visible { outline: 2px solid var(--sage-deep); outline-offset: 2px; }
+    .top-bar :focus-visible, .next-step :focus-visible, .disclaimer-section :focus-visible, .site-footer :focus-visible { outline-color: var(--cream); }
+
+    /* ---------- TOP BAR ---------- */
+    .top-bar { background: var(--forest-deep); min-height: 56px; }
+    .top-bar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 56px;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .top-logo { width: 60px; height: 32px; }
+    .top-phone {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 4px;
+      font-size: 14px;
+      color: rgba(253,248,240,0.75);
+      text-decoration: none;
+    }
+    .top-phone:hover { color: var(--cream); }
+    .zh-line { max-width: 720px; margin: 0 auto; padding: 0 16px 8px; font-size: 14px; }
+    .zh-line a { display: inline-flex; align-items: center; min-height: 44px; color: var(--cream-on-dark); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ---------- SHELL ---------- */
+    .quiz-shell { flex: 1 0 auto; width: 100%; max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+    .quiz-shell.is-results { max-width: 720px; }
+
+    .book-progress { height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; margin-bottom: 18px; }
+    .book-progress span { display: block; height: 100%; width: 0; background: var(--gold); border-radius: 999px; transition: width 0.35s ease; }
+
+    .eyebrow {
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-label);
+      margin-bottom: 14px;
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      font-family: var(--body);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--white);
+      background: var(--sage);
+      padding: 16px 40px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--sage-deep); }
+    .btn-primary[aria-disabled="true"] { cursor: progress; }
+    .next-step .btn-primary { color: var(--forest-deep); background: var(--gold); }
+    .next-step .btn-primary:hover { background: #D4B683; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      font-family: var(--body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.3;
+      color: var(--sage-deep);
+      background: transparent;
+      padding: 14px 32px;
+      border: 1px solid var(--sage);
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { background: var(--sage); color: var(--white); }
+    .btn-secondary[aria-disabled="true"] { cursor: progress; }
+
+    .text-btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 0;
+      font-family: var(--body);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      color: var(--sage-deep);
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--sage-deep);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .q-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 10px 12px 10px 0;
+      font-family: var(--body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--sage-deep);
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    /* ---------- INTRO ---------- */
+    .intro-title {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(28px, 6.5vw, 40px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    .intro-sub { font-size: 16px; color: var(--muted); }
+    .intro-disclosure { font-size: 16px; color: var(--ink); margin: 16px 0 24px; }
+    .intro-honesty { font-size: 14px; color: var(--muted); margin-top: 20px; }
+    .intro-date { font-size: 14px; color: var(--ink); margin-top: 12px; }
+    .intro-trust { display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 1.5; color: var(--ink); margin-top: 20px; }
+    html:not(.js) #startBtn { display: none; }
+
+    .avatars { display: inline-flex; flex: none; }
+    .avatars img { border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 2px solid var(--cream); background: var(--line); }
+    .avatars img + img { margin-left: -8px; }
+    .sendlink-card .avatars img { border-color: var(--white); }
+
+    .fallback-block { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 0 0 24px; font-size: 16px; }
+    .fallback-block a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ---------- CARDS AND QUESTIONS ---------- */
+    .sendlink-card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .cal-step-label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-label); margin-bottom: 10px; }
+    .q-title { font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.3; color: var(--ink); margin: 2px 0 16px; }
+    .q-hint { font-size: 14px; color: var(--muted); margin: -8px 0 16px; }
+    .choice-list { display: grid; gap: 8px; }
+    .choice-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 52px;
+      text-align: left;
+      font-family: var(--body);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .choice-chip:hover { border-color: var(--sage); }
+    .choice-chip[aria-pressed="true"] { border: 2px solid var(--sage); background: #EDF3EE; padding: 13px 15px; }
+    .chip-radio, .chip-check {
+      position: relative;
+      flex: none;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--muted);
+      background: var(--white);
+    }
+    .chip-radio { border-radius: 50%; }
+    .chip-check { border-radius: 4px; }
+    .chip-check svg { display: none; width: 100%; height: 100%; }
+    .chip-check path { fill: none; stroke: var(--white); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .choice-chip[aria-pressed="true"] .chip-radio { border-color: var(--sage); }
+    .choice-chip[aria-pressed="true"] .chip-radio::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 8px; height: 8px;
+      margin: -4px 0 0 -4px;
+      border-radius: 50%;
+      background: var(--sage);
+    }
+    .choice-chip[aria-pressed="true"] .chip-check { background: var(--sage); border-color: var(--sage); }
+    .choice-chip[aria-pressed="true"] .chip-check svg { display: block; }
+    .q-error { font-size: 14px; color: var(--error); margin-top: 10px; }
+    .q-error:empty { margin: 0; }
+    .q-continue { margin-top: 20px; }
+
+    .q-panel.q-anim { animation: qIn 0.32s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes qIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (forced-colors: active) {
+      .top-bar { forced-color-adjust: none; } /* keeps the white logo on its dark strip */
+      .choice-chip[aria-pressed="true"] { border: 3px solid Highlight; padding: 12px 14px; }
+      .chip-radio, .chip-check { forced-color-adjust: none; border-color: CanvasText; background: Canvas; }
+      .choice-chip[aria-pressed="true"] .chip-radio { border-color: CanvasText; }
+      .choice-chip[aria-pressed="true"] .chip-radio::after { background: Highlight; }
+      .choice-chip[aria-pressed="true"] .chip-check { background: Highlight; border-color: Highlight; }
+      .chip-check path { stroke: HighlightText; }
+    }
+
+    /* ---------- EXIT ---------- */
+    .screen-title { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--ink); margin-bottom: 10px; }
+    .exit-body { font-size: 16px; color: var(--muted); margin-bottom: 20px; }
+    .exit-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .share-status { font-size: 15px; color: var(--ink); margin-top: 12px; }
+    .share-manual { margin-top: 12px; }
+    .exit-back { margin-top: 12px; }
+
+    /* ---------- GATE ---------- */
+    .gate-sub { font-size: 16px; color: var(--muted); margin: -8px 0 16px; }
+    .plan-preview { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+    .preview-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-label); }
+    .preview-band { font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1.35; color: var(--ink); margin: 4px 0; }
+    .preview-line { font-size: 15px; color: var(--muted); }
+    .proof-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-bottom: 24px; }
+    .proof-tutors { display: flex; align-items: center; gap: 12px; flex: 1 1 240px; font-size: 14px; line-height: 1.5; color: var(--ink); }
+    .proof-offer { display: flex; align-items: center; gap: 12px; flex: 1 1 200px; }
+    .proof-offer img { flex: none; width: 56px; height: auto; border: 1px solid var(--line); border-radius: 4px; }
+    .proof-offer figcaption { font-size: 14px; line-height: 1.5; color: var(--ink); }
+    .proof-fine { flex: 1 1 100%; font-size: 13px; color: var(--muted); }
+
+    .field { margin-bottom: 20px; }
+    .sendlink-hp { position: absolute; left: -9999px; }
+    .sendlink-label { display: block; margin-bottom: 6px; font-family: var(--body); font-size: 15px; font-weight: 600; color: var(--ink); }
+    .sendlink-optional { font-weight: 400; color: var(--muted); }
+    /* 16px keeps iOS from zooming the page on focus. */
+    .sendlink-input {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--field-line);
+      border-radius: 4px;
+      font-family: var(--body);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--white);
+      transition: border-color 0.15s;
+    }
+    .sendlink-input:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,89,0.15); }
+    .sendlink-input:focus-visible { outline: 2px solid var(--sage-deep); outline-offset: 2px; }
+    .sendlink-input[aria-invalid="true"] { border-color: var(--error); }
+    .sendlink-help { display: block; margin-top: 6px; font-size: 13px; font-weight: 400; line-height: 1.5; color: var(--muted); }
+    .field-error { font-size: 14px; color: var(--error); margin-top: 6px; }
+    .field-error:empty { display: none; }
+    .sendlink-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 44px;
+      padding: 4px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .sendlink-consent input { width: 20px; height: 20px; margin: 2px 0 0; flex: none; accent-color: var(--sage); }
+    .sendlink-submit { width: 100%; }
+
+    /* The gate's single role="alert" summary: always rendered (spec 4.2). */
+    .quiz-alert {
+      margin: 16px 0;
+      padding: 12px 14px;
+      border: 1px solid #E7B9B5;
+      border-left: 3px solid var(--error);
+      border-radius: 4px;
+      background: #FDF1F0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--error);
+    }
+    .quiz-alert:empty { padding: 0; border: 0; margin: 0; }
+
+    .gate-rescue { margin-top: 12px; }
+    .rescue-call { font-size: 15px; color: var(--ink); }
+    .under-btn { margin-top: 14px; font-size: 13px; line-height: 1.55; color: var(--muted); }
+    .under-btn a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
+    .gate-back { margin-top: 12px; }
+
+    .texter-card { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 14px; line-height: 1.5; color: var(--ink); }
+    .texter-photo { flex: none; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+    .next-step .texter-card { color: var(--cream-on-dark); }
+
+    /* ---------- RESULTS ---------- */
+    .plan-header { display: flex; flex-direction: column; }
+    .res-eyebrow { order: -1; }
+    .res-title {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(28px, 6.5vw, 40px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .plan-type { font-size: 18px; font-weight: 600; line-height: 1.4; color: var(--ink); margin-bottom: 8px; }
+    .plan-summary { font-size: 16px; color: var(--ink); }
+    .plan-note { font-size: 14px; color: var(--muted); border-left: 2px solid var(--sage); padding-left: 12px; margin-top: 14px; }
+    .plan-copy-status { font-size: 14px; color: var(--ink); margin-top: 12px; overflow-wrap: anywhere; }
+    .plan-copy-status:empty { margin: 0; }
+    .schools-line { font-size: 15px; color: var(--muted); margin: 20px 0 28px; }
+
+    .next-step { background: var(--forest-deep); color: var(--cream-on-dark); border-radius: 12px; padding: 28px 24px; margin-bottom: 44px; }
+    .next-step h2 { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--cream); margin-bottom: 10px; }
+    .next-step p { font-size: 16px; }
+    .next-step a { color: var(--cream); text-decoration: underline; text-underline-offset: 3px; }
+    .next-step .btn-primary { margin-top: 20px; text-decoration: none; }
+    .reassurance { margin-top: 14px; font-size: 13px; color: rgba(253,248,240,0.7); }
+    .next-step .reassurance { font-size: 13px; }
+    .text-note { margin-top: 16px; }
+    .call-line { margin-top: 12px; }
+
+    .res-block { margin-bottom: 44px; }
+    .res-h2 { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--ink); margin-bottom: 16px; }
+    .week-plan { list-style: none; border-top: 1px solid var(--line); }
+    .week-plan li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .week-plan strong { display: block; font-weight: 600; color: var(--ink); }
+    .week-plan span { display: block; color: var(--muted); }
+
+    .takeaways { list-style: none; display: grid; gap: 28px; }
+    .takeaway { border-top: 2px solid var(--gold); padding-top: 20px; }
+    .takeaway h3 { font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.35; color: var(--ink); margin-bottom: 8px; }
+    .takeaway-n { font-family: var(--display); font-weight: 600; color: var(--gold-label); margin-right: 10px; }
+    .takeaway p { font-size: 16px; line-height: 1.65; color: var(--muted); }
+    .takeaway .doe-line { font-size: 14px; margin-top: 10px; }
+    .takeaway a { color: var(--sage-deep); text-decoration: underline; text-underline-offset: 2px; }
+
+    .diag-card { margin-bottom: 44px; }
+    .diag-body { font-size: 15px; color: var(--muted); margin-bottom: 20px; }
+    .diag-card .sendlink-help { margin-bottom: 4px; }
+    .diag-submit { width: 100%; margin-top: 16px; }
+    .diag-success { font-size: 16px; color: var(--ink); overflow-wrap: anywhere; }
+    .diag-g9 { font-size: 16px; color: var(--ink); }
+    .diag-fallback { margin-top: 8px; }
+
+    .vsl { margin: 0; }
+    .vsl video { width: 100%; border-radius: 12px; background: var(--forest-deep); }
+    .vsl figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .vsl-transcript { margin-top: 12px; font-size: 15px; color: var(--muted); }
+    .vsl-transcript summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--sage-deep); }
+    .vsl-block { margin-bottom: 44px; }
+
+    .proof-grid { display: grid; gap: 24px; }
+    .proof-item { border-top: 2px solid var(--gold); padding-top: 20px; }
+    .proof-item h3 { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); margin-bottom: 8px; }
+    .proof-item p { font-size: 15px; line-height: 1.6; color: var(--muted); }
+    .mini-cards { list-style: none; display: grid; gap: 12px; margin-top: 14px; }
+    .mini-card { display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+    .mini-card img { flex: none; width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; background: var(--line); }
+    .mini-card strong { display: block; color: var(--ink); font-weight: 600; }
+    .offer-shot { width: 100%; max-width: 280px; margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); }
+    .trust .proof-fine { margin-top: 16px; }
+
+    .save-block { margin-bottom: 8px; }
+    .save-help { font-size: 14px; color: var(--muted); }
+    .print-only { display: none; }
+
+    /* ---------- DISCLAIMER + FOOTER (dark) ---------- */
+    .page-footer { background: var(--forest-deep); }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+    .disclaimer-section { background: var(--forest-deep); padding: 36px 0 8px; }
+    .disclaimer-section p, .site-footer p { color: rgba(253,248,240,0.7); font-size: 13px; line-height: 1.6; }
+    .disclaimer-section p + p { margin-top: 12px; }
+    .site-footer { background: var(--forest-deep); padding: 24px 0 32px; }
+    .site-footer a, .disclaimer-section a { color: var(--cream-on-dark); text-decoration: underline; }
+
+    @media (max-width: 639px) {
+      .btn-primary { width: 100%; padding: 16px 24px; }
+      .btn-secondary { width: 100%; padding: 14px 24px; }
+    }
+
+    @media (min-width: 640px) {
+      .quiz-shell { padding: 32px 24px; }
+      .sendlink-card { padding: 32px; }
+      .q-title { font-size: 24px; }
+      .choice-list.is-multi { grid-template-columns: 1fr 1fr; }
+      .proof-grid { grid-template-columns: 1fr 1fr; }
+      .week-plan li { display: grid; grid-template-columns: 180px 1fr; gap: 16px; }
+      .next-step { padding: 32px; }
+      .diag-submit { width: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .q-panel.q-anim { animation: none; }
+      .book-progress span { transition: none; }
+      .btn-primary, .btn-secondary, .choice-chip, .sendlink-input { transition: none; }
+    }
+
+    @media print {
+      * { opacity: 1 !important; transform: none !important; animation: none !important; }
+      .next-step, .disclaimer-section, .site-footer { color: #000 !important; background: none !important; }
+      body { background: #fff; }
+      .page-footer { background: none; }
+      .disclaimer-section p, .site-footer p, .next-step p, .next-step h2, .next-step a,
+      .disclaimer-section a, .site-footer a { color: #000 !important; }
+      .top-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .top-phone, .zh-line, form, button, .btn-primary, .btn-secondary, .text-link,
+      .book-progress, .avatars, .mini-card img, .offer-shot, .texter-card,
+      #resDiag, #resVslSlot, .save-block, .reassurance { display: none !important; }
+      .print-only { display: block !important; margin-top: 16px; }
+      .quiz-shell { max-width: none; padding: 16px 0; }
+      .next-step { padding: 0; margin-bottom: 24px; }
+      .res-block, .takeaway { break-inside: avoid; }
+    }
+  </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+try { if (sessionStorage.getItem('ivp_minor') === '1') fbq('consent','revoke'); } catch (e) {}
+fbq('set', 'autoConfig', false, '1550873539731081');
+fbq('init', '1550873539731081');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', {content_name: 'SHSAT Plan Landing'});
+</script>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1550873539731081&amp;ev=PageView&amp;noscript=1"></noscript>
+
+<header class="top-bar">
+  <div class="top-bar-inner">
+    <img class="top-logo" src="/assets/logo-white-120.png" width="60" height="32" alt="IvyPath Academy">
+    <a href="tel:+19293940349" class="top-phone">(929) 394-0349</a>
+  </div>
+  <!-- ZH_TEXTS (spec 2.10 a). Shown only when the flag is on and a native speaker has approved the wording. -->
+  <p class="zh-line" id="zhLine" lang="zh-Hans" hidden><a href="/cn-book.html">需要中文服务？可以预约中文咨询。</a></p>
+</header>
+
+<main class="quiz-shell" id="quizMain">
+  <div class="book-progress" id="quizProgress" aria-hidden="true"><span></span></div>
+
+  <noscript>
+    <div class="fallback-block">
+      <p>This page needs JavaScript to build your plan. You can <a href="/book.html">book a free 15-minute consultation</a> or call or text (929) 394-0349.</p>
+    </div>
+  </noscript>
+  <div class="fallback-block" id="fallback" hidden>
+    <p>This page needs JavaScript to build your plan. You can <a href="/book.html">book a free 15-minute consultation</a> or call or text (929) 394-0349.</p>
+  </div>
+
+  <!-- ===== Intro (spec 2.2) ===== -->
+  <section class="screen" id="scrIntro">
+    <p class="eyebrow">SHSAT plan for parents</p>
+    <h1 class="intro-title" id="introTitle" tabindex="-1">Get a clear SHSAT plan for your student in 2 minutes</h1>
+    <p class="intro-sub">Six quick questions about grade, schools and prep so far. You&rsquo;ll see the dates that matter, where to start, and what to focus on first.</p>
+    <p class="intro-disclosure" id="introDisclosure">At the end, we&rsquo;ll ask for your name, email and mobile number. You&rsquo;ll see your plan right away, and Vicente from IvyPath may text you to go over it.</p>
+    <button type="button" class="btn-primary" id="startBtn">Start my plan <span aria-hidden="true">&rarr;</span></button>
+    <p class="intro-honesty">This is a plan built from your answers, not a score. The free 35-minute diagnostic gives an estimated score from your student&rsquo;s own work.</p>
+    <p class="intro-date" id="introDate" hidden></p>
+    <p class="intro-trust">
+      <span class="avatars" aria-hidden="true">
+        <img src="/assets/ben.JPG" width="32" height="32" alt="" loading="lazy" decoding="async">
+        <img src="/assets/edison-sq.jpg" width="32" height="32" alt="" loading="lazy" decoding="async">
+      </span>
+      <span>Built with SHSAT tutors who are Stuyvesant &rsquo;24 graduates, now at Cornell and Princeton.</span>
+    </p>
+  </section>
+
+  <!-- ===== Questions (spec 2.3). One panel, rendered per question by shsat-quiz.js from IVP_QUIZ.QUESTIONS. ===== -->
+  <section class="screen" id="scrQuestion" hidden>
+    <div class="sendlink-card">
+      <button type="button" class="q-back" id="qBack"><span aria-hidden="true">&larr;</span> Back</button>
+      <div class="q-panel" id="qPanel">
+        <p class="cal-step-label" id="qStep" aria-hidden="true">Question 1 of 6</p>
+        <h2 class="q-title" id="qTitle" tabindex="-1"><span class="sr-only" id="qTitleSr">Question 1 of 6: </span><span id="qTitleText"></span></h2>
+        <p class="q-hint" id="qHint" hidden></p>
+        <p class="sr-only" id="qAutoHint">Choosing an answer moves to the next question.</p>
+        <div class="choice-list" id="qChoices" role="group" aria-labelledby="qTitle"></div>
+        <p class="q-error" id="qError" role="alert"></p>
+        <button type="button" class="btn-primary q-continue" id="qContinue" hidden>Continue <span aria-hidden="true">&rarr;</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Student exit (spec 2.4) ===== -->
+  <section class="screen" id="scrExit" hidden>
+    <div class="sendlink-card">
+      <h2 class="screen-title" id="exitTitle" tabindex="-1">This page is written for parents</h2>
+      <p class="exit-body">It asks about plans and schedules a parent usually decides. Here are two good next steps.</p>
+      <div class="exit-actions">
+        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-primary js-diagnostic-cta" id="exitDiag" data-exam="SHSAT" data-placement="student_exit">Take the free 35-minute diagnostic <span aria-hidden="true">&rarr;</span></a>
+        <button type="button" class="btn-secondary" id="shareBtn">Share this with a parent</button>
+      </div>
+      <p class="share-status" id="shareStatus" hidden>Link copied. Send it to a parent.</p>
+      <div class="share-manual" id="shareManual" hidden>
+        <input type="text" class="sendlink-input" id="shareUrl" readonly aria-label="Link to share with a parent">
+      </div>
+      <button type="button" class="q-back exit-back" id="exitBack">I&rsquo;m a parent, go back</button>
+    </div>
+  </section>
+
+  <!-- ===== Gate (spec 2.5) ===== -->
+  <section class="screen" id="scrGate" hidden>
+    <div class="sendlink-card">
+      <p class="cal-step-label">Last step</p>
+      <h2 class="q-title" id="gateTitle" tabindex="-1">Where can we reach you?</h2>
+      <p class="gate-sub" id="gateSub">Your plan is ready. We&rsquo;ll show it right away.</p>
+
+      <div class="plan-preview" role="group" aria-label="Plan preview">
+        <p class="preview-eyebrow" id="pvEyebrow"></p>
+        <p class="preview-band" id="pvBand"></p>
+        <p class="preview-line" id="pvLine"></p>
+      </div>
+
+      <div class="proof-row">
+        <div class="proof-tutors">
+          <span class="avatars" aria-hidden="true">
+            <img src="/assets/ben.JPG" width="40" height="40" alt="" loading="lazy" decoding="async">
+            <img src="/assets/edison-sq.jpg" width="40" height="40" alt="" loading="lazy" decoding="async">
+          </span>
+          <p>Our SHSAT tutors are Stuyvesant &rsquo;24 graduates, now at Cornell and Princeton.</p>
+        </div>
+        <figure class="proof-offer">
+          <img src="/assets/reviews/stuyvesant-offer-thumb.jpg" width="56" height="60" loading="lazy" decoding="async" alt="NYC MySchools screenshot: an SHSAT score of 606 and a Stuyvesant offer">
+          <figcaption>A real Stuyvesant offer, SHSAT 606</figcaption>
+        </figure>
+        <p class="proof-fine">Tutor credentials reflect schools individual tutors have attended.</p>
+      </div>
+
+      <form id="gateForm" novalidate>
+        <input name="ivp_hp_x" class="sendlink-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="field">
+          <label class="sendlink-label" for="gName">Your name (parent or guardian)</label>
+          <input class="sendlink-input" id="gName" type="text" name="parent_name" autocomplete="name" autocapitalize="words" required>
+          <p class="field-error" id="gNameErr"></p>
+        </div>
+
+        <div class="field">
+          <label class="sendlink-label" for="gPhone">Mobile number</label>
+          <input class="sendlink-input" id="gPhone" type="tel" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="gPhoneHelp">
+          <p class="field-error" id="gPhoneErr"></p>
+          <p class="sendlink-help" id="gPhoneHelp">US mobile, for example (917) 555-0142. Vicente from IvyPath texts you himself, never before 8 AM or after 8:30 PM ET.</p>
+          <div class="texter-card" id="gateTexter" hidden>
+            <img class="texter-photo" width="32" height="32" alt="" loading="lazy" decoding="async">
+            <p class="texter-line"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="sendlink-label" for="gEmail">Email</label>
+          <input class="sendlink-input" id="gEmail" type="email" name="parent_email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required aria-describedby="gEmailHelp">
+          <p class="field-error" id="gEmailErr"></p>
+          <p class="sendlink-help" id="gEmailHelp">So we can reach you if a text doesn&rsquo;t get through, and to send the diagnostic link if you ask for it.</p>
+        </div>
+
+        <div class="field">
+          <label class="sendlink-consent" for="gConsent">
+            <input type="checkbox" id="gConsent" name="consent" required>
+            <span id="gConsentText">IvyPath Academy (Perevalis Tutoring LLC) may text and email me about my student&rsquo;s SHSAT plan. Texts come from a person at IvyPath, not an automated system, and there will only be a few. Reply STOP to opt out. Message and data rates may apply. Agreeing isn&rsquo;t required to book a consultation or enroll.</span>
+          </label>
+          <p class="field-error" id="gConsentErr"></p>
+        </div>
+
+        <p class="quiz-alert" id="gateAlert" role="alert"></p>
+        <button type="submit" class="btn-primary sendlink-submit" id="gateSubmit">Show my plan</button>
+        <div class="gate-rescue" id="gateRescue" hidden>
+          <button type="button" class="text-btn" id="showAnyway">Show my plan anyway</button>
+          <p id="rescueSms" hidden><a href="sms:+19293940349" class="text-link" id="rescueSmsLink">Or text us yourself</a></p>
+          <p class="rescue-call" id="rescueCall" hidden>Or call or text (929) 394-0349.</p>
+        </div>
+        <p class="under-btn">We use your details to follow up about your student&rsquo;s SHSAT prep, and we never sell them. <a href="/privacy.html" target="_blank" rel="noopener">Privacy policy</a> (opens in a new tab). Prefer to talk first? Call (929) 394-0349.</p>
+      </form>
+
+      <button type="button" class="q-back gate-back" id="gateBack"><span aria-hidden="true">&larr;</span> Back</button>
+    </div>
+  </section>
+
+  <!-- ===== Results (spec 2.6) ===== -->
+  <section class="screen" id="scrResults" hidden>
+    <div class="plan-header">
+      <h1 class="res-title" id="resTitle" tabindex="-1">Your student&rsquo;s SHSAT plan</h1>
+      <p class="eyebrow res-eyebrow" id="resEyebrow"></p>
+      <p class="plan-type" id="resBand"></p>
+      <p class="plan-summary" id="resSummary"></p>
+      <p class="plan-note">Built from your answers: a plan, not a score or a measurement.</p>
+      <p class="plan-copy-status" id="resCopyStatus" role="status"></p>
+    </div>
+
+    <p class="schools-line" id="resSchools"></p>
+
+    <section class="next-step">
+      <h2>What happens next</h2>
+      <p>Book a free 15-minute consultation with an IvyPath tutor who went to Stuyvesant. We&rsquo;ll go over what you&rsquo;ve seen so far, what to work on first, and a recommendation only if it fits. We&rsquo;ll also walk you through the options and the investment, so you can compare. No pressure either way.</p>
+      <a href="/book.html" class="btn-primary js-quiz-consult" id="consultBtn">Book a free 15-minute consultation <span aria-hidden="true">&rarr;</span></a>
+      <p class="reassurance">Free &middot; 15 minutes on Google Meet &middot; English or <span lang="zh-Hans">中文</span> &middot; <a href="/cn-book.html" lang="zh-Hans">中文预约</a></p>
+      <p class="text-note" id="resTextNote" hidden></p>
+      <div class="texter-card" id="resTexter" hidden>
+        <img class="texter-photo" width="32" height="32" alt="" loading="lazy" decoding="async">
+        <p class="texter-line"></p>
+      </div>
+      <p class="call-line" id="resCallLine">Prefer to talk? <a href="tel:+19293940349">Call (929) 394-0349</a> after 9 AM ET.</p>
+    </section>
+
+    <section class="res-block" id="resWeek" hidden>
+      <h2 class="res-h2">Week by week</h2>
+      <ol class="week-plan" id="resWeekList"></ol>
+    </section>
+
+    <section class="res-block" id="resTakeaways" hidden>
+      <h2 class="res-h2">Three things to know</h2>
+      <ol class="takeaways" id="resTakeawayList"></ol>
+    </section>
+
+    <section class="sendlink-card diag-card" id="resDiag" hidden>
+      <h2 class="res-h2">Want an estimated score? The free 35-minute diagnostic</h2>
+      <p class="diag-body" id="diagBody">Your student takes it online, any time in the next 14 days. It gives an estimated score from your student&rsquo;s own answers, and the report is emailed to you when your student finishes.</p>
+      <form id="diagForm" novalidate hidden>
+        <label class="sendlink-label" for="dStudent">Student&rsquo;s email <span class="sendlink-optional">(optional)</span></label>
+        <input class="sendlink-input" id="dStudent" type="email" name="student_email" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="dStudentHelp">
+        <p class="sendlink-help" id="dStudentHelp">Leave blank and we&rsquo;ll send the link to you to forward. School accounts ending in @nycstudents.net can&rsquo;t receive it.</p>
+        <p class="quiz-alert" id="diagAlert" role="alert"></p>
+        <button type="submit" class="btn-secondary diag-submit" id="diagSubmit">Email the diagnostic link</button>
+        <p class="diag-fallback" id="diagFallback" hidden><a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="text-link js-diagnostic-cta" data-exam="SHSAT" data-placement="diag_error">Or start it here yourself <span aria-hidden="true">&rarr;</span></a></p>
+      </form>
+      <p class="diag-success" id="diagSuccess" tabindex="-1" hidden></p>
+      <p class="diag-g9" id="diagG9" hidden>For 9th graders, ask about the diagnostic on your free consultation.</p>
+      <p id="diagLink" hidden><a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="text-link js-diagnostic-cta" data-exam="SHSAT" data-placement="diag_link">Start the free diagnostic <span aria-hidden="true">&rarr;</span></a></p>
+    </section>
+
+    <!-- VSL (spec 2.6.8). SHOW_VSL is off (D6). The template is inert, so no video or poster is requested.
+         It renders only when SHOW_VSL is on AND the corrected transcript below is filled in (D6 condition b). -->
+    <div id="resVslSlot"></div>
+    <template id="vslTpl">
+      <div class="vsl-block">
+        <figure class="vsl">
+          <h2 class="res-h2">What the SHSAT actually takes</h2>
+          <video controls playsinline preload="none" poster="/assets/ivypath-shsat-vsl-poster-800.jpg" width="1280" height="720">
+            <source src="/assets/ivypath-shsat-vsl.mp4?v=3" type="video/mp4">
+          </video>
+          <figcaption>Benjamin &middot; Stuyvesant &rsquo;24 &middot; Cornell &rsquo;28 &middot; 1 min 21 s</figcaption>
+        </figure>
+        <details class="vsl-transcript">
+          <summary>Read the transcript</summary>
+          <div class="vsl-transcript-text"><!-- Paste the corrected narration here, including on-screen text, before turning SHOW_VSL on. --></div>
+        </details>
+      </div>
+    </template>
+
+    <section class="res-block trust" id="resTrust">
+      <h2 class="res-h2">Who your student would work with</h2>
+      <div class="proof-grid">
+        <div class="proof-item">
+          <h3>Stuyvesant graduates</h3>
+          <p>Our SHSAT tutors are Stuyvesant &rsquo;24 graduates, now at Cornell and Princeton.</p>
+          <ul class="mini-cards">
+            <li class="mini-card">
+              <img src="/assets/ben.JPG" width="48" height="48" alt="" loading="lazy" decoding="async">
+              <span><strong>Benjamin Nudelman</strong>Stuyvesant &rsquo;24 &middot; Cornell &rsquo;28</span>
+            </li>
+            <li class="mini-card">
+              <img src="/assets/edison-sq.jpg" width="48" height="48" alt="" loading="lazy" decoding="async">
+              <span><strong>Edison Zhu</strong>Stuyvesant &rsquo;24 &middot; Princeton &rsquo;28</span>
+            </li>
+          </ul>
+        </div>
+        <div class="proof-item">
+          <h3>A real result</h3>
+          <p>An IvyPath student&rsquo;s SHSAT score of 606 and an offer from Stuyvesant, on the official NYC MySchools portal, shared with permission. That was on the SHSAT before the fall 2026 format change. Individual results vary.</p>
+          <img class="offer-shot" src="/assets/reviews/stuyvesant-offer.jpg" width="735" height="780" loading="lazy" decoding="async" alt="NYC MySchools portal screenshot showing an SHSAT score of 606 and an offer from Stuyvesant High School">
+        </div>
+        <div class="proof-item">
+          <h3>Automated parent reports</h3>
+          <p>You get automated progress reports after sessions, so you can see what your student worked on.</p>
+        </div>
+        <div class="proof-item">
+          <h3>English and <span lang="zh-Hans">中文</span></h3>
+          <p>Consultations in English or Chinese.</p>
+        </div>
+      </div>
+      <p class="proof-fine">Tutor credentials reflect schools individual tutors have attended.</p>
+    </section>
+
+    <div class="save-block" id="resSave">
+      <button type="button" class="text-btn" id="printBtn">Save or print this plan</button>
+      <p class="save-help">Opens your device&rsquo;s print or save-as-PDF screen.</p>
+    </div>
+    <p class="print-only">Questions? Call or text (929) 394-0349.</p>
+  </section>
+
+  <p class="sr-only" id="quizStatus" aria-live="polite"></p>
+</main>
+
+<footer class="page-footer">
+  <div class="disclaimer-section" id="disclaimer" hidden>
+    <div class="wrap">
+      <p>This page builds a plan from your answers. It is not a score, a prediction, or an assessment of your student. Results shown reflect the experiences of individual IvyPath students and are not a guarantee of any particular score or admissions outcome. Individual results vary.</p>
+      <p>IvyPath Academy is not affiliated with or endorsed by Stuyvesant High School, the Bronx High School of Science, Brooklyn Technical High School, the other specialized high schools, the New York City Department of Education, or any university. Tutor credentials reflect schools individual tutors have attended.</p>
+    </div>
+  </div>
+  <div class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2026 IvyPath Academy. IvyPath Academy is the teaching brand of Perevalis Tutoring LLC, our registered New York State company, based in New York City. Contact: (929) 394-0349 &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Watchdog (spec 4.8): if the controller or the logic file fails to load or
+     run, or is not ready 8 s after load, show the #fallback block. */
+  (function () {
+    function fail() {
+      try {
+        var f = document.getElementById('fallback');
+        if (f) f.hidden = false;
+        var s = document.getElementById('startBtn');
+        if (s) s.hidden = true;
+      } catch (e) {}
+    }
+    window.__ivpQuizFail = fail;
+    window.addEventListener('load', function () {
+      setTimeout(function () { if (!window.IVP_QUIZ_READY) fail(); }, 8000);
+    });
+  })();
+</script>
+<script src="/tracking.js" defer></script>
+<script src="/school-email-guard.js?v=1" defer></script>
+<script src="/shsat-quiz-logic.js?v=1" defer onerror="window.__ivpQuizFail &amp;&amp; window.__ivpQuizFail()"></script>
+<script src="/shsat-quiz.js?v=1" defer onerror="window.__ivpQuizFail &amp;&amp; window.__ivpQuizFail()"></script>
+</body>
+</html>

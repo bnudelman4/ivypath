@@ -35,16 +35,17 @@
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + googleId;
     document.head.appendChild(s);
-    // No user-provided data to Google. The Google tag has "automatically detect
-    // user-provided data" on (automatic enhanced conversions): it hashes any email
-    // or phone typed into a form (book.html step 1, the diagnostic email gates)
-    // and attaches it to form_submit and conversion hits. Students, many of them
-    // minors, fill these forms too. Denying ad_user_data stops that data leaving
-    // the page; conversions and gclid attribution still work (ad_storage granted).
-    // Verified 2026-09-28 in a headless probe with all Google hits intercepted:
-    // before, form-data hits and the booking conversion carried em=<hash>; after,
-    // no form-data hits and the conversion fires with no em. Only the site's own
-    // defaults are set here; nothing asks visitors for consent.
+    // INTERIM (2026-09-28): no user-provided data to Google until the account-side
+    // switch is off. The Google tag has "automatically detect user-provided data" on
+    // (automatic enhanced conversions): it hashes any email typed into a form (book.html
+    // step 1, the diagnostic email gates, thank-you's #bookingEmail) and sends it with
+    // form_submit and conversion hits. Students, many of them minors, fill these forms.
+    // Denying ad_user_data stops that. The cost: gtag.js then stops writing the
+    // conversion-linker cookies (_gcl_aw, _gcl_au), so a gclid is only used for a
+    // conversion in the same tab as the ad click (via the Navigation API), not a later
+    // visit or a new tab, and remarketing pings stop. REMOVE this line once the tag
+    // setting "Include user-provided data from your website" is off in Google Ads
+    // (acct 992-977-3439), and remove the matching line in the platform's layout.tsx.
     gtag('consent', 'default', { ad_storage: 'granted', analytics_storage: 'granted', ad_personalization: 'granted', ad_user_data: 'denied' });
     gtag('js', new Date());
     if (configured(CFG.googleAdsId)) gtag('config', CFG.googleAdsId);

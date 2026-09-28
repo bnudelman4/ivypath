@@ -38,7 +38,7 @@
   display: block;
   text-align: center;
   font-size: 0.8rem;
-  color: var(--text-lighter, #999);
+  color: var(--text-light, #666);
   margin-top: -16px;
   margin-bottom: 16px;
 }

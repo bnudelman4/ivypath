@@ -220,13 +220,13 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     if (time) document.getElementById('bookingTime').textContent = time + ' ET';
     if (email) document.getElementById('bookingEmail').textContent = email;
     // A school student address (@nycstudents.net) can't receive the invite, so
-    // say we'll text the link instead. The guard script is deferred, so check
+    // say we'll phone with the link instead. The guard script is deferred, so check
     // once it has loaded.
     if (email) document.addEventListener('DOMContentLoaded', function () {
       try {
         if (!(window.ivpIsSchoolEmail && window.ivpIsSchoolEmail(email))) return;
-        document.getElementById('bookingEmailLine').textContent = 'School email accounts can\u2019t receive our emails, so we\u2019ll text your Google Meet link to the phone number you gave us.';
-        document.getElementById('nextStep1').textContent = 'Watch for a text with your Google Meet link';
+        document.getElementById('bookingEmailLine').textContent = 'Your booking is confirmed. School email accounts can\u2019t receive our emails, so we\u2019ll call the phone number you gave us to share your Google Meet link.';
+        document.getElementById('nextStep1').textContent = 'Watch for our phone call with your Google Meet link';
       } catch (e) {}
     });
     if (!date && !time && !email) {

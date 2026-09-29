@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
+  <link rel="stylesheet" href="testimonials-scroll.css">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -23,6 +24,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+fbq('set', 'autoConfig', false, '1550873539731081'); // no automatic advanced matching or auto events: forms here are also filled by students
 fbq('init', '1550873539731081');
 fbq('track', 'PageView');
 </script>
@@ -114,21 +116,57 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </div>
   </section>
 
-  <!-- Section 2: Results Screenshots Gallery -->
+  <!-- Section 2: Real proof (Chinese port of results.html section 2): static Stuyvesant feature + animated real-results wall -->
+  <style>@media(max-width:640px){.proof-stuy{grid-template-columns:1fr !important;}.proof-stuy img{min-height:200px;}}</style>
   <section class="page-section">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-tag">学生成就</span>
-        <h2 class="section-title">真实成绩，真实学生</h2>
+        <span class="section-tag">经核实的成绩</span>
+        <h2 class="section-title">真实的学生，真实的成绩单</h2>
+        <p style="max-width:640px;margin:14px auto 0;text-align:center;font:400 16px/1.6 Inter,system-ui,sans-serif;color:#5b6675;">College Board 成绩单、家长短信和 Stuyvesant 录取通知均为真实截图，经许可分享。成绩因人而异。</p>
       </div>
-      <div class="results-gallery">
-        <div class="results-gallery-card">添加图片</div>
-        <div class="results-gallery-card">添加图片</div>
-        <div class="results-gallery-card">添加图片</div>
-        <div class="results-gallery-card">添加图片</div>
-        <div class="results-gallery-card">添加图片</div>
-        <div class="results-gallery-card">添加图片</div>
+      <div class="reveal proof-stuy" style="max-width:900px;margin:36px auto 44px;background:#fff;border:1px solid #ECECE4;border-radius:18px;box-shadow:0 14px 44px rgba(15,28,46,.10);overflow:hidden;display:grid;grid-template-columns:1.05fr .95fr;">
+        <div style="padding:36px 34px;display:flex;flex-direction:column;justify-content:center;">
+          <span style="font:700 12px/1 Inter,sans-serif;letter-spacing:.1em;color:#2D7D5F;">SHSAT &rarr; 特殊高中</span>
+          <h3 style="font:700 27px/1.2 'Playfair Display',Georgia,serif;color:#0F1C2E;margin:12px 0 10px;word-break:keep-all;">真实的 Stuyvesant 录取通知</h3>
+          <p style="font:400 15px/1.65 Inter,sans-serif;color:#5b6675;margin:0;">这是我们一位 SHSAT 学生在 MySchools 系统中收到的录取通知。</p>
+        </div>
+        <img src="assets/reviews/stuyvesant-offer-606.jpg" alt="真实的 Stuyvesant MySchools 录取通知" loading="lazy" style="width:100%;height:100%;object-fit:cover;min-height:260px;background:#f4f4ef;">
       </div>
+      <!-- Auto-scrolling wall of REAL proof -->
+      <div class="testimonial-columns">
+        <div class="testimonial-col ">
+          <div class="testimonial-col-inner">
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/parent-text-1500.jpg" alt="SAT 1500 分，家长的真实短信" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">SAT 1500 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">家长的真实短信</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/parent-text-1370-to-1500.jpg" alt="1370 → 1500，家长的真实短信" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">1370 → 1500<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">家长的真实短信</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-1.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/parent-text-1500.jpg" alt="SAT 1500 分，家长的真实短信" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">SAT 1500 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">家长的真实短信</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/parent-text-1370-to-1500.jpg" alt="1370 → 1500，家长的真实短信" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">1370 → 1500<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">家长的真实短信</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-1.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+          </div>
+        </div>
+        <div class="testimonial-col testimonial-col-2">
+          <div class="testimonial-col-inner">
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-1.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/sat-after-1500.jpg" alt="SAT 1500 分，College Board 成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">1370 → 1500<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">经核实的 College Board 成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-2.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-1.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/sat-after-1500.jpg" alt="SAT 1500 分，College Board 成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">1370 → 1500<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">经核实的 College Board 成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-2.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+          </div>
+        </div>
+        <div class="testimonial-col testimonial-col-3">
+          <div class="testimonial-col-inner">
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/review-1530.jpg" alt="SAT 1530 分，家长的真实短信" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">SAT 1530 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">家长的真实短信</span></div></div>
+            <div class="testimonial-card testimonial-card-stat"><div class="testimonial-stat-number">606</div><div class="testimonial-stat-label">SHSAT → Stuyvesant</div><div class="testimonial-stat-detail">已录取</div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-3.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/review-1530.jpg" alt="SAT 1530 分，家长的真实短信" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">SAT 1530 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">家长的真实短信</span></div></div>
+            <div class="testimonial-card testimonial-card-stat"><div class="testimonial-stat-number">606</div><div class="testimonial-stat-label">SHSAT → Stuyvesant</div><div class="testimonial-stat-detail">已录取</div></div>
+            <div class="testimonial-card" style="padding:14px;"><img src="assets/reviews/ap-5-3.png" alt="AP 5 分，真实成绩单" loading="lazy" style="width:100%;display:block;border-radius:8px;background:#f4f4ef;"><div style="margin-top:10px;font:600 14px/1.3 Inter,sans-serif;color:#0F1C2E;">AP 5 分<span style="display:block;margin-top:2px;font:400 12px/1.4 Inter,sans-serif;color:#8b95a2;">真实成绩单</span></div></div>
+          </div>
+        </div>
+      </div>
+      <p class="reveal" style="text-align:center;font:400 13px/1.5 Inter,sans-serif;color:#9aa4b0;margin:26px auto 0;">经许可分享 &middot; 成绩因人而异</p>
     </div>
   </section>
 

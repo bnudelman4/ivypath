@@ -329,7 +329,7 @@
 .calendar-days-header span {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-lighter);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 4px 0;
@@ -412,7 +412,7 @@
 .calendar-times-label {
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--text-lighter);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 12px;
@@ -518,7 +518,7 @@
 .calendar-step-label {
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--text-lighter);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.6px;
   margin-bottom: 18px;
@@ -563,7 +563,7 @@
 
 .contact-reassure {
   font-size: 0.78rem;
-  color: var(--text-lighter);
+  color: var(--text-light);
   text-align: center;
   margin-top: 14px;
   line-height: 1.5;
@@ -712,7 +712,7 @@
   padding: 14px 28px;
   background: var(--bg-alt);
   font-size: 0.8rem;
-  color: var(--text-lighter);
+  color: var(--text-light);
   border-top: 1px solid var(--border);
 }
 

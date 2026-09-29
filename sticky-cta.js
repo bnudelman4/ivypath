@@ -25,6 +25,8 @@
     } else {
       primaryHref = isCn ? 'cn-book.html' : 'book.html';
       primaryLabel = isCn ? '预约免费咨询' : 'Book Free Consult';
+      // SHSAT ad traffic: book.html shows SHSAT copy and the Stuyvesant proof first.
+      if (path === 'shsat-diagnostic.html') primaryHref = 'book.html?exam=shsat';
     }
     var callLabel = isCn ? '致电' : 'Call';
 

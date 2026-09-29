@@ -12,7 +12,14 @@
     googleAdsId: 'AW-18428932469',          // acct 992-977-3439. Was AW-18229353498 (acct 907-235-3191, retired).
     labels: {
       lead:     'XXXXXXXXXXXXXXXXX',        // no snippet action in acct 992-977-3439 yet
-      booking:  'XXXXXXXXXXXXXXXXX',        // booking is URL-based now (thank-you.html), needs no label
+      // "Submit lead form" (the booking), acct 992-977-3439, conversion id 7746555328.
+      // Fired as an event since 2026-09-28. The action's URL rule only matches pages
+      // starting with https://ivypathacademy.com/thank-you.html, but the live site
+      // redirects to https://www.ivypathacademy.com/..., so the rule never matched a
+      // real booking (verified by reading the live gtag config and a headless probe).
+      // Count is One per click in Google Ads, so if the rule is ever fixed as well,
+      // the rule hit and this event still count once.
+      booking:  'Qw3yCMCb7O0cEPXizNNE',
       purchase: 'XXXXXXXXXXXXXXXXX',        // "Purchase" conversion label
       phoneClick: 'B5qYCOXnsvEcEPXizNNE'   // "Click to call" (Phone call lead) in acct 992-977-3439, created 2026-09-08
     },

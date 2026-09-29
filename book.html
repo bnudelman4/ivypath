@@ -413,6 +413,30 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <script src="cart.js?v=3"></script>
   <script src="booking-slots.js?v=1"></script>
   <script>
+    /* Arriving from /shsat (book.html?exam=shsat): say SHSAT, lead with the
+       Stuyvesant proof, and hide the SAT card, so a parent who searched for
+       SHSAT tutoring sees the same subject on the booking step. Copy only;
+       the form, slots, API call and thank-you.html redirect are unchanged. */
+    (function () {
+      try {
+        if (new URLSearchParams(location.search).get('exam') !== 'shsat') return;
+        document.title = 'Book a Free SHSAT Consultation | IvyPath Academy';
+        var h = document.querySelector('.book-hero-title');
+        if (h) h.textContent = 'Book Your Free SHSAT Consultation';
+        var sub = document.querySelector('.book-hero-subtitle');
+        if (sub) sub.textContent = 'A free 15-minute call on Google Meet with a tutor who got into Stuyvesant.';
+        var cards = document.querySelectorAll('.book-outcome-card');
+        if (cards.length > 1) cards[0].style.display = 'none';
+        var stats = document.querySelectorAll('.book-stat');
+        if (stats.length === 3) {
+          stats[0].style.display = 'none';
+          var grid = document.querySelector('.book-stats-grid-3');
+          if (grid && window.matchMedia('(min-width: 769px)').matches) grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <script>
   (function() {
     // ----- Elements -----
     const contactPanel = document.getElementById('calContact');

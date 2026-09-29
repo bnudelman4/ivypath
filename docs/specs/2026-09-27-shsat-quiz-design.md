@@ -1731,7 +1731,7 @@ Write sessionStorage `ivp_quiz_handoff` as soon as the gate passes client valida
      - Insert above the form: `<p class="form-hint" id="quizHandoffNote">We'll bring your SHSAT plan answers to the consultation. <button type="button" id="quizHandoffClear" class="link-button">Not you? Clear</button></p>`
    - "Clear" empties the three fields, removes the key and the note, restores the subtitle and the SAT card, and **moves focus to `#leadName`**.
    - Expose `window.__ivpQuizHandoff = function () { return valid ? { version: 1, quiz_id, grade, targets, prep, practice_test, worry, band } : null; }`.
-2. **Line 200 hint:** change "Mobile, so we can text your Meet link and a reminder." to "**Mobile, so we can reach you if anything changes.**" (D9).
+2. **Line 200 hint:** owned by site PR #39, not this build. Vicente approved (2026-09-28): "Mobile, so we can reach you about your consultation, or help you pick a time if you don't finish." This PR leaves the line as main has it; whichever of #39/#43 merges second is rebased (D9).
 3. **POST at line 687** (inside the IIFE, one guarded line): `let quiz = null; try { quiz = typeof window.__ivpQuizHandoff === 'function' ? window.__ivpQuizHandoff() : null; } catch (e) {}`. Add `quiz` to the body when it is non-null.
 4. **On booking success:** `sessionStorage.removeItem('ivp_quiz_handoff')`, before the redirect to `thank-you.html`. The redirect URL is unchanged, so the URL-based booking conversion still counts.
 5. **`book.css`:** add `.link-button { min-height: 44px; padding: 10px 4px; font: inherit; font-size: 15px; text-decoration: underline; color: var(--sage-deep, #3A6347); background: none; border: 0; cursor: pointer; }` and a visible `:focus-visible` outline.

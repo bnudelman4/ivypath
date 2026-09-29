@@ -142,6 +142,11 @@
     .hero-video-fallback img { width: 100%; display: block; }
 
     .video-note { font-size: 13px; color: rgba(253,248,240,0.6); margin: 0 auto 20px; }
+    /* Retired until the narration is re-recorded (growth decisions.md 2026-09-28 #6):
+       the posters carry a play button, so the whole player and its caption are hidden,
+       not swapped for a still. The script below also stops the download and sends no
+       VSL events. Remove "is-retired" from the wrapper to bring the video back. */
+    .hero-video-wrap.is-retired, .hero-video-wrap.is-retired + .video-note { display: none !important; }
 
     .hero-headline {
       font-family: var(--display);
@@ -550,7 +555,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <h1 class="hero-headline fade-in">Your child's shot at Stuyvesant, Bronx Science &amp; Brooklyn Tech, with tutors who <span class="gi">got in themselves.</span></h1>
 
-      <div class="hero-video-wrap fade-in delay-1">
+      <div class="hero-video-wrap is-retired fade-in delay-1">
         <video
           id="heroVideo"
           controls
@@ -569,9 +574,12 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       </div>
       <p class="video-note fade-in delay-1">Benjamin &middot; Stuyvesant &rsquo;24 &middot; Cornell &rsquo;28 &middot; on what the SHSAT actually takes</p>
 
+      <!-- Hero pair restored 2026-09 (growth, Vicente-approved): the Sep 3-7 hero put the
+           free diagnostic and the consultation side by side, and every real ad lead came
+           then. Call stays in the top bar, the sticky bar and the line below. -->
       <div class="cta-stack cta-stack--dual fade-in delay-1">
         <a href="book.html?exam=shsat" class="btn-primary js-consult-cta">Book a free 15-minute consultation &rarr;</a>
-        <a href="tel:+19293940349" class="btn-secondary js-call-cta">Call (929) 394-0349</a>
+        <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-secondary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic &rarr;</a>
       </div>
 
       <p class="reassurance fade-in delay-2">Free<span class="dot">&middot;</span>15 minutes on Google Meet<span class="dot">&middot;</span>English or <span lang="zh">中文</span></p>
@@ -583,7 +591,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       <p class="hero-sub fade-in delay-3">Talk with a tutor who got into Stuyvesant about where your student stands and what to work on first. We also send your student a full-length diagnostic scored against prior-year specialized high school cutoffs, so you&rsquo;re working from a real number. Backed by our money-back Score Improvement Guarantee.</p>
 
-      <p class="hero-alt-link fade-in delay-3">Prefer to start with the free 35-minute diagnostic? <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="js-diagnostic-cta" data-exam="SHSAT">Take it here &rarr;</a> or <a href="#email-link">email it to your student &rarr;</a></p>
+      <p class="hero-alt-link fade-in delay-3">Not with your student right now? <a href="#email-link">Email them the diagnostic link &rarr;</a> Or call <a href="tel:+19293940349">(929) 394-0349</a>.</p>
 
       <div class="trust-chips fade-in delay-3">
         <div class="chip">Tutors are <strong>Stuyvesant graduates</strong></div>
@@ -977,6 +985,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var fallback = document.getElementById('videoFallback');
       var soundBtn = document.getElementById('vslSound');
       if (!video) return;
+      // Retired player (see the .is-retired CSS): stop the download, fire no VSL events.
+      if (video.closest('.is-retired')) {
+        try { video.pause(); } catch (e) {}
+        video.removeAttribute('autoplay');
+        var retired = video.querySelectorAll('source');
+        for (var r = 0; r < retired.length; r++) retired[r].parentNode.removeChild(retired[r]);
+        video.removeAttribute('src');
+        try { video.load(); } catch (e) {}
+        return;
+      }
 
       var videoReady = false;
       function showFallback() {

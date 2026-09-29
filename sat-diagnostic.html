@@ -137,6 +137,11 @@
     .hero-video-fallback img { width: 100%; display: block; }
 
     .video-note { font-size: 13px; color: rgba(253,248,240,0.6); margin: -22px auto 34px; }
+    /* Retired until the narration is re-recorded (growth decisions.md 2026-09-28 #6):
+       the posters carry a play button, so the whole player and its caption are hidden,
+       not swapped for a still. The script below also stops the download and sends no
+       VSL events. Remove "is-retired" from the wrapper to bring the video back. */
+    .hero-video-wrap.is-retired, .hero-video-wrap.is-retired + .video-note { display: none !important; }
 
     .hero-headline {
       font-family: var(--display);
@@ -587,9 +592,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     </header>
 
     <div class="wrap hero-inner">
-      <p class="eyebrow fade-in">&#9654; Step 1 &middot; Watch the 90-second video</p>
+      <p class="eyebrow fade-in">Free SAT diagnostic &middot; 26 questions &middot; about 45 minutes</p>
 
-      <div class="hero-video-wrap fade-in">
+      <div class="hero-video-wrap is-retired fade-in">
         <video
           id="heroVideo"
           controls
@@ -1062,6 +1067,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var fallback = document.getElementById('videoFallback');
       var soundBtn = document.getElementById('vslSound');
       if (!video) return;
+      // Retired player (see the .is-retired CSS): stop the download, fire no VSL events.
+      if (video.closest('.is-retired')) {
+        try { video.pause(); } catch (e) {}
+        video.removeAttribute('autoplay');
+        var retired = video.querySelectorAll('source');
+        for (var r = 0; r < retired.length; r++) retired[r].parentNode.removeChild(retired[r]);
+        video.removeAttribute('src');
+        try { video.load(); } catch (e) {}
+        return;
+      }
 
       var videoReady = false;
       function showFallback() {

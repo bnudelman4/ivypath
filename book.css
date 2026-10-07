@@ -535,6 +535,26 @@
   line-height: 1.5;
 }
 
+/* SHSAT plan handoff note ("Not you? Clear"), added by book.html when the
+   parent arrives from /shsat/quiz. A text button with a 44px tap target. */
+#quizHandoffNote { margin: 0 0 12px; }
+.link-button {
+  min-height: 44px;
+  padding: 10px 4px;
+  font: inherit;
+  font-size: 15px;
+  text-decoration: underline;
+  color: var(--sage-deep, #3A6347);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.link-button:focus-visible {
+  outline: 2px solid var(--sage-deep, #3A6347);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .contact-error {
   color: #c0392b;
   font-size: 0.85rem;

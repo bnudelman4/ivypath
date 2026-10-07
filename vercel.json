@@ -37,6 +37,14 @@
       "destination": "/shsat-diagnostic.html"
     },
     {
+      "source": "/shsat/quiz",
+      "destination": "/shsat-quiz.html"
+    },
+    {
+      "source": "/shsat/quiz/",
+      "destination": "/shsat-quiz.html"
+    },
+    {
       "source": "/thank-you",
       "destination": "/thank-you.html"
     },
@@ -66,6 +74,33 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=604800, stale-while-revalidate=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/shsat/quiz",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/shsat/quiz/",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/shsat-quiz.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
         }
       ]
     }

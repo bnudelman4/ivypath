@@ -12,7 +12,9 @@
     if (path === 'consulting') path = 'consulting.html';
     if (path === 'seminar') path = 'seminar.html';
     if (path === 'seminar-cn') path = 'seminar.html';
-    var hidden = ['book.html', 'cn-book.html', 'thank-you.html', 'success.html', 'cancel.html', 'seminar.html'];
+    // /shsat/quiz does not load this file (its relative book.html link would 404
+    // under /shsat/); listed anyway so a stray include never adds a second CTA.
+    var hidden = ['book.html', 'cn-book.html', 'thank-you.html', 'success.html', 'cancel.html', 'seminar.html', 'quiz', 'shsat-quiz.html'];
     if (hidden.indexOf(path) !== -1) return;
     var isCn = path.indexOf('cn') === 0;
 

@@ -1,6 +1,39 @@
 const { v4: uuidv4 } = require('uuid');
 const { calendarClient, busyBetween, overlaps, etOffsetIso } = require('./_calendar');
 
+// SHSAT plan answers handed over from /shsat/quiz (book.html sends them as
+// body.quiz). Q is shsat-quiz-logic.js, the quiz's own list of codes and
+// parent-facing labels. Every code is checked against it and anything unknown
+// is dropped; without a UUID quiz_id the whole object is ignored. Quiz data
+// never fails a booking: the caller wraps this in a try/catch.
+function buildQuizBooking(Q, quiz) {
+  const none = { quizBlock: null, quizPrivate: null };
+  if (!quiz || typeof quiz !== 'object' || Array.isArray(quiz) || !Q.isUuid(quiz.quiz_id)) return none;
+  const has = (list, v) => Array.isArray(list) && list.indexOf(v) !== -1;
+  const lines = [];
+  const grade = typeof quiz.grade === 'string' && /^[0-9]$/.test(quiz.grade) ? Number(quiz.grade) : quiz.grade;
+  if (has(Q.CODES.grade, grade)) lines.push('Grade: ' + Q.LABELS.grade[grade]);
+  if (Array.isArray(quiz.targets)) {
+    const picked = Q.CODES.targets.filter((c) => quiz.targets.indexOf(c) !== -1);
+    const schools = picked.filter((c) => c !== 'not_sure'); // "Not sure yet" only stands alone
+    const shown = schools.length ? schools : picked;
+    if (shown.length) lines.push('Aiming for: ' + shown.map((c) => Q.LABELS.targets[c]).join(', '));
+  }
+  if (has(Q.CODES.prep, quiz.prep)) lines.push('Prep now: ' + Q.LABELS.prep[quiz.prep]);
+  if (has(Q.CODES.practice_test, quiz.practice_test)) lines.push('Timed practice test: ' + Q.LABELS.practice_test[quiz.practice_test]);
+  if (has(Q.CODES.worry, quiz.worry)) lines.push('Biggest worry: ' + Q.LABELS.worry[quiz.worry]);
+  const band = has(Q.BANDS, quiz.band) ? quiz.band : null;
+  if (band) lines.push('Plan shown: ' + Q.BAND_NAMES[band]);
+  // The description is also on the parent's copy of the invite, so it carries
+  // only the parent-facing labels; the ids go in the info@-only private props.
+  const quizPrivate = { quiz_id: quiz.quiz_id.toLowerCase(), source: 'shsat_quiz' };
+  if (band) quizPrivate.quiz_band = band;
+  return {
+    quizBlock: lines.length ? 'SHSAT PLAN (the parent’s own answers, not a score):\n' + lines.map((l) => '- ' + l).join('\n') : null,
+    quizPrivate: quizPrivate,
+  };
+}
+
 module.exports = async (req, res) => {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -138,6 +171,18 @@ module.exports = async (req, res) => {
     const startIso = startDT + offset;
     const endIso = endDT + offset;
 
+    // SHSAT plan answers (default 15-minute type only). Required lazily, inside a
+    // try/catch: a missing file, a syntax error or a browser-only global in the
+    // quiz logic can never turn a booking into a 500. The static path lets
+    // Vercel's file trace include shsat-quiz-logic.js in this function.
+    let quizBlock = null, quizPrivate = null;
+    if (!isConsulting && body.quiz && typeof body.quiz === 'object') {
+      try {
+        const Q = require('../shsat-quiz-logic.js');
+        ({ quizBlock, quizPrivate } = buildQuizBooking(Q, body.quiz));
+      } catch (e) { quizBlock = null; quizPrivate = null; }
+    }
+
     // One client (impersonating info@ivypathacademy.com via domain-wide
     // delegation) for both the double-booking check and the insert.
     let calendar = null;
@@ -192,6 +237,8 @@ module.exports = async (req, res) => {
       for (const k of ['gclid', 'wbraid', 'gbraid', 'fbclid']) {
         if (attribution[k]) attrPrivate[k] = 'yes';
       }
+      // quiz_id, quiz_band and source: 'shsat_quiz' when the parent came from /shsat/quiz.
+      if (quizPrivate) Object.assign(attrPrivate, quizPrivate);
 
       const event = {
         summary: isConsulting
@@ -204,7 +251,7 @@ module.exports = async (req, res) => {
               (intake.aps ? '\n- AP / advanced classes: ' + intake.aps : '') +
               (intake.ecs ? '\n- Extracurriculars: ' + intake.ecs : '') +
               (intake.concern ? '\n- Biggest concern: ' + intake.concern : '') : ''}\n\nConsultants: Alp / Edison. Draft the roadmap from the prep block above, honest read live.`
-          : `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}`,
+          : `Free 15-minute consultation with IvyPath Academy.\n\nStudent/Parent: ${name}\nEmail: ${email}\nPhone: ${phone}${quizBlock ? '\n\n' + quizBlock : ''}`,
         start: {
           dateTime: startDT,
           timeZone: 'America/New_York',

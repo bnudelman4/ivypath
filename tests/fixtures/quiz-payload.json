@@ -1,0 +1,1987 @@
+{
+  "_about": [
+    "Shared SHSAT quiz gate payloads (spec 5.2). Copied verbatim by the platform tests (5.6 H).",
+    "Every \"valid\" body must pass the site validateQuizPayload and the platform shsatQuizLeadSchema.",
+    "Every \"invalid\" body must be refused by both, except entries marked site_only.",
+    "\"field\" is the field the site returns; \"platform_field\" is the field the platform route returns (only parent_name, phone or parent_email, else null).",
+    "Test data only: example.com addresses and 555-01xx numbers."
+  ],
+  "uuid_fallback": {
+    "about": "Output of the crypto.getRandomValues fallback in spec 5.1 for these 16 bytes (version and variant bits set).",
+    "bytes": [
+      156,
+      65,
+      7,
+      226,
+      90,
+      211,
+      248,
+      22,
+      43,
+      238,
+      112,
+      4,
+      201,
+      58,
+      88,
+      109
+    ],
+    "uuid": "9c4107e2-5ad3-4816-abee-7004c93a586d"
+  },
+  "valid": [
+    {
+      "name": "grade 8, spec 5.2 example",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "grade 5, not_sure alone, no attribution, no company_name, no delivery",
+      "body": {
+        "quiz_id": "c0a8012e-7d4b-4c1a-8f3e-5b6a7c8d9e0f",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 5,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "not_sure"
+          ],
+          "prep": "none",
+          "practice_test": "no",
+          "worry": "process",
+          "band": "early_start"
+        }
+      }
+    },
+    {
+      "name": "grade 9, all eight schools, tutor, copy_only",
+      "body": {
+        "quiz_id": "5e2d7f10-0b3c-4a9e-b1d2-c3e4f5a6b7c8",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 9,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science",
+            "brooklyn_tech",
+            "brooklyn_latin",
+            "staten_island_tech",
+            "queens_science_york",
+            "american_studies_lehman",
+            "hsmse_ccny"
+          ],
+          "prep": "tutor",
+          "practice_test": "multiple",
+          "worry": "adaptive",
+          "band": "final_weeks_sharpen"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "copy_only"
+      }
+    },
+    {
+      "name": "quiz_id from the crypto.getRandomValues fallback (uuid_fallback below)",
+      "body": {
+        "quiz_id": "9c4107e2-5ad3-4816-abee-7004c93a586d",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 7,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "group",
+          "practice_test": "once",
+          "worry": "consistency",
+          "band": "full_year"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "student_grade as a numeric string (the platform coerces it)",
+      "body": {
+        "quiz_id": "0f9e8d7c-6b5a-4493-8271-605f4e3d2c1b",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": "6",
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "brooklyn_tech"
+          ],
+          "prep": "none",
+          "practice_test": "unsure",
+          "worry": "math",
+          "band": "foundation"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone typed with punctuation",
+      "body": {
+        "quiz_id": "7a6b5c4d-3e2f-4101-9f8e-7d6c5b4a3928",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "(917) 555-0142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone typed with +1 and spaces",
+      "body": {
+        "quiz_id": "8b7c6d5e-4f30-4212-a09f-8e7d6c5b4a39",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+1 917 555 0142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "email with capitals and surrounding spaces",
+      "body": {
+        "quiz_id": "9c8d7e6f-5041-4323-b1a0-9f8e7d6c5b4a",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "  Sam.Rivera@Example.com ",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "a non-string attribution value is accepted and dropped",
+      "body": {
+        "quiz_id": "ad9e8f70-6152-4434-82b1-a09f8e7d6c5b",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "gclid": 12345,
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "Chinese name, two characters",
+      "body": {
+        "quiz_id": "be0f9081-7263-4545-93c2-b1a09f8e7d6c",
+        "test_type": "SHSAT",
+        "parent_name": "陈丽",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "honeypot filled (valid shape; the backend treats it as a honeypot hit)",
+      "body": {
+        "quiz_id": "cf10a192-8374-4656-a4d3-c2b1a09f8e7d",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "Acme Corp",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "Phase 2 fallback body with fallback_reason",
+      "body": {
+        "quiz_id": "d021b2a3-9485-4767-b5e4-d3c2b1a09f8e",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy",
+        "fallback_reason": "platform_500"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "parent_name empty",
+      "field": "parent_name",
+      "platform_field": "parent_name",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_name one character",
+      "field": "parent_name",
+      "platform_field": "parent_name",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "A",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_name missing",
+      "field": "parent_name",
+      "platform_field": "parent_name",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone 1234567890 (area code starts with 1)",
+      "field": "phone",
+      "platform_field": "phone",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "1234567890",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone 2222222222 (one repeated digit)",
+      "field": "phone",
+      "platform_field": "phone",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "2222222222",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone 9 digits",
+      "field": "phone",
+      "platform_field": "phone",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "917555014",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone 12 digits",
+      "field": "phone",
+      "platform_field": "phone",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "191755501423",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone exchange starts with 1",
+      "field": "phone",
+      "platform_field": "phone",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "9171555014",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "phone missing",
+      "field": "phone",
+      "platform_field": "phone",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_email without @",
+      "field": "parent_email",
+      "platform_field": "parent_email",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera.example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_email without a top-level domain",
+      "field": "parent_email",
+      "platform_field": "parent_email",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam@example",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_email missing",
+      "field": "parent_email",
+      "platform_field": "parent_email",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_email is a school account (@nycstudents.net)",
+      "field": "parent_email",
+      "platform_field": null,
+      "note": "The platform refuses it in the core (5.6 C2 step 1), not in zod, so its 400 may carry no field.",
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam@nycstudents.net",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "parent_email is a near miss of the school domain (@nycstudent.net)",
+      "field": "parent_email",
+      "platform_field": null,
+      "note": "Refused by the site; the platform refuses it only if its school check covers near misses.",
+      "site_only": true,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam@nycstudent.net",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "consent false",
+      "field": "consent",
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": false,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "consent missing",
+      "field": "consent",
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "consent as the string \"true\"",
+      "field": "consent",
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": "true",
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "consent_version malformed",
+      "field": "consent",
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "v1",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "test_type SAT",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz_id not a UUID",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "not-a-uuid",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz_id missing",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "student_grade 4",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 4,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "student_grade 10",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 10,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "student_grade 8.5",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8.5,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "student_grade missing",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz missing",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.version 2",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 2,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.role student",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "student",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.targets empty",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.targets unknown code (LaGuardia is not an SHSAT school)",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "laguardia"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.targets not_sure combined with a school",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "not_sure",
+            "stuyvesant"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.targets duplicated",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "stuyvesant"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.prep unknown",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "classes",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.practice_test unknown",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "maybe",
+          "worry": "timing",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.worry unknown",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "money",
+          "band": "final_weeks_baseline"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz.band unknown",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "not_ready"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    },
+    {
+      "name": "quiz has an extra key (strict)",
+      "field": null,
+      "platform_field": null,
+      "body": {
+        "quiz_id": "3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11",
+        "test_type": "SHSAT",
+        "parent_name": "Sam Rivera",
+        "parent_email": "sam.rivera@example.com",
+        "phone": "+19175550142",
+        "student_grade": 8,
+        "consent": true,
+        "consent_version": "quiz-2026-09-28",
+        "quiz": {
+          "version": 1,
+          "role": "parent",
+          "targets": [
+            "stuyvesant",
+            "bronx_science"
+          ],
+          "prep": "self",
+          "practice_test": "no",
+          "worry": "timing",
+          "band": "final_weeks_baseline",
+          "student_name": "Alex"
+        },
+        "attribution": {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "shsat_parent_intent",
+          "utm_term": "shsat prep",
+          "gclid": "Cj0KCQjwTEST",
+          "ivp_lp": "/shsat/quiz",
+          "first_landing": "/shsat/quiz",
+          "first_referrer": "google.com",
+          "referrer": "https://www.google.com",
+          "v": "parent"
+        },
+        "company_name": "",
+        "delivery": "alert_and_copy"
+      }
+    }
+  ]
+}

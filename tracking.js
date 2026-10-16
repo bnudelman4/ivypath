@@ -21,7 +21,11 @@
       // the rule hit and this event still count once.
       booking:  'Qw3yCMCb7O0cEPXizNNE',
       purchase: 'XXXXXXXXXXXXXXXXX',        // "Purchase" conversion label
-      phoneClick: 'B5qYCOXnsvEcEPXizNNE'   // "Click to call" (Phone call lead) in acct 992-977-3439, created 2026-09-08
+      phoneClick: 'B5qYCOXnsvEcEPXizNNE',  // "Click to call" (Phone call lead) in acct 992-977-3439, created 2026-09-08
+      // "SHSAT quiz lead" (Submit lead form, count One), fired by /shsat/quiz when a
+      // parent's details are saved. Not created yet: paste its label from the Ads UI
+      // here. Until then the XXXX placeholder keeps ivypathTrackQuizLead inert.
+      quizLead: 'XXXXXXXXXXXXXXXXX'
     },
     ga4Id: 'G-EW2RB4F5JB'                               // optional, e.g. 'G-XXXXXXX'
   };
@@ -35,6 +39,43 @@
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = window.gtag || gtag;
 
+  function sendTo(label) { return CFG.googleAdsId + '/' + label; }
+  function hasFbq() { return typeof window.fbq === 'function'; }
+
+  // Minor mode (added 2026-09-28 for /shsat/quiz). When a visitor says they are a
+  // student, the quiz calls ivpMinorMode(). For the rest of this tab, Google ad
+  // storage is denied, the Meta Pixel is revoked, and this file sends no Google Ads
+  // conversion and no Meta event. GA4 analytics events continue, sent to GA4 alone
+  // (ga4Event), so the Ads tag gets none of them. The flag lives in
+  // sessionStorage, so it dies with the tab and never travels anywhere.
+  var ADS_OFF = false;
+  try { ADS_OFF = sessionStorage.getItem('ivp_minor') === '1'; } catch (e) {}
+  function adsDenied() { return { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }; }
+  if (ADS_OFF) {
+    window.__ivpMinor = 1;
+    // Before the gtag('config', ...) calls below.
+    try { gtag('consent', 'default', adsDenied()); } catch (e) {}
+    try { if (hasFbq()) window.fbq('consent', 'revoke'); } catch (e) {}
+  }
+  window.ivpMinorMode = function () {
+    ADS_OFF = true;
+    window.__ivpMinor = 1; // read by the link decorators below
+    try { sessionStorage.setItem('ivp_minor', '1'); } catch (e) {}
+    try { gtag('consent', 'update', adsDenied()); } catch (e) {}
+    try { if (hasFbq()) window.fbq('consent', 'revoke'); } catch (e) {}
+  };
+
+  // gtag sends an event with no send_to to every configured tag, the Google Ads tag
+  // included. The quiz addresses all of its events to GA4 alone with this id, and
+  // in minor mode this file does the same with its own GA4 events (ga4Event below).
+  window.ivpGa4Id = configured(CFG.ga4Id) ? CFG.ga4Id : '';
+  function ga4Event(name, params) {
+    if (!ADS_OFF) { if (params) gtag('event', name, params); else gtag('event', name); return; }
+    var p = { send_to: CFG.ga4Id };
+    if (params) for (var k in params) if (Object.prototype.hasOwnProperty.call(params, k)) p[k] = params[k];
+    gtag('event', name, p);
+  }
+
   var googleId = configured(CFG.googleAdsId) ? CFG.googleAdsId
                : (configured(CFG.ga4Id) ? CFG.ga4Id : '');
   if (googleId && !SUPPRESS) {
@@ -47,8 +88,6 @@
     if (configured(CFG.ga4Id)) gtag('config', CFG.ga4Id);
   }
 
-  function sendTo(label) { return CFG.googleAdsId + '/' + label; }
-  function hasFbq() { return typeof window.fbq === 'function'; }
   var leadFired = false;
 
   window.ivypathTrackLead = function (data) {
@@ -56,20 +95,20 @@
     if (leadFired) return;
     leadFired = true;
     try {
-      if (configured(CFG.googleAdsId) && configured(CFG.labels.lead))
+      if (!ADS_OFF && configured(CFG.googleAdsId) && configured(CFG.labels.lead))
         gtag('event', 'conversion', { send_to: sendTo(CFG.labels.lead) });
-      if (configured(CFG.ga4Id)) gtag('event', 'generate_lead');
-      if (hasFbq()) window.fbq('track', 'Lead');
+      if (configured(CFG.ga4Id)) ga4Event('generate_lead');
+      if (!ADS_OFF && hasFbq()) window.fbq('track', 'Lead');
     } catch (e) {}
   };
 
   window.ivypathTrackBooking = function (data) {
     if (SUPPRESS) return;
     try {
-      if (configured(CFG.googleAdsId) && configured(CFG.labels.booking))
+      if (!ADS_OFF && configured(CFG.googleAdsId) && configured(CFG.labels.booking))
         gtag('event', 'conversion', { send_to: sendTo(CFG.labels.booking) });
-      if (configured(CFG.ga4Id)) gtag('event', 'schedule');
-      if (hasFbq()) window.fbq('track', 'Schedule');
+      if (configured(CFG.ga4Id)) ga4Event('schedule');
+      if (!ADS_OFF && hasFbq()) window.fbq('track', 'Schedule');
     } catch (e) {}
   };
 
@@ -79,16 +118,26 @@
     var value = (typeof data.value === 'number') ? data.value : undefined;
     var currency = data.currency || 'USD';
     try {
-      if (configured(CFG.googleAdsId) && configured(CFG.labels.purchase)) {
+      if (!ADS_OFF && configured(CFG.googleAdsId) && configured(CFG.labels.purchase)) {
         var p = { send_to: sendTo(CFG.labels.purchase) };
         if (value !== undefined) { p.value = value; p.currency = currency; }
         if (data.transaction_id) p.transaction_id = data.transaction_id;
         gtag('event', 'conversion', p);
       }
       if (configured(CFG.ga4Id))
-        gtag('event', 'purchase', { value: value, currency: currency, transaction_id: data.transaction_id });
-      if (hasFbq())
+        ga4Event('purchase', { value: value, currency: currency, transaction_id: data.transaction_id });
+      if (!ADS_OFF && hasFbq())
         window.fbq('track', 'Purchase', value !== undefined ? { value: value, currency: currency } : {});
+    } catch (e) {}
+  };
+
+  // /shsat/quiz: a parent's details were saved. The quiz_id is the transaction id,
+  // so a reload or a retry of the same quiz never counts twice in Google Ads.
+  window.ivypathTrackQuizLead = function (quizId) {
+    if (SUPPRESS || ADS_OFF) return;
+    try {
+      if (configured(CFG.googleAdsId) && configured(CFG.labels.quizLead))
+        gtag('event', 'conversion', { send_to: sendTo(CFG.labels.quizLead), transaction_id: String(quizId || '') });
     } catch (e) {}
   };
   /* --- Where do visitors go? (added 2026-09-05) --------------------------
@@ -103,6 +152,7 @@
     if (h.indexOf('sms:') === 0) return 'sms';
     if (h.indexOf('mailto:') === 0) return 'email';
     if (h.indexOf('app.ivypathacademy.com') > -1) return h.indexOf('free-diagnostic') > -1 ? 'diagnostic' : 'app';
+    if (h.indexOf('/shsat/quiz') > -1) return 'quiz';
     if (h.indexOf('book.html') > -1 || h === '/book' || h.indexOf('/book?') === 0) return 'consultation';
     if (h.indexOf('pricing') > -1) return 'pricing';
     return null;
@@ -129,8 +179,8 @@
       transport_type: 'beacon'
     };
     try {
-      if (configured(CFG.ga4Id)) gtag('event', kind === 'phone' ? 'phone_click' : 'cta_click', params);
-      if (kind === 'phone') {
+      if (configured(CFG.ga4Id)) ga4Event(kind === 'phone' ? 'phone_click' : 'cta_click', params);
+      if (kind === 'phone' && !ADS_OFF) {
         if (configured(CFG.googleAdsId) && configured(CFG.labels.phoneClick))
           gtag('event', 'conversion', { send_to: sendTo(CFG.labels.phoneClick), transport_type: 'beacon' });
         if (hasFbq()) window.fbq('trackCustom', 'PhoneClick', { page_path: location.pathname });
@@ -145,10 +195,14 @@
     var keep = ['gclid','fbclid','wbraid','gbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
     var pass = keep.filter(function(k){ return src.get(k); });
     if (!pass.length) return;
+    // Minor mode (see ivpMinorMode above): no ad click id travels with a known
+    // student. Checked on every pass, because this runs again at load and 1.5 s.
+    function minor(){ try { return window.__ivpMinor===1 || sessionStorage.getItem('ivp_minor')==='1'; } catch(e){ return window.__ivpMinor===1; } }
     function decorate(){ if (window.__ivpNoTrack===1) return;
+      var keys = minor() ? pass.filter(function(k){ return !/^(gclid|fbclid|wbraid|gbraid)$/.test(k); }) : pass;
       var links = document.querySelectorAll('a[href*="app.ivypathacademy.com"]');
       for (var i=0;i<links.length;i++){
-        try { var u=new URL(links[i].href); pass.forEach(function(k){ if(!u.searchParams.get(k)) u.searchParams.set(k, src.get(k)); }); links[i].href=u.toString(); } catch(e){}
+        try { var u=new URL(links[i].href); keys.forEach(function(k){ if(!u.searchParams.get(k)) u.searchParams.set(k, src.get(k)); }); links[i].href=u.toString(); } catch(e){}
       }
     }
     if (document.readyState!=='loading') decorate(); else document.addEventListener('DOMContentLoaded', decorate);
@@ -233,7 +287,9 @@
     var qualifying = /^(utm_|fbclid$|gclid$|ref$)/;
     var params = new URLSearchParams(location.search);
     var fwd = new URLSearchParams();
-    params.forEach(function (v, k) { if (qualifying.test(k)) fwd.append(k, v); });
+    var minor = false; // minor mode (see ivpMinorMode above): no ad click ids
+    try { minor = window.__ivpMinor === 1 || sessionStorage.getItem('ivp_minor') === '1'; } catch (e) {}
+    params.forEach(function (v, k) { if (qualifying.test(k) && !(minor && /^(fbclid|gclid)$/.test(k))) fwd.append(k, v); });
     fwd.append('ivp_lp', location.pathname);
     try {
       var ft = JSON.parse(sessionStorage.getItem('ivp_ft') || '{}') || {};

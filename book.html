@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css?v=9">
   <link rel="stylesheet" href="pill-nav.css?v=14">
-  <link rel="stylesheet" href="book.css?v=7">
+  <link rel="stylesheet" href="book.css?v=8">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -437,6 +437,97 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
     })();
   </script>
   <script>
+    /* Arriving from /shsat/quiz: the quiz leaves the parent's details and plan
+       answers in this tab's sessionStorage (ivp_quiz_handoff, never a URL).
+       Prefill the empty contact fields, say SHSAT, and hand the answers to the
+       booking POST below through window.__ivpQuizHandoff. Its own block and its
+       own try/catch, so nothing here can break the calendar. */
+    (function () {
+      var KEY = 'ivp_quiz_handoff';
+      var MAX_AGE = 24 * 60 * 60 * 1000;
+      var valid = null;
+
+      window.__ivpQuizHandoff = function () {
+        if (!valid) return null;
+        return {
+          version: 1, quiz_id: valid.quiz_id, grade: valid.grade, targets: valid.targets.slice(),
+          prep: valid.prep, practice_test: valid.practice_test, worry: valid.worry, band: valid.band
+        };
+      };
+
+      function read() {
+        var h = null;
+        try { h = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { return null; }
+        if (!h || typeof h !== 'object' || h.v !== 1 || typeof h.quiz_id !== 'string') return null;
+        if (typeof h.saved_at !== 'number' || !(Date.now() - h.saved_at < MAX_AGE)) return null;
+        if (!Array.isArray(h.targets)) h.targets = [];
+        return h;
+      }
+      function str(v, max) { return typeof v === 'string' ? v.slice(0, max) : ''; }
+      // The quiz stores E.164 (+19175550142); show it the way a parent types it.
+      function usPhone(p) {
+        var m = /^\+1(\d{3})(\d{3})(\d{4})$/.exec(typeof p === 'string' ? p : '');
+        return m ? '(' + m[1] + ') ' + m[2] + '-' + m[3] : '';
+      }
+
+      function init() {
+        try {
+          var h = read();
+          if (!h) return;
+          valid = h;
+          var fields = [['leadName', str(h.name, 120)], ['leadEmail', str(h.email, 200)], ['leadPhone', usPhone(h.phone)]];
+          fields.forEach(function (f) {
+            var el = document.getElementById(f[0]);
+            if (el && !el.value && f[1]) el.value = f[1];
+          });
+
+          var sub = document.querySelector('.book-hero-subtitle');
+          var oldSub = sub ? sub.textContent : '';
+          if (sub) sub.textContent = 'A free 15-minute call about your student’s SHSAT plan, with a tutor who went to Stuyvesant.';
+
+          // Lead with the Stuyvesant card: hide the SAT 1370 to 1500 card, unless it is hidden already.
+          var satImg = document.querySelector('img[src*="parent-text-1370"]');
+          var satCard = satImg && satImg.closest ? satImg.closest('.book-outcome-card') : null;
+          var hidSat = false;
+          if (satCard && satCard.style.display !== 'none') { satCard.style.display = 'none'; hidSat = true; }
+
+          var form = document.getElementById('contactForm');
+          if (!form || !form.parentNode) return;
+          var note = document.createElement('p');
+          note.className = 'form-hint';
+          note.id = 'quizHandoffNote';
+          note.appendChild(document.createTextNode('We’ll bring your SHSAT plan answers to the consultation. '));
+          var clear = document.createElement('button');
+          clear.type = 'button';
+          clear.id = 'quizHandoffClear';
+          clear.className = 'link-button';
+          clear.textContent = 'Not you? Clear';
+          note.appendChild(clear);
+          form.parentNode.insertBefore(note, form);
+
+          clear.addEventListener('click', function () {
+            try {
+              valid = null;
+              try { sessionStorage.removeItem(KEY); } catch (e) {}
+              fields.forEach(function (f) {
+                var el = document.getElementById(f[0]);
+                if (el) el.value = '';
+              });
+              if (sub) sub.textContent = oldSub;
+              if (hidSat && satCard) satCard.style.display = '';
+              if (note.parentNode) note.parentNode.removeChild(note);
+              var nameEl = document.getElementById('leadName');
+              if (nameEl) nameEl.focus();
+            } catch (e) {}
+          });
+        } catch (e) {}
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })();
+  </script>
+  <script>
   (function() {
     // ----- Elements -----
     const contactPanel = document.getElementById('calContact');
@@ -708,24 +799,29 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
         String(selectedDate.getDate()).padStart(2, '0');
 
+      // SHSAT plan answers, when this tab came from /shsat/quiz (the handoff block above).
+      let quiz = null; try { quiz = typeof window.__ivpQuizHandoff === 'function' ? window.__ivpQuizHandoff() : null; } catch (e) {}
+
       try {
+        const payload = {
+          name: lead.name,
+          email: lead.email,
+          phone: lead.phone,
+          date: dateStr,
+          time: selectedTime,
+          ref: refCode,
+          attribution: (function () {
+            var a = window.ivpAttribution ? window.ivpAttribution() : {};
+            var hf = document.getElementById('leadHeard');
+            if (hf && hf.value) a.heard_from = hf.value;
+            return a;
+          })()
+        };
+        if (quiz) payload.quiz = quiz;
         const response = await fetch('/api/book-consultation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: lead.name,
-            email: lead.email,
-            phone: lead.phone,
-            date: dateStr,
-            time: selectedTime,
-            ref: refCode,
-            attribution: (function () {
-              var a = window.ivpAttribution ? window.ivpAttribution() : {};
-              var hf = document.getElementById('leadHeard');
-              if (hf && hf.value) a.heard_from = hf.value;
-              return a;
-            })()
-          }),
+          body: JSON.stringify(payload),
         });
 
         const data = await response.json();
@@ -745,6 +841,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         // conversion matches). Date and time only: the email rides in
         // sessionStorage so it never lands in a URL, analytics or the pixel.
         try { sessionStorage.setItem('ivp_booked_email', data.email || lead.email); } catch (e) {}
+        try { sessionStorage.removeItem('ivp_quiz_handoff'); } catch (e) {}
         var tyParams = new URLSearchParams({
           date: data.date || '',
           time: data.time || ''

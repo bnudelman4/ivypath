@@ -1092,3 +1092,15 @@ test('copy lint: every rendered combination passes 2.11', () => {
   // arbitrary number of distinct sentences (cohort-safe copy repeats).
   for (const grade of [8,9]) assert.ok(seen.has(Q.countdownLine('2026-11-18',grade)));
 });
+
+
+test('review P1: handoff binds exact attempt revision, all answers and both live TTLs',()=>{
+  const time=Date.now(),a={role:'parent',grade:8,targets:['stuyvesant'],prep:'self',practice_test:'no',worry:'math'};
+  const state={v:1,quiz_id:'3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a11',answer_revision:4,started_at:time,answers:a};
+  const h={v:1,quiz_id:state.quiz_id,answer_revision:4,saved_at:time,...a};
+  assert.equal(Q.handoffMatchesState(state,h,time),true);
+  for(const patch of [{quiz_id:'3b1f0c9e-6a0e-4f2d-9d6b-2f4f7b0c1a12'},{answer_revision:3},{answer_revision:undefined},{grade:9},{role:'student'},{targets:['bronx_science']},{prep:'none'},{practice_test:'yes'},{worry:'ela'},{saved_at:time+1},{saved_at:time-2*3600000}])assert.equal(Q.handoffMatchesState(state,{...h,...patch},time),false,JSON.stringify(patch));
+  for(const patch of [{started_at:time-2*3600000},{started_at:time+1},{answer_revision:undefined}])assert.equal(Q.handoffMatchesState({...state,...patch},h,time),false);
+  assert.equal(Q.handoffMatchesState({...state,captured:true,captured_at:time-3*3600000},h,time),true);
+  assert.equal(Q.handoffMatchesState({...state,captured:true,captured_at:time-24*3600000},h,time),false);
+});

@@ -23,14 +23,20 @@ function createQuestionnaireBooking({store,book,origins=[]}) {
       const email=typeof body.email==='string'?Q.normalizeEmail(body.email):'';
       const phone=Q.normalizeUsMobile(body.phone);
       if(name.length<2 || !Q.isValidEmail(email) || !phone)return res.status(400).json({error:'invalid_contact'});
-      if (typeof body.date!=='string' || !/^\d{4}-\d{2}-\d{2}$/.test(body.date) || typeof body.time!=='string') return res.status(400).json({error:'invalid_slot'});
+      if (typeof body.date!=='string' || !/^\d{4}-\d{2}-\d{2}$/.test(body.date) || typeof body.time!=='string' || !/^\d{1,2}:\d{2} (AM|PM)$/.test(body.time)) return res.status(400).json({error:'invalid_slot'});
       const [y,m,d]=body.date.split('-').map(Number),date=new Date(Date.UTC(y,m-1,d));
-      if (date.getUTCFullYear()!==y || date.getUTCMonth()+1!==m || date.getUTCDate()!==d || !Slots.openSlots(y,m,d,{durationMinutes:15,busy:[]}).includes(body.time)) return res.status(400).json({error:'invalid_slot'});
+      if (date.getUTCFullYear()!==y || date.getUTCMonth()+1!==m || date.getUTCDate()!==d) return res.status(400).json({error:'invalid_slot'});
       const ip=R.clientIp(req);
       if(!ip)return res.status(503).json({error:'trusted_ip_required'});
       const value={quiz_id:quiz.quiz_id.toLowerCase(),test_type:'SHSAT',student_grade:Number(quiz.grade),parent_name:name,parent_email:email,phone,
         quiz:{version:1,role:'parent',targets:Q.CODES.targets.filter(t=>quiz.targets.includes(t)),prep:quiz.prep,practice_test:quiz.practice_test,worry:quiz.worry,band:Q.bandFor(quiz,Q.todayNY())},
         purpose:'consultation_booking',booking_requested:true,consent:false,consent_version:null,delivery:'disabled',company_name:'',attribution:Q.sanitizeAttribution(body.attribution)};
+      // An exact durable outcome remains replayable after the current slot's
+      // lead-time cutoff. Identity, all answers and bound slot must still match.
+      const prior=await store.lookupBooking(value,body.date+' '+body.time);
+      if(prior && prior.error)return res.status(409).json({error:prior.error});
+      if(prior && prior.response)return res.status(prior.response.status).json(prior.response.body);
+      if(!Slots.openSlots(y,m,d,{durationMinutes:15,busy:[]}).includes(body.time))return res.status(400).json({error:'invalid_slot'});
       // Reserve globally BEFORE the first calendar/provider call. No message
       // outbox entry is created. The receipt stays server-side for this request.
       const saved=await store.reserve(value,ip);

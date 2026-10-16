@@ -1,6 +1,7 @@
 'use strict';
 const Q=require('../shsat-quiz-logic');
 const TRUST=require('./_booking-trust');
+const R=require('./_shsat-request');
 function createBooking({store,book}) {
   return async function(req,res) {
     res.setHeader('Cache-Control','no-store');
@@ -15,8 +16,8 @@ function createBooking({store,book}) {
       // redirect a calendar invite or attach another parent's intake.
       if (Q.sanitizeName(body.name)!==value.parent_name || Q.normalizeEmail(body.email)!==value.parent_email || Q.normalizeUsMobile(body.phone)!==value.phone || body.type || body.exam==='sat') return res.status(409).json({error:'intake_contact_mismatch'});
       if (!/^\d{4}-\d{2}-\d{2}$/.test(body.date) || !/^\d{1,2}:\d{2} (AM|PM)$/.test(body.time)) return res.status(400).json({error:'invalid_slot'});
-      const reserved=await store.reserveBooking(body.booking_receipt,body.date+' '+body.time);
-      if (reserved.error) return res.status(409).json({error:reserved.error});
+      const reserved=await store.reserveBooking(body.booking_receipt,body.date+' '+body.time,R.clientIp(req));
+      if (reserved.error) return res.status(reserved.error==='rate_limited'?429:409).json({error:reserved.error});
       if (reserved.response) return res.status(reserved.response.status).json(reserved.response.body);
       const trusted=Object.assign({},body,{quiz:Object.assign({quiz_id:value.quiz_id,grade:value.student_grade},value.quiz),attribution:value.attribution});
       trusted[TRUST]={eventId:reserved.eventId,beforeInsert:event=>store.saveBookingEvent(body.booking_receipt,event)};

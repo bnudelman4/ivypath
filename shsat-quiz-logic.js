@@ -882,6 +882,21 @@
     return { ok: true, value: value };
   }
 
+  // Bind the snapshot to the current attempt and its live TTL. The booking
+  // page also requires the current completed results step before submission.
+  function handoffMatchesState(s, h, time) {
+    if (!s || !h || s.v !== 1 || h.v !== 1 || !isUuid(s.quiz_id) || s.quiz_id !== h.quiz_id || !s.answers) return false;
+    if (!Number.isInteger(s.answer_revision) || s.answer_revision < 0 || h.answer_revision !== s.answer_revision) return false;
+    var a = s.answers;
+    if (a.role !== 'parent' || h.role !== 'parent' || firstMissing(a) !== null || !consultationFit(a).eligible) return false;
+    if (['grade','prep','practice_test','worry'].some(function(k) { return a[k] !== h[k]; }) || JSON.stringify(a.targets) !== JSON.stringify(h.targets)) return false;
+    var captured = s.captured === true;
+    var stamp = captured ? s.captured_at : s.started_at;
+    var ttl = (captured ? 24 : 2) * 60 * 60 * 1000;
+    if (!Number.isFinite(stamp) || stamp > time || time - stamp >= ttl || !Number.isFinite(h.saved_at) || h.saved_at > time || time - h.saved_at >= ttl) return false;
+    return true;
+  }
+
   // -------------------------------------------------------------------------
   // Exports
   // -------------------------------------------------------------------------
@@ -910,6 +925,7 @@
     todayNY: todayNY,
     nowMinutesNY: nowMinutesNY,
     firstMissing: firstMissing,
+    handoffMatchesState: handoffMatchesState,
     consultationFit: consultationFit,
     bandFor: bandFor,
     bandCopy: bandCopy,

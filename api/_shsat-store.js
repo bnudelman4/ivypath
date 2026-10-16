@@ -25,14 +25,26 @@ function createStore(pool, secret) {
     finally { c.release(); }
   }
   function receipt(id, fingerprint) { return key('booking-receipt/v1', id + ':' + fingerprint); }
-  async function reserve(value, ip) {
-    const fingerprint = key('intake/v1', JSON.stringify({
+  function fingerprintFor(value) {
+    return key('intake/v1', JSON.stringify({
       id:value.quiz_id, name:value.parent_name, email:value.parent_email,
       phone:value.phone, grade:value.student_grade, quiz:{role:value.quiz.role,
       version:value.quiz.version,targets:value.quiz.targets,prep:value.quiz.prep,
       practice_test:value.quiz.practice_test,worry:value.quiz.worry},
       purpose:value.purpose
     }));
+  }
+  async function lookupBooking(value, slot) {
+    const prior=(await pool.query('SELECT * FROM shsat_intake.intakes WHERE quiz_id=$1',[value.quiz_id])).rows[0];
+    if (!prior) return null;
+    if (prior.fingerprint!==fingerprintFor(value)) return {error:'intake_conflict'};
+    const booking=(await pool.query('SELECT * FROM shsat_intake.bookings WHERE receipt_hash=$1',[prior.receipt_hash])).rows[0];
+    if (!booking) return null;
+    if (booking.slot!==slot) return {error:'booking_conflict'};
+    return booking.state==='accepted' ? {response:open(booking.response)} : {error:'booking_reconciliation_required'};
+  }
+  async function reserve(value, ip) {
+    const fingerprint=fingerprintFor(value);
     return tx(async c => {
       const prior=(await c.query('SELECT * FROM shsat_intake.intakes WHERE quiz_id=$1',[value.quiz_id])).rows[0];
       if(prior){
@@ -56,15 +68,33 @@ function createStore(pool, secret) {
     const r = (await pool.query('SELECT snapshot FROM shsat_intake.intakes WHERE receipt_hash=$1 AND expires_at>clock_timestamp()', [key('receipt-lookup',token)])).rows[0];
     return r ? { ok:true, value:open(r.snapshot) } : { ok:false };
   }
-  async function reserveBooking(token, slot) {
+  async function reserveBooking(token, slot, ip) {
     return tx(async c => {
       const hash = key('receipt-lookup',token);
-      const live = (await c.query('SELECT quiz_id FROM shsat_intake.intakes WHERE receipt_hash=$1 AND expires_at>clock_timestamp()', [hash])).rows[0];
+      const live = (await c.query('SELECT quiz_id,snapshot FROM shsat_intake.intakes WHERE receipt_hash=$1 AND expires_at>clock_timestamp()', [hash])).rows[0];
       if (!live) return { error:'verified_intake_required' };
       const prior = (await c.query('SELECT * FROM shsat_intake.bookings WHERE receipt_hash=$1', [hash])).rows[0];
       if (prior) return prior.slot !== slot ? { error:'booking_conflict' }
         : prior.state === 'accepted' ? { response:open(prior.response) } : { error:'booking_reconciliation_required' };
       if ((await c.query('SELECT 1 FROM shsat_intake.bookings WHERE slot=$1',[slot])).rowCount) return {error:'slot_taken'};
+      // Every fresh provider check consumes a durable reservation, including a
+      // known pre-insert slot rejection. Five insert-only buckets per identity
+      // fit the existing schema/grants; the advisory transaction serializes all
+      // instances. Accepted/unknown outcomes above never consume or retry.
+      const value=open(live.snapshot);
+      const budgets=[['booking-check-phone',value.phone,86400],['booking-check-ip',ip,3600]];
+      const chosen=[];
+      for (const [label,raw,seconds] of budgets) {
+        if (typeof raw!=='string' || !raw) return {error:'trusted_ip_required'};
+        const keys=Array.from({length:5},(_,i)=>key(label+'/'+i,raw));
+        const count=Number((await c.query("SELECT count(*) AS n FROM shsat_intake.reservations WHERE identity=ANY($1::text[]) AND created_at>clock_timestamp()-($2 * interval '1 second')",[keys,seconds])).rows[0].n);
+        if(count>=5)return {error:'rate_limited'};
+        const used=(await c.query('SELECT identity FROM shsat_intake.reservations WHERE quiz_id=$1 AND identity=ANY($2::text[])',[live.quiz_id,keys])).rows.map(r=>r.identity);
+        const identity=keys.find(k=>!used.includes(k));
+        if(!identity)return {error:'rate_limited'};
+        chosen.push(identity);
+      }
+      for (const identity of chosen) await c.query('INSERT INTO shsat_intake.reservations(quiz_id,identity) VALUES($1,$2)',[live.quiz_id,identity]);
       const eventId = key('calendar-event',hash); // lowercase hex meets Google's base32hex event ID alphabet
       await c.query("INSERT INTO shsat_intake.bookings(receipt_hash,slot,event_id,state) VALUES($1,$2,$3,'pending')", [hash,slot,eventId]);
       return { eventId };
@@ -119,6 +149,6 @@ function createStore(pool, secret) {
     const row=(await pool.query('SELECT fingerprint FROM shsat_intake.intakes WHERE quiz_id=$1',[quizId])).rows[0];
     return row ? reconcileBooking(receipt(quizId,row.fingerprint),lookup) : false;
   }
-  return { reserve, verify, reserveBooking, finishBooking, saveBookingEvent, reconcileBooking, reconcileByQuizId };
+  return { reserve, lookupBooking, verify, reserveBooking, finishBooking, saveBookingEvent, reconcileBooking, reconcileByQuizId };
 }
 module.exports = { createStore };

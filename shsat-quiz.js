@@ -267,10 +267,22 @@
   var state = null;
   var memHandoff = null; // used when sessionStorage is blocked
 
+  function clearHandoff() {
+    memHandoff = null;
+    try { window.sessionStorage.removeItem(HANDOFF_KEY); } catch (e) {}
+  }
+
+  function invalidateAnswers() {
+    clearHandoff();
+    state.answer_revision = (Number.isInteger(state.answer_revision) ? state.answer_revision : 0) + 1;
+    delete state.completed_revision;
+  }
+
   function newState() {
+    clearHandoff();
     return {
       v: 1, quiz_id: Q.newQuizId(), started_at: now(), step: 'q1',
-      answers: {}, band: null,
+      answers: {}, band: null, answer_revision: 0,
       captured: false, captured_at: null, backend: null,
       lead_ref: null, lead_ref_at: null, diag_allowed: null,
       plan_emailed: null, hp: false, fired: {}
@@ -300,7 +312,7 @@
   function writeHandoff(f) {
     var a = state.answers;
     var h = {
-      v: 1, quiz_id: state.quiz_id, saved_at: now(), captured: false,
+      v: 1, quiz_id: state.quiz_id, answer_revision: state.answer_revision, role: a.role, saved_at: now(), captured: false,
       name: f.name, email: f.email, phone: f.phone,
       grade: a.grade, targets: a.targets.slice(), prep: a.prep, practice_test: a.practice_test,
       worry: a.worry, band: state.band
@@ -321,7 +333,7 @@
   function readHandoff() {
     var h = storeGet(HANDOFF_KEY) || memHandoff;
     if (!h || typeof h !== 'object' || h.v !== 1 || !state || h.quiz_id !== state.quiz_id) return null;
-    if (typeof h.saved_at !== 'number' || now() - h.saved_at >= CAPTURED_TTL) return null;
+    if (!Q.handoffMatchesState(state, h, now())) return null;
     return h;
   }
 
@@ -488,7 +500,7 @@
     if (n > 1) return 'q' + (n - 1);
     if (step === 'gate') return 'q6';
     if (step === 'exit') return 'q1';
-    if (step === 'results') return 'gate';
+    if (step === 'results') return F.PREBOOK_CAPTURE ? 'gate' : 'q6';
     return 'intro';
   }
 
@@ -538,9 +550,15 @@
     if (saving) return; // Bind pending completion to the immutable visible answers.
     clearTimeout(advanceTimer); // a Back or popstate during the 260 ms advance wins
     step = resolveStep(step);
+    if (!F.PREBOOK_CAPTURE && state) {
+      if (!Number.isInteger(state.answer_revision)) state.answer_revision = 0;
+      if (step === 'gate') state.completed_revision = state.answer_revision;
+      if (step === 'results' && state.completed_revision !== state.answer_revision) step = 'q6';
+      if (step !== 'gate' && step !== 'results') { clearHandoff(); delete state.completed_revision; }
+    }
     if (!F.PREBOOK_CAPTURE && (step === 'gate' || step === 'results') && state && Q.firstMissing(state.answers) === null && Q.consultationFit(state.answers).eligible) {
       var a = state.answers;
-      var h = {v:1,quiz_id:state.quiz_id,saved_at:now(),completed:true,role:'parent',grade:a.grade,targets:a.targets.slice(),prep:a.prep,practice_test:a.practice_test,worry:a.worry,band:Q.bandFor(a,today())};
+      var h = {v:1,quiz_id:state.quiz_id,answer_revision:state.answer_revision,saved_at:now(),completed:true,role:'parent',grade:a.grade,targets:a.targets.slice(),prep:a.prep,practice_test:a.practice_test,worry:a.worry,band:Q.bandFor(a,today())};
       memHandoff = h; storeSet(HANDOFF_KEY,h); step = 'results';
     }
     var screen = screenOf(step);
@@ -696,6 +714,7 @@
     advancing = true;
     var chips = $('qChoices').querySelectorAll('.choice-chip');
     for (var i = 0; i < chips.length; i++) chips[i].setAttribute('aria-pressed', chips[i] === chip ? 'true' : 'false');
+    if (state.answers[q.id] !== code) invalidateAnswers();
     state.answers[q.id] = code;
     saveState();
     // Minor mode first (D2, 6.2): ad consent is denied and the Pixel revoked before
@@ -722,6 +741,7 @@
     }
     var ordered = [];
     for (var k = 0; k < Q.CODES.targets.length; k++) if (has(picked, Q.CODES.targets[k])) ordered.push(Q.CODES.targets[k]);
+    if (JSON.stringify(prev) !== JSON.stringify(ordered)) invalidateAnswers();
     state.answers.targets = ordered;
     saveState();
     var chips = $('qChoices').querySelectorAll('.choice-chip');
@@ -819,6 +839,7 @@
 
   function onExitBack() {
     if (!state) return;
+    invalidateAnswers();
     delete state.answers.role;
     saveState();
     go('q1');
@@ -1457,6 +1478,7 @@
     renderIntro();
 
     state = loadState();
+    if (!state) clearHandoff();
     if (state && state.captured) {
       go('results', { noHistory: true });
     } else if (state && typeof state.step === 'string' && state.step !== 'intro') {

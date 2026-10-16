@@ -396,7 +396,7 @@ async function blockNavigation(page) {
 function makeState(answers, step, captured, extra) {
   const t = Date.now();
   return Object.assign({
-    v: 1, quiz_id: FIXED_ID, started_at: t, step, answers, band: null,
+    v: 1, quiz_id: FIXED_ID, started_at: t, step, answers, band: null, answer_revision: 0, completed_revision: step === 'results' ? 0 : undefined,
     captured: !!captured, captured_at: captured ? t : null, backend: captured ? 'site' : null,
     lead_ref: null, lead_ref_at: null, diag_allowed: null,
     plan_emailed: captured ? true : null, hp: false, fired: {}
@@ -405,7 +405,7 @@ function makeState(answers, step, captured, extra) {
 
 function makeHandoff(answers, band, person) {
   return {
-    v: 1, quiz_id: FIXED_ID, saved_at: Date.now(), captured: true, booking_receipt: 'a'.repeat(64),
+    v: 1, quiz_id: FIXED_ID, answer_revision: 0, role: answers.role, saved_at: Date.now(), captured: true, booking_receipt: 'a'.repeat(64),
     name: person.name, email: person.email, phone: person.e164,
     grade: answers.grade, targets: answers.targets.slice(), prep: answers.prep,
     practice_test: answers.practice_test, worry: answers.worry, band
@@ -2279,6 +2279,47 @@ test.describe('requested questionnaire to booking flow',()=>{
     await expect(page.locator('#scrResults')).toBeVisible();
     expect(h.site).toHaveLength(0);expect(h.funnel).toHaveLength(0);
   }
+  test('review P1: expired attempt cannot leave an eligible handoff for a new under5, over9 or student attempt',async({page})=>{
+    const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
+    const old=await page.evaluate(()=>({state:JSON.parse(sessionStorage.getItem('ivp_quiz_v1')),handoff:JSON.parse(sessionStorage.getItem('ivp_quiz_handoff'))}));
+    for(const choice of ['under5','over9','student']){
+      await page.evaluate(x=>{x.state.started_at=Date.now()-2*60*60*1000-1;sessionStorage.setItem('ivp_quiz_v1',JSON.stringify(x.state));sessionStorage.setItem('ivp_quiz_handoff',JSON.stringify(x.handoff));},old);
+      await page.goto('/shsat/quiz');await ready(page,{fbq:false});await expect(page.locator('#scrIntro')).toBeVisible();
+      expect(await page.evaluate(()=>sessionStorage.getItem('ivp_quiz_handoff'))).toBe(null);
+      await page.locator('#startBtn').click();await pick(page,1,choice==='student'?'student':'parent');
+      if(choice!=='student')await pick(page,2,choice);
+      await expect(page.locator(choice==='student'?'#scrExit':'#scrNotFit')).toBeVisible();
+      expect((await quizState(page)).quiz_id).not.toBe(old.state.quiz_id);
+      // Even a restored older snapshot cannot match the current attempt.
+      await page.evaluate(x=>sessionStorage.setItem('ivp_quiz_handoff',JSON.stringify(x)),old.handoff);
+      await page.goto('/book.html?flow=shsat_quiz');await page.waitForURL(/shsat\/quiz$/);await ready(page,{fbq:false});
+      await expect(page.locator(choice==='student'?'#scrExit':'#scrNotFit')).toBeVisible();
+    }
+    expect(h.site).toHaveLength(0);expect(h.funnel).toHaveLength(0);
+  });
+  test('review P1: results Back reaches Q6, and grade edits invalidate same-attempt handoff',async({page})=>{
+    const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
+    const old=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('ivp_quiz_handoff')));
+    await page.goBack();await atQuestion(page,6);expect(await page.evaluate(()=>sessionStorage.getItem('ivp_quiz_handoff'))).toBe(null);
+    for(let n=6;n>2;n--){await page.locator('#qBack').click();await atQuestion(page,n-1);}
+    await pick(page,2,'under5');await expect(page.locator('#scrNotFit')).toBeVisible();
+    expect((await quizState(page)).quiz_id).toBe(old.quiz_id);
+    await page.evaluate(x=>sessionStorage.setItem('ivp_quiz_handoff',JSON.stringify(x)),old);
+    await page.goto('/book.html?flow=shsat_quiz');await page.waitForURL(/shsat\/quiz$/);await ready(page);
+    await expect(page.locator('#scrNotFit')).toBeVisible();
+  });
+  test('review P1: an open booking page rechecks live completion before POST',async({page})=>{
+    const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
+    await page.route('**/api/availability**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"busy":[]}'}));
+    let posts=0;await page.route('**/api/book-consultation',r=>{posts++;return r.fulfill({status:500,body:'{}'});});
+    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
+    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await page.locator('#contactContinueBtn').click();
+    await page.locator('#calGrid .calendar-day.available').first().click();await page.locator('#calSlots .time-slot').first().click();
+    // A restored page must not use the handoff cached when it first loaded.
+    await page.evaluate(()=>{const s=JSON.parse(sessionStorage.getItem('ivp_quiz_v1'));s.answer_revision++;s.answers.grade='under5';s.step='notFit';sessionStorage.setItem('ivp_quiz_v1',JSON.stringify(s));});
+    await page.locator('#confirmBtn').click();await page.waitForURL(/shsat\/quiz$/);await ready(page);
+    await expect(page.locator('#scrNotFit')).toBeVisible();expect(posts).toBe(0);
+  });
   test('default flow collects no contact before booking; final server calendar has validated answers',async({page},testInfo)=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});
     await page.goto('/shsat');await page.locator('.hero-dark .btn-primary').click();await ready(page);

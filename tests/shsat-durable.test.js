@@ -77,6 +77,8 @@ dbtest('unknown provider outcome blocks duplicate calls; GET reconciliation must
  const book=async(req,res)=>{calls++;event={id:req.body[TRUST].eventId,summary:'Consultation',description:'Canonical saved answers',start:{dateTime:req.body.date+'T12:00:00',timeZone:'America/New_York'},end:{dateTime:req.body.date+'T12:15:00',timeZone:'America/New_York'},attendees:[{email:req.body.email}],extendedProperties:{private:{source:'shsat_quiz'}}};await req.body[TRUST].beforeInsert(event);res.status(503).json({error:'unknown'});};
  const request=finalBooking(),h=createQuestionnaireBooking({store:sa,book});
  assert.equal((await call(h,request)).statusCode,503);assert.equal((await call(createQuestionnaireBooking({store:sb,book}),request)).statusCode,409);assert.equal(calls,1);
+ const open=Slots.openSlots;Slots.openSlots=()=>[];
+ try{assert.equal((await call(h,request)).statusCode,409);assert.equal(calls,1);}finally{Slots.openSlots=open;}
  const row=(await a.query('SELECT receipt_hash FROM shsat_intake.intakes')).rows[0];assert.match(row.receipt_hash,/^[a-f0-9]{64}$/);
  // Reconstruct the token only through the server store's exact intake replay.
  const trusted={...fixture,parent_name:request.name,parent_email:request.email,phone:request.phone,quiz_id:request.quiz.quiz_id,student_grade:8,quiz:fixture.quiz,purpose:'consultation_booking'};
@@ -89,9 +91,11 @@ dbtest('booking rejects expired/forged proof and does not attach another parent 
  const h=createBooking({store:sa,book:async()=>assert.fail('must not call calendar')});
  assert.equal((await call(h,finalBooking({booking_receipt:'0'.repeat(64)}))).statusCode,409);
  assert.equal((await sa.verify('bad')).ok,false);
- const capture=createQuestionnaireBooking({store:sa,book:async(_req,res)=>res.status(200).json({calendar:true})});const x=finalBooking();await call(capture,x);
+ let receipt;const capture=createQuestionnaireBooking({store:sa,book:async(req,res)=>{receipt=req.body.booking_receipt;res.status(200).json({calendar:true});}});const x=finalBooking();await call(capture,x);
  await admin.query("UPDATE shsat_intake.intakes SET expires_at=clock_timestamp()-interval '1 second'");
- assert.equal((await call(capture,x)).statusCode,409);
+ // An exact terminal response is read-only even after intake capability expiry.
+ assert.equal((await call(capture,x)).statusCode,200);
+ assert.equal((await call(h,{...x,booking_receipt:receipt})).statusCode,409); // Expired capability cannot authorize a booking write.
 });
 dbtest('restricted server role has RLS, no product access and cannot change intake ciphertext',async()=>{
  await admin.query('CREATE TABLE IF NOT EXISTS public.shsat_product_sentinel (id integer)');
@@ -112,4 +116,31 @@ dbtest('two different eligible parents cannot reserve the same calendar slot acr
  const x=finalBooking(),y=finalBooking({date:x.date,time:x.time});
  const results=await Promise.all([call(createQuestionnaireBooking({store:sa,book}),x),call(createQuestionnaireBooking({store:sb,book}),y)]);
  assert.equal(calls,1);assert.deepEqual(results.map(r=>r.statusCode).sort(),[200,409]);assert.equal(results.find(r=>r.statusCode===409).body.error,'slot_taken');
+});
+
+dbtest('review P2: identical accepted replay survives lead-time cutoff, but changed intake/slot cannot use it',async()=>{
+ let calls=0;const h=createQuestionnaireBooking({store:sa,book:async(_req,res)=>{calls++;res.status(200).json({ok:true,calendar:true,meetLink:'https://meet.example.invalid/bound'});}});
+ const x=finalBooking();const first=await call(h,x);assert.equal(first.statusCode,200);
+ const open=Slots.openSlots;Slots.openSlots=()=>[];
+ try{
+  const replay=await call(h,x);assert.equal(replay.statusCode,200);assert.deepEqual(replay.body,first.body);assert.equal(calls,1);
+  const edited=structuredClone(x);edited.quiz.worry='ela';assert.equal((await call(h,edited)).statusCode,409);
+  assert.equal((await call(h,{...x,email:'changed@example.com'})).statusCode,409);
+  assert.equal((await call(h,{...x,time:x.time==='5:00 PM'?'5:30 PM':'5:00 PM'})).statusCode,409);assert.equal(calls,1);
+  assert.equal((await call(h,finalBooking())).statusCode,400);assert.equal(calls,1);
+ }finally{Slots.openSlots=open;}
+});
+dbtest('review security: twenty identical pre-provider slot rejections cannot repeat provider checks without bound',async()=>{
+ let checks=0;const book=async(_req,res)=>{checks++;res.status(409).json({error:'slot_taken'});};
+ const hs=[createQuestionnaireBooking({store:sa,book}),createQuestionnaireBooking({store:sb,book})],x=finalBooking();const results=[];
+ for(let i=0;i<20;i++)results.push(await call(hs[i%2],x,'203.0.113.'+(i+1))); // Rotating IPs cannot bypass the phone budget.
+ assert.equal(checks,5);assert.equal(results.filter(r=>r.statusCode===429).length,15);
+ assert.equal(Number((await a.query('SELECT count(*) n FROM shsat_intake.intakes')).rows[0].n),1);
+});
+dbtest('review security: one rejected slot can be corrected, then terminal replay never rechecks provider',async()=>{
+ let checks=0;const book=async(_req,res)=>{checks++;res.status(checks===1?409:200).json(checks===1?{error:'slot_taken'}:{calendar:true,ok:true});};
+ const h=createQuestionnaireBooking({store:sa,book}),x=finalBooking();assert.equal((await call(h,x)).statusCode,409);
+ const date=x.date.split('-').map(Number);const options=Slots.openSlots(...date,{busy:[]});const corrected={...x,time:options.find(t=>t!==x.time)};
+ assert.equal((await call(h,corrected)).statusCode,200);assert.equal(checks,2);
+ for(let i=0;i<10;i++)assert.equal((await call(h,corrected)).statusCode,200);assert.equal(checks,2);
 });

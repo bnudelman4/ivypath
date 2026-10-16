@@ -453,6 +453,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       var isQuizFlow = flow.get('flow') === 'shsat_quiz' && flow.get('exam') !== 'sat';
 
       window.__ivpQuizHandoff = function () {
+        valid = read();
         if (!valid) return null;
         return {
           version: 1, quiz_id: valid.quiz_id, role: 'parent', grade: valid.grade, targets: valid.targets.slice(),
@@ -461,14 +462,14 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       };
 
       function read() {
-        var h = null;
-        try { h = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { return null; }
+        var h = null, state = null;
+        try { state = JSON.parse(sessionStorage.getItem('ivp_quiz_v1') || 'null'); h = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { return null; }
         if (!isQuizFlow || !h || typeof h !== 'object' || h.v !== 1 || (h.captured !== true && h.completed !== true)) return null;
         var Q = window.IVP_QUIZ;
         if (!Q || !Q.isUuid(h.quiz_id) || (h.completed !== true && !/^[a-f0-9]{64}$/.test(h.booking_receipt || ''))) return null;
         if (typeof h.saved_at !== 'number' || !Number.isFinite(h.saved_at) || h.saved_at > Date.now() || !(Date.now() - h.saved_at < MAX_AGE)) return null;
         var answers = {role:'parent', grade:h.grade, targets:h.targets, prep:h.prep, practice_test:h.practice_test, worry:h.worry};
-        if (Q.firstMissing(answers) !== null || !Q.consultationFit(answers).eligible) return null;
+        if (Q.firstMissing(answers) !== null || !Q.consultationFit(answers).eligible || !Q.handoffMatchesState(state,h,Date.now()) || state.step !== 'results' || (state.captured === true ? h.captured !== true : h.completed !== true || state.completed_revision !== state.answer_revision)) return null;
         return h;
       }
       function str(v, max) { return typeof v === 'string' ? v.slice(0, max) : ''; }
@@ -524,9 +525,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         } catch (e) {}
       }
 
+      window.addEventListener('pageshow', function (e) { if (e.persisted && isQuizFlow && !read()) location.replace('/shsat/quiz'); });
       if (isQuizFlow) {
         var quizScript = document.createElement('script');
-        quizScript.src = '/shsat-quiz-logic.js?v=2';
+        quizScript.src = '/shsat-quiz-logic.js?v=3';
         quizScript.onload = function () {
           if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
           else init();
@@ -821,6 +823,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
       // SHSAT plan answers, when this tab came from /shsat/quiz (the handoff block above).
       let quiz = null; try { quiz = typeof window.__ivpQuizHandoff === 'function' ? window.__ivpQuizHandoff() : null; } catch (e) {}
+
+      if (new URLSearchParams(location.search).get('flow') === 'shsat_quiz' && new URLSearchParams(location.search).get('exam') !== 'sat' && !quiz) { location.replace('/shsat/quiz'); return; }
 
       let quizBookingError = 'We couldn’t confirm your booking just now. Please call (929) 394-0349 for help.';
       try {

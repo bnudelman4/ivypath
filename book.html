@@ -822,6 +822,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       // SHSAT plan answers, when this tab came from /shsat/quiz (the handoff block above).
       let quiz = null; try { quiz = typeof window.__ivpQuizHandoff === 'function' ? window.__ivpQuizHandoff() : null; } catch (e) {}
 
+      let quizBookingError = 'We couldn’t confirm your booking just now. Please call (929) 394-0349 for help.';
       try {
         const payload = {
           name: lead.name,
@@ -856,6 +857,16 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         }
 
         if (!response.ok) {
+          if (quiz) {
+            const messages = {
+              booking_reconciliation_required: 'Your booking is still being checked. Please call (929) 394-0349 before trying again.',
+              booking_conflict: 'You already requested a time for this plan. Please call (929) 394-0349 to check or change it.',
+              intake_conflict: 'Please start a new parent plan to update your details, or call (929) 394-0349.',
+              completed_eligible_questionnaire_required: 'Please finish the parent questionnaire before booking.',
+              rate_limited: 'There have been several booking attempts. Please call (929) 394-0349 for help.'
+            };
+            quizBookingError = messages[data.error] || quizBookingError;
+          }
           throw new Error(data.error || 'Booking failed');
         }
 
@@ -879,7 +890,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           errEl.className = 'booking-error';
           confirmPanel.querySelector('.confirm-form').appendChild(errEl);
         }
-        errEl.textContent = err.message || 'Something went wrong. Please try again.';
+        errEl.textContent = quiz ? quizBookingError : (err.message || 'Something went wrong. Please try again.');
       }
     });
 

@@ -2256,10 +2256,11 @@ test.describe('completion and qualification regressions',()=>{
     await page.locator('.hero-dark .btn-primary').click();await ready(page);await page.addStyleTag({content:fontCSS});
     await page.screenshot({path:testInfo.outputPath('preview-quiz.png')});
     await page.locator('#startBtn').click();await pick(page,1,'parent');await pick(page,2,'8');await pickTargets(page,PARENT8.targets);await pick(page,4,'self');await pick(page,5,'no');await pick(page,6,'math');await expect(page.locator('#scrResults')).toBeVisible();
-    await page.screenshot({path:testInfo.outputPath('preview-plan.png')});
+    await quiet(page);await page.screenshot({path:testInfo.outputPath('preview-plan.png')});
+    await page.locator('.next-step').screenshot({path:testInfo.outputPath('preview-consultation.png')});
     await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);await page.addStyleTag({content:fontCSS});
     await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await page.locator('#contactContinueBtn').click();
-    await expect(page.locator('#calendarWidget')).toBeVisible();await page.screenshot({path:testInfo.outputPath('preview-calendar.png')});
+    await expect(page.locator('#calendarWidget')).toBeVisible();await page.locator('#calendarWidget').screenshot({path:testInfo.outputPath('preview-calendar.png')});
     // This test uses the actual server boundary and actual calendar handler,
     // with only Calendar/Resend transports faked by the loopback harness.
     await bookFirstSlot(page);await page.waitForURL(/thank-you.html/);
@@ -2297,6 +2298,17 @@ test.describe('requested questionnaire to booking flow',()=>{
     expect(event.description).toContain('the parent’s own answers, not a score');
     expect((await emailsFor(page,h.person.email))).toHaveLength(0); // Calendar invite is the booking confirmation; no alert/copy sender.
     expect(new URL(page.url()).search).not.toMatch(/email|phone|name|worry|grade|targets/);
+  });
+  test('uncertain booking stays on the page with a clear message and no conversion',async({page},testInfo)=>{
+    test.skip(testInfo.project.name!==DESKTOP,'same response behavior across viewports');
+    const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
+    await page.route('**/api/availability**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"busy":[]}'}));
+    await page.route('**/api/book-consultation',r=>r.fulfill({status:503,contentType:'application/json',body:'{"error":"booking_reconciliation_required"}'}));
+    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
+    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await page.locator('#contactContinueBtn').click();
+    await page.locator('#calGrid .calendar-day.available').first().click();await page.locator('#calSlots .time-slot').first().click();await page.locator('#confirmBtn').click();
+    await expect(page.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
+    expect(page.url()).toContain('/book.html?flow=shsat_quiz');expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
   });
   test('default grade5 qualifies; younger and older alternatives cannot book or collect contact',async({page})=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h,5);

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "commonjs",
+    "skipLibCheck": true
+  },
+  "files": [
+    "api/_shsat-store.js",
+    "api/_shsat-booking.js",
+    "api/_shsat-request.js",
+    "api/_shsat-policy.js",
+    "api/_shsat-questionnaire.js"
+  ]
+}

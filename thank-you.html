@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="pill-nav.css?v=14">
 <!-- Meta Pixel Code -->
 <script>
+(function () {
+try { if (sessionStorage.getItem('ivp_minor') === '1') return; } catch (e) {}
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -31,6 +33,7 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('set', 'autoConfig', false, '1550873539731081'); // no automatic advanced matching or auto events: forms here are also filled by students
 fbq('init', '1550873539731081');
 fbq('track', 'PageView');
+})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"

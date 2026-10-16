@@ -164,5 +164,5 @@
     loadAvailability: loadAvailability
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
-  else root.IvpSlots = api;
+  else Object.assign(root, { IvpSlots: api });
 })(typeof window !== 'undefined' ? window : this);

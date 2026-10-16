@@ -7,7 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test tests/e2e",
+    "typecheck": "tsc -p tsconfig.shsat.json",
+    "lint": "eslint api/_shsat-*.js api/_booking-trust.js api/book-consultation.js api/quiz-lead.js shsat-quiz-logic.js shsat-quiz.js tracking.js sticky-cta.js tests/shsat-durable.test.js tests/e2e/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,15 @@
   "homepage": "https://github.com/bnudelman4/ivypath#readme",
   "dependencies": {
     "googleapis": "^173.0.0",
+    "pg": "8.16.3",
     "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "24.10.1",
+    "@types/pg": "8.15.6",
+    "eslint": "9.39.1",
+    "typescript": "5.9.3"
   }
 }

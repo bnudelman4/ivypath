@@ -1,0 +1,23 @@
+-- OWNER REVIEW DRAFT. Invoke with psql -v intake_role=EXISTING_RESTRICTED_ROLE
+-- only after verifying that role is server-only, non-superuser, NO BYPASSRLS,
+-- with no product-table grants and no anon/authenticated memberships.
+-- This file does not create a role, password, token or credential.
+\if :{?intake_role}
+BEGIN;
+GRANT USAGE ON SCHEMA shsat_intake TO :"intake_role";
+GRANT SELECT, INSERT ON shsat_intake.intakes, shsat_intake.reservations,
+ shsat_intake.bookings TO :"intake_role";
+GRANT UPDATE(state, response, event_payload) ON shsat_intake.bookings TO :"intake_role";
+-- Pre-provider rejection only; never remove an uncertain provider reservation.
+GRANT DELETE ON shsat_intake.bookings TO :"intake_role";
+CREATE POLICY intake_server ON shsat_intake.intakes TO :"intake_role" USING (true) WITH CHECK (true);
+CREATE POLICY intake_server ON shsat_intake.reservations TO :"intake_role" USING (true) WITH CHECK (true);
+CREATE POLICY intake_read ON shsat_intake.bookings FOR SELECT TO :"intake_role" USING (true);
+CREATE POLICY intake_insert ON shsat_intake.bookings FOR INSERT TO :"intake_role" WITH CHECK (true);
+CREATE POLICY intake_update ON shsat_intake.bookings FOR UPDATE TO :"intake_role" USING (true) WITH CHECK (true);
+CREATE POLICY intake_unsubmitted_delete ON shsat_intake.bookings FOR DELETE TO :"intake_role" USING (state='pending' AND event_payload IS NULL);
+COMMIT;
+\else
+\echo 'No role selected; nothing applied.'
+\quit
+\endif

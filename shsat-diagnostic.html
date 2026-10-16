@@ -1,7 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){try{var s=location.search||'';if(s.indexOf('notrack=1')>-1){document.cookie='ivp_notrack=1; domain=.ivypathacademy.com; path=/; max-age=63072000; samesite=lax';}else if(s.indexOf('notrack=0')>-1){document.cookie='ivp_notrack=; domain=.ivypathacademy.com; path=/; max-age=0; samesite=lax';}if(document.cookie.indexOf('ivp_notrack=1')>-1){window.fbq=function(){};window['ga-disable-G-EW2RB4F5JB']=true;window.__ivpNoTrack=1;}}catch(e){}})();</script>
+  <script>
+    // Suppress tracking before the Pixel bootstrap, including a student's return from the quiz.
+    (function () {
+      var noTrack = false;
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.get('notrack') === '1') {
+          document.cookie = 'ivp_notrack=1; domain=.ivypathacademy.com; path=/; max-age=63072000; samesite=lax';
+          noTrack = true;
+        } else if (q.get('notrack') === '0') {
+          document.cookie = 'ivp_notrack=; domain=.ivypathacademy.com; path=/; max-age=0; samesite=lax';
+        }
+        noTrack = noTrack || document.cookie.indexOf('ivp_notrack=1') > -1;
+      } catch (e) {}
+      try {
+        if (sessionStorage.getItem('ivp_minor') === '1') {
+          window.__ivpMinor = 1;
+          noTrack = true;
+        }
+      } catch (e) {}
+      if (noTrack) {
+        window.__ivpNoTrack = 1;
+        window['ga-disable-G-EW2RB4F5JB'] = true;
+        window.fbq = function () {};
+        window.gtag = function () {};
+      }
+    })();
+  </script>
   <script>document.documentElement.className += ' js';</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -549,8 +576,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
     <div class="wrap hero-inner">
       <!-- 2026-09-23: the first screen says what this is (the ad keywords are
-           "shsat tutoring" / "shsat prep") and ends on the booking button at
-           390x844 and 1280x800. Headline moved above the video, CTAs moved
+           "shsat tutoring" / "shsat prep"). Headline moved above the video, CTAs moved
            directly under it. The VSL itself is unchanged. -->
       <p class="eyebrow fade-in">One-on-one SHSAT tutoring &middot; NYC</p>
 
@@ -575,24 +601,23 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       </div>
       <p class="video-note fade-in delay-1">Benjamin &middot; Stuyvesant &rsquo;24 &middot; Cornell &rsquo;28 &middot; on what the SHSAT actually takes</p>
 
-      <!-- Hero pair restored 2026-09 (growth, Vicente-approved): the Sep 3-7 hero put the
-           free diagnostic and the consultation side by side, and every real ad lead came
-           then. Call stays in the top bar, the sticky bar and the line below. -->
+      <!-- Owner-directed funnel: visible VSL, parent quiz, then the existing meeting flow. -->
       <div class="cta-stack cta-stack--dual fade-in delay-1">
-        <a href="book.html?exam=shsat" class="btn-primary js-consult-cta">Book a free 15-minute consultation &rarr;</a>
+        <a href="/shsat/quiz" class="btn-primary js-quiz-cta">Take the SHSAT parent quiz &rarr;</a>
         <a href="https://app.ivypathacademy.com/free-diagnostic-shsat/" class="btn-secondary js-diagnostic-cta" data-exam="SHSAT">Start the free diagnostic &rarr;</a>
       </div>
 
-      <p class="reassurance fade-in delay-2">Free<span class="dot">&middot;</span>15 minutes on Google Meet<span class="dot">&middot;</span>English or <span lang="zh">中文</span></p>
+      <p class="reassurance fade-in delay-2">Free 2-minute parent quiz<span class="dot">&middot;</span>Then book a free 15-minute call</p>
 
       <!-- True, dated reason to act (DOE dates, growth/product/shsat-2026.md).
            data-until hides a sentence once it is out of date; see the script
            at the bottom of the page. -->
       <p class="hero-deadline fade-in delay-2" data-until="2026-11-19"><span data-until="2026-10-31">SHSAT registration closes <strong>Friday, October&nbsp;30</strong>. </span>The school-day test is <strong>Wednesday, November&nbsp;18</strong>, and it&rsquo;s the first year of the new computer-adaptive format.</p>
 
-      <p class="hero-sub fade-in delay-3">Talk with a tutor who got into Stuyvesant about where your student stands and what to work on first. After the call, we send your student our full-length SHSAT practice test (100 questions, 3 hours) and compare their estimated score with last year&rsquo;s specialized high school cutoffs. Backed by our money-back Score Improvement Guarantee.</p>
+      <p class="hero-sub fade-in delay-3">Answer six questions about your student&rsquo;s prep to get a starting plan. This is not a test or a score estimate. Then book a free 15-minute call with a tutor who got into Stuyvesant. After the call, we send your student our full-length SHSAT practice test (100 questions, 3 hours) and compare their estimated score with last year&rsquo;s specialized high school cutoffs. Backed by our money-back Score Improvement Guarantee.</p>
 
       <p class="hero-alt-link fade-in delay-3">Not with your student right now? <a href="#email-link">Email them the diagnostic link &rarr;</a> Or call <a href="tel:+19293940349">(929) 394-0349</a>.</p>
+      <p class="hero-alt-link fade-in delay-3">Start here: <a href="/shsat/quiz" class="js-quiz-cta">Take the parent quiz &rarr;</a> In English or <span lang="zh">中文</span>.</p>
 
       <div class="trust-chips fade-in delay-3">
         <div class="chip">SHSAT tutors are <strong>Stuyvesant graduates</strong></div>
@@ -636,10 +661,10 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           <p class="proof-caption fade-in delay-2">Screenshot from the official NYC MySchools portal, shared with permission. Individual results vary.</p>
           <div class="fade-in delay-2" style="margin-top:32px;">
             <div class="cta-stack cta-stack--dual">
-              <a href="book.html?exam=shsat" class="btn-primary js-consult-cta" style="background:var(--sage);color:var(--white);">Book a free consultation &rarr;</a>
+              <a href="/shsat/quiz" class="btn-primary js-quiz-cta" style="background:var(--sage);color:var(--white);">Take the SHSAT parent quiz &rarr;</a>
               <a href="tel:+19293940349" class="btn-secondary js-call-cta">Call (929) 394-0349</a>
             </div>
-            <p style="margin-top:10px;font-size:13px;color:var(--muted);">Free &middot; 15 minutes &middot; no obligation</p>
+            <p style="margin-top:10px;font-size:13px;color:var(--muted);">Free 2-minute quiz &middot; optional 15-minute call</p>
           </div>
         </div>
         <figure class="result-proof-shot fade-in delay-1">
@@ -659,8 +684,8 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
              which contradicted every button on the page. -->
         <div class="step fade-in">
           <div class="step-label">Step 1</div>
-          <h3>Book a free 15-minute call</h3>
-          <p>Pick a time that works for you. You talk on Google Meet with a tutor who got into Stuyvesant, in English or <span lang="zh">中文</span>. No obligation.</p>
+          <h3>Complete the parent quiz</h3>
+          <p>Answer six quick questions about your student’s prep. After your plan, you can talk on Google Meet with a tutor who got into Stuyvesant, in English or <span lang="zh">中文</span>. No obligation.</p>
         </div>
         <div class="step fade-in delay-1">
           <div class="step-label">Step 2</div>
@@ -733,7 +758,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <p class="tutor-disclaimer">Tutor credentials reflect schools individual tutors have attended.</p>
       <div class="fade-in" style="text-align:center;margin-top:44px;">
         <div class="cta-stack cta-stack--dual">
-          <a href="book.html?exam=shsat" class="btn-primary js-consult-cta" style="background:var(--sage);color:var(--white);">Book a free consultation &rarr;</a>
+          <a href="/shsat/quiz" class="btn-primary js-quiz-cta" style="background:var(--sage);color:var(--white);">Take the SHSAT parent quiz &rarr;</a>
           <a href="tel:+19293940349" class="btn-secondary js-call-cta">Call (929) 394-0349</a>
         </div>
         <p style="margin-top:10px;font-size:13px;color:var(--muted);">A tutor reviews your child's results with you on a free call</p>
@@ -813,7 +838,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <div class="fade-in" style="border:1px solid var(--line);background:var(--white);border-radius:12px;padding:32px 36px;max-width:760px;margin:0 auto;text-align:center;">
         <h2 style="font-family:var(--display);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:12px;">Your investment, in plain terms.</h2>
         <p style="font-size:15px;line-height:1.65;color:var(--muted);margin-bottom:18px;">1-on-1 tutoring starts at $75/hour. 50-hour group cohorts run in small groups of 3&ndash;15 students. On your free 15-minute consultation, we go through which plan fits your student and the investment, with no obligation. The diagnostic is free either way.</p>
-        <a href="book.html?exam=shsat" class="btn-secondary js-consult-cta">Book a free consultation &rarr;</a>
+        <a href="/shsat/quiz" class="btn-secondary js-quiz-cta">Take the parent quiz &rarr;</a>
       </div>
     </div>
   </section>
@@ -834,7 +859,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <section style="padding:8px 0 0;text-align:center;">
     <div class="wrap">
       <div class="cta-stack cta-stack--dual">
-        <a href="book.html?exam=shsat" class="btn-primary js-consult-cta" style="background:var(--sage);color:var(--white);">Book a free consultation &rarr;</a>
+        <a href="/shsat/quiz" class="btn-primary js-quiz-cta" style="background:var(--sage);color:var(--white);">Take the SHSAT parent quiz &rarr;</a>
         <a href="tel:+19293940349" class="btn-secondary js-call-cta">Call (929) 394-0349</a>
       </div>
     </div>
@@ -847,7 +872,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       <div class="faq-list fade-in delay-1">
         <details class="faq-item">
           <summary>What happens on the free consultation?</summary>
-          <div class="faq-answer">It&rsquo;s 15 minutes on Google Meet with a tutor who got into Stuyvesant, in English or <span lang="zh">中文</span>. We talk about where your student stands today and a realistic target, what we&rsquo;d work on first, and a recommendation only if it fits. There&rsquo;s no pressure either way, and you keep the advice regardless. <a href="book.html?exam=shsat" class="js-consult-cta">Pick a time &rarr;</a></div>
+          <div class="faq-answer">It&rsquo;s 15 minutes on Google Meet with a tutor who got into Stuyvesant, in English or <span lang="zh">中文</span>. We talk about where your student stands today and a realistic target, what we&rsquo;d work on first, and a recommendation only if it fits. There&rsquo;s no pressure either way, and you keep the advice regardless. <a href="/shsat/quiz" class="js-quiz-cta">Start with the parent quiz &rarr;</a></div>
         </details>
         <details class="faq-item">
           <summary>Is the diagnostic really free?</summary>
@@ -954,9 +979,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
   <section class="final-cta">
     <div class="wrap">
       <h2 class="fade-in">Talk to a tutor who <span class="gi">got in.</span></h2>
-      <p class="fade-in delay-1">Book a free 15-minute consultation or call. We&rsquo;ll talk through where your student stands, send our full-length practice test, and go through the results with you.</p>
+      <p class="fade-in delay-1">Start with a free 2-minute parent quiz, then book a free 15-minute consultation. We&rsquo;ll talk through your student&rsquo;s prep and what to work on next.</p>
       <div class="cta-stack cta-stack--dual fade-in delay-2">
-        <a href="book.html?exam=shsat" class="btn-primary js-consult-cta">Book a free 15-minute consultation &rarr;</a>
+        <a href="/shsat/quiz" class="btn-primary js-quiz-cta">Take the SHSAT parent quiz &rarr;</a>
         <a href="tel:+19293940349" class="btn-secondary js-call-cta">Call (929) 394-0349</a>
       </div>
       <div class="final-phone fade-in delay-3">

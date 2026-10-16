@@ -1,8 +1,6 @@
-/* IvyPath sticky mobile CTA bar — persistent primary action for paid mobile traffic.
-   The primary action is "Book free consultation" everywhere, matching the call-first
-   funnel: the SHSAT/SAT pages now lead with booking and a call, and the self-serve
-   diagnostic is a secondary link in the page body. Hidden on booking/confirmation
-   pages and on desktop (>768px). */
+/* IvyPath sticky mobile CTA bar. SHSAT starts with the parent quiz;
+   other pages keep their existing booking action. Hidden on booking,
+   confirmation and quiz pages, and on desktop (>768px). */
 (function () {
   function init() {
     var path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -12,7 +10,9 @@
     if (path === 'consulting') path = 'consulting.html';
     if (path === 'seminar') path = 'seminar.html';
     if (path === 'seminar-cn') path = 'seminar.html';
-    var hidden = ['book.html', 'cn-book.html', 'thank-you.html', 'success.html', 'cancel.html', 'seminar.html'];
+    // /shsat/quiz does not load this file (its relative book.html link would 404
+    // under /shsat/); listed anyway so a stray include never adds a second CTA.
+    var hidden = ['book.html', 'cn-book.html', 'thank-you.html', 'success.html', 'cancel.html', 'seminar.html', 'quiz', 'shsat-quiz.html'];
     if (hidden.indexOf(path) !== -1) return;
     var isCn = path.indexOf('cn') === 0;
 
@@ -25,8 +25,11 @@
     } else {
       primaryHref = isCn ? 'cn-book.html' : 'book.html';
       primaryLabel = isCn ? '预约免费咨询' : 'Book Free Consult';
-      // SHSAT ad traffic: book.html shows SHSAT copy and the Stuyvesant proof first.
-      if (path === 'shsat-diagnostic.html') primaryHref = 'book.html?exam=shsat';
+      // SHSAT: the parent quiz hands off to the existing booking flow.
+      if (path === 'shsat-diagnostic.html') {
+        primaryHref = '/shsat/quiz';
+        primaryLabel = 'Take SHSAT quiz';
+      }
     }
     var callLabel = isCn ? '致电' : 'Call';
 

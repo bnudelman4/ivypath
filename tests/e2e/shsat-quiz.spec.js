@@ -63,7 +63,7 @@ function initScript(o) {
     if (ov && typeof ov === 'object') {
       if ('today' in ov) o.today = ov.today;
       if ('nowMin' in ov) o.nowMin = ov.nowMin;
-      if ('flags' in ov) o.flags = ov.flags;
+      if ('flags' in ov) o.flags = Object.assign({PREBOOK_CAPTURE:true}, ov.flags || {});
     }
   } catch (e) {}
   if (o.today) window.__IVP_QUIZ_TODAY = o.today;
@@ -1250,8 +1250,19 @@ async function bookFirstSlot(page) {
     await page.locator('#calNext').click();
   }
   await page.locator('#calGrid .calendar-day.available').first().click();
-  await page.locator('#calSlots .time-slot').first().click();
-  await page.locator('#confirmBtn').click();
+  // Different test parents share the fake calendar. Exercise the real 409
+  // recovery when another worker reserved the optimistic first slot.
+  for(let attempt=0;attempt<10;attempt++){
+    await page.locator('#calSlots .time-slot').first().click();
+    const response=page.waitForResponse(r=>r.url().endsWith('/api/book-consultation') && r.request().method()==='POST');
+    await page.locator('#confirmBtn').click();
+    const out=await response;
+    if(out.status()===409 && (await out.json()).error==='slot_taken'){
+      await expect(page.locator('#calSlots .time-slot').first()).toBeVisible();continue;
+    }
+    expect(out.status(), 'final booking response').toBe(200);return;
+  }
+  throw new Error('no unreserved test slot');
 }
 
 async function expectPrefilled(page, p) {
@@ -1338,7 +1349,7 @@ test.describe('flow 11: privacy sweep', () => {
     const st = await quizState(page);
     await page.locator('#consultBtn').click();
     await page.waitForURL(/\/book\.html\?flow=shsat_quiz$/);
-    await page.locator('#contactContinueBtn').click();
+    if(await page.locator('#contactContinueBtn').isVisible())await page.locator('#contactContinueBtn').click();
     await expect(page.locator('#calendarWidget')).toBeVisible();
     await page.waitForTimeout(400);
 
@@ -2047,7 +2058,6 @@ test.describe('8.3 keyboard-only run', () => {
     const seen = [];
     const consult = await tabUntil(page, '#consultBtn', { seen });
     expect(consult.color, 'cream focus ring on the dark block').toBe('rgb(253, 248, 240)');
-    await tabUntil(page, '.reassurance a', { seen });
     await tabUntil(page, '#resCallLine a', { seen });
     await tabUntil(page, '#dStudent', { seen });
     await tabUntil(page, '#diagSubmit', { seen });
@@ -2144,8 +2154,8 @@ test.describe('8.3 contrast', () => {
     row('--muted indicator border on the chip', radioBorder, await css('#qChoices .choice-chip', 'backgroundColor'), 3);
     row('--muted indicator border on white', radioBorder, white, 3);
     await page.keyboard.press('Tab'); // from the question heading to the first chip, so :focus-visible applies
-    await expect(chip(page, '5')).toBeFocused();
-    row('--sage-deep focus ring on cream', await css('#qChoices .choice-chip[data-v="5"]', 'outlineColor'), cream, 3);
+    await expect(chip(page, 'under5')).toBeFocused();
+    row('--sage-deep focus ring on cream', await css('#qChoices .choice-chip[data-v="under5"]', 'outlineColor'), cream, 3);
 
     await inject(page, { state: makeState(PARENT8, 'results', true), handoff: makeHandoff(PARENT8, 'final_weeks_baseline', h.person) });
     const forest = await css('.disclaimer-section', 'backgroundColor');

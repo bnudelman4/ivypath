@@ -114,6 +114,11 @@ function createStore(pool, secret) {
     await pool.query("UPDATE shsat_intake.bookings SET state='accepted',response=$2 WHERE receipt_hash=$1 AND state IN ('pending','unknown')",[hash,seal(response)]);
     return true;
   }
-  return { reserve, verify, reserveBooking, finishBooking, saveBookingEvent, reconcileBooking };
+  async function reconcileByQuizId(quizId,lookup) {
+    // Internal authenticated recovery only; never an HTTP/browser capability.
+    const row=(await pool.query('SELECT fingerprint FROM shsat_intake.intakes WHERE quiz_id=$1',[quizId])).rows[0];
+    return row ? reconcileBooking(receipt(quizId,row.fingerprint),lookup) : false;
+  }
+  return { reserve, verify, reserveBooking, finishBooking, saveBookingEvent, reconcileBooking, reconcileByQuizId };
 }
 module.exports = { createStore };

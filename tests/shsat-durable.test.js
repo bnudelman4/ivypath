@@ -82,7 +82,7 @@ dbtest('unknown provider outcome blocks duplicate calls; GET reconciliation must
  const trusted={...fixture,parent_name:request.name,parent_email:request.email,phone:request.phone,quiz_id:request.quiz.quiz_id,student_grade:8,quiz:fixture.quiz,purpose:'consultation_booking'};
  const replay=await sa.reserve(trusted,'203.0.113.7');assert.ok(replay.receipt);
  assert.equal(await sa.reconcileBooking(replay.receipt,async()=>({...event,description:'tampered'})),false);
- assert.equal(await sa.reconcileBooking(replay.receipt,async()=>({...event,start:{dateTime:event.start.dateTime+'-04:00'},end:{dateTime:event.end.dateTime+'-04:00'},htmlLink:'https://calendar.example.invalid/event'})),true);
+ assert.equal(await sa.reconcileByQuizId(request.quiz.quiz_id,async()=>({...event,start:{dateTime:event.start.dateTime+'-04:00'},end:{dateTime:event.end.dateTime+'-04:00'},htmlLink:'https://calendar.example.invalid/event'})),true);
  assert.equal((await call(h,request)).statusCode,200);assert.equal(calls,1);
 });
 dbtest('booking rejects expired/forged proof and does not attach another parent contact',async()=>{

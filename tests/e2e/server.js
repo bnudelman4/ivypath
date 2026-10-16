@@ -287,6 +287,11 @@ async function handle(req, res) {
     if (p === '/api/book-consultation' && req.method === 'POST') {
       const chunks=[]; for await (const chunk of req) chunks.push(chunk);
       req.body=JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}');
+      // Synthetic parents share loopback but have independent fixture identities.
+      // Per-IP enforcement is covered against actual Postgres in unit tests.
+      const qid=String(req.body.quiz && req.body.quiz.quiz_id || '00000000');
+      const bits=parseInt(qid.slice(0,8),16)||0;
+      req.headers['x-forwarded-for']='10.1.'+((bits>>>8)&255)+'.'+(bits&255);
       res.status=function(n){this.statusCode=n;return this;};
       res.json=function(body){return sendJson(this,this.statusCode,body);};
       return bookQuiz(req,res);

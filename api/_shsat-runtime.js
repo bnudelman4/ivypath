@@ -1,10 +1,20 @@
 'use strict';
 const {Pool,Client}=require('pg');
 const {checkServerIdentity}=require('node:tls');
+const {isIP}=require('node:net');
 const {createStore}=require('./_shsat-store');
 const {createRelayDelivery,createSiteBookingSender,createBookingRecovery}=require('./_shsat-relay');
 const {createQuestionnaireBooking}=require('./_shsat-questionnaire');
 const R=require('./_shsat-request');
+
+// Managed database bindings require DNS certificate identities. Reject IP
+// literals and legacy numeric-IP aliases even when supplied via a host query.
+function dnsDatabaseHost(host) {
+  if(typeof host!=='string' || !host || isIP(host))return false;
+  const name=host.endsWith('.')?host.slice(0,-1):host;
+  if(name.length>253 || !name.split('.').every(label=>/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label)))return false;
+  try{return !isIP(new URL('http://'+name).hostname);}catch(_){return false;}
+}
 
 // Match the locked driver's parsing, not URLSearchParams' first-value view.
 // Resolve TLS once, remove all URL TLS overrides, and pass explicit verified
@@ -25,17 +35,21 @@ function poolConfiguration(dsn) {
   if(url.searchParams.get('sslmode')!=='verify-full')throw new Error();
   const client=new Client({connectionString:dsn});
   const negotiated=/** @type {unknown} */ (client.ssl);
-  if(!negotiated || typeof negotiated!=='object' || !client.host || client.host.startsWith('/'))throw new Error();
+  if(!negotiated || typeof negotiated!=='object' || !dnsDatabaseHost(client.host))throw new Error();
   const ssl=/** @type {import('node:tls').ConnectionOptions} */ (negotiated);
   if(ssl.rejectUnauthorized===false || (ssl.checkServerIdentity && ssl.checkServerIdentity!==checkServerIdentity))throw new Error();
-  const verifiedSSL={...ssl,rejectUnauthorized:true,checkServerIdentity};
+  const databaseHost=client.host;
+  // Bind verification to the effective endpoint, never a TLS callback/default
+  // host that could differ from the database we intend to authenticate.
+  const checkDatabaseIdentity=(_serverName,cert)=>checkServerIdentity(databaseHost,cert);
+  const verifiedSSL={...ssl,rejectUnauthorized:true,servername:databaseHost,checkServerIdentity:checkDatabaseIdentity};
   // pg hides client-key material from logging; preserve that non-enumerability.
   if(ssl.key!==undefined)Object.defineProperty(verifiedSSL,'key',{value:ssl.key,enumerable:false});
   for(const name of seen)url.searchParams.delete(name);
   const config={connectionString:url.toString(),ssl:verifiedSSL,max:2,connectionTimeoutMillis:2000,idleTimeoutMillis:10000};
   const effective=new Client(config);
   const effectiveSSL=/** @type {import('node:tls').ConnectionOptions} */ (/** @type {unknown} */ (effective.ssl));
-  if(!effectiveSSL || effectiveSSL.rejectUnauthorized!==true || effectiveSSL.checkServerIdentity!==checkServerIdentity || !effective.host || effective.host.startsWith('/'))throw new Error();
+  if(!effectiveSSL || effectiveSSL.rejectUnauthorized!==true || effectiveSSL.checkServerIdentity!==checkDatabaseIdentity || effectiveSSL.servername!==databaseHost || effective.host!==databaseHost || !dnsDatabaseHost(effective.host))throw new Error();
   return config;
 }
 

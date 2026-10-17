@@ -10,7 +10,7 @@
     "test": "node --test tests/*.test.js",
     "test:e2e": "playwright test tests/e2e",
     "typecheck": "tsc -p tsconfig.shsat.json",
-    "lint": "eslint api/_shsat-*.js api/_book-consultation-handler.js api/_quiz-alert.js api/_quiz-lead-handler.js api/_booking-trust.js api/book-consultation.js api/quiz-lead.js shsat-quiz-logic.js shsat-quiz.js tracking.js sticky-cta.js tests/shsat-durable.test.js tests/e2e/*.js"
+    "lint": "eslint api/_shsat-*.js api/_book-consultation-handler.js api/_quiz-alert.js api/_quiz-lead-handler.js api/_booking-trust.js api/book-consultation.js api/quiz-lead.js shsat-quiz-logic.js shsat-quiz.js tracking.js sticky-cta.js tests/shsat-durable.test.js tests/shsat-proxy.test.js tests/shsat-relay.test.js tests/book-consultation-quiz.test.js tests/e2e/*.js"
   },
   "repository": {
     "type": "git",

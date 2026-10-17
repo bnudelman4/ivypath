@@ -44,6 +44,7 @@ const SPEC_BLOCK = t([
 let logicMode = 'real'; // 'real' | 'missing' | 'syntax' | 'browser'
 let logicRequires = 0;
 let inserts = [];
+let returnedVisibility = 'echo';
 
 const calendarStub = {
   calendarClient() {
@@ -51,7 +52,7 @@ const calendarStub = {
       events: {
         insert: async (args) => {
           inserts.push(args);
-          return { data: { id: 'evt_test', hangoutLink: 'https://meet.google.com/aaa-bbbb-ccc', htmlLink: 'https://calendar.google.com/event?eid=test' } };
+          return { data: { id: args.resource.id || 'evt_test', visibility: returnedVisibility === 'echo' ? args.resource.visibility : returnedVisibility, hangoutLink: 'https://meet.google.com/aaa-bbbb-ccc', htmlLink: 'https://calendar.google.com/event?eid=test' } };
         }
       }
     };
@@ -103,6 +104,7 @@ test.beforeEach(() => {
   logicMode = 'real';
   logicRequires = 0;
   inserts = [];
+  returnedVisibility = 'echo';
   fetches = [];
   logs = [];
 });
@@ -362,4 +364,32 @@ test('no network call and no answer in the logs', async () => {
   assert.equal(fetches.length, 0);
   const all = logs.join('\n');
   for (const s of ['Practicing on their own', 'Finishing all 100', QUIZ_ID]) assert.equal(all.indexOf(s), -1, s);
+});
+
+test('release privacy: trusted SHSAT insert explicitly requests private event visibility',async()=>{
+ const TRUST=require('../api/_booking-trust');let saved;
+ const response=await book({quiz:QUIZ,[TRUST]:{eventId:'abc123',beforeInsert:async event=>{saved=event;}}});
+ assert.equal(response.body.calendar,true);
+ assert.equal(lastEvent().visibility,'private');assert.equal(saved.visibility,'private');
+});
+
+
+test('release privacy: non-private or absent provider visibility leaves trusted outcome uncertain',async()=>{
+ const TRUST=require('../api/_booking-trust');
+ for(const visibility of ['public',undefined]){
+  returnedVisibility=visibility;const r=await book({quiz:QUIZ,[TRUST]:{eventId:'abc123',beforeInsert:async()=>{}}});
+  assert.equal(r.statusCode,503);assert.equal(r.body.error,'booking_reconciliation_required');
+ }
+});
+test('release scope: generic and SAT Calendar visibility behavior remains unchanged',async()=>{
+ for(const extra of [{booking_flow:undefined},{exam:'sat'}]){
+  inserts=[];const r=await book(extra);assert.equal(r.body.calendar,true);assert.equal(lastEvent().visibility,undefined);
+ }
+});
+
+
+test('release privacy: trusted booking fails before Calendar if canonical quiz summary cannot be built',async()=>{
+ const TRUST=require('../api/_booking-trust');logicMode='missing';
+ const r=await book({quiz:QUIZ,[TRUST]:{eventId:'abc123',beforeInsert:async()=>assert.fail('no event may be saved')}});
+ assert.equal(r.statusCode,503);assert.equal(r.body.error,'booking_summary_unavailable');assert.equal(inserts.length,0);assert.equal(fetches.length,0);
 });

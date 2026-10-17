@@ -15,12 +15,19 @@ function originAllowed(origin, env) {
   return dev && LOCAL_ORIGIN.test(origin);
 }
 
-// First x-forwarded-for entry (Vercel sets it), else the socket. '' when it is not an IP.
-function clientIp(req) {
-  const xff = header(req, 'x-forwarded-for');
-  let ip = xff ? String(xff).split(',')[0].trim() : '';
-  if (!ip) ip = String(header(req, 'x-real-ip') || (req.socket && req.socket.remoteAddress) || '').trim();
-  return /^[0-9a-f:.]{2,45}$/i.test(ip) ? ip : '';
+// Only the Vercel-owned single client-IP header in an actual deployment.
+// Source: https://vercel.com/docs/headers/request-headers . Direct Node/dev,
+// custom proxy chains, malformed/duplicate headers and socket fallbacks fail
+// closed. Local fixtures inject their own server-only resolver explicitly.
+function clientIp(req, env=process.env) {
+  if(env.VERCEL!=='1' || !['production','preview'].includes(env.VERCEL_ENV))return '';
+  const raw=req?.headers?.['x-vercel-forwarded-for'];
+  if(typeof raw!=='string' || raw!==raw.trim() || raw.includes('%') || !require('node:net').isIP(raw))return '';
+  if(require('node:net').isIP(raw)===4)return raw;
+  const canonical=new URL('http://['+raw+']/').hostname.slice(1,-1);
+  const mapped=/^::ffff:([a-f0-9]{1,4}):([a-f0-9]{1,4})$/.exec(canonical);
+  if(mapped){const n=(parseInt(mapped[1],16)*65536)+parseInt(mapped[2],16);return [n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].join('.');}
+  return canonical;
 }
 
 const TOO_LARGE = { tooLarge: true };

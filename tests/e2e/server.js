@@ -159,6 +159,7 @@ function applyHeaders(res, urlPath) {
 // ---------------------------------------------------------------------------
 
 const emails = [];
+const relayRecords = new Map();
 let emailSeq = 0;
 
 function startResendStub() {
@@ -167,6 +168,11 @@ function startResendStub() {
       const chunks = [];
       req.on('data', (c) => chunks.push(c));
       req.on('end', () => {
+        if(req.method==='POST' && req.url==='/bookings/site'){
+          const body=JSON.parse(Buffer.concat(chunks).toString('utf8'));
+          if(!relayRecords.has(body.google_event_id))relayRecords.set(body.google_event_id,{id:require('node:crypto').randomUUID(),body});
+          res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({ok:true,id:relayRecords.get(body.google_event_id).id}));
+        }
         if (req.method !== 'POST' || req.url !== '/emails') {
           res.statusCode = 404;
           return res.end('{}');
@@ -246,6 +252,7 @@ async function handle(req, res) {
 
   // Test-only control endpoints.
   if (p.startsWith('/__e2e/')) {
+    if (p === '/__e2e/relay') return sendJson(res,200,{records:Array.from(relayRecords.values())});
     if (p === '/__e2e/calendar') return sendJson(res, 200, { events: calendarEvents });
     if (p === '/__e2e/health') return sendJson(res, 200, { ok: true });
     if (p === '/__e2e/seq') return sendJson(res, 200, { seq: ++runSeq });
@@ -371,8 +378,15 @@ async function main() {
   const fakeCalendar={freebusy:{async query(){return {data:{calendars:{primary:{busy:[]}}}};}},events:{async insert(args){calendarEvents.push(args.resource);return{data:{...args.resource,hangoutLink:'https://meet.example.invalid/synthetic',htmlLink:'https://calendar.example.invalid/synthetic'}};}}};
   Module._load=function(request,parent,...rest){if(request==='./_calendar' && parent.filename.endsWith('_book-consultation-handler.js'))return {calendarClient:()=>fakeCalendar,busyBetween:async()=>[],overlaps:()=>false,etOffsetIso:()=>'-04:00'};return load.call(this,request,parent,...rest);};
   let book; try{book=require('../../api/_book-consultation-handler');}finally{Module._load=load;}
-  const receiptBooking=require('../../api/_shsat-booking').createBooking({store,book});
-  const questionnaireBooking=require('../../api/_shsat-questionnaire').createQuestionnaireBooking({store,book,origins:['http://127.0.0.1:'+PORT]});
+  const relay=require('../../api/_shsat-relay');
+  const send=relay.createSiteBookingSender({secret:'synthetic-relay-secret',fetchImpl:(url,init)=>{
+    if(url!=='https://app.ivypathacademy.com/api/bookings/site')throw new Error('unexpected relay destination');
+    return fetch(stubUrl.replace('/emails','/bookings/site'),init);
+  }});
+  const delivery=relay.createRelayDelivery({store,send}); // Loopback fake receiver only.
+  const clientIp=req=>require('../../api/_shsat-request').clientIp({headers:{'x-vercel-forwarded-for':req.headers['x-forwarded-for']}},{VERCEL:'1',VERCEL_ENV:'production'});
+  const receiptBooking=require('../../api/_shsat-booking').createBooking({store,book,delivery,clientIp});
+  const questionnaireBooking=require('../../api/_shsat-questionnaire').createQuestionnaireBooking({store,book,delivery,clientIp,origins:['http://127.0.0.1:'+PORT]});
   bookQuiz=(req,res)=>req.body.booking_receipt?receiptBooking(req,res):questionnaireBooking(req,res);
 
   const server = http.createServer((req, res) => {

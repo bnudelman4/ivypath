@@ -1,5 +1,6 @@
 'use strict';
 const crypto = require('node:crypto');
+const {buildRelayPayload,eventInstant}=require('./_shsat-relay');
 const LOCK = "SELECT pg_advisory_xact_lock(180774, 1)";
 
 // pool is an existing approved least-privilege pg Pool, never a browser client.
@@ -100,17 +101,32 @@ function createStore(pool, secret) {
       return { eventId };
     });
   }
+  async function acceptBooking(c,hash,result) {
+    const row=(await c.query('SELECT b.*,i.snapshot FROM shsat_intake.bookings b JOIN shsat_intake.intakes i USING(receipt_hash) WHERE b.receipt_hash=$1',[hash])).rows[0];
+    if(!row || !['pending','unknown'].includes(row.state))return false;
+    if(!row.event_payload)throw new Error('private_calendar_evidence_required');
+    const payload=buildRelayPayload(open(row.snapshot),open(row.event_payload),row.event_id,result);
+    // Calendar acceptance and a pending immutable relay are one commit. A crash
+    // before this commit leaves unknown Calendar evidence; after it, recovery
+    // can deliver without another Calendar insert or a client replay.
+    const saved=await c.query("UPDATE shsat_intake.bookings SET state='accepted',response=$2,relay_state='pending',relay_payload=$3,relay_next_attempt_at=clock_timestamp() WHERE receipt_hash=$1 AND state IN ('pending','unknown')",[hash,seal(result),seal(payload)]);
+    return saved.rowCount===1;
+  }
   async function finishBooking(token, result) {
     if (result && result.status >= 400) {
       const removed=await pool.query("DELETE FROM shsat_intake.bookings WHERE receipt_hash=$1 AND state='pending' AND event_payload IS NULL", [key('receipt-lookup',token)]);
       if (removed.rowCount===1) return;
     }
-    const accepted = result && result.status === 200 && result.body && result.body.calendar === true;
-    const updated=await pool.query("UPDATE shsat_intake.bookings SET state=$2,response=$3 WHERE receipt_hash=$1 AND state='pending'", [key('receipt-lookup',token),accepted?'accepted':'unknown',result?seal(result):null]);
+    if(result?.status===200 && result.body?.calendar===true){
+      if(!await tx(c=>acceptBooking(c,key('receipt-lookup',token),result)))throw new Error('booking_outcome_not_persisted');
+      return;
+    }
+    const updated=await pool.query("UPDATE shsat_intake.bookings SET state='unknown',response=$2 WHERE receipt_hash=$1 AND state='pending'",[key('receipt-lookup',token),result?seal(result):null]);
     if(updated.rowCount!==1)throw new Error('booking_outcome_not_persisted');
   }
   async function saveBookingEvent(token,event) {
-    const saved=await pool.query("UPDATE shsat_intake.bookings SET event_payload=$2 WHERE receipt_hash=$1 AND state='pending' AND event_payload IS NULL",[key('receipt-lookup',token),seal(event)]);
+    if(event?.visibility!=='private')throw new Error('private_calendar_evidence_required');
+    const saved=await pool.query("UPDATE shsat_intake.bookings SET event_payload=$2 WHERE receipt_hash=$1 AND state='pending' AND event_payload IS NULL AND event_id=$3",[key('receipt-lookup',token),seal(event),event.id]);
     if(saved.rowCount!==1)throw new Error('booking_event_not_persisted');
   }
   async function reconcileBooking(token,lookup) {
@@ -120,7 +136,7 @@ function createStore(pool, secret) {
     const r=(await pool.query('SELECT * FROM shsat_intake.bookings WHERE receipt_hash=$1',[hash])).rows[0];
     if (!r || r.state==='accepted' || !r.event_payload) return false;
     const expected=open(r.event_payload), actual=await lookup(r.event_id);
-    const fields=['id','summary','description','attendees','extendedProperties'];
+    const fields=['id','summary','description','attendees','extendedProperties','visibility'];
     function canonical(v) {
       if (Array.isArray(v)) return v.map(canonical);
       if (!v || typeof v!=='object') return v;
@@ -133,22 +149,37 @@ function createStore(pool, secret) {
       if (e && typeof e==='object') return a && Object.keys(e).every(k=>contains(a[k],e[k]));
       return JSON.stringify(canonical(a))===JSON.stringify(canonical(e));
     }
-    function instant(t) {
-      if(!t || typeof t.dateTime!=='string')return NaN;
-      if(/(?:Z|[+-]\d{2}:\d{2})$/.test(t.dateTime))return Date.parse(t.dateTime);
-      const m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):00$/.exec(t.dateTime);
-      return m && t.timeZone==='America/New_York'?require('../booking-slots').etToMs(+m[1],+m[2],+m[3],+m[4],+m[5]):NaN;
-    }
-    if (!actual || actual.status==='cancelled' || !fields.every(k=>contains(actual[k],expected[k])) || instant(actual.start)!==instant(expected.start) || instant(actual.end)!==instant(expected.end)) return false;
+    if (!actual || actual.status==='cancelled' || !fields.every(k=>contains(actual[k],expected[k])) || eventInstant(actual.start)!==eventInstant(expected.start) || eventInstant(actual.end)!==eventInstant(expected.end)) return false;
     const response={status:200,body:{ok:true,success:true,calendar:true,email:expected.attendees[0].email,date:r.slot.slice(0,10),time:r.slot.slice(11),meetLink:actual.hangoutLink||'',eventLink:actual.htmlLink||''}};
-    await pool.query("UPDATE shsat_intake.bookings SET state='accepted',response=$2 WHERE receipt_hash=$1 AND state IN ('pending','unknown')",[hash,seal(response)]);
-    return true;
+    return tx(c=>acceptBooking(c,hash,response));
   }
   async function reconcileByQuizId(quizId,lookup) {
     // Internal authenticated recovery only; never an HTTP/browser capability.
     const row=(await pool.query('SELECT fingerprint FROM shsat_intake.intakes WHERE quiz_id=$1',[quizId])).rows[0];
     return row ? reconcileBooking(receipt(quizId,row.fingerprint),lookup) : false;
   }
-  return { reserve, lookupBooking, verify, reserveBooking, finishBooking, saveBookingEvent, reconcileBooking, reconcileByQuizId };
+  async function claimRelay(quizId) {
+    if(!require('../shsat-quiz-logic').isUuid(quizId))return null;
+    return tx(async c=>{
+      const r=(await c.query("SELECT b.*,clock_timestamp() AS now FROM shsat_intake.bookings b JOIN shsat_intake.intakes i USING(receipt_hash) WHERE i.quiz_id=$1 AND b.state='accepted' AND b.relay_state IN ('pending','delivering')",[quizId])).rows[0];
+      if(!r || (r.relay_state==='delivering' && r.relay_lease_until>r.now) || (r.relay_state==='pending' && r.relay_next_attempt_at>r.now))return null;
+      if(r.relay_attempts>=12){
+        await c.query("UPDATE shsat_intake.bookings SET relay_state='blocked',relay_claim=NULL,relay_lease_until=NULL WHERE receipt_hash=$1",[r.receipt_hash]);return null;
+      }
+      const claim=crypto.randomUUID();
+      await c.query("UPDATE shsat_intake.bookings SET relay_state='delivering',relay_claim=$2,relay_lease_until=clock_timestamp()+interval '60 seconds',relay_attempts=relay_attempts+1 WHERE receipt_hash=$1",[r.receipt_hash,claim]);
+      return {receiptHash:r.receipt_hash,claim,payload:open(r.relay_payload)};
+    });
+  }
+  async function finishRelay(job,accepted) {
+    const done=await pool.query("UPDATE shsat_intake.bookings SET relay_state=CASE WHEN $3 THEN 'delivered' WHEN relay_attempts>=12 THEN 'blocked' ELSE 'pending' END,relay_claim=NULL,relay_lease_until=NULL,relay_next_attempt_at=CASE WHEN $3 THEN NULL ELSE clock_timestamp()+LEAST(3600,5*power(2,relay_attempts-1))*interval '1 second' END WHERE receipt_hash=$1 AND relay_state='delivering' AND relay_claim=$2 AND relay_lease_until>clock_timestamp()",[job.receiptHash,job.claim,accepted===true]);
+    return accepted===true && done.rowCount===1;
+  }
+  async function dueRelays(limit=10) {
+    if(!Number.isInteger(limit) || limit<1 || limit>20)throw new Error('bounded_recovery_batch_required');
+    const r=await pool.query("SELECT i.quiz_id FROM shsat_intake.bookings b JOIN shsat_intake.intakes i USING(receipt_hash) WHERE b.state='accepted' AND ((b.relay_state='pending' AND b.relay_next_attempt_at<=clock_timestamp()) OR (b.relay_state='delivering' AND b.relay_lease_until<=clock_timestamp())) ORDER BY b.relay_next_attempt_at LIMIT $1",[limit]);
+    return r.rows.map(r=>r.quiz_id);
+  }
+  return { reserve, lookupBooking, verify, reserveBooking, finishBooking, saveBookingEvent, reconcileBooking, reconcileByQuizId, claimRelay, finishRelay, dueRelays };
 }
 module.exports = { createStore };

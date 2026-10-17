@@ -2,7 +2,8 @@
 const Q=require('../shsat-quiz-logic');
 const TRUST=require('./_booking-trust');
 const R=require('./_shsat-request');
-function createBooking({store,book}) {
+function createBooking({store,book,delivery,clientIp=R.clientIp}) {
+  if(typeof delivery?.byQuizId!=='function')throw new Error('durable_relay_binding_required');
   return async function(req,res) {
     res.setHeader('Cache-Control','no-store');
     try {
@@ -16,9 +17,14 @@ function createBooking({store,book}) {
       // redirect a calendar invite or attach another parent's intake.
       if (Q.sanitizeName(body.name)!==value.parent_name || Q.normalizeEmail(body.email)!==value.parent_email || Q.normalizeUsMobile(body.phone)!==value.phone || body.type || body.exam==='sat') return res.status(409).json({error:'intake_contact_mismatch'});
       if (!/^\d{4}-\d{2}-\d{2}$/.test(body.date) || !/^\d{1,2}:\d{2} (AM|PM)$/.test(body.time)) return res.status(400).json({error:'invalid_slot'});
-      const reserved=await store.reserveBooking(body.booking_receipt,body.date+' '+body.time,R.clientIp(req));
+      const ip=clientIp(req);
+      if(!ip)return res.status(503).json({error:'trusted_ip_required'});
+      const reserved=await store.reserveBooking(body.booking_receipt,body.date+' '+body.time,ip);
       if (reserved.error) return res.status(reserved.error==='rate_limited'?429:409).json({error:reserved.error});
-      if (reserved.response) return res.status(reserved.response.status).json(reserved.response.body);
+      if (reserved.response) {
+        try{await delivery.byQuizId(value.quiz_id);}catch(_){/* Pending relay survives in the ledger. */}
+        return res.status(reserved.response.status).json(reserved.response.body);
+      }
       const trusted=Object.assign({},body,{quiz:Object.assign({quiz_id:value.quiz_id,grade:value.student_grade},value.quiz),attribution:value.attribution});
       trusted[TRUST]={eventId:reserved.eventId,beforeInsert:event=>store.saveBookingEvent(body.booking_receipt,event)};
       req.body=trusted;
@@ -30,6 +36,7 @@ function createBooking({store,book}) {
       await store.finishBooking(body.booking_receipt,result);
       if (result && result.status===409 && result.body.error==='slot_taken') return res.status(409).json(result.body);
       if (!result || !result.body.calendar) return res.status(503).json({error:'booking_reconciliation_required'});
+      try{await delivery.byQuizId(value.quiz_id);}catch(_){/* Do not turn a confirmed Calendar booking into another invite. */}
       return res.status(result.status).json(result.body);
     } catch (_) { return res.status(503).json({error:'booking_unavailable'}); }
   };

@@ -2335,6 +2335,10 @@ test.describe('requested questionnaire to booking flow',()=>{
     await bookFirstSlot(page);await page.waitForURL(/thank-you.html/);
     const events=(await (await page.request.get('/__e2e/calendar')).json()).events;
     const event=events.find(e=>e.attendees.some(a=>a.email===h.person.email));
+    expect(event.visibility).toBe('private');
+    const relayed=(await (await page.request.get('/__e2e/relay')).json()).records.filter(r=>r.body.email===h.person.email);
+    expect(relayed).toHaveLength(1);expect(relayed[0].body.google_event_id).toBe(event.id);
+    expect(Object.keys(relayed[0].body).sort()).toEqual(['source','type','name','email','phone','start','end','google_event_id','meet_link'].sort());
     expect(event.description).toContain('- Grade: 8th grade');expect(event.description).toContain('- Biggest worry: Math');
     expect(event.description).toContain('the parent’s own answers, not a score');
     expect((await emailsFor(page,h.person.email))).toHaveLength(0); // Calendar invite is the booking confirmation; no alert/copy sender.

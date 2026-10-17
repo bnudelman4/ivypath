@@ -1,0 +1,13 @@
+-- OWNER REVIEW DRAFT: only for an EXISTING previously-approved ledger role
+-- when upgrading an already-initialized f00c722 schema. No roles/credentials,
+-- product grants, memberships, bypass policies or persistent access provisioning.
+-- Fresh installs use the full shsat-booking-grants.psql AFTER both SQL drafts.
+\if :{?intake_role}
+BEGIN;
+GRANT UPDATE(relay_state,relay_payload,relay_claim,relay_lease_until,
+ relay_next_attempt_at,relay_attempts) ON shsat_intake.bookings TO :"intake_role";
+COMMIT;
+\else
+\echo 'No existing role selected; nothing applied.'
+\quit
+\endif

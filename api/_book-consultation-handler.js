@@ -184,6 +184,10 @@ module.exports = async (req, res) => {
       } catch (e) { quizBlock = null; quizPrivate = null; }
     }
 
+    // A trusted questionnaire booking must not degrade to a generic event
+    // without its server-owned plan summary. Generic/SAT behavior is unchanged.
+    if (body[TRUST] && (!quizBlock || !quizPrivate)) return res.status(503).json({error:'booking_summary_unavailable'});
+
     // One client (impersonating info@ivypathacademy.com via domain-wide
     // delegation) for both the double-booking check and the insert.
     let calendar = null;
@@ -243,7 +247,7 @@ module.exports = async (req, res) => {
       if (quizPrivate) Object.assign(attrPrivate, quizPrivate);
 
       const event = {
-        ...(body[TRUST] ? { id: body[TRUST].eventId } : {}),
+        ...(body[TRUST] ? { id: body[TRUST].eventId, visibility: 'private' } : {}),
         summary: isConsulting
           ? `IvyPath Academy - College Consulting Strategy Call${ref ? ' [ref: ' + ref + ']' : ''}`
           : `IvyPath Academy - Free Consultation${ref ? ' [ref: ' + ref + ']' : ''}`,
@@ -291,7 +295,7 @@ module.exports = async (req, res) => {
       });
 
       const createdEvent = result.data || {};
-      if (body[TRUST] && (createdEvent.id !== event.id || createdEvent.status === 'cancelled')) throw new Error('calendar_receipt_mismatch');
+      if (body[TRUST] && (createdEvent.id !== event.id || createdEvent.status === 'cancelled' || createdEvent.visibility !== 'private')) throw new Error('calendar_receipt_mismatch');
       meetLink = createdEvent.hangoutLink || '';
       eventLink = createdEvent.htmlLink || '';
       googleEventId = createdEvent.id || '';

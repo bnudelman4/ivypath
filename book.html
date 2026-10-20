@@ -874,6 +874,13 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           throw new Error(data.error || 'Booking failed');
         }
 
+        // A lead acknowledgement is not confirmation that a Calendar meeting
+        // exists. Preserve the completed plan and do not fire booking conversion.
+        if (quiz && data.calendar !== true) {
+          quizBookingError = 'Your booking is still being checked. Please call (929) 394-0349 before trying again.';
+          throw new Error('calendar_booking_not_confirmed');
+        }
+
         // Redirect to the thank-you page (the URL the Google Ads booking
         // conversion matches). Date and time only: the email rides in
         // sessionStorage so it never lands in a URL, analytics or the pixel.

@@ -375,7 +375,15 @@ async function main() {
   // Fake Calendar is injected at the module boundary BEFORE the real booking
   // handler loads. No service credentials or external calendar/email calls.
   const Module=require('node:module');const load=Module._load;
-  const fakeCalendar={freebusy:{async query(){return {data:{calendars:{primary:{busy:[]}}}};}},events:{async insert(args){calendarEvents.push(args.resource);return{data:{...args.resource,hangoutLink:'https://meet.example.invalid/synthetic',htmlLink:'https://calendar.example.invalid/synthetic'}};}}};
+  const localFetch=global.fetch;
+  global.fetch=(url,init)=>{
+    if(url==='https://api.resend.com/emails')return localFetch(stubUrl,init);
+    if(url==='https://app.ivypathacademy.com/api/bookings/site')return localFetch(stubUrl.replace('/emails','/bookings/site'),init);
+    if(/^http:\/\/127\.0\.0\.1:\d+\//.test(String(url)))return localFetch(url,init);
+    throw new Error('external request blocked in offline fixture');
+  };
+  process.env.SITE_BOOKING_RELAY_SECRET='synthetic-relay-secret';
+  const fakeCalendar={freebusy:{async query(){return {data:{calendars:{primary:{busy:[]}}}};}},events:{async get(args){const event=calendarEvents.find(e=>e.id===args.eventId);if(!event)throw Object.assign(new Error('synthetic missing event'),{code:404});return{data:{...event,hangoutLink:'https://meet.example.invalid/synthetic',htmlLink:'https://calendar.example.invalid/synthetic'}};},async insert(args){if(calendarEvents.some(e=>e.id&&e.id===args.resource.id))throw Object.assign(new Error('synthetic duplicate event'),{code:409});calendarEvents.push(args.resource);return{data:{...args.resource,hangoutLink:'https://meet.example.invalid/synthetic',htmlLink:'https://calendar.example.invalid/synthetic'}};}}};
   Module._load=function(request,parent,...rest){if(request==='./_calendar' && parent.filename.endsWith('_book-consultation-handler.js'))return {calendarClient:()=>fakeCalendar,busyBetween:async()=>[],overlaps:()=>false,etOffsetIso:()=>'-04:00'};return load.call(this,request,parent,...rest);};
   let book; try{book=require('../../api/_book-consultation-handler');}finally{Module._load=load;}
   const relay=require('../../api/_shsat-relay');
@@ -386,8 +394,10 @@ async function main() {
   const delivery=relay.createRelayDelivery({store,send}); // Loopback fake receiver only.
   const clientIp=req=>require('../../api/_shsat-request').clientIp({headers:{'x-vercel-forwarded-for':req.headers['x-forwarded-for']}},{VERCEL:'1',VERCEL_ENV:'production'});
   const receiptBooking=require('../../api/_shsat-booking').createBooking({store,book,delivery,clientIp});
-  const questionnaireBooking=require('../../api/_shsat-questionnaire').createQuestionnaireBooking({store,book,delivery,clientIp,origins:['http://127.0.0.1:'+PORT]});
-  bookQuiz=(req,res)=>req.body.booking_receipt?receiptBooking(req,res):questionnaireBooking(req,res);
+  const nativeBooking=require('../../api/_shsat-calendar-booking').createCalendarQuestionnaireBooking({env:{VERCEL_ENV:'production',SITE_BOOKING_RELAY_SECRET:'synthetic-relay-secret'},calendarFactory:()=>fakeCalendar,book,fetchImpl:global.fetch});
+  // Default UI now exercises the actual native Calendar adapter. Historical
+  // pre-capture fixtures retain the earlier receipt adapter explicitly.
+  bookQuiz=(req,res)=>req.body.booking_receipt?receiptBooking(req,res):nativeBooking({...req,headers:{...req.headers,origin:'https://www.ivypathacademy.com'}},res);
 
   const server = http.createServer((req, res) => {
     handle(req, res).catch((err) => {

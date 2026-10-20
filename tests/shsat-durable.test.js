@@ -118,10 +118,14 @@ dbtest('restricted server role has RLS, no product access and cannot change inta
  assert.equal(rows.length,3);assert.ok(rows.every(r=>r.relrowsecurity));
 });
 
-test('public capture and booking stay closed under env/client activation attempts',async()=>{
- const original=process.env.QUIZ_PLAN_COPY_ENABLED;process.env.QUIZ_PLAN_COPY_ENABLED='true';
- try{assert.equal((await call(require('../api/quiz-lead'),fixture)).statusCode,503);assert.equal((await call(require('../api/book-consultation'),finalBooking({eligible:true,completed:true}))).statusCode,409);}
- finally{if(original===undefined)delete process.env.QUIZ_PLAN_COPY_ENABLED;else process.env.QUIZ_PLAN_COPY_ENABLED=original;}
+test('public capture stays disabled; flags cannot bypass native quiz validation or missing existing Calendar configuration',async()=>{
+ const original=process.env.QUIZ_PLAN_COPY_ENABLED,key=process.env.GOOGLE_SERVICE_ACCOUNT_KEY;process.env.QUIZ_PLAN_COPY_ENABLED='true';delete process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
+ try{
+  assert.equal((await call(require('../api/quiz-lead'),fixture)).statusCode,503);
+  const invalid=finalBooking({eligible:true,completed:true});invalid.quiz.role='student';
+  assert.equal((await call(require('../api/book-consultation'),invalid)).statusCode,400);
+  assert.equal((await call(require('../api/book-consultation'),finalBooking())).statusCode,503);
+ }finally{if(original===undefined)delete process.env.QUIZ_PLAN_COPY_ENABLED;else process.env.QUIZ_PLAN_COPY_ENABLED=original;if(key===undefined)delete process.env.GOOGLE_SERVICE_ACCOUNT_KEY;else process.env.GOOGLE_SERVICE_ACCOUNT_KEY=key;}
 });
 
 dbtest('two different eligible parents cannot reserve the same calendar slot across instances',async()=>{

@@ -193,7 +193,7 @@ module.exports = async (req, res) => {
     let calendar = null;
     let calendarInitErr = null;
     try {
-      calendar = calendarClient();
+      calendar = body[TRUST] && body[TRUST].calendar || calendarClient();
     } catch (initErr) {
       calendarInitErr = initErr;
     }
@@ -315,7 +315,7 @@ module.exports = async (req, res) => {
     // email there; book.html lets those families book anyway and we reach them by phone.
     if (body[TRUST] && !calendarOk) return res.status(503).json({error:'booking_reconciliation_required'});
     const schoolAddress = /@([a-z0-9-]+\.)*nycstudents\.net$/i.test(email);
-    if (!body[TRUST] && process.env.RESEND_API_KEY && !schoolAddress) {
+    if ((!body[TRUST] || body[TRUST].legacySideEffects === true) && process.env.RESEND_API_KEY && !schoolAddress) {
       try {
         const label = isConsulting ? 'strategy call' : 'consultation';
         const duration = isConsulting ? '30 minutes' : '15 minutes';
@@ -373,7 +373,7 @@ ${consultingSteps}
     // Shared secret lives in SITE_BOOKING_RELAY_SECRET on both Vercel projects.
     // No-ops without it. Never blocks or fails the booking: the calendar event
     // and the email are already out by the time this runs.
-    if (!body[TRUST] && process.env.SITE_BOOKING_RELAY_SECRET) {
+    if ((!body[TRUST] || body[TRUST].legacySideEffects === true) && process.env.SITE_BOOKING_RELAY_SECRET) {
       try {
         await Promise.race([
           fetch('https://app.ivypathacademy.com/api/bookings/site', {
@@ -451,3 +451,6 @@ ${consultingSteps}
     res.status(500).json({ error: 'Failed to create booking' });
   }
 };
+
+// Shared canonical summary for authenticated provider read-back comparisons.
+module.exports.buildQuizBooking = buildQuizBooking;

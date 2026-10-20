@@ -18,14 +18,14 @@ test('release sender: fixed receiver, strict field projection, no redirect and b
  await assert.rejects(timeout(payload),/synthetic timeout/);
 });
 test('release runtime: constructor remains unbound, requires exact approved server configuration and does not expose values',()=>{
- const policy=require('../api/_shsat-policy');assert.equal(policy.bookingHandler,null);assert.equal(policy.captureHandler,null);
+ const policy=require('../api/_shsat-policy'),liveHandler=policy.bookingHandler;assert.equal(typeof liveHandler,'function');assert.equal(policy.captureHandler,null);
  const env={VERCEL:'1',VERCEL_ENV:'production',SHSAT_BOOKING_DATABASE_URL:'postgres://synthetic@db.example.invalid/booking?sslmode=verify-full',SHSAT_BOOKING_CRYPTO_KEY_BASE64:Buffer.alloc(32,7).toString('base64'),SITE_BOOKING_RELAY_SECRET:'synthetic-relay-secret'};
  let pools=0;const args={env,book:async()=>{},lookup:async()=>null,poolFactory:()=>{pools++;return{end:async()=>{}};}};
  for(const key of ['SHSAT_BOOKING_DATABASE_URL','SHSAT_BOOKING_CRYPTO_KEY_BASE64','SITE_BOOKING_RELAY_SECRET','VERCEL']){
   assert.throws(()=>createShsatRuntime({...args,env:{...env,[key]:undefined}}),e=>!e.message.includes('synthetic@') && !e.message.includes('synthetic-relay-secret'));assert.equal(pools,0);
  }
  assert.throws(()=>createShsatRuntime({...args,env:{...env,SHSAT_BOOKING_DATABASE_URL:env.SHSAT_BOOKING_DATABASE_URL.replace('verify-full','disable')}}));
- const runtime=createShsatRuntime(args);assert.equal(pools,1);assert.equal(typeof runtime.bookingHandler,'function');assert.equal(typeof runtime.reconcile,'function');assert.equal(typeof runtime.retryPending,'function');assert.equal(policy.bookingHandler,null);
+ const runtime=createShsatRuntime(args);assert.equal(pools,1);assert.equal(typeof runtime.bookingHandler,'function');assert.equal(typeof runtime.reconcile,'function');assert.equal(typeof runtime.retryPending,'function');assert.equal(policy.bookingHandler,liveHandler);assert.notEqual(policy.bookingHandler,runtime.bookingHandler);
  assert.throws(()=>createBookingRecovery({store:{},delivery:{},lookup:async()=>null}),/recovery_binding_required/);
 });
 

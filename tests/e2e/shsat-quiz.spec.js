@@ -1238,7 +1238,7 @@ async function stubBookingApis(page, rec) {
   await page.route('**/api/book-consultation', async (route) => {
     const body = JSON.parse(route.request().postData() || 'null');
     rec.push(body);
-    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, email: body.email, date: body.date, time: body.time }) });
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, success: true, calendar: true, email: body.email, date: body.date, time: body.time }) });
   });
 }
 
@@ -2338,10 +2338,13 @@ test.describe('requested questionnaire to booking flow',()=>{
     expect(event.visibility).toBe('private');
     const relayed=(await (await page.request.get('/__e2e/relay')).json()).records.filter(r=>r.body.email===h.person.email);
     expect(relayed).toHaveLength(1);expect(relayed[0].body.google_event_id).toBe(event.id);
-    expect(Object.keys(relayed[0].body).sort()).toEqual(['source','type','name','email','phone','start','end','google_event_id','meet_link'].sort());
+    expect(Object.keys(relayed[0].body).sort()).toEqual(['source','type','name','email','phone','start','end','google_event_id','meet_link','event_link','ref','utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','wbraid','gbraid','fbclid','page'].sort());
+    for(const key of ['quiz','answers','grade','targets','worry','booking_receipt'])expect(relayed[0].body[key]).toBeUndefined();
     expect(event.description).toContain('- Grade: 8th grade');expect(event.description).toContain('- Biggest worry: Math');
     expect(event.description).toContain('the parent’s own answers, not a score');
-    expect((await emailsFor(page,h.person.email))).toHaveLength(0); // Calendar invite is the booking confirmation; no alert/copy sender.
+    const confirmations=await emailsFor(page,h.person.email);expect(confirmations).toHaveLength(1);
+    expect(confirmations[0].body.subject).toContain('Your consultation is booked');
+    expect(confirmations[0].body.to).toBe(h.person.email);expect(isAlert(confirmations[0])).toBe(false);
     expect(new URL(page.url()).search).not.toMatch(/email|phone|name|worry|grade|targets/);
   });
   test('uncertain booking stays on the page with a clear message and no conversion',async({page},testInfo)=>{
@@ -2354,6 +2357,17 @@ test.describe('requested questionnaire to booking flow',()=>{
     await page.locator('#calGrid .calendar-day.available').first().click();await page.locator('#calSlots .time-slot').first().click();await page.locator('#confirmBtn').click();
     await expect(page.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
     expect(page.url()).toContain('/book.html?flow=shsat_quiz');expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
+  });
+  for (const state of ['false','missing']) test('legacy Calendar200 with '+state+' Calendar confirmation never records a meeting conversion',async({page})=>{
+    const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
+    await page.route('**/api/availability**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"busy":[]}'}));
+    await page.route('**/api/book-consultation',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,success:true,...(state==='false'?{calendar:false}:{})})}));
+    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
+    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await bookFirstSlot(page);
+    await expect(page.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
+    expect(page.url()).toContain('/book.html?flow=shsat_quiz');expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
+    expect(await page.evaluate(()=>sessionStorage.getItem('ivp_booked_email'))).toBeNull();
+    expect(await page.evaluate(()=>sessionStorage.getItem('ivp_quiz_handoff'))).not.toBeNull();
   });
   test('default grade5 qualifies; younger and older alternatives cannot book or collect contact',async({page})=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h,5);

@@ -1,8 +1,5 @@
 'use strict';
-// Default-off server gate. Owner must approve the existing relay secret's
-// booking scope, platform schema/key/Calendar identity and exact final release.
-// A browser payload cannot activate this gate; preview cannot call production.
-module.exports=Object.freeze({captureHandler:null,get bookingHandler(){
- if(process.env.SHSAT_PLATFORM_BOOKING_ENABLED!=='1' || process.env.VERCEL!=='1' || process.env.VERCEL_ENV!=='production')return null;
- return require('./_shsat-platform').createPlatformBooking();
-}});
+// The six-answer consultation path reuses the existing marketing Calendar
+// credentials/writer. No platform DB/key/bridge activation is required.
+// Plan-copy/prebooking capture stays disabled on the server.
+module.exports=Object.freeze({captureHandler:null,bookingHandler:(req,res)=>require('./_shsat-calendar-booking').createCalendarQuestionnaireBooking()(req,res)});

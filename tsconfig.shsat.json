@@ -14,6 +14,6 @@
     "api/_shsat-policy.js",
     "api/_shsat-questionnaire.js",
     "api/_shsat-runtime.js",
-    "api/_shsat-platform.js"
+    "api/_shsat-calendar-booking.js"
   ]
 }

@@ -1,6 +1,8 @@
 'use strict';
-// Release is deliberately unbound. Only reviewed SERVER wiring may supply the
-// factory in _shsat-questionnaire after SQL, role/secret, quota,
-// retention, backup/restore, provider identity and independent/live gates pass.
-// No browser option or environment flag can activate the legacy handler.
-module.exports = Object.freeze({captureHandler:null,bookingHandler:null});
+// Default-off server gate. Owner must approve the existing relay secret's
+// booking scope, platform schema/key/Calendar identity and exact final release.
+// A browser payload cannot activate this gate; preview cannot call production.
+module.exports=Object.freeze({captureHandler:null,get bookingHandler(){
+ if(process.env.SHSAT_PLATFORM_BOOKING_ENABLED!=='1' || process.env.VERCEL!=='1' || process.env.VERCEL_ENV!=='production')return null;
+ return require('./_shsat-platform').createPlatformBooking();
+}});

@@ -1295,6 +1295,64 @@
     }
   }
 
+  // The consultation calendar sits on the results page itself: the existing
+  // booking card (book.html, same origin, same sessionStorage handoff, same
+  // /api/book-consultation POST and thank-you redirect) runs in an embedded
+  // frame, so the parent never leaves the plan. If the frame cannot load or the
+  // card rejects the handoff, the original full-page button comes back.
+  var inlineKey = null;
+  function inlineBookingFallback() {
+    var box = $('inlineBooking');
+    while (box.firstChild) box.removeChild(box.firstChild);
+    box.hidden = true; $('inlineBookingAlt').hidden = true; inlineKey = null;
+    var h = readHandoff();
+    $('consultBtn').hidden = !(state && h && h.completed === true && Q.firstMissing(state.answers) === null && Q.consultationFit(state.answers).eligible);
+  }
+  // Called by the embedded card when it finds no valid plan to book with. If
+  // this tab's plan really is stale (answers edited, attempt restarted or
+  // expired), reload so the quiz shows its current screen, exactly as the full
+  // booking page would. Otherwise keep the plan and fall back to the full page.
+  window.__ivpInlineBookingUnavailable = function () {
+    var saved = null;
+    try { saved = JSON.parse(window.sessionStorage.getItem(STATE_KEY) || 'null'); } catch (e) {}
+    var h = readHandoff();
+    var stillBookable = !!(saved && h && h.completed === true && saved.step === 'results' && Q.handoffMatchesState(saved, h, now()) && Q.firstMissing(saved.answers) === null && Q.consultationFit(saved.answers).eligible);
+    if (!stillBookable) { window.location.replace('/shsat/quiz'); return; }
+    inlineBookingFallback();
+  };
+  function sizeInlineFrame(f) {
+    try {
+      var sec = f.contentDocument && f.contentDocument.querySelector('.book-section');
+      if (sec) f.style.height = Math.max(420, Math.ceil(sec.getBoundingClientRect().height)) + 'px';
+    } catch (e) {}
+  }
+  function renderInlineBooking(canBook, handoff) {
+    var box = $('inlineBooking');
+    if (!canBook || F.PREBOOK_CAPTURE) { if (inlineKey) inlineBookingFallback(); return; }
+    var key = handoff.quiz_id + ':' + (state.answer_revision || 0);
+    $('consultBtn').hidden = true;
+    box.hidden = false; $('inlineBookingAlt').hidden = false;
+    if (inlineKey === key && box.firstChild) return;
+    while (box.firstChild) box.removeChild(box.firstChild);
+    inlineKey = key;
+    var f = document.createElement('iframe');
+    f.title = 'Schedule your free 15-minute consultation';
+    f.src = '/book.html?flow=shsat_quiz&embed=1';
+    f.addEventListener('load', function () {
+      try {
+        if (!f.contentDocument || !f.contentDocument.documentElement.classList.contains('ivp-embed')) { inlineBookingFallback(); return; }
+      } catch (e) { inlineBookingFallback(); return; }
+      sizeInlineFrame(f);
+      try {
+        var sec = f.contentDocument.querySelector('.book-section');
+        if (sec && window.ResizeObserver) new f.contentWindow.ResizeObserver(function () { sizeInlineFrame(f); }).observe(sec);
+        else setInterval(function () { sizeInlineFrame(f); }, 500);
+      } catch (e) {}
+      ga('consultation_calendar_shown', { source: 'shsat_quiz_inline' });
+    });
+    box.appendChild(f);
+  }
+
   function renderResults() {
     var a = state.answers;
     var t = today();
@@ -1305,7 +1363,9 @@
     $('resBand').textContent = copy.name;
     $('resSummary').textContent = copy.summary;
     var handoff = readHandoff();
-    $('consultBtn').hidden = F.PREBOOK_CAPTURE ? (!state.captured || state.hp || !handoff || !/^[a-f0-9]{64}$/.test(handoff.booking_receipt || '')) : (Q.firstMissing(a) !== null || !Q.consultationFit(a).eligible || !handoff || handoff.completed !== true);
+    var canBook = !(F.PREBOOK_CAPTURE ? (!state.captured || state.hp || !handoff || !/^[a-f0-9]{64}$/.test(handoff.booking_receipt || '')) : (Q.firstMissing(a) !== null || !Q.consultationFit(a).eligible || !handoff || handoff.completed !== true));
+    $('consultBtn').hidden = !canBook;
+    renderInlineBooking(canBook, handoff);
     renderCopyStatus();
     $('resSchools').textContent = Q.schoolsLine(a.targets, a.grade).join(' ');
     renderNextStep();
@@ -1424,6 +1484,7 @@
       if (!state || !h || (F.PREBOOK_CAPTURE ? (!state.captured || !/^[a-f0-9]{64}$/.test(h.booking_receipt || '')) : (h.completed !== true || Q.firstMissing(state.answers) !== null || !Q.consultationFit(state.answers).eligible))) { e.preventDefault(); return; }
       ga('consultation_clicked', { source: 'shsat_quiz' });
     });
+    $('consultFullPage').addEventListener('click', function () { ga('consultation_clicked', { source: 'shsat_quiz_fullpage_fallback' }); });
     $('rescueSmsLink').addEventListener('click', function () { ga('quiz_sms_fallback_clicked', {}); });
     $('printBtn').addEventListener('click', function () {
       ga('quiz_plan_saved', { band: state && state.band ? state.band : '' });

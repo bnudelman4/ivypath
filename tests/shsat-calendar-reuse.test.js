@@ -75,7 +75,7 @@ test('existing freebusy failure still inserts; repeated attempts have no shared 
 test('the approved quiz and booking page already keep the minimal direct-Calendar handoff and conversion routes',()=>{
  const page=fs.readFileSync(path.resolve(__dirname,'../book.html'),'utf8');
  assert.match(page,/fetch\('\/api\/book-consultation'/);assert.match(page,/payload\.booking_flow = 'shsat_quiz'/);
- assert.match(page,/sessionStorage\.setItem\('ivp_booked_email'/);assert.match(page,/window\.location\.href = 'thank-you\.html\?'/);
+ assert.match(page,/sessionStorage\.setItem\('ivp_booked_email'/);assert.match(page,/window\.__ivpNav\('\/thank-you\.html\?' \+ tyParams\.toString\(\), false\)/);assert.match(page,/var w=embed\?window\.top:window;/);
  assert.equal(Q.firstMissing(payload().quiz),null);assert.equal(Q.consultationFit(payload().quiz).eligible,true);
  const q=payload().quiz;for(const grade of [5,6,7,8,9])assert.equal(Q.consultationFit({...q,grade}).eligible,true);
  for(const grade of ['under5','over9'])assert.equal(Q.consultationFit({...q,grade}).eligible,false);

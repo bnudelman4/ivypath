@@ -1242,7 +1242,16 @@ async function stubBookingApis(page, rec) {
   });
 }
 
-async function bookFirstSlot(page) {
+// Default flow: the booking card is embedded on the results page (no navigation).
+async function inlineBooking(page) {
+  await expect(page.locator('#consultBtn')).toBeHidden();
+  await expect(page.locator('#inlineBooking iframe')).toBeVisible();
+  const bk = page.frameLocator('#inlineBooking iframe');
+  await expect(bk.locator('#leadName')).toBeVisible();
+  return bk;
+}
+
+async function bookFirstSlot(page, top = page) {
   if (await page.locator('#contactContinueBtn').isVisible()) await page.locator('#contactContinueBtn').click();
   await expect(page.locator('#calendarWidget')).toBeVisible();
   for (let i = 0; i < 2; i++) {
@@ -1254,7 +1263,7 @@ async function bookFirstSlot(page) {
   // recovery when another worker reserved the optimistic first slot.
   for(let attempt=0;attempt<10;attempt++){
     await page.locator('#calSlots .time-slot').first().click();
-    const response=page.waitForResponse(r=>r.url().endsWith('/api/book-consultation') && r.request().method()==='POST');
+    const response=top.waitForResponse(r=>r.url().endsWith('/api/book-consultation') && r.request().method()==='POST');
     await page.locator('#confirmBtn').click();
     const out=await response;
     if(out.status()===409 && (await out.json()).error==='slot_taken'){
@@ -2258,12 +2267,12 @@ test.describe('completion and qualification regressions',()=>{
     await page.locator('#startBtn').click();await pick(page,1,'parent');await pick(page,2,'8');await pickTargets(page,PARENT8.targets);await pick(page,4,'self');await pick(page,5,'no');await pick(page,6,'math');await expect(page.locator('#scrResults')).toBeVisible();
     await quiet(page);await page.screenshot({path:testInfo.outputPath('preview-plan.png')});
     await page.locator('.next-step').screenshot({path:testInfo.outputPath('preview-consultation.png')});
-    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);await page.addStyleTag({content:fontCSS});
-    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await page.locator('#contactContinueBtn').click();
-    await expect(page.locator('#calendarWidget')).toBeVisible();await page.locator('#calendarWidget').screenshot({path:testInfo.outputPath('preview-calendar.png')});
+    const bk=await inlineBooking(page);
+    await bk.locator('#leadName').fill(h.person.name);await bk.locator('#leadEmail').fill(h.person.email);await bk.locator('#leadPhone').fill(h.person.typed);await bk.locator('#contactContinueBtn').click();
+    await expect(bk.locator('#calendarWidget')).toBeVisible();await page.locator('.next-step').screenshot({path:testInfo.outputPath('preview-calendar.png')});
     // This test uses the actual server boundary and actual calendar handler,
     // with only Calendar/Resend transports faked by the loopback harness.
-    await bookFirstSlot(page);await page.waitForURL(/thank-you.html/);
+    await bookFirstSlot(bk,page);await page.waitForURL(/thank-you.html/);
     const events=(await (await page.request.get('/__e2e/calendar')).json()).events;
     const last=events.find(e=>e.attendees.some(a=>a.email===h.person.email));
     expect(last.description).toContain('SHSAT PLAN (the parent’s own answers, not a score):');
@@ -2312,12 +2321,12 @@ test.describe('requested questionnaire to booking flow',()=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
     await page.route('**/api/availability**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"busy":[]}'}));
     let posts=0;await page.route('**/api/book-consultation',r=>{posts++;return r.fulfill({status:500,body:'{}'});});
-    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
-    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await page.locator('#contactContinueBtn').click();
-    await page.locator('#calGrid .calendar-day.available').first().click();await page.locator('#calSlots .time-slot').first().click();
+    const bk=await inlineBooking(page);
+    await bk.locator('#leadName').fill(h.person.name);await bk.locator('#leadEmail').fill(h.person.email);await bk.locator('#leadPhone').fill(h.person.typed);await bk.locator('#contactContinueBtn').click();
+    await bk.locator('#calGrid .calendar-day.available').first().click();await bk.locator('#calSlots .time-slot').first().click();
     // A restored page must not use the handoff cached when it first loaded.
     await page.evaluate(()=>{const s=JSON.parse(sessionStorage.getItem('ivp_quiz_v1'));s.answer_revision++;s.answers.grade='under5';s.step='notFit';sessionStorage.setItem('ivp_quiz_v1',JSON.stringify(s));});
-    await page.locator('#confirmBtn').click();await page.waitForURL(/shsat\/quiz$/);await ready(page);
+    await bk.locator('#confirmBtn').click();await page.waitForURL(/shsat\/quiz$/);await ready(page);
     await expect(page.locator('#scrNotFit')).toBeVisible();expect(posts).toBe(0);
   });
   test('default flow collects no contact before booking; final server calendar has validated answers',async({page},testInfo)=>{
@@ -2329,10 +2338,10 @@ test.describe('requested questionnaire to booking flow',()=>{
     for(const key of ['name','email','phone','booking_receipt'])expect(handoff[key]).toBeUndefined();
     await page.reload();await ready(page);await expect(page.locator('#scrResults')).toBeVisible();
     await page.screenshot({path:testInfo.outputPath('simple-plan.png')});
-    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
-    await expect(page.locator('#leadName')).toHaveValue('');await expect(page.locator('#contactContinueBtn')).toBeVisible();
-    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);
-    await bookFirstSlot(page);await page.waitForURL(/thank-you.html/);
+    const bk=await inlineBooking(page);
+    await expect(bk.locator('#leadName')).toHaveValue('');await expect(bk.locator('#contactContinueBtn')).toBeVisible();
+    await bk.locator('#leadName').fill(h.person.name);await bk.locator('#leadEmail').fill(h.person.email);await bk.locator('#leadPhone').fill(h.person.typed);
+    await bookFirstSlot(bk,page);await page.waitForURL(/thank-you.html/);
     const events=(await (await page.request.get('/__e2e/calendar')).json()).events;
     const event=events.find(e=>e.attendees.some(a=>a.email===h.person.email));
     expect(event.visibility).toBe('private');
@@ -2352,26 +2361,26 @@ test.describe('requested questionnaire to booking flow',()=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
     await page.route('**/api/availability**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"busy":[]}'}));
     await page.route('**/api/book-consultation',r=>r.fulfill({status:503,contentType:'application/json',body:'{"error":"booking_reconciliation_required"}'}));
-    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
-    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await page.locator('#contactContinueBtn').click();
-    await page.locator('#calGrid .calendar-day.available').first().click();await page.locator('#calSlots .time-slot').first().click();await page.locator('#confirmBtn').click();
-    await expect(page.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
-    expect(page.url()).toContain('/book.html?flow=shsat_quiz');expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
+    const bk=await inlineBooking(page);
+    await bk.locator('#leadName').fill(h.person.name);await bk.locator('#leadEmail').fill(h.person.email);await bk.locator('#leadPhone').fill(h.person.typed);await bk.locator('#contactContinueBtn').click();
+    await bk.locator('#calGrid .calendar-day.available').first().click();await bk.locator('#calSlots .time-slot').first().click();await bk.locator('#confirmBtn').click();
+    await expect(bk.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
+    expect(page.url()).toMatch(/\/shsat\/quiz$/);await expect(page.locator('#scrResults')).toBeVisible();expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
   });
   for (const state of ['false','missing']) test('legacy Calendar200 with '+state+' Calendar confirmation never records a meeting conversion',async({page})=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h);
     await page.route('**/api/availability**',r=>r.fulfill({status:200,contentType:'application/json',body:'{"busy":[]}'}));
     await page.route('**/api/book-consultation',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,success:true,...(state==='false'?{calendar:false}:{})})}));
-    await page.locator('#consultBtn').click();await page.waitForURL(/book.html\?flow=shsat_quiz/);
-    await page.locator('#leadName').fill(h.person.name);await page.locator('#leadEmail').fill(h.person.email);await page.locator('#leadPhone').fill(h.person.typed);await bookFirstSlot(page);
-    await expect(page.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
-    expect(page.url()).toContain('/book.html?flow=shsat_quiz');expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
+    const bk=await inlineBooking(page);
+    await bk.locator('#leadName').fill(h.person.name);await bk.locator('#leadEmail').fill(h.person.email);await bk.locator('#leadPhone').fill(h.person.typed);await bookFirstSlot(bk,page);
+    await expect(bk.locator('.booking-error')).toHaveText('Your booking is still being checked. Please call (929) 394-0349 before trying again.');
+    expect(page.url()).toMatch(/\/shsat\/quiz$/);await expect(page.locator('#scrResults')).toBeVisible();expect(adsConversions(h).filter(e=>e.path==='/thank-you.html')).toHaveLength(0);
     expect(await page.evaluate(()=>sessionStorage.getItem('ivp_booked_email'))).toBeNull();
     expect(await page.evaluate(()=>sessionStorage.getItem('ivp_quiz_handoff'))).not.toBeNull();
   });
   test('default grade5 qualifies; younger and older alternatives cannot book or collect contact',async({page})=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});await openQuiz(page);await complete(page,h,5);
-    await expect(page.locator('#consultBtn')).toBeVisible();await expect(page.locator('#resDiag')).toBeHidden();
+    await inlineBooking(page);await expect(page.locator('#resDiag')).toBeHidden();
     for(const grade of ['under5','over9']){
       await page.locator('#restartQuizBtn').click();await pick(page,1,'parent');await pick(page,2,grade);
       await expect(page.locator('#scrNotFit')).toBeVisible();await expect(page.locator('#scrGate')).toBeHidden();

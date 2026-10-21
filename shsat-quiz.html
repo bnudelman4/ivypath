@@ -412,6 +412,10 @@
     .plan-copy-status:empty { margin: 0; }
     .schools-line { font-size: 15px; color: var(--muted); margin: 20px 0 28px; }
 
+    .inline-booking { margin: 18px 0 6px; }
+    .inline-booking iframe { display: block; width: 100%; height: 640px; border: 0; border-radius: 12px; background: transparent; color-scheme: light; }
+    .inline-booking-alt { font-size: 0.875rem; margin: 6px 0 0; }
+    .inline-booking-alt a { color: var(--cream-on-dark); }
     .next-step { background: var(--forest-deep); color: var(--cream-on-dark); border-radius: 12px; padding: 28px 24px; margin-bottom: 44px; }
     .next-step h2 { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--cream); margin-bottom: 10px; }
     .next-step p { font-size: 16px; }
@@ -714,6 +718,8 @@ fbq('track', 'ViewContent', {content_name: 'SHSAT Plan Landing'});
       <h2>What happens next</h2>
       <p>Book a free 15-minute consultation with an IvyPath tutor who went to Stuyvesant. We&rsquo;ll go over what you&rsquo;ve seen so far, what to work on first, and a recommendation only if it fits. We&rsquo;ll also walk you through the options and the investment, so you can compare. No pressure either way.</p>
       <a href="/book.html?flow=shsat_quiz" class="btn-primary js-quiz-consult" id="consultBtn">Book a free 15-minute consultation <span aria-hidden="true">&rarr;</span></a>
+      <div class="inline-booking" id="inlineBooking" hidden></div>
+      <p class="inline-booking-alt" id="inlineBookingAlt" hidden>Calendar not loading? <a href="/book.html?flow=shsat_quiz" id="consultFullPage">Open it on its own page</a>.</p>
       <p class="reassurance">Free &middot; 15 minutes on Google Meet &middot; English or <span lang="zh-Hans">中文</span></p>
       <p class="text-note" id="resTextNote" hidden></p>
       <div class="texter-card" id="resTexter" hidden>

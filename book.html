@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
   <script>(function(){try{var s=location.search||'';if(s.indexOf('notrack=1')>-1){document.cookie='ivp_notrack=1; domain=.ivypathacademy.com; path=/; max-age=63072000; samesite=lax';}else if(s.indexOf('notrack=0')>-1){document.cookie='ivp_notrack=; domain=.ivypathacademy.com; path=/; max-age=0; samesite=lax';}if(document.cookie.indexOf('ivp_notrack=1')>-1){window.fbq=function(){};window['ga-disable-G-EW2RB4F5JB']=true;window.__ivpNoTrack=1;}}catch(e){}})();</script>
+  <script>/* Embedded in the /shsat/quiz results page (same origin): show only the
+     booking card, and send every page change (thank-you, back to quiz) to the
+     top window so the thank-you conversion URL still loads as a full page. */
+  (function(){var embed=false;try{var p=new URLSearchParams(location.search);embed=p.get('embed')==='1'&&p.get('flow')==='shsat_quiz'&&window.top!==window&&window.top.location.origin===location.origin;}catch(e){embed=false;}if(embed){document.documentElement.classList.add('ivp-embed');}window.__ivpEmbed=embed;window.__ivpNav=function(url,replace){if(embed&&replace&&url==='/shsat/quiz'){try{if(typeof window.top.__ivpInlineBookingUnavailable==='function'){window.top.__ivpInlineBookingUnavailable();return;}}catch(e){}}var w=embed?window.top:window;if(replace)w.location.replace(url);else w.location.assign(url);};})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book a Free Consultation | IvyPath Academy</title>
@@ -482,7 +486,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       function init() {
         try {
           var h = read();
-          if (!h) { if (isQuizFlow) location.replace('/shsat/quiz'); return; }
+          if (!h) { if (isQuizFlow) window.__ivpNav('/shsat/quiz', true); return; }
           valid = h;
           var fields = [['leadName', str(h.name, 120)], ['leadEmail', str(h.email, 200)], ['leadPhone', usPhone(h.phone)]];
           fields.forEach(function (f) {
@@ -516,7 +520,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
 
           clear.addEventListener('click', function () {
             try { sessionStorage.removeItem(KEY); sessionStorage.removeItem('ivp_quiz_v1'); } catch (e) {}
-            location.assign('/shsat/quiz');
+            window.__ivpNav('/shsat/quiz', false);
           });
           if (h.captured === true) {
             window.__ivpQuizContactReady = true;
@@ -525,7 +529,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
         } catch (e) {}
       }
 
-      window.addEventListener('pageshow', function (e) { if (e.persisted && isQuizFlow && !read()) location.replace('/shsat/quiz'); });
+      window.addEventListener('pageshow', function (e) { if (e.persisted && isQuizFlow && !read()) window.__ivpNav('/shsat/quiz', true); });
       if (isQuizFlow) {
         var quizScript = document.createElement('script');
         quizScript.src = '/shsat-quiz-logic.js?v=3';
@@ -533,9 +537,9 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
           else init();
         };
-        quizScript.onerror = function () { location.replace('/shsat/quiz'); };
+        quizScript.onerror = function () { window.__ivpNav('/shsat/quiz', true); };
         document.head.appendChild(quizScript);
-      } else if (flow.get('exam') === 'shsat') { location.replace('/shsat/quiz'); }
+      } else if (flow.get('exam') === 'shsat') { window.__ivpNav('/shsat/quiz', true); }
     })();
   </script>
   <script>
@@ -824,7 +828,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
       // SHSAT plan answers, when this tab came from /shsat/quiz (the handoff block above).
       let quiz = null; try { quiz = typeof window.__ivpQuizHandoff === 'function' ? window.__ivpQuizHandoff() : null; } catch (e) {}
 
-      if (new URLSearchParams(location.search).get('flow') === 'shsat_quiz' && new URLSearchParams(location.search).get('exam') !== 'sat' && !quiz) { location.replace('/shsat/quiz'); return; }
+      if (new URLSearchParams(location.search).get('flow') === 'shsat_quiz' && new URLSearchParams(location.search).get('exam') !== 'sat' && !quiz) { window.__ivpNav('/shsat/quiz', true); return; }
 
       let quizBookingError = 'We couldn’t confirm your booking just now. Please call (929) 394-0349 for help.';
       try {
@@ -890,7 +894,7 @@ src="https://www.facebook.com/tr?id=1550873539731081&ev=PageView&noscript=1"
           date: data.date || '',
           time: data.time || ''
         });
-        window.location.href = 'thank-you.html?' + tyParams.toString();
+        window.__ivpNav('/thank-you.html?' + tyParams.toString(), false);
       } catch (err) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Confirm Booking';

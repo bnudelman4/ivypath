@@ -1068,3 +1068,13 @@
 @media (max-width: 640px) {
   .book-polaroid { float: none; width: 186px; margin: 6px auto 18px; }
 }
+
+/* Embedded in the /shsat/quiz results page (book.html?flow=shsat_quiz&embed=1):
+   only the booking card shows; the quiz page provides the surrounding layout. */
+html.ivp-embed, html.ivp-embed body { background: transparent; }
+html.ivp-embed body > :not(.book-section) { display: none !important; }
+html.ivp-embed .book-section { padding: 0; background: transparent; }
+html.ivp-embed .book-section .container { max-width: none; padding: 0; }
+html.ivp-embed .book-grid { display: block; }
+html.ivp-embed .book-info { display: none; }
+html.ivp-embed .book-calendar-card { box-shadow: none; }

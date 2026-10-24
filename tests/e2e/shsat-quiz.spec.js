@@ -63,7 +63,7 @@ function initScript(o) {
     if (ov && typeof ov === 'object') {
       if ('today' in ov) o.today = ov.today;
       if ('nowMin' in ov) o.nowMin = ov.nowMin;
-      if ('flags' in ov) o.flags = Object.assign({PREBOOK_CAPTURE:true}, ov.flags || {});
+      if ('flags' in ov) o.flags = Object.assign({PREBOOK_CAPTURE:true, CONTACT_BEFORE_PLAN:false, QUIZ_BACKEND:'site'}, ov.flags || {});
     }
   } catch (e) {}
   if (o.today) window.__IVP_QUIZ_TODAY = o.today;
@@ -259,7 +259,7 @@ async function setup(page, opts) {
   await page.addInitScript(initScript, {
     today: opts.today === undefined ? DAY0 : opts.today,
     nowMin: opts.nowMin === undefined ? IN_WINDOW : opts.nowMin,
-    flags: Object.assign({PREBOOK_CAPTURE:true}, opts.flags || {})
+    flags: Object.assign({PREBOOK_CAPTURE:true, CONTACT_BEFORE_PLAN:false, QUIZ_BACKEND:'site'}, opts.flags || {})
   });
   page.on('request', (r) => {
     h.requests.push({ url: r.url(), method: r.method(), type: r.resourceType(), post: r.postData() || '' });
@@ -2389,5 +2389,66 @@ test.describe('requested questionnaire to booking flow',()=>{
       if(grade==='under5'){await page.locator('#notFitBack').click();await pick(page,2,'5');await pickTargets(page,PARENT8.targets);await pick(page,4,'self');await pick(page,5,'no');await pick(page,6,'math');await expect(page.locator('#scrResults')).toBeVisible();}
     }
     expect(h.site).toHaveLength(0);
+  });
+});
+
+test.describe('contact before plan (shipped default)', () => {
+  const SHIPPED = { PREBOOK_CAPTURE: false, CONTACT_BEFORE_PLAN: true, QUIZ_BACKEND: 'platform' };
+  async function toGate(page) {
+    await page.locator('#startBtn').click(); await pick(page, 1, 'parent'); await pick(page, 2, '8');
+    await pickTargets(page, PARENT8.targets); await pick(page, 4, 'self'); await pick(page, 5, 'no'); await pick(page, 6, 'math');
+    await expect(page.locator('#scrGate')).toBeVisible();
+    await expect(page.locator('#scrResults')).toBeHidden();
+  }
+
+  test('the gate saves the parent to the platform, then the plan books inline with contact prefilled', async ({ page }) => {
+    const h = await setup(page, { flags: SHIPPED });
+    await openQuiz(page);
+    await expect(page.locator('#introDisclosure')).toContainText('name, email and mobile');
+    await toGate(page);
+    await fillGate(page, h.person); await submitGate(page);
+    await expect(page.locator('#scrResults')).toBeVisible();
+    const saves = h.funnel.filter((f) => f.path === 'quiz-lead');
+    expect(saves).toHaveLength(1);
+    expect(saves[0].body.parent_email).toBe(h.person.email);
+    expect(saves[0].body.quiz.worry).toBe('math');
+    expect(h.site).toHaveLength(0);
+    // Contact came from the gate, so the card opens straight on the calendar.
+    await expect(page.locator('#consultBtn')).toBeHidden();
+    const bk = page.frameLocator('#inlineBooking iframe');
+    await expect(bk.locator('#calendarWidget')).toBeVisible();
+    await expect(bk.locator('#quizHandoffClear')).toBeVisible();
+    await expect(bk.locator('#leadName')).toHaveValue(h.person.name);
+    await expect(bk.locator('#leadEmail')).toHaveValue(h.person.email);
+    await bookFirstSlot(bk, page); await page.waitForURL(/thank-you.html/);
+    const events = (await (await page.request.get('/__e2e/calendar')).json()).events;
+    expect(events.some((e) => e.attendees.some((a) => a.email === h.person.email))).toBe(true);
+    expect(new URL(page.url()).search).not.toMatch(/email|phone|name/);
+  });
+
+  test('a reload after the save shows the plan, not the gate, and saves nothing twice', async ({ page }) => {
+    const h = await setup(page, { flags: SHIPPED });
+    await openQuiz(page); await toGate(page);
+    await fillGate(page, h.person); await submitGate(page);
+    await expect(page.locator('#scrResults')).toBeVisible();
+    await page.reload(); await ready(page);
+    await expect(page.locator('#scrResults')).toBeVisible();
+    await expect(page.locator('#scrGate')).toBeHidden();
+    expect(h.funnel.filter((f) => f.path === 'quiz-lead')).toHaveLength(1);
+  });
+
+  test('two failed saves offer "Show my plan anyway", which still books with contact asked at booking', async ({ page }) => {
+    const h = await setup(page, { flags: SHIPPED });
+    h.funnelHandlers['quiz-lead'] = () => ({ status: 503, body: { ok: false } });
+    await openQuiz(page); await toGate(page);
+    await fillGate(page, h.person); await submitGate(page);
+    await expect(page.locator('#gateAlert')).toBeVisible();
+    await submitGate(page);
+    await expect(page.locator('#showAnyway')).toBeVisible();
+    await page.locator('#showAnyway').click();
+    await expect(page.locator('#scrResults')).toBeVisible();
+    await inlineBooking(page);
+    await page.reload(); await ready(page);
+    await expect(page.locator('#scrResults')).toBeVisible();
   });
 });

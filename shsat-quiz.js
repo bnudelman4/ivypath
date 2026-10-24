@@ -24,8 +24,9 @@
   // Flags (spec 5.5). Each flip is a one-line PR.
   // -------------------------------------------------------------------------
 
-  var QUIZ_BACKEND = 'site';        // 'platform' after the Phase 2 smoke test (AC-P1 to AC-P8) passes
+  var QUIZ_BACKEND = 'platform';    // the gate saves to the platform leads table (/api/funnel/quiz-lead)
   var PREBOOK_CAPTURE = false;     // Requested flow collects contact only at booking.
+  var CONTACT_BEFORE_PLAN = true;  // Ask for name, mobile and email before the plan; the results page still books inline.
   var PLAN_COPY = false;            // true only after the 9.1 deploy gate shows a plan copy arriving
   var DIAG_GRADES = [6, 7, 8];      // add 9 only when the platform confirms item E
   var SHOW_VSL = false;             // Optional duplicate on results; /shsat hero v5 stays ON (docs/shsat-vsl-quiz-rollout.md)
@@ -42,6 +43,7 @@
     QUIZ_BACKEND: QUIZ_BACKEND,
     PLAN_COPY: PLAN_COPY,
     PREBOOK_CAPTURE: PREBOOK_CAPTURE,
+    CONTACT_BEFORE_PLAN: CONTACT_BEFORE_PLAN,
     DIAG_GRADES: DIAG_GRADES,
     SHOW_VSL: SHOW_VSL,
     TEXT_FROM_NUMBER: TEXT_FROM_NUMBER,
@@ -559,7 +561,10 @@
     if (!F.PREBOOK_CAPTURE && (step === 'gate' || step === 'results') && state && Q.firstMissing(state.answers) === null && Q.consultationFit(state.answers).eligible) {
       var a = state.answers;
       var h = {v:1,quiz_id:state.quiz_id,answer_revision:state.answer_revision,saved_at:now(),completed:true,role:'parent',grade:a.grade,targets:a.targets.slice(),prep:a.prep,practice_test:a.practice_test,worry:a.worry,band:Q.bandFor(a,today())};
-      memHandoff = h; storeSet(HANDOFF_KEY,h); step = 'results';
+      var prevH = storeGet(HANDOFF_KEY);
+      if (prevH && prevH.quiz_id === h.quiz_id) ['name', 'email', 'phone', 'captured'].forEach(function (k) { if (hasOwn(prevH, k)) h[k] = prevH[k]; });
+      memHandoff = h; storeSet(HANDOFF_KEY,h);
+      step = F.CONTACT_BEFORE_PLAN && !state.captured && !state.contact_skipped ? 'gate' : 'results';
     }
     var screen = screenOf(step);
     for (var k in SCREENS) if (hasOwn(SCREENS, k)) $(SCREENS[k]).hidden = k !== screen;
@@ -593,7 +598,7 @@
   // ---- Intro (2.2) --------------------------------------------------------
 
   function renderIntro() {
-    $('introDisclosure').textContent = F.PREBOOK_CAPTURE ? ty(F.PLAN_COPY ? COPY.disclosureCopy : COPY.disclosure) : 'Your answers stay in this tab until you choose to book. We only ask for contact details when you book a consultation.';
+    $('introDisclosure').textContent = F.PREBOOK_CAPTURE || F.CONTACT_BEFORE_PLAN ? ty(F.PLAN_COPY ? COPY.disclosureCopy : COPY.disclosure) : 'Your answers stay in this tab until you choose to book. We only ask for contact details when you book a consultation.';
     var line = '';
     try { line = Q.introDateLine(today()); } catch (e) { line = ''; }
     var el = $('introDate');
@@ -1137,6 +1142,7 @@
 
   function onShowAnyway() {
     if (!state) return;
+    state.contact_skipped = true;
     go('results');
   }
 
@@ -1267,7 +1273,7 @@
       hasEmail: !!(h && typeof h.email === 'string' && h.email)
     });
     var sent = kind === 'form' && !!diagSentText;
-    if (!F.PREBOOK_CAPTURE && kind === 'form') kind = 'link';
+    if (!F.PREBOOK_CAPTURE && !(F.CONTACT_BEFORE_PLAN && state.lead_ref) && kind === 'form') kind = 'link';
     $('resDiag').hidden = kind === 'none';
     $('diagBody').hidden = kind === 'grade9';
     $('diagForm').hidden = kind !== 'form' || sent;

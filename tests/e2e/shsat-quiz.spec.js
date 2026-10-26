@@ -2413,6 +2413,11 @@ test.describe('contact before plan (shipped default)', () => {
     expect(saves[0].body.parent_email).toBe(h.person.email);
     expect(saves[0].body.quiz.worry).toBe('math');
     expect(h.site).toHaveLength(0);
+    // The Google Ads "SHSAT quiz lead" conversion fires once, keyed on the quiz id.
+    await expect.poll(() => h.requests.filter((r) => r.url.indexOf('googleadservices.com/pagead/conversion/') > -1 && r.url.indexOf('label=l8ylCMKgu6odEPXizNNE') > -1).length).toBe(1);
+    const quizLeadAds = h.ads.filter((c) => c.name === 'ivypathTrackQuizLead');
+    expect(quizLeadAds).toHaveLength(1);
+    expect(quizLeadAds[0].args[0]).toBe(saves[0].body.quiz_id);
     // Contact came from the gate, so the card opens straight on the calendar.
     await expect(page.locator('#consultBtn')).toBeHidden();
     const bk = page.frameLocator('#inlineBooking iframe');

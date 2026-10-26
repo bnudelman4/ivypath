@@ -22,10 +22,9 @@
       booking:  'Qw3yCMCb7O0cEPXizNNE',
       purchase: 'XXXXXXXXXXXXXXXXX',        // "Purchase" conversion label
       phoneClick: 'B5qYCOXnsvEcEPXizNNE',  // "Click to call" (Phone call lead) in acct 992-977-3439, created 2026-09-08
-      // "SHSAT quiz lead" (Submit lead form, count One), fired by /shsat/quiz when a
-      // parent's details are saved. Not created yet: paste its label from the Ads UI
-      // here. Until then the XXXX placeholder keeps ivypathTrackQuizLead inert.
-      quizLead: 'XXXXXXXXXXXXXXXXX'
+      // "SHSAT quiz lead" (Submit lead form, Primary, count One, $1), acct 992-977-3439,
+      // created 2026-10-26. Fired by /shsat/quiz when a parent's details are saved.
+      quizLead: 'l8ylCMKgu6odEPXizNNE'
     },
     ga4Id: 'G-EW2RB4F5JB'                               // optional, e.g. 'G-XXXXXXX'
   };

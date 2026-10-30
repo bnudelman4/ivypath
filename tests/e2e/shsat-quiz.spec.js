@@ -1290,11 +1290,12 @@ test.describe('flow 10: booking handoff', () => {
     await page.goto('/shsat');
     await expect(page.locator('.hero-video-wrap')).toBeVisible();
     await expect(page.locator('#heroVideo source')).toHaveAttribute('src', 'assets/ivypath-shsat-vsl-v5.mp4');
-    await expect(page.locator('.hero-dark .btn-primary')).toHaveAttribute('href', '/shsat/quiz');
-    await expect(page.locator('#ivp-sticky-cta .ivp-book')).toHaveAttribute('href', '/shsat/quiz');
+    await expect(page.locator('.hero-dark .btn-primary')).toHaveAttribute('href', /free-diagnostic-shsat/);
+    await expect(page.locator('#ivp-sticky-cta .ivp-book')).toHaveAttribute('href', /free-diagnostic-shsat/);
+    await expect(page.locator('.hero-dark a.js-quiz-cta.btn-secondary')).toHaveAttribute('href', '/shsat/quiz');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath('shsat.png') });
-    await page.locator('.hero-dark .btn-primary').click();
+    await page.locator('.hero-dark a.js-quiz-cta.btn-secondary').click();
     await ready(page);
     await page.screenshot({ path: testInfo.outputPath('quiz.png') });
     await toResults(page, h);
@@ -2262,7 +2263,7 @@ test.describe('completion and qualification regressions',()=>{
     await page.locator('#heroVideo').evaluate(async video=>{video.muted=true;await video.play();});
     await expect.poll(()=>page.locator('#heroVideo').evaluate(v=>v.currentTime)).toBeGreaterThan(0);
     await page.screenshot({path:testInfo.outputPath('preview-vsl.png')});
-    await page.locator('.hero-dark .btn-primary').click();await ready(page);await page.addStyleTag({content:fontCSS});
+    await page.locator('.hero-dark a.js-quiz-cta.btn-secondary').click();await ready(page);await page.addStyleTag({content:fontCSS});
     await page.screenshot({path:testInfo.outputPath('preview-quiz.png')});
     await page.locator('#startBtn').click();await pick(page,1,'parent');await pick(page,2,'8');await pickTargets(page,PARENT8.targets);await pick(page,4,'self');await pick(page,5,'no');await pick(page,6,'math');await expect(page.locator('#scrResults')).toBeVisible();
     await quiet(page);await page.screenshot({path:testInfo.outputPath('preview-plan.png')});
@@ -2331,7 +2332,7 @@ test.describe('requested questionnaire to booking flow',()=>{
   });
   test('default flow collects no contact before booking; final server calendar has validated answers',async({page},testInfo)=>{
     const h=await setup(page,{flags:{PREBOOK_CAPTURE:false}});
-    await page.goto('/shsat');await page.locator('.hero-dark .btn-primary').click();await ready(page);
+    await page.goto('/shsat');await page.locator('.hero-dark a.js-quiz-cta.btn-secondary').click();await ready(page);
     await expect(page.locator('#introDisclosure')).toContainText('only ask for contact details when you book');
     await complete(page,h);await expect(page.locator('#scrGate')).toBeHidden();
     const handoff=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('ivp_quiz_handoff')));

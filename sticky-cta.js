@@ -1,4 +1,4 @@
-/* IvyPath sticky mobile CTA bar. SHSAT starts with the parent quiz;
+/* IvyPath sticky mobile CTA bar. SHSAT starts with the free diagnostic;
    other pages keep their existing booking action. Hidden on booking,
    confirmation and quiz pages, and on desktop (>768px). */
 (function () {
@@ -25,10 +25,11 @@
     } else {
       primaryHref = isCn ? 'cn-book.html' : 'book.html';
       primaryLabel = isCn ? '预约免费咨询' : 'Book Free Consult';
-      // SHSAT: the parent quiz hands off to the existing booking flow.
+      // SHSAT: the free diagnostic leads (2026-10-30); the page still offers the quiz.
       if (path === 'shsat-diagnostic.html') {
-        primaryHref = '/shsat/quiz';
-        primaryLabel = 'Take SHSAT quiz';
+        primaryHref = 'https://app.ivypathacademy.com/free-diagnostic-shsat/';
+        primaryLabel = 'Start free diagnostic';
+        exam = 'SHSAT';
       }
     }
     var callLabel = isCn ? '致电' : 'Call';

@@ -11,7 +11,10 @@
   var CFG = {
     googleAdsId: 'AW-18428932469',          // acct 992-977-3439. Was AW-18229353498 (acct 907-235-3191, retired).
     labels: {
-      lead:     'XXXXXXXXXXXXXXXXX',        // no snippet action in acct 992-977-3439 yet
+      // "Diagnostic lead (contact captured)" (Submit lead form, Primary, count One,
+      // $1, enhanced conversions off), acct 992-977-3439, created 2026-10-30. Same
+      // action the platform fires when a family starts the diagnostic.
+      lead:     'jU8BCNrxj68dEPXizNNE',
       // "Submit lead form" (the booking), acct 992-977-3439, conversion id 7746555328.
       // Fired as an event since 2026-09-28. The action's URL rule only matches pages
       // starting with https://ivypathacademy.com/thank-you.html, but the live site
